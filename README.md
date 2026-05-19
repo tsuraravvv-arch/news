@@ -1,21 +1,70 @@
 # Tsurara Trend Notes Prototype
 
-GitHub Pages向けの静的サイトプロトタイプです。
+GitHub Pages用の静的サイトプロトタイプです。
 
-## ファイル構成
+## ファイル配置
 
-- `index.html`：トップページ
-- `style.css`：デザイン
-- `script.js`：記事表示、カテゴリフィルター、コピー機能
-- `data/articles.json`：記事データ
+リポジトリ直下に以下を置いてください。
 
-## 使い方
+```text
+index.html
+style.css
+script.js
+README.md
+data/articles.json
+images/banners/
+images/thumbnails/
+```
 
-1. GitHubリポジトリにこの中身をアップロードします。
-2. GitHub Pagesで公開します。
-3. 記事を増やす場合は `data/articles.json` に項目を追加します。
+## 画像の差し替え
 
-## 注意
+以下のファイル名で画像を置くと、自動的に表示されます。
+画像がない場合は、画像枠を非表示にしてテキストだけで表示します。
 
-ローカルで `index.html` を直接開くと、ブラウザによっては `articles.json` を読み込めない場合があります。
-その場合は VS Code の Live Server などで確認してください。
+```text
+images/banners/hero.jpg       トップのタイトル横画像
+images/banners/community.jpg  COMMUNITYバナー画像
+images/banners/tarot.jpg      占いバナー画像
+```
+
+推奨サイズは以下です。
+
+```text
+hero.jpg       1600 × 900px 以上、16:9推奨
+community.jpg 800 × 450px 以上、16:9推奨
+tarot.jpg     800 × 450px 以上、16:9推奨
+```
+
+実際の表示ではトリミングされることがあるため、重要な文字や顔は中央寄せにしてください。
+
+## 記事データ
+
+記事は `data/articles.json` を編集して追加します。
+出典URLや英語プロンプトは空でも問題ありません。
+
+```json
+{
+  "datetime": "2026-05-19 09:00",
+  "category": "EV",
+  "categoryLabel": "季節・イベント",
+  "id": "EV00034",
+  "title": "梅雨入り前の「五月晴れ」シーズン",
+  "summary": "概要文",
+  "trendElements": ["青空", "洗濯物"],
+  "useCases": ["朝の挨拶イラスト"],
+  "promptJa": "日本語プロンプト",
+  "promptEn": "English prompt",
+  "noteTitle": "画像生成メモ",
+  "notes": ["メモ1"],
+  "sourceUrl": ""
+}
+```
+
+## 今回の調整内容
+
+- 全体の最大横幅を広げました。
+- 掲載メモ2列は維持しつつ、右側の記事詳細パネルを掲載メモ欄と同じくらいの横幅にしました。
+- タイトルエリア、COMMUNITY、占いバナーに画像を置けるようにしました。
+- 掲載メモの色帯にIDとタイトルを表示するようにしました。
+- タグ、カテゴリ、日付、本文を本文側に移動しました。
+- 掲載メモ1件ごとの縦幅を狭くし、一覧性を上げました。
