@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tsurara Trend Notes</title>
+  <meta name="description" content="AI生成・ファッション・季節イベントの実用メモを集めたニュースカードサイトです。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <p class="eyebrow">AI / Fashion / Seasonal Event</p>
+      <h1>Tsurara Trend Notes</h1>
+      <p class="lead">AI生成やファッション、季節イベントの情報を、プロンプトとして使いやすい形で整理するメモサイトです。</p>
+      <div class="header-actions">
+        <a class="ghost-button" href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">つららの大アルカナ占い</a>
+        <a class="ghost-button" href="#community">コミュニティリンク</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="banner-grid" aria-label="関連リンク">
+      <a class="banner banner-primary" id="community" href="#" aria-label="参加コミュニティへのリンク">
+        <span class="banner-label">Community</span>
+        <strong>参加コミュニティ</strong>
+        <span>リンク先が決まったらここに設定できます。</span>
+      </a>
+      <a class="banner banner-secondary" href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">
+        <span class="banner-label">Tarot</span>
+        <strong>つららの大アルカナ占い</strong>
+        <span>1枚引き・3枚引きのタロット占いへ。</span>
+      </a>
+    </section>
+
+    <section class="toolbar" aria-label="記事フィルター">
+      <div>
+        <p class="section-kicker">Latest Notes</p>
+        <h2>掲載メモ</h2>
+      </div>
+      <div class="filter-buttons" role="tablist" aria-label="カテゴリ選択">
+        <button class="filter-button is-active" data-filter="ALL">すべて</button>
+        <button class="filter-button" data-filter="AI">AI生成関連</button>
+        <button class="filter-button" data-filter="FA">ファッション</button>
+        <button class="filter-button" data-filter="EV">季節・イベント</button>
+      </div>
+    </section>
+
+    <section class="content-layout">
+      <div class="cards-grid" id="cardsGrid" aria-live="polite"></div>
+
+      <article class="detail-panel" id="detailPanel" aria-live="polite">
+        <div class="empty-state">
+          <p class="section-kicker">Select Article</p>
+          <h2>記事カードを選択してください</h2>
+          <p>左側または上部の記事カードをクリックすると、ここに詳細とコピー用プロンプトが表示されます。</p>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Tsurara Trend Notes. Prototype for GitHub Pages.</p>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">コピーしました</div>
+  <script src="script.js"></script>
+</body>
+</html>
