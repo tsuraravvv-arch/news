@@ -22,17 +22,17 @@ images/thumbnails/
 画像がない場合は、画像枠を非表示にしてテキストだけで表示します。
 
 ```text
-images/banners/hero.jpg       トップのタイトル横画像
-images/banners/community.jpg  COMMUNITYバナー画像
-images/banners/tarot.jpg      占いバナー画像
+images/banners/hero.png       トップのタイトル横画像
+images/banners/community.png  COMMUNITYバナー画像
+images/banners/tarot.png      占いバナー画像
 ```
 
 推奨サイズは以下です。
 
 ```text
-hero.jpg       1600 × 900px 以上、16:9推奨
-community.jpg 800 × 450px 以上、16:9推奨
-tarot.jpg     800 × 450px 以上、16:9推奨
+hero.png       1600 × 900px 以上、16:9推奨
+community.png 800 × 450px 以上、16:9推奨
+tarot.png     800 × 450px 以上、16:9推奨
 ```
 
 実際の表示ではトリミングされることがあるため、重要な文字や顔は中央寄せにしてください。
