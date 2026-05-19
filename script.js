@@ -52,15 +52,15 @@ function renderCards() {
       <button class="card${isSelected}" type="button" data-id="${escapeHtml(article.id)}">
         <div class="card-visual ${escapeHtml(article.category)}">
           <span class="card-id">${escapeHtml(article.id)}</span>
+          <h3>${escapeHtml(article.title)}</h3>
         </div>
         <div class="card-body">
+          <div class="tags">${tags}</div>
           <div class="card-meta">
             <span class="badge">${escapeHtml(article.categoryLabel || categoryNames[article.category])}</span>
             <span class="date">${escapeHtml(formatDate(article.datetime))}</span>
           </div>
-          <h3>${escapeHtml(article.title)}</h3>
           <p class="card-summary">${escapeHtml(article.summary)}</p>
-          <div class="tags">${tags}</div>
         </div>
       </button>
     `;
@@ -172,3 +172,11 @@ filterButtons.forEach(button => {
 });
 
 init();
+
+document.querySelectorAll('.optional-image').forEach(image => {
+  image.addEventListener('error', () => {
+    image.style.display = 'none';
+    const banner = image.closest('.banner');
+    if (banner) banner.classList.add('no-image');
+  });
+});
