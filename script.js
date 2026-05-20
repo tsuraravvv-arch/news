@@ -17,6 +17,7 @@ const filterButtons = document.querySelectorAll('.filter-button');
 
 let articles = [];
 let activeFilter = 'ALL';
+let searchQuery = '';
 let selectedId = null;
 
 const escapeHtml = (value = '') => String(value)
@@ -39,13 +40,41 @@ async function init() {
   }
 }
 
+function normalizeText(value = '') {
+  return String(value).toLowerCase().replace(/\s+/g, '');
+}
+
+function articleSearchText(article) {
+  const fields = [
+    article.title,
+    article.summary,
+    article.categoryLabel,
+    article.id,
+    article.promptJa,
+    article.promptEn,
+    article.noteTitle,
+    ...(article.trendElements || []),
+    ...(article.useCases || []),
+    ...(article.notes || [])
+  ];
+  return normalizeText(fields.filter(Boolean).join(' '));
+}
+
 function renderCards() {
-  const filtered = activeFilter === 'ALL'
-    ? articles
-    : articles.filter(article => article.category === activeFilter);
+  const normalizedQuery = normalizeText(searchQuery);
+  const filtered = articles.filter(article => {
+    const matchesFilter = activeFilter === 'ALL'
+      ? true
+      : activeFilter === 'ORIGINAL'
+        ? (article.trendElements || []).some(tag => normalizeText(tag) === 'オリジナル')
+        : article.category === activeFilter;
+
+    const matchesSearch = !normalizedQuery || articleSearchText(article).includes(normalizedQuery);
+    return matchesFilter && matchesSearch;
+  });
 
   if (!filtered.length) {
-    cardsGrid.innerHTML = '<p>該当する記事がありません。</p>';
+    cardsGrid.innerHTML = '<p class="no-results">該当する記事がありません。検索文字やタグを変更してください。</p>';
     return;
   }
 
@@ -233,6 +262,29 @@ filterButtons.forEach(button => {
     renderCards();
   });
 });
+
+if (searchBox && searchInput) {
+  searchBox.addEventListener('submit', event => {
+    event.preventDefault();
+    searchQuery = searchInput.value.trim();
+    renderCards();
+  });
+
+  searchInput.addEventListener('input', () => {
+    searchQuery = searchInput.value.trim();
+    renderCards();
+  });
+}
+
+if (resetSearch) {
+  resetSearch.addEventListener('click', () => {
+    searchQuery = '';
+    if (searchInput) searchInput.value = '';
+    activeFilter = 'ALL';
+    filterButtons.forEach(item => item.classList.toggle('is-active', item.dataset.filter === 'ALL'));
+    renderCards();
+  });
+}
 
 init();
 
