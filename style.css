@@ -506,3 +506,146 @@ pre {
     padding: 8px 14px !important;
   }
 }
+
+
+/* v7: full-image hero header with text overlay */
+.site-header {
+  padding: 34px 24px 22px !important;
+}
+
+.header-inner {
+  width: min(1480px, calc(100vw - 48px)) !important;
+  min-height: 360px !important;
+  padding: 0 !important;
+  display: block !important;
+  position: relative !important;
+  border-radius: var(--radius-xl) !important;
+  overflow: hidden !important;
+  background: linear-gradient(135deg, rgba(235,244,251,0.92), rgba(242,239,251,0.92)) !important;
+}
+
+.header-inner::after {
+  display: none !important;
+}
+
+.hero-image {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  aspect-ratio: auto !important;
+  object-fit: cover !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.header-inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(246,248,252,0.12) 0%, rgba(246,248,252,0.18) 38%, rgba(20,31,48,0.55) 100%),
+    linear-gradient(90deg, rgba(8,17,32,0.22) 0%, rgba(8,17,32,0.05) 55%, rgba(8,17,32,0.18) 100%);
+  pointer-events: none;
+}
+
+.header-copy {
+  position: absolute !important;
+  z-index: 2 !important;
+  left: clamp(24px, 4vw, 58px) !important;
+  right: clamp(24px, 4vw, 58px) !important;
+  bottom: clamp(24px, 5vw, 54px) !important;
+  max-width: 900px !important;
+  color: #ffffff !important;
+}
+
+.header-copy .eyebrow {
+  color: rgba(255,255,255,0.86) !important;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.28);
+}
+
+.header-copy h1 {
+  color: #ffffff !important;
+  text-shadow: 0 3px 24px rgba(0,0,0,0.36);
+}
+
+.header-copy .lead {
+  color: rgba(255,255,255,0.92) !important;
+  max-width: 780px !important;
+  text-shadow: 0 2px 14px rgba(0,0,0,0.32);
+}
+
+@media (max-width: 820px) {
+  .site-header {
+    padding: 24px 12px 18px !important;
+  }
+
+  .header-inner {
+    width: min(100% - 12px, 1480px) !important;
+    min-height: 300px !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .header-inner {
+    min-height: 260px !important;
+  }
+
+  .header-copy {
+    left: 20px !important;
+    right: 20px !important;
+    bottom: 22px !important;
+  }
+
+  .header-copy .lead {
+    line-height: 1.65 !important;
+  }
+}
+
+
+/* v8: wide banner hero image
+   Use a wide, shallow image that fills only the top title frame. */
+.header-inner {
+  min-height: 330px !important;
+  height: clamp(300px, 23vw, 380px) !important;
+}
+
+.hero-image {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* Keep text over the lower-left area of the hero image. */
+.header-copy {
+  left: clamp(26px, 4.2vw, 64px) !important;
+  right: clamp(26px, 4.2vw, 64px) !important;
+  bottom: clamp(24px, 4vw, 46px) !important;
+  max-width: 860px !important;
+}
+
+/* Stronger lower overlay so text remains readable on brighter images. */
+.header-inner::before {
+  background:
+    linear-gradient(180deg, rgba(14,25,42,0.04) 0%, rgba(14,25,42,0.10) 42%, rgba(14,25,42,0.62) 100%),
+    linear-gradient(90deg, rgba(14,25,42,0.30) 0%, rgba(14,25,42,0.12) 56%, rgba(14,25,42,0.18) 100%) !important;
+}
+
+@media (max-width: 820px) {
+  .header-inner {
+    min-height: 280px !important;
+    height: 34vw !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .header-inner {
+    min-height: 250px !important;
+    height: 52vw !important;
+  }
+}
