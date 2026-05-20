@@ -9,6 +9,10 @@ const categoryNames = {
 const cardsGrid = document.getElementById('cardsGrid');
 const detailPanel = document.getElementById('detailPanel');
 const toast = document.getElementById('toast');
+const imageModal = document.getElementById('imageModal');
+const imageModalImg = document.getElementById('imageModalImg');
+const imageModalCaption = document.getElementById('imageModalCaption');
+const imageModalClose = document.getElementById('imageModalClose');
 const filterButtons = document.querySelectorAll('.filter-button');
 
 let articles = [];
@@ -90,10 +94,10 @@ function renderDetail(article) {
   const articleImagePath = article.image || `images/articles/${article.id}.png`;
   const articleImage = `
     <figure class="article-image-wrap">
-      <a class="article-image-link" href="${escapeHtml(articleImagePath)}" target="_blank" rel="noopener" aria-label="生成画像を別タブで開く">
+      <a class="article-image-link" href="${escapeHtml(articleImagePath)}" data-modal-image="${escapeHtml(articleImagePath)}" data-modal-title="${escapeHtml(article.title)}" aria-label="生成画像を拡大表示">
         <img class="article-image" src="${escapeHtml(articleImagePath)}" alt="${escapeHtml(article.title)} 生成例" loading="lazy">
       </a>
-      <figcaption>このプロンプトで生成した画像例。クリックすると元画像を開きます。</figcaption>
+      <figcaption>このプロンプトで生成した画像例。クリックするとページ内で拡大表示します。</figcaption>
     </figure>
   `;
   const source = article.sourceUrl
@@ -143,6 +147,13 @@ function renderDetail(article) {
       if (wrap) wrap.remove();
     });
   });
+
+  detailPanel.querySelectorAll('[data-modal-image]').forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      openImageModal(link.dataset.modalImage, link.dataset.modalTitle || article.title);
+    });
+  });
 }
 
 function listMarkup(items = []) {
@@ -178,6 +189,42 @@ function showToast(message) {
   window.clearTimeout(showToast.timer);
   showToast.timer = window.setTimeout(() => toast.classList.remove('is-visible'), 1600);
 }
+
+function openImageModal(src, title = '') {
+  if (!imageModal || !imageModalImg) return;
+  imageModalImg.src = src;
+  imageModalImg.alt = title ? `${title} 生成例` : '生成画像';
+  if (imageModalCaption) imageModalCaption.textContent = title || '生成画像';
+  imageModal.classList.add('is-open');
+  imageModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+}
+
+function closeImageModal() {
+  if (!imageModal || !imageModalImg) return;
+  imageModal.classList.remove('is-open');
+  imageModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+  imageModalImg.src = '';
+}
+
+if (imageModal) {
+  imageModal.addEventListener('click', event => {
+    if (event.target === imageModal || event.target.classList.contains('image-modal-backdrop')) {
+      closeImageModal();
+    }
+  });
+}
+
+if (imageModalClose) {
+  imageModalClose.addEventListener('click', closeImageModal);
+}
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && imageModal?.classList.contains('is-open')) {
+    closeImageModal();
+  }
+});
 
 filterButtons.forEach(button => {
   button.addEventListener('click', () => {
