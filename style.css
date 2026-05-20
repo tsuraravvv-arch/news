@@ -769,3 +769,130 @@ pre {
 .article-image-link:hover .article-image {
   filter: brightness(0.96);
 }
+
+
+/* v13: show article image as a scaled-down full image instead of cropped thumbnail */
+.article-image-wrap {
+  text-align: center;
+}
+
+.article-image-link {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  background: linear-gradient(135deg, #eef5fb, #f4f1fb);
+}
+
+.article-image {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 680px !important;
+  object-fit: contain !important;
+  margin: 0 auto !important;
+  border-radius: 16px;
+  background: transparent !important;
+}
+
+/* keep the click hint visible but not intrusive */
+.article-image-link::after {
+  right: 18px !important;
+  bottom: 18px !important;
+}
+
+
+/* v14: in-page image modal */
+body.modal-open {
+  overflow: hidden;
+}
+
+.article-image-link {
+  cursor: zoom-in;
+}
+
+.article-image-link::after {
+  content: "拡大表示" !important;
+}
+
+.image-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.image-modal.is-open {
+  display: flex;
+}
+
+.image-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(17, 27, 43, 0.72);
+  backdrop-filter: blur(10px);
+}
+
+.image-modal-content {
+  position: relative;
+  z-index: 1;
+  max-width: min(94vw, 1200px);
+  max-height: 92vh;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+}
+
+.image-modal-content img {
+  display: block;
+  max-width: min(94vw, 1200px);
+  max-height: calc(92vh - 58px);
+  object-fit: contain;
+  border-radius: 20px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.34);
+  background: #f8fbff;
+}
+
+.image-modal-content p {
+  margin: 0;
+  color: #ffffff;
+  font-size: 0.9rem;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.35);
+}
+
+.image-modal-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255,255,255,0.7);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.92);
+  color: #243247;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 620px) {
+  .image-modal {
+    padding: 14px;
+  }
+
+  .image-modal-content img {
+    max-width: 94vw;
+    max-height: calc(92vh - 52px);
+    border-radius: 14px;
+  }
+
+  .image-modal-close {
+    top: -10px;
+    right: -8px;
+  }
+}
