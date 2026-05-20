@@ -649,3 +649,35 @@ pre {
     height: 52vw !important;
   }
 }
+
+
+/* v9: text updates and compact banner text fit */
+.header-copy {
+  max-width: 980px !important;
+}
+
+.header-copy .lead {
+  max-width: 920px !important;
+  line-height: 1.75 !important;
+}
+
+.banner strong {
+  font-size: 0.90rem !important;
+  line-height: 1.18 !important;
+}
+
+.banner span:last-child {
+  font-size: 0.73rem !important;
+  line-height: 1.28 !important;
+  -webkit-line-clamp: 2 !important;
+}
+
+@media (max-width: 620px) {
+  .banner strong {
+    font-size: 0.86rem !important;
+  }
+
+  .banner span:last-child {
+    font-size: 0.70rem !important;
+  }
+}
