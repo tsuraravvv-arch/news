@@ -51,15 +51,14 @@ function renderCards() {
     return `
       <button class="card${isSelected}" type="button" data-id="${escapeHtml(article.id)}">
         <div class="card-visual ${escapeHtml(article.category)}">
-          <span class="card-id">${escapeHtml(article.id)}</span>
+          <div class="card-topline">
+            <span class="card-id">${escapeHtml(article.id)}</span>
+            <span class="card-date">${escapeHtml(formatDate(article.datetime))}</span>
+          </div>
           <h3>${escapeHtml(article.title)}</h3>
         </div>
         <div class="card-body">
           <div class="tags">${tags}</div>
-          <div class="card-meta">
-            <span class="badge">${escapeHtml(article.categoryLabel || categoryNames[article.category])}</span>
-            <span class="date">${escapeHtml(formatDate(article.datetime))}</span>
-          </div>
           <p class="card-summary">${escapeHtml(article.summary)}</p>
         </div>
       </button>
@@ -88,6 +87,15 @@ function renderDetail(article) {
   const notes = listMarkup(article.notes);
   const promptJa = promptMarkup('日本語プロンプト', article.promptJa, `${article.id}-ja`);
   const promptEn = article.promptEn ? promptMarkup('English Prompt', article.promptEn, `${article.id}-en`) : '';
+  const articleImagePath = article.image || `images/articles/${article.id}.png`;
+  const articleImage = `
+    <figure class="article-image-wrap">
+      <a class="article-image-link" href="${escapeHtml(articleImagePath)}" target="_blank" rel="noopener" aria-label="生成画像を別タブで開く">
+        <img class="article-image" src="${escapeHtml(articleImagePath)}" alt="${escapeHtml(article.title)} 生成例" loading="lazy">
+      </a>
+      <figcaption>このプロンプトで生成した画像例。クリックすると元画像を開きます。</figcaption>
+    </figure>
+  `;
   const source = article.sourceUrl
     ? `<section class="detail-section"><h3>出典URL</h3><a class="source-link" href="${escapeHtml(article.sourceUrl)}" target="_blank" rel="noopener">出典を開く</a></section>`
     : '';
@@ -98,6 +106,7 @@ function renderDetail(article) {
       <h2>${escapeHtml(article.title)}</h2>
       <p class="date">${escapeHtml(formatDate(article.datetime))}</p>
       <p class="detail-summary">${escapeHtml(article.summary)}</p>
+      ${articleImage}
     </div>
 
     <section class="detail-section">
@@ -126,6 +135,13 @@ function renderDetail(article) {
 
   detailPanel.querySelectorAll('.copy-button').forEach(button => {
     button.addEventListener('click', () => copyText(button.dataset.copy));
+  });
+
+  detailPanel.querySelectorAll('.article-image').forEach(image => {
+    image.addEventListener('error', () => {
+      const wrap = image.closest('.article-image-wrap');
+      if (wrap) wrap.remove();
+    });
   });
 }
 
