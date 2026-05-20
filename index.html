@@ -40,16 +40,19 @@
     </section>
 
     <section class="toolbar" aria-label="記事フィルター">
-      <div>
-        <p class="section-kicker">Latest Notes</p>
-        <h2>掲載メモ</h2>
-      </div>
       <div class="filter-buttons" role="tablist" aria-label="カテゴリ選択">
         <button class="filter-button is-active" data-filter="ALL">すべて</button>
+        <button class="filter-button" data-filter="ORIGINAL">オリジナル</button>
         <button class="filter-button" data-filter="AI">AI生成関連</button>
         <button class="filter-button" data-filter="FA">ファッション</button>
         <button class="filter-button" data-filter="EV">季節・イベント</button>
       </div>
+
+      <form class="search-box" id="searchBox" role="search" aria-label="記事検索">
+        <input id="searchInput" type="search" placeholder="タイトル・本文を検索" autocomplete="off" />
+        <button class="search-button" type="submit">検索</button>
+        <button class="reset-button" id="resetSearch" type="button">リセット</button>
+      </form>
     </section>
 
     <section class="content-layout">
