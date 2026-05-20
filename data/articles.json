@@ -1,17 +1,59 @@
 [
   {
+    "datetime": "2026-05-20 21:01",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00015",
+    "title": "ネオロリータ×テック素材の軽サイバー系が増加",
+    "summary": "ロリータ要素を残しつつ、PVCや半透明素材、小型メタルアクセを取り入れた“ネオロリータ”系が、AIビジュアルやSNS向け衣装表現で使いやすいトレンドとして注目されています。",
+    "trendElements": [
+      "ネオロリータ",
+      "PVC素材",
+      "半透明フリル",
+      "白×黒配色",
+      "軽サイバー感"
+    ],
+    "useCases": [
+      "VTuber衣装",
+      "AIライブビジュアル",
+      "MV衣装",
+      "SNS用KV"
+    ],
+    "promptJa": "ネオロリータ風ファッションの少女。白と黒を基調に、半透明フリル、PVC素材、小型メタルアクセを組み合わせた軽サイバー系デザイン。青白ネオン背景、未来感のある街並み、上品でSNS映えする雰囲気。",
+    "promptEn": "A girl wearing neo-lolita fashion featuring black-and-white tones, semi-transparent frills, PVC materials, and small metallic accessories. Futuristic city background with pale neon lighting and a stylish cyber-inspired aesthetic optimized for social media visuals.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "フリルを少しだけ揺らすと、静止画でも動画でも衣装の軽さが出しやすいです。",
+      "透明素材は光を透過させ、PVC部分は控えめな反射を入れると近未来感が出ます。",
+      "青白ネオン背景と組み合わせると、甘さを残しつつ軽サイバーな雰囲気になります。"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-19 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
     "id": "EV00034",
     "title": "梅雨入り前の「五月晴れ」シーズン",
     "summary": "5月後半は、梅雨入り前の晴天が“五月晴れ”として親しまれる時期です。青空、風、洗濯物、バルコニー、散歩など、“生活感＋爽やかさ”を組み合わせた投稿と相性が良い季節です。",
-    "trendElements": ["青空", "洗濯物", "ベランダ・バルコニー"],
-    "useCases": ["朝の挨拶イラスト", "生活感のあるSNS風投稿", "日常アニメ風動画"],
+    "trendElements": [
+      "青空",
+      "洗濯物",
+      "ベランダ・バルコニー"
+    ],
+    "useCases": [
+      "朝の挨拶イラスト",
+      "生活感のあるSNS風投稿",
+      "日常アニメ風動画"
+    ],
     "promptJa": "晴れた5月の朝。南向きバルコニーで風を感じるキャラクター。白いカーテンが揺れ、青空と柔らかな日差し。生活感のある静かな朝。自然なポーズで外を眺めている。",
     "promptEn": "A clear May morning on a south-facing balcony. A character quietly feels the breeze, white curtains gently moving, blue sky and soft sunlight, a calm morning with subtle everyday details, natural pose while looking outside.",
     "noteTitle": "画像生成メモ",
-    "notes": ["風の表現を入れると季節感が出る", "カーテンや髪の揺れが重要", "白ベース＋空色の組み合わせが安定"],
+    "notes": [
+      "風の表現を入れると季節感が出る",
+      "カーテンや髪の揺れが重要",
+      "白ベース＋空色の組み合わせが安定"
+    ],
     "sourceUrl": ""
   },
   {
@@ -21,12 +63,24 @@
     "id": "AI00028",
     "title": "窓際逆光＋室内暗め構図",
     "summary": "朝の白光、雨粒、曇天、カーテン揺れ、小さな生活感を含めることで、“映画の1カット感”を出しやすい構図です。静止画から動画化しても破綻しにくい構図として使いやすいです。",
-    "trendElements": ["窓際逆光", "雨粒", "室内暗め"],
-    "useCases": ["映画風の1カット", "日常系キャラクター画像", "静止画から動画化する素材"],
+    "trendElements": [
+      "窓際逆光",
+      "雨粒",
+      "室内暗め"
+    ],
+    "useCases": [
+      "映画風の1カット",
+      "日常系キャラクター画像",
+      "静止画から動画化する素材"
+    ],
     "promptJa": "窓際の逆光構図。室内は少し暗め。朝の白い光、雨粒のついた窓、曇り空、ゆっくり揺れるカーテン、小さな生活感のある小物。映画のワンカットのような静かな雰囲気。",
     "promptEn": "Window-side backlight composition, slightly dim indoor room, soft white morning light, rainy window, cloudy sky, gently moving curtains, subtle everyday objects, cinematic one-shot atmosphere, quiet emotional mood.",
     "noteTitle": "動画化メモ",
-    "notes": ["カーテンを小さく揺らす", "雨粒をゆっくり流す", "カメラは固定またはごく小さな寄り"],
+    "notes": [
+      "カーテンを小さく揺らす",
+      "雨粒をゆっくり流す",
+      "カメラは固定またはごく小さな寄り"
+    ],
     "sourceUrl": ""
   },
   {
@@ -36,12 +90,24 @@
     "id": "AI00035",
     "title": "静止画から動画化しやすい最小モーション",
     "summary": "大きな動きよりも、呼吸、髪の揺れ、布の揺れ、視線移動などの小さな動きに限定することで、キャラクターの崩れを抑えた動画化がしやすくなります。",
-    "trendElements": ["微細モーション", "idle animation", "破綻回避"],
-    "useCases": ["SNS用ショート動画", "キャラクター紹介", "MV風の静止画アニメーション"],
+    "trendElements": [
+      "微細モーション",
+      "idle animation",
+      "破綻回避"
+    ],
+    "useCases": [
+      "SNS用ショート動画",
+      "キャラクター紹介",
+      "MV風の静止画アニメーション"
+    ],
     "promptJa": "ほぼ静止したキャラクターイラスト。自然な呼吸、わずかな髪の揺れ、服の小さな揺れ、ゆっくりした瞬き。カメラは固定。落ち着いた高品質なアイドルアニメーション。",
     "promptEn": "Mostly still character illustration, subtle breathing, tiny hair movement, slight cloth motion, slow blinking, fixed camera, calm premium idle animation, minimal animation, stable character identity.",
     "noteTitle": "動画化メモ",
-    "notes": ["口や手を大きく動かしすぎない", "背景の動きは控えめにする", "6秒程度の短尺と相性が良い"],
+    "notes": [
+      "口や手を大きく動かしすぎない",
+      "背景の動きは控えめにする",
+      "6秒程度の短尺と相性が良い"
+    ],
     "sourceUrl": "https://example.com/sample-ai-motion"
   },
   {
@@ -51,12 +117,24 @@
     "id": "FA00036",
     "title": "白×水色の初夏コーデ傾向",
     "summary": "白をベースに、水色や淡いグレーを差し色として入れるコーデは、初夏らしい清潔感と軽さを出しやすい組み合わせです。背景に青空やカフェを置くとSNS向けにまとまりやすくなります。",
-    "trendElements": ["白ベース", "水色アクセント", "初夏の軽さ"],
-    "useCases": ["キャラクター私服デザイン", "ファッションポスター", "初夏のSNS投稿"],
+    "trendElements": [
+      "白ベース",
+      "水色アクセント",
+      "初夏の軽さ"
+    ],
+    "useCases": [
+      "キャラクター私服デザイン",
+      "ファッションポスター",
+      "初夏のSNS投稿"
+    ],
     "promptJa": "白を基調にした初夏のカジュアルコーデ。淡い水色のアクセント、軽い素材感、清潔感のあるシルエット。青空の下、自然光で撮影したファッションポートレート。",
     "promptEn": "Early summer casual outfit based on white, pale blue accents, lightweight fabric, clean silhouette, fashion portrait under a blue sky, natural light, fresh and calm atmosphere.",
     "noteTitle": "画像生成メモ",
-    "notes": ["背景を白壁や青空にすると色が安定する", "小物は入れすぎない", "ラベンダーを少量入れると柔らかい印象になる"],
+    "notes": [
+      "背景を白壁や青空にすると色が安定する",
+      "小物は入れすぎない",
+      "ラベンダーを少量入れると柔らかい印象になる"
+    ],
     "sourceUrl": ""
   },
   {
@@ -66,12 +144,24 @@
     "id": "EV00037",
     "title": "屋外フェス・グルメイベント背景",
     "summary": "春から初夏にかけて、屋外フェスやグルメイベントを背景にした投稿と相性が良い時期です。屋台、提灯、夕方の空、人混みを入れるとイベント感が出ます。",
-    "trendElements": ["屋台", "夕方の空", "イベント会場"],
-    "useCases": ["イベント参加風イラスト", "Vlog風ショート動画", "屋台グルメ投稿"],
+    "trendElements": [
+      "屋台",
+      "夕方の空",
+      "イベント会場"
+    ],
+    "useCases": [
+      "イベント参加風イラスト",
+      "Vlog風ショート動画",
+      "屋台グルメ投稿"
+    ],
     "promptJa": "初夏の屋外イベント会場。カラフルな屋台、やわらかな夕方の空、提灯、フードブース、にぎわう人々。キャラクターが屋台グルメを楽しんでいる、明るく自然なSNS投稿風イラスト。",
     "promptEn": "Early summer outdoor event venue, colorful food stalls, soft evening sky, lanterns, food booths, lively crowd, a character enjoying festival food, bright natural social-media-style illustration.",
     "noteTitle": "画像生成メモ",
-    "notes": ["人混みは描き込みすぎない", "食べ物は手元に寄せると伝わりやすい", "夕方の光でイベント感を強める"],
+    "notes": [
+      "人混みは描き込みすぎない",
+      "食べ物は手元に寄せると伝わりやすい",
+      "夕方の光でイベント感を強める"
+    ],
     "sourceUrl": ""
   },
   {
@@ -81,12 +171,24 @@
     "id": "AI00038",
     "title": "2Dアニメ寄せのエフェクト調整",
     "summary": "リアルな発光や粒子を強くしすぎるとゲームCG寄りに見えるため、線画、セル影、平面的な色面、アニメ撮影処理を意識した調整が有効です。",
-    "trendElements": ["セル調", "硬い影", "発光控えめ"],
-    "useCases": ["アクションイラスト", "アニメ風キービジュアル", "動画生成用の参照画像"],
+    "trendElements": [
+      "セル調",
+      "硬い影",
+      "発光控えめ"
+    ],
+    "useCases": [
+      "アクションイラスト",
+      "アニメ風キービジュアル",
+      "動画生成用の参照画像"
+    ],
     "promptJa": "日本のアクションアニメのセル画風。クリーンな線画、はっきりした輪郭、硬いセル影、平面的な色面、発光は控えめ。リアルな粒子や過度なブルームを避け、アニメの1シーンのように見せる。",
     "promptEn": "Japanese action anime cel look, clean lineart, crisp outlines, hard-edged cel shading, flat color layers, restrained glow, avoid realistic particles and excessive bloom, make it look like a frame from an animated scene.",
     "noteTitle": "画像生成メモ",
-    "notes": ["“cinematic”だけだとCG寄りになりやすい", "エフェクトは図形的に整理する", "影を硬めにするとアニメ感が出る"],
+    "notes": [
+      "“cinematic”だけだとCG寄りになりやすい",
+      "エフェクトは図形的に整理する",
+      "影を硬めにするとアニメ感が出る"
+    ],
     "sourceUrl": "https://example.com/sample-cel-effect"
   }
 ]
