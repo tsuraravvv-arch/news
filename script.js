@@ -9,6 +9,9 @@ const categoryNames = {
 const cardsGrid = document.getElementById('cardsGrid');
 const detailPanel = document.getElementById('detailPanel');
 const toast = document.getElementById('toast');
+const guideButton = document.getElementById('guideButton');
+const guideModal = document.getElementById('guideModal');
+const guideModalClose = document.getElementById('guideModalClose');
 const imageModal = document.getElementById('imageModal');
 const imageModalImg = document.getElementById('imageModalImg');
 const imageModalCaption = document.getElementById('imageModalCaption');
@@ -237,6 +240,36 @@ function showToast(message) {
   showToast.timer = window.setTimeout(() => toast.classList.remove('is-visible'), 1600);
 }
 
+function openGuideModal() {
+  if (!guideModal) return;
+  guideModal.classList.add('is-open');
+  guideModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+}
+
+function closeGuideModal() {
+  if (!guideModal) return;
+  guideModal.classList.remove('is-open');
+  guideModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+}
+
+if (guideButton) {
+  guideButton.addEventListener('click', openGuideModal);
+}
+
+if (guideModal) {
+  guideModal.addEventListener('click', event => {
+    if (event.target === guideModal || event.target.classList.contains('guide-modal-backdrop')) {
+      closeGuideModal();
+    }
+  });
+}
+
+if (guideModalClose) {
+  guideModalClose.addEventListener('click', closeGuideModal);
+}
+
 function openImageModal(src, title = '') {
   if (!imageModal || !imageModalImg) return;
   imageModalImg.src = src;
@@ -268,8 +301,14 @@ if (imageModalClose) {
 }
 
 document.addEventListener('keydown', event => {
-  if (event.key === 'Escape' && imageModal?.classList.contains('is-open')) {
+  if (event.key !== 'Escape') return;
+
+  if (imageModal?.classList.contains('is-open')) {
     closeImageModal();
+  }
+
+  if (guideModal?.classList.contains('is-open')) {
+    closeGuideModal();
   }
 });
 
