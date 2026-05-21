@@ -996,3 +996,95 @@ body.modal-open {
     flex: 1;
   }
 }
+
+
+/* v17: category color cleanup and New badge */
+.filter-button.filter-original {
+  color: #7a5a00;
+  border-color: #ead28a;
+  background: rgba(255, 245, 196, 0.74);
+}
+
+.filter-button.filter-original.is-active {
+  color: #6b4d00;
+  border-color: #e0bd49;
+  background: #ffe995;
+}
+
+.filter-button.filter-ai {
+  color: #285780;
+}
+
+.filter-button.filter-ai.is-active {
+  color: #285780;
+  border-color: #b9d5ee;
+  background: #dbeaf8;
+}
+
+.filter-button.filter-fa {
+  color: #87507a;
+}
+
+.filter-button.filter-fa.is-active {
+  color: #7b3e70;
+  border-color: #e2bedc;
+  background: #f4dff1;
+}
+
+.filter-button.filter-ev {
+  color: #27706d;
+}
+
+.filter-button.filter-ev.is-active {
+  color: #1e6461;
+  border-color: #a9d9d6;
+  background: #d8f2f0;
+}
+
+.filter-button.filter-all.is-active {
+  color: #285780;
+  border-color: #b9d5ee;
+  background: #dbeaf8;
+}
+
+.card-visual.AI {
+  background: linear-gradient(135deg, #5a8fbe, #82acd3) !important;
+}
+
+.card-visual.FA {
+  background: linear-gradient(135deg, #c27bad, #e5b9dc) !important;
+}
+
+.card-visual.EV {
+  background: linear-gradient(135deg, #68aeb4, #9ed5d1) !important;
+}
+
+.card-visual h3 {
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.card-visual h3 > span:first-child {
+  min-width: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.new-badge {
+  flex: 0 0 auto;
+  color: #e53b3b;
+  background: rgba(255,255,255,0.88);
+  border: 1px solid rgba(229, 59, 59, 0.26);
+  border-radius: 999px;
+  padding: 2px 7px;
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-shadow: none;
+  box-shadow: 0 4px 12px rgba(60, 70, 90, 0.12);
+}
