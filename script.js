@@ -60,6 +60,21 @@ function articleSearchText(article) {
   return normalizeText(fields.filter(Boolean).join(' '));
 }
 
+function parseArticleDate(value = '') {
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{2}):(\d{2}))?/);
+  if (!match) return null;
+  const [, y, m, d, hh = '00', mm = '00'] = match;
+  return new Date(Number(y), Number(m) - 1, Number(d), Number(hh), Number(mm));
+}
+
+function isNewArticle(article) {
+  const articleDate = parseArticleDate(article.datetime);
+  if (!articleDate) return false;
+  const diff = Date.now() - articleDate.getTime();
+  const sevenDays = 7 * 24 * 60 * 60 * 1000;
+  return diff >= 0 && diff <= sevenDays;
+}
+
 function renderCards() {
   const normalizedQuery = normalizeText(searchQuery);
   const filtered = articles.filter(article => {
@@ -88,7 +103,10 @@ function renderCards() {
             <span class="card-id">${escapeHtml(article.id)}</span>
             <span class="card-date">${escapeHtml(formatDate(article.datetime))}</span>
           </div>
-          <h3>${escapeHtml(article.title)}</h3>
+          <h3>
+            <span>${escapeHtml(article.title)}</span>
+            ${isNewArticle(article) ? '<span class="new-badge">New</span>' : ''}
+          </h3>
         </div>
         <div class="card-body">
           <div class="tags">${tags}</div>
@@ -255,6 +273,13 @@ document.addEventListener('keydown', event => {
   }
 });
 
+function updateFilterButtonClasses() {
+  filterButtons.forEach(button => {
+    button.classList.remove('filter-ai', 'filter-fa', 'filter-ev', 'filter-original', 'filter-all');
+    button.classList.add(`filter-${button.dataset.filter.toLowerCase()}`);
+  });
+}
+
 filterButtons.forEach(button => {
   button.addEventListener('click', () => {
     activeFilter = button.dataset.filter;
@@ -286,6 +311,7 @@ if (resetSearch) {
   });
 }
 
+updateFilterButtonClasses();
 init();
 
 document.querySelectorAll('.optional-image').forEach(image => {
