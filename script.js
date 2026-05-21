@@ -240,6 +240,93 @@ function showToast(message) {
   showToast.timer = window.setTimeout(() => toast.classList.remove('is-visible'), 1600);
 }
 
+function getArticleImagePath(article) {
+  return article.image || `images/articles/${article.id}.png`;
+}
+
+function renderImageSearchGrid() {
+  if (!imageSearchGrid || !imageSearchEmpty) return;
+
+  imageSearchGrid.innerHTML = '';
+  imageSearchEmpty.style.display = 'none';
+
+  let loadedCount = 0;
+
+  articles.forEach(article => {
+    const item = document.createElement('button');
+    item.className = 'image-search-item';
+    item.type = 'button';
+    item.dataset.id = article.id;
+
+    const image = document.createElement('img');
+    image.src = getArticleImagePath(article);
+    image.alt = `${article.title} 生成画像`;
+    image.loading = 'lazy';
+
+    const caption = document.createElement('span');
+    caption.textContent = article.title;
+
+    const meta = document.createElement('small');
+    meta.textContent = `${article.id} / ${article.categoryLabel || categoryNames[article.category] || ''}`;
+
+    item.appendChild(image);
+    item.appendChild(caption);
+    item.appendChild(meta);
+
+    image.addEventListener('load', () => {
+      loadedCount += 1;
+      imageSearchEmpty.style.display = loadedCount ? 'none' : 'block';
+    });
+
+    image.addEventListener('error', () => {
+      item.remove();
+      imageSearchEmpty.style.display = loadedCount ? 'none' : 'block';
+    });
+
+    item.addEventListener('click', () => {
+      closeImageSearchModal();
+      selectArticle(article.id);
+    });
+
+    imageSearchGrid.appendChild(item);
+  });
+
+  window.setTimeout(() => {
+    imageSearchEmpty.style.display = imageSearchGrid.children.length ? 'none' : 'block';
+  }, 500);
+}
+
+function openImageSearchModal() {
+  if (!imageSearchModal) return;
+  renderImageSearchGrid();
+  imageSearchModal.classList.add('is-open');
+  imageSearchModal.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('modal-open');
+}
+
+function closeImageSearchModal() {
+  if (!imageSearchModal) return;
+  imageSearchModal.classList.remove('is-open');
+  imageSearchModal.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('modal-open');
+}
+
+if (imageSearchButton) {
+  imageSearchButton.addEventListener('click', openImageSearchModal);
+}
+
+if (imageSearchModal) {
+  imageSearchModal.addEventListener('click', event => {
+    if (event.target === imageSearchModal || event.target.classList.contains('image-search-backdrop')) {
+      closeImageSearchModal();
+    }
+  });
+}
+
+if (imageSearchClose) {
+  imageSearchClose.addEventListener('click', closeImageSearchModal);
+}
+
 function openGuideModal() {
   if (!guideModal) return;
   guideModal.classList.add('is-open');
@@ -309,6 +396,10 @@ document.addEventListener('keydown', event => {
 
   if (guideModal?.classList.contains('is-open')) {
     closeGuideModal();
+  }
+
+  if (imageSearchModal?.classList.contains('is-open')) {
+    closeImageSearchModal();
   }
 });
 
