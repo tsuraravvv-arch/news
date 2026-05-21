@@ -1,5 +1,65 @@
 [
   {
+    "datetime": "2026-05-21 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00045",
+    "title": "全国で「梅雨前の青空」投稿がラストスパート傾向",
+    "summary": "梅雨入り前の晴天シーズンとして、青空・白雲・バルコニー・散歩写真などの投稿がSNSで増加しています。“今のうちに晴れを楽しむ”空気感が強く、明るい自然光ビジュアルとの相性が良い時期です。",
+    "trendElements": [
+      "青空",
+      "白い雲",
+      "バルコニー",
+      "初夏の日差し",
+      "散歩感"
+    ],
+    "useCases": [
+      "朝投稿",
+      "爽やかMV",
+      "日常系画像",
+      "SNSヘッダー"
+    ],
+    "promptJa": "初夏の青空が広がるバルコニー。白いカーテンが風で揺れ、キャラクターが空を見上げている。暖かな日差し、爽やかな空気感、生活感のある静かな朝。映画のワンカットのような自然な雰囲気。",
+    "promptEn": "A balcony beneath a bright early-summer blue sky. White curtains sway gently in the breeze while the character looks up toward the sky. Warm sunlight, refreshing atmosphere, and a calm everyday morning feeling create a cinematic snapshot mood.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "空を広めに取ると爽やか",
+      "白カーテンが今風",
+      "逆光を少し入れると映える"
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-05-21 08:46",
+    "category": "AI",
+    "categoryLabel": "AI生成関連",
+    "id": "AI00039",
+    "title": "「エレベーター鏡セルフィー」構図がSNS系AI画像で急増",
+    "summary": "X上では、エレベーター内部の鏡を使った“鏡セルフィー構図”がAI画像で急増しています。金属反射、狭い空間、縦長構図との相性が良く、「リアルな日常写真感」が強いとして人気です。",
+    "trendElements": [
+      "鏡セルフィー",
+      "エレベーター",
+      "金属反射",
+      "縦長写真",
+      "日常感"
+    ],
+    "useCases": [
+      "SNS投稿",
+      "Vlog風",
+      "実写系AI画像",
+      "ファッション演出"
+    ],
+    "promptJa": "エレベーター内部の鏡越しにスマホセルフィーを撮る少女。金属壁にネオン光が反射し、少し低照度。リアルなスマホ写真感、自然な手ブレ、生活感のある日常構図。",
+    "promptEn": "A girl taking a smartphone mirror selfie inside an elevator. Neon lighting softly reflects across metallic walls in a slightly low-exposure environment. Realistic handheld smartphone-photo aesthetics with authentic everyday atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "鏡を少し曇らせると自然",
+      "金属反射を入れる",
+      "画面端を少し切るとリアル"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-20 21:01",
     "category": "FA",
     "categoryLabel": "ファッション",
