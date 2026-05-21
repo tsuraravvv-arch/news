@@ -37,6 +37,15 @@
           <span>わたしが作成したタロットカード占いです</span>
         </div>
       </a>
+
+      <button class="banner banner-guide" id="guideButton" type="button" aria-label="活用ガイドを開く">
+        <span class="guide-icon" aria-hidden="true">?</span>
+        <div class="banner-copy">
+          <span class="banner-label">Guide</span>
+          <strong>活用ガイド</strong>
+          <span>プロンプトの使い方と楽しみ方</span>
+        </div>
+      </button>
     </section>
 
     <section class="toolbar" aria-label="記事フィルター">
@@ -71,6 +80,63 @@
   <footer class="site-footer">
     <p>© Tsurara Trend Notes. Prototype for GitHub Pages.</p>
   </footer>
+
+  <div class="guide-modal" id="guideModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="活用ガイド">
+    <div class="guide-modal-backdrop"></div>
+    <div class="guide-modal-content">
+      <button class="guide-modal-close" id="guideModalClose" type="button" aria-label="閉じる">×</button>
+
+      <div class="guide-head">
+        <p class="section-kicker">How to use</p>
+        <h2>活用ガイド</h2>
+        <p>掲載されているメモやプロンプトは、完成品をそのまま出すためだけのものではありません。あなたの環境や発想に合わせて、自由に足して楽しむためのアイデア集です。</p>
+      </div>
+
+      <div class="guide-grid">
+        <section class="guide-card">
+          <div class="guide-visual guide-visual-1"><span>1</span></div>
+          <div>
+            <h3>記事カードを選ぶ</h3>
+            <p>気になるカテゴリや検索から記事を探し、カードをクリックすると右側に詳細が表示されます。タイトル・概要・使いどころを見て、使いたい方向性を選びます。</p>
+          </div>
+        </section>
+
+        <section class="guide-card">
+          <div class="guide-visual guide-visual-2"><span>2</span></div>
+          <div>
+            <h3>プロンプトをコピーする</h3>
+            <p>日本語プロンプトや英語プロンプトをコピーして、ChatGPT Images、Sora、その他の生成ツールに貼り付けて使います。</p>
+          </div>
+        </section>
+
+        <section class="guide-card">
+          <div class="guide-visual guide-visual-3"><span>3</span></div>
+          <div>
+            <h3>キーワードを追加して調整する</h3>
+            <p>用意されたプロンプトは、SNSで見かけるような「すぐ完成品になる文章」だけではありません。+αの演出や効果を与える素材として使えるものもあります。</p>
+          </div>
+        </section>
+
+        <section class="guide-card">
+          <div class="guide-visual guide-visual-4"><span>4</span></div>
+          <div>
+            <h3>環境ごとの変化を楽しむ</h3>
+            <p>出力結果は、使用する生成環境、モデル、設定、メモリ、添付する立ち絵や三面図によって変わります。違いも含めて創作の幅として楽しんでください。</p>
+          </div>
+        </section>
+      </div>
+
+      <section class="guide-tips">
+        <h3>このサイトの使い方のコツ</h3>
+        <ul>
+          <li>サイト内のサンプルは、立ち絵や三面図にプロンプトを組み合わせて作成されています。</li>
+          <li>プロンプトはそのまま使うだけでなく、キャラクター名、衣装、場所、時間帯、光、カメラ演出などを足すと使いやすくなります。</li>
+          <li>「構図」「色」「効果」「動画化メモ」など、欲しい要素だけを抜き出して別のプロンプトへ混ぜる使い方もおすすめです。</li>
+          <li>同じ文章でも環境によって違う結果になるため、出力の揺れもアイデア探しとして楽しんでください。</li>
+        </ul>
+      </section>
+    </div>
+  </div>
 
   <div class="image-modal" id="imageModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="生成画像の拡大表示">
     <div class="image-modal-backdrop"></div>
