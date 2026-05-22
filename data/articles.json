@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-21 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00043",
+    "title": "初夏の「制服＋放課後」ビジュアル投稿が継続人気",
+    "summary": "5月後半は、夕方の学校帰りや放課後をテーマにした青春系ビジュアル投稿が増える時期です。夕焼け、自転車、川沿い、制服姿などを組み合わせた“静かな青春感”がSNSで人気となっています。",
+    "trendElements": [
+      "夕焼け",
+      "放課後",
+      "制服",
+      "川沿い",
+      "青春感"
+    ],
+    "useCases": [
+      "青春MV",
+      "ショート動画",
+      "日常系イラスト",
+      "エモ系投稿"
+    ],
+    "promptJa": "夕焼けに染まる放課後の川沿い。制服姿のキャラクターが自転車を押しながら歩いている。暖かな夕日、静かな風、少しノスタルジックな空気感。映画の青春ワンシーンのような雰囲気。",
+    "promptEn": "A riverside path during sunset after school. The character in a school uniform walks while pushing a bicycle. Warm evening sunlight, gentle wind, and a nostalgic cinematic atmosphere create a youthful emotional scene.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "オレンジ空を強めにすると映える",
+      "自転車を小道具にすると青春感が出る",
+      "制服はシンプル寄りが今風"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-22 10:00",
     "category": "AI",
     "categoryLabel": "AI生成関連",
