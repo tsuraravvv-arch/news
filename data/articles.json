@@ -1,5 +1,28 @@
 [
   {
+    "datetime": "2026-05-22 10:00",
+    "category": "AI",
+    "categoryLabel": "AI生成関連",
+    "id": "AI00100",
+    "title": "あの角度になるプロンプト",
+    "summary": "某アニメーション作品の“あの角度”を再現するためのオリジナルプロンプトです。首の角度や上半身の反りにランダム性を持たせ、毎回少し違う大胆な構図になるよう設計されています。",
+    "trendElements": [
+      "オリジナル",
+      "アニメ",
+      "構図"
+    ],
+    "useCases": [
+      "SNS投稿",
+      "キャラクターポートレート",
+      "MV風サムネイル"
+    ],
+    "promptJa": "",
+    "promptEn": "Use the attached character reference image as the main subject.\nPreserve the character’s facial features, hairstyle, hair color, eye color, outfit, accessories, body shape, and overall personality as faithfully as possible.\n\nHowever, do not preserve the original pose or original camera angle.\nDo not keep the original front-facing, centered bust-up composition.\nRecompose the character into a clearly different anime-style illustration.\n\nCreate a single-character anime illustration with a very strong dramatic head-and-neck pose.\nThe pose should emphasize an exaggerated neck angle and a backward arch of the upper body.\nThe character should be shown from a side, three-quarter back, or over-the-shoulder angle, with the body turned away or partly away from the viewer while the face turns back toward the camera.\n\nDo not use a mild head tilt.\nThe neck angle should vary randomly with each generation.\nFor each generation, choose one bold variation such as:\n\n- the face tilted almost sideways, with the neck bent close to a 70–90 degree angle\n- a deep backward diagonal head tilt with the chin raised high\n- the upper body arched backward, with the neck and face tilted even further\n- the body facing sideways or away while the face twists strongly back toward the camera\n- the face rotated so strongly that it appears diagonal or almost horizontal in the frame\n- a strong mismatch between the shoulder line and the face angle, emphasizing the curve of the neck\n- the chin raised upward while only the eyes look back toward the viewer\n- a deep sideways neck bend, with the hair falling toward one side due to gravity\n- a large curved line formed by the back, chest, shoulders, neck, and raised chin\n\nVary the neck angle, tilt direction, chin height, body arch, and twist between torso and face in every generation.\nThe unusual neck angle must be immediately noticeable.\nAvoid ordinary over-the-shoulder poses, normal head tilts, weak angles, and front-facing poses.\n\nThe pose should be bold, exaggerated, iconic, and visually striking.\nIt does not need to be fully realistic, but it should still feel believable as stylized anime anatomy.\nAvoid a completely broken neck, disconnected head, overly long neck, overly thin neck, or impossible anatomy.\n\nThe character should look toward the camera according to the head angle.\nThe gaze may look back from an upward-facing head, look down from a sideways-tilted face, or coldly glance over the shoulder.\nThe expression should feel cool, expressionless, mysterious, slightly provocative, quietly confident, or emotionally restrained.\n\nUse a stylized Japanese anime frame aesthetic.\nFocus on crisp outlines, clean cel shading, flat color areas, hard-edged shadows, graphic shadow shapes, and strong contrast between light and dark.\nAdd dramatic shadows on the face, neck, under the chin, collarbone, shoulders, and hair.\nMake the neck angle and upper-body arch stand out through lighting and shadow.\nAvoid overly soft painterly rendering; use organized anime-style shading.\n\nThe background should be dark and simple, matching the character’s mood.\nUse black, deep purple, navy, dark blue-gray, or similar tones.\nA simple gradient, dim interior, night-like atmosphere, or stage-like spotlight may be used.\nKeep the background understated so the neck angle, body arch, expression, and shadows remain the main focus.\n\nHigh-quality anime illustration, strong dramatic head tilt, neck angle variations close to 90 degrees, arched upper body, over-the-shoulder composition, almost sideways face angle, cool gaze, strong cel-shaded shadows, dark stylish atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "notes": [],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-21 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
