@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-22 21:00",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00027",
+    "title": "“ミルキーネオン” 配色がAIビジュアル界隈で拡大",
+    "summary": "強い原色ネオンではなく、白を混ぜたような“ミルキー系ネオンカラー”がSNSで増加。パステル寄りの青・紫・ピンクを柔らかく発光させることで、近未来感を出しつつも“かわいさ”を残せるとして人気です。",
+    "trendElements": [
+      "ミルキーブルー",
+      "淡いネオン紫",
+      "パステル発光",
+      "白混色",
+      "柔らかい未来感"
+    ],
+    "useCases": [
+      "VTuber背景",
+      "近未来MV",
+      "AIイラスト背景",
+      "SNS用プロフィール画像"
+    ],
+    "promptJa": "ミルキーネオンカラーに包まれた近未来空間。淡い青、紫、ピンクの柔らかい発光。透明感のある空気、白を混ぜたようなネオン色彩、SNS映えするかわいい未来感。",
+    "promptEn": "A futuristic environment illuminated by milky neon colors. Soft glowing blue, purple, and pink tones blended with white, transparent atmosphere, cute futuristic aesthetic optimized for social media visuals.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "“強発光”より“柔らかい光”が現在の主流",
+      "白を少し混ぜると高級感が出やすい",
+      "暗背景にすると発色が安定する"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-21 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
