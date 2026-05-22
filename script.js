@@ -78,13 +78,26 @@ function isNewArticle(article) {
   return diff >= 0 && diff <= sevenDays;
 }
 
+function isOriginalArticle(article) {
+  return article.type === 'OR' || (article.trendElements || []).some(tag => normalizeText(tag) === 'オリジナル');
+}
+
+function getVisualCategory(article) {
+  return isOriginalArticle(article) ? 'OR' : article.category;
+}
+
+function getDetailLabel(article) {
+  const category = article.categoryLabel || categoryNames[article.category] || article.category || '';
+  return isOriginalArticle(article) ? `${category} / ${article.typeLabel || 'オリジナル'}` : category;
+}
+
 function renderCards() {
   const normalizedQuery = normalizeText(searchQuery);
   const filtered = articles.filter(article => {
     const matchesFilter = activeFilter === 'ALL'
       ? true
       : activeFilter === 'ORIGINAL'
-        ? (article.trendElements || []).some(tag => normalizeText(tag) === 'オリジナル')
+        ? isOriginalArticle(article)
         : article.category === activeFilter;
 
     const matchesSearch = !normalizedQuery || articleSearchText(article).includes(normalizedQuery);
@@ -101,7 +114,7 @@ function renderCards() {
     const isSelected = selectedId === article.id ? ' is-selected' : '';
     return `
       <button class="card${isSelected}" type="button" data-id="${escapeHtml(article.id)}">
-        <div class="card-visual ${escapeHtml(article.category)}">
+        <div class="card-visual ${escapeHtml(getVisualCategory(article))}">
           <div class="card-topline">
             <span class="card-id">${escapeHtml(article.id)}</span>
             <span class="card-date">${escapeHtml(formatDate(article.datetime))}</span>
@@ -156,7 +169,7 @@ function renderDetail(article) {
 
   detailPanel.innerHTML = `
     <div class="detail-head">
-      <p class="section-kicker">${escapeHtml(article.id)} / ${escapeHtml(article.categoryLabel || categoryNames[article.category])}</p>
+      <p class="section-kicker">${escapeHtml(article.id)} / ${escapeHtml(getDetailLabel(article))}</p>
       <h2>${escapeHtml(article.title)}</h2>
       <p class="date">${escapeHtml(formatDate(article.datetime))}</p>
       <p class="detail-summary">${escapeHtml(article.summary)}</p>
