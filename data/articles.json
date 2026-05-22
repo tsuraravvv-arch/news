@@ -1,5 +1,95 @@
 [
   {
+    "datetime": "2026-05-22 09:00",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00022",
+    "title": "“退廃ゴシック×ネオン” の夜景系ビジュアルが急増",
+    "summary": "SNSでは、ゴシック衣装に青紫ネオンや都市夜景を組み合わせた“退廃感”重視のビジュアル投稿が増加。暗めの世界観ながら、発光アクセや濡れた路面反射を加えることで、MV風・AI動画風の雰囲気が出しやすいとして人気になっています。",
+    "trendElements": [
+      "黒×青紫ネオン",
+      "濡れた路面反射",
+      "ゴシックアクセ",
+      "退廃都市感",
+      "深夜MV演出"
+    ],
+    "useCases": [
+      "ダークMV風動画",
+      "ゴシック系キャラクター",
+      "深夜投稿用KV",
+      "近未来ストリート表現"
+    ],
+    "promptJa": "退廃的なネオン都市に立つゴシックファッションの少女。黒を基調にした衣装、青紫ネオン、濡れたアスファルト反射、霧のある深夜背景。映画的ライティング、MV風構図、静かな退廃感。",
+    "promptEn": "A gothic-fashion girl standing in a dystopian neon city at night. Black-based outfit, blue-purple neon lighting, wet asphalt reflections, foggy urban atmosphere, cinematic lighting, music-video-inspired composition, quiet dystopian mood.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "床反射を入れるとMV感が一気に強くなる",
+      "霧は薄めの方がSNS映えしやすい",
+      "ネオン色を2色以内に絞るとまとまりやすい"
+    ],
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=cyber%20gothic%20aesthetic"
+  },
+  {
+    "datetime": "2026-05-22 20:46",
+    "category": "AI",
+    "categoryLabel": "AI生成関連",
+    "id": "AI00066",
+    "title": "「終バス停ベンチ」構図がAIシネマShortsで急増",
+    "summary": "X上では、終バス後の静かなバス停を使った“待機ベンチ構図”が急増しています。人物を小さく配置し、街灯だけで照らすことで「映画エンドロール感」が出るとして人気です。",
+    "trendElements": [
+      "終バス",
+      "バス停ベンチ",
+      "街灯ライティング",
+      "余白構図",
+      "シネマ感"
+    ],
+    "useCases": [
+      "AI MV",
+      "Shorts",
+      "青春系映像",
+      "Vlog風サムネ"
+    ],
+    "promptJa": "深夜の静かなバス停ベンチに座る少女。人物は小さめに配置され、古い街灯だけが周囲を照らしている。湿った道路、低照度、静かな映画ラストのような空気感。",
+    "promptEn": "A girl sitting quietly at a late-night bus stop bench. The character appears small within the frame while an old streetlight softly illuminates the wet streets, creating cinematic ending-scene aesthetics.",
+    "noteTitle": "動画化メモ",
+    "notes": [
+      "人物を中央に置きすぎない",
+      "街灯光を強めにする",
+      "環境音を静かに残す"
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-05-22 09:00",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00024",
+    "title": "“透明UIホログラム演出” がAI動画系で定番化",
+    "summary": "人物の周囲に半透明ホログラムUIを浮かせる演出が、AI動画・画像生成界隈で定番化。特に白青系UIや円形HUDデザインが人気で、“未来デバイス感”を簡単に出せるため活用が広がっています。",
+    "trendElements": [
+      "透明HUD",
+      "円形UI",
+      "白青発光",
+      "未来デバイス感",
+      "空中インターフェース"
+    ],
+    "useCases": [
+      "近未来MV",
+      "VTuber配信演出",
+      "AI動画サムネ",
+      "SF系キャラビジュアル"
+    ],
+    "promptJa": "未来的なホログラムUIに囲まれた少女。白青に発光する透明HUD、空中インターフェース、近未来都市背景。映画的ライティング、クリーンなサイバー感、SNS映えする未来演出。",
+    "promptEn": "A futuristic girl surrounded by transparent holographic HUD interfaces glowing in white and pale blue. Floating futuristic UI elements, cyber city background, cinematic lighting, clean sci-fi aesthetic optimized for social media visuals.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "UIを増やしすぎない方が今風",
+      "白青発光がもっとも安定しやすい",
+      "背景を暗めにするとホログラムが映える"
+    ],
+    "sourceUrl": "https://www.behance.net/search/projects?search=futuristic%20hud%20ui"
+  },
+  {
     "datetime": "2026-05-22 21:00",
     "category": "FA",
     "categoryLabel": "ファッション",
