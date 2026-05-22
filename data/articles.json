@@ -17,7 +17,61 @@
       "キャラクターポートレート",
       "MV風サムネイル"
     ],
-    "promptJa": "",
+    "promptJa": "添付されたキャラクター画像を参照し、キャラクターの顔立ち、髪型、髪色、目の色、衣装、アクセサリー、体型、全体の雰囲気をできるだけ忠実に保ったまま、1人のアニメ風イラストを作成してください。
+
+ただし、元画像のポーズやカメラ角度は維持しないでください。
+正面向き・中央配置・通常のバストアップ構図にはせず、キャラクターを明確に別ポーズへ再構成してください。
+
+構図は、強い“シャフ度”を意識した、誇張された首角度と上半身の反りを主役にしたポーズにしてください。
+キャラクターは、体を横向き、斜め後ろ向き、または肩越しの向きにし、顔だけをカメラ側へ振り向かせます。
+通常の振り向きではなく、首・顎・肩・上半身のラインに強い演出性を持たせてください。
+
+首の角度は生成ごとにランダムに変化させてください。
+軽い首かしげは禁止です。
+ただし、首の角度はおおよそ45度〜90度の範囲に収めてください。
+毎回、45度、60度、75度、90度近い角度など、異なる強さの首角度をランダムに選んでください。
+極端すぎる角度だけに固定せず、45〜90度の間で自然に揺らぎを持たせてください。
+
+生成ごとに、以下のような首角度・上半身の反りのバリエーションから1つを選んでください。
+
+- 約45度の強めの斜め首傾きで、顎を少し上げる
+- 約60度の横方向の首傾きで、肩越しにこちらを見る
+- 約70〜75度の深い首傾きで、顔がかなり横倒しに見える
+- 90度に近いが破綻しない範囲で、顔がほぼ真横に倒れて見える
+- 頭を斜め後ろへ反らし、顎を高く上げる
+- 上半身ごと後ろへ反らし、首と顔をさらに斜めに倒す
+- 体は横向きまたは後ろ向きで、顔だけを強くねじってカメラへ向ける
+- 肩のラインと顔の角度が大きくずれ、首のしなりが強調されている
+- 顎を上げたまま、視線だけをカメラへ流す
+- 背中を反らし、胸・肩・首・顎のラインで大きな弧を作る
+
+顎のラインは鋭くしすぎないでください。
+顎を上げる場合でも、顎先が尖りすぎたり、顔の輪郭が硬くなりすぎたりしないようにしてください。
+顔の輪郭はキャラクター本来の柔らかさを保ち、顎下や首の影で立体感を出してください。
+顎を強調しすぎるのではなく、首の角度、肩のライン、視線、髪の流れでポーズの強さを表現してください。
+
+首の角度、顔の倒れる方向、顎の高さ、上半身の反り方は毎回変えてください。
+見た瞬間に「首の角度が強い」とわかるポーズにしてください。
+普通の振り向き、普通の首かしげ、弱い角度、正面顔は避けてください。
+
+ただし、完全に骨格が壊れているようには見せないでください。
+現実的な人体ではなく、演出性の強いアニメ的誇張として成立する範囲で、45〜90度の首角度を大胆に使ってください。
+首が細すぎる、長すぎる、折れている、胴体から外れている、顎が尖りすぎているような表現は避けてください。
+
+視線は、顔の角度に合わせてカメラへ向けてください。
+上を向いた顔から目だけをこちらへ流す、横倒しの顔でこちらを見下ろす、または肩越しに冷たく見返すような視線にしてください。
+表情は、クール、無表情、ミステリアス、少し挑発的、静かに不敵、感情を抑えた印象にしてください。
+
+画風は、演出性の強い日本アニメの1カットのようにしてください。
+くっきりした輪郭線、セル調の塗り、平面的な色面、硬い影、面で切るような陰影、強い明暗差を重視してください。
+顔、首、顎下、鎖骨、肩、髪に強い影を入れ、首角度と上半身の反りがより目立つようにしてください。
+柔らかい厚塗りではなく、整理されたアニメ的な陰影にしてください。
+
+背景はキャラクターの雰囲気に合わせた暗めの背景にしてください。
+黒、濃い紫、紺、青みのあるグレーなどを基調に、シンプルなグラデーション、薄暗い室内、夜の空気感、舞台照明のようなスポットライトを使ってください。
+背景は控えめにし、首の角度、上半身の反り、表情、陰影が主役になるようにしてください。
+
+高品質なアニメイラスト、強いシャフ度、45度〜90度の間でランダムに変化する首角度、上半身の反り、オーバーショルダー構図、横倒しに近い顔角度、柔らかさを保った顎のライン、クールな視線、強いセル調の陰影、暗くスタイリッシュな雰囲気。",
     "promptEn": "Use the attached character reference image as the main subject.\nPreserve the character’s facial features, hairstyle, hair color, eye color, outfit, accessories, body shape, and overall personality as faithfully as possible.\n\nHowever, do not preserve the original pose or original camera angle.\nDo not keep the original front-facing, centered bust-up composition.\nRecompose the character into a clearly different anime-style illustration.\n\nCreate a single-character anime illustration with a very strong dramatic head-and-neck pose.\nThe pose should emphasize an exaggerated neck angle and a backward arch of the upper body.\nThe character should be shown from a side, three-quarter back, or over-the-shoulder angle, with the body turned away or partly away from the viewer while the face turns back toward the camera.\n\nDo not use a mild head tilt.\nThe neck angle should vary randomly with each generation.\nFor each generation, choose one bold variation such as:\n\n- the face tilted almost sideways, with the neck bent close to a 70–90 degree angle\n- a deep backward diagonal head tilt with the chin raised high\n- the upper body arched backward, with the neck and face tilted even further\n- the body facing sideways or away while the face twists strongly back toward the camera\n- the face rotated so strongly that it appears diagonal or almost horizontal in the frame\n- a strong mismatch between the shoulder line and the face angle, emphasizing the curve of the neck\n- the chin raised upward while only the eyes look back toward the viewer\n- a deep sideways neck bend, with the hair falling toward one side due to gravity\n- a large curved line formed by the back, chest, shoulders, neck, and raised chin\n\nVary the neck angle, tilt direction, chin height, body arch, and twist between torso and face in every generation.\nThe unusual neck angle must be immediately noticeable.\nAvoid ordinary over-the-shoulder poses, normal head tilts, weak angles, and front-facing poses.\n\nThe pose should be bold, exaggerated, iconic, and visually striking.\nIt does not need to be fully realistic, but it should still feel believable as stylized anime anatomy.\nAvoid a completely broken neck, disconnected head, overly long neck, overly thin neck, or impossible anatomy.\n\nThe character should look toward the camera according to the head angle.\nThe gaze may look back from an upward-facing head, look down from a sideways-tilted face, or coldly glance over the shoulder.\nThe expression should feel cool, expressionless, mysterious, slightly provocative, quietly confident, or emotionally restrained.\n\nUse a stylized Japanese anime frame aesthetic.\nFocus on crisp outlines, clean cel shading, flat color areas, hard-edged shadows, graphic shadow shapes, and strong contrast between light and dark.\nAdd dramatic shadows on the face, neck, under the chin, collarbone, shoulders, and hair.\nMake the neck angle and upper-body arch stand out through lighting and shadow.\nAvoid overly soft painterly rendering; use organized anime-style shading.\n\nThe background should be dark and simple, matching the character’s mood.\nUse black, deep purple, navy, dark blue-gray, or similar tones.\nA simple gradient, dim interior, night-like atmosphere, or stage-like spotlight may be used.\nKeep the background understated so the neck angle, body arch, expression, and shadows remain the main focus.\n\nHigh-quality anime illustration, strong dramatic head tilt, neck angle variations close to 90 degrees, arched upper body, over-the-shoulder composition, almost sideways face angle, cool gaze, strong cel-shaded shadows, dark stylish atmosphere.",
     "noteTitle": "画像生成メモ",
     "notes": [],
