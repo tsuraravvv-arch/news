@@ -1519,3 +1519,31 @@ body.modal-open {
     margin-right: 0;
   }
 }
+
+
+/* v25: original article type OR + gold visual */
+.card-visual.OR {
+  background: linear-gradient(135deg, #b88a1d, #e4bf56 52%, #f7df8a) !important;
+}
+
+.card-visual.OR .card-id {
+  background: rgba(255,255,255,0.28);
+  border-color: rgba(255,255,255,0.30);
+}
+
+.filter-button.filter-original {
+  color: #7a5a00 !important;
+  border-color: #dfbf58 !important;
+  background: rgba(255, 244, 189, 0.78) !important;
+}
+
+.filter-button.filter-original.is-active {
+  color: #6b4d00 !important;
+  border-color: #c99e2c !important;
+  background: linear-gradient(135deg, #ffe995, #f6d15e) !important;
+}
+
+.card-visual.OR h3 {
+  color: #ffffff !important;
+  text-shadow: 0 2px 12px rgba(84, 58, 5, 0.34) !important;
+}
