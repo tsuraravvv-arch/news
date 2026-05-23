@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-23 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00054",
+    "title": "全国で「夜の橋・川沿い」ビジュアルが人気上昇",
+    "summary": "川沿いの遊歩道や夜の橋を背景にした“静かな都会夜景”投稿が増加しています。水面反射や青白い街灯を活かした映像的な雰囲気がAI生成でも人気です。",
+    "trendElements": [
+      "川沿い",
+      "橋",
+      "水面反射",
+      "街灯",
+      "夜散歩"
+    ],
+    "useCases": [
+      "エモMV",
+      "夜景背景",
+      "SNSサムネ",
+      "Vlog映像"
+    ],
+    "promptJa": "夜の川沿い遊歩道。橋のライトと街灯が水面に反射し、静かな都会の空気が流れている。キャラクターが欄干にもたれながら夜景を見つめている。青白い照明、映画的な夜景表現。",
+    "promptEn": "A riverside walkway at night with bridge lights and street lamps reflecting beautifully on the water. The character leans quietly against the railing while gazing at the city lights. Pale blue lighting and cinematic urban night atmosphere.",
+    "noteTitle": "動画化メモ",
+    "notes": [
+      "水面を少し揺らすとリアル",
+      "光反射を細かく入れる",
+      "風演出は控えめが自然"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-22 09:00",
     "category": "FA",
     "categoryLabel": "ファッション",
