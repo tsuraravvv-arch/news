@@ -3,6 +3,36 @@
     "datetime": "2026-05-23 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "id": "EV00053",
+    "title": "初夏の「カフェ読書」系ビジュアル投稿が増加",
+    "summary": "気温が安定する時期に入り、カフェでの読書やノート作業をテーマにした“静かな日常”系投稿が増えています。窓際、自然光、木製家具を活かした柔らかな空気感が人気です。",
+    "trendElements": [
+      "窓際席",
+      "自然光",
+      "読書",
+      "木製家具",
+      "静かな日常"
+    ],
+    "useCases": [
+      "日常系イラスト",
+      "配信背景",
+      "Vlog動画",
+      "SNS投稿"
+    ],
+    "promptJa": "柔らかな自然光が差し込むカフェの窓際席。木製テーブルの上に本や飲み物が置かれ、キャラクターが静かに読書している。暖かな空気感、穏やかな日常、映画のワンシーンのような演出。",
+    "promptEn": "A cozy café window seat illuminated by soft natural sunlight. Books and drinks rest on a wooden table while the character quietly reads. Warm atmosphere, peaceful everyday life, and cinematic slice-of-life mood.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "木製家具を明るめにする",
+      "自然光中心が綺麗",
+      "背景を少しぼかすと映える"
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-05-23 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
     "id": "EV00054",
     "title": "全国で「夜の橋・川沿い」ビジュアルが人気上昇",
     "summary": "川沿いの遊歩道や夜の橋を背景にした“静かな都会夜景”投稿が増加しています。水面反射や青白い街灯を活かした映像的な雰囲気がAI生成でも人気です。",
