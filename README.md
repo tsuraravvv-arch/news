@@ -224,7 +224,7 @@ tarot.png     800 × 450px 以上、16:9推奨
 - オリジナルフィルターもゴールド系に調整しました。
 
 
-## v26 adjustments
-- AI00100「あの角度になるプロンプト」を追加しました。
-- AI00100 は `type: "OR"` / `typeLabel: "オリジナル"` として登録しました。
-- `trendElements` から「オリジナル」タグを外し、通常タグは「アニメ」「構図」のみに整理しました。
+## v32 adjustments
+- 活用ガイド内に「著作物に関わるプロンプトの公開ポリシー」セクションを追加しました。
+- `images/guide/prompt-policy.png` を表示するようにしました。
+- 既存の `data/articles.json` を誤って上書きしないよう、差し替え用ZIPには index.html / style.css / script.js / README.md のみを入れています。
