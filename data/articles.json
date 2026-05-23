@@ -3,6 +3,36 @@
     "datetime": "2026-05-23 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "id": "EV00052",
+    "title": "全国で「夕方の海沿いドライブ」系投稿が人気継続",
+    "summary": "夕暮れの海岸道路やサービスエリアをテーマにした“ドライブ感”投稿がSNSで増加しています。オレンジ色の夕日と海面反射を活かした映像風ビジュアルが人気です。",
+    "trendElements": [
+      "海岸道路",
+      "夕焼け",
+      "ドライブ",
+      "海面反射",
+      "青春感"
+    ],
+    "useCases": [
+      "MV背景",
+      "旅行系投稿",
+      "Vlog風動画",
+      "青春イラスト"
+    ],
+    "promptJa": "夕焼けに染まる海沿いの道路。オレンジ色の空と海面が輝き、キャラクターが潮風を感じながら立っている。映画のロードムービーのような雰囲気、暖かな光、穏やかな初夏の空気感。",
+    "promptEn": "A seaside road glowing under a warm sunset sky. The ocean reflects orange light while the character stands quietly feeling the sea breeze. Cinematic road-trip atmosphere with warm lighting and calm early-summer scenery.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "空と海を広めに取る",
+      "夕日を少し強めると映える",
+      "反射演出が重要"
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-05-23 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
     "id": "EV00053",
     "title": "初夏の「カフェ読書」系ビジュアル投稿が増加",
     "summary": "気温が安定する時期に入り、カフェでの読書やノート作業をテーマにした“静かな日常”系投稿が増えています。窓際、自然光、木製家具を活かした柔らかな空気感が人気です。",
