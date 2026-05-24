@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-24 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00060",
+    "title": "全国で「梅雨前の夕立ち」ビジュアルが増加開始",
+    "summary": "梅雨入り前の不安定な天候により、“夕立ち直前・雨上がり”をテーマにした投稿が増え始めています。濡れた道路や曇り空を活かしたエモーショナルな表現が人気です。",
+    "trendElements": [
+      "雨上がり",
+      "曇り空",
+      "濡れた道路",
+      "水たまり",
+      "夕立ち"
+    ],
+    "useCases": [
+      "エモMV",
+      "雨演出動画",
+      "SNS背景",
+      "日常系イラスト"
+    ],
+    "promptJa": "夕立ち直後の街並み。濡れた道路と水たまりに街灯や空が反射している。キャラクターが透明傘を持ちながら静かに立っている。少し湿った空気感、映画的な雨上がり演出。",
+    "promptEn": "A city street just after an evening rain shower. Wet roads and puddles reflect the lights and cloudy sky while the character quietly stands holding a transparent umbrella. Humid cinematic atmosphere with emotional rainy scenery.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "反射を強めると映える",
+      "傘は透明系が定番",
+      "青灰色ベースが今風"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-24 13:00",
     "category": "AI",
     "categoryLabel": "AI生成関連",
