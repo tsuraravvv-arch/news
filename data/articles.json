@@ -1,5 +1,34 @@
 [
   {
+    "datetime": "2026-05-24 13:00",
+    "category": "AI",
+    "categoryLabel": "AI生成関連",
+    "type": "OR",
+    "typeLabel": "オリジナル",
+    "id": "AI10000",
+    "title": "「透明感」＋「パステル」＋「水彩」プロンプト",
+    "summary": "元イラストのデザインやキャラクター性をできるだけ保ちながら、清楚感のある色合いへやさしく変化させるオリジナルプロンプトです。三面図や設定画からでも使いやすく、彩色・光・空気感を中心に印象を整えたいときに向いています。",
+    "trendElements": [
+      "清楚",
+      "水彩",
+      "パステル"
+    ],
+    "useCases": [
+      "サムネ",
+      "イメージ変更",
+      "三面図からの雰囲気変換"
+    ],
+    "promptJa": "添付画像のキャラクターと衣装デザインを元に画像を作成してください。\n\n【キャラクター】\nキャラクターの顔立ち、髪型、髪色、前髪、瞳、服装構造、アクセサリー、全体の印象はできるだけそのまま維持してください。\nそのうえで、元のイラストの特徴は残しながら、「やわらかいパステルアニメ塗り」「淡い水彩風の空気感」を約70％の強さで加えてください。\n元絵の情報量・デザイン性・キャラクター性を保ったまま、彩色と空気感だけを優しく変化させるイメージです。\n\n【描写スタイル】\n* 繊細で細い線画\n* 空気を含んだような淡く透ける色使い\n* 低〜中コントラスト\n* 影はやや控えめだが、立体感がなくなりすぎないよう適度に濃淡を残す\n* やさしいセル塗りをベースに、部分的に淡いグラデーション\n* 透明感のあるやわらかな光\n* 夢見心地で上品な雰囲気\n* 少しだけ絵本・水彩風のニュアンス\n\n【ポーズ】\n元のイラストにポーズがある場合は、できるだけ変更しない\n元のイラストが三面図やポーズがない場合は、キャラクターイメージに合うポーズをデザインする\n\n【色設計】\n* ペールブルー\n* ホワイト\n* クリーム\n* ごく淡いラベンダー\n* 必要に応じて少量の淡いピーチ〜ソフトオレンジ系アクセント\n\n【衣装表現】\n* レース\n* フリル\n* リボン\n* 薄布\n* 透け感\n* 繊細な布の質感\n  これらをやわらかく上品に表現してください。\n\n【背景】\n* 明るくクリーンな背景\n* 白〜ごく薄いグラデーション基調\n* 小さな装飾モチーフや繊細な意匠をうっすら加える\n* 主役を邪魔しない、軽く夢幻的な空気感\n\n【重要】\n* 元画像のゴシック感や衣装ディテールは消しすぎない\n* 元絵をほぼそのままに見せるのではなく、彩色・光・空気感に明確な変化を出す\n* ただし、別作品レベルに改変しすぎない\n* 効果量は100％ではなく70％程度\n* 濃淡はやや残し、のっぺりさせない\n\n【避けること】\n* 重すぎる影\n* 強すぎるコントラスト\n* 黒つぶれ\n* 彩度の高すぎる色\n* 厚塗りすぎる質感\n* 写実的3D感\n* glossy CGI lighting\n* 過剰なドラマチックライティング",
+    "promptEn": "Create an image based on the attached character and outfit design.\n\n## Character\nPreserve the character’s facial features, hairstyle, hair color, bangs, eyes, outfit structure, accessories, and overall impression as faithfully as possible.\n\nAt the same time, while keeping the original illustration’s core characteristics, apply a “soft pastel anime coloring” and a “light watercolor-like atmosphere” at about 70% strength.\n\nThe goal is to gently transform only the coloring and atmosphere, while preserving the original image’s level of detail, design quality, and character identity.\n\n## Rendering Style\n* Delicate, thin lineart\n* Soft, airy, slightly translucent colors\n* Low to medium contrast\n* Shadows should be somewhat restrained, but still retain enough depth and tonal variation so the image does not become flat\n* Gentle cel shading as a base, with soft gradients in selected areas\n* Transparent, soft lighting\n* A dreamy and elegant atmosphere\n* A slight storybook / watercolor-like nuance\n\n## Pose\n* If the original illustration already has a pose, keep it as much as possible\n* If the original image is a character sheet, turnaround, or has no clear pose, design a pose that suits the character’s image\n\n## Color Design\n* Pale blue\n* White\n* Cream\n* Very pale lavender\n* If needed, add small amounts of pale peach to soft orange accents\n\n## Outfit Rendering\n* Lace\n* Frills\n* Ribbons\n* Light fabric\n* Sheerness / translucency\n* Delicate fabric texture\n\nRender these elements softly and elegantly.\n\n## Background\n* Bright and clean background\n* Mainly white to a very pale gradient\n* Faintly include small decorative motifs and delicate ornamental details\n* A light, dreamy atmosphere that does not distract from the main subject\n\n## Important\n* Do not erase the original image’s gothic feel or outfit details too much\n* Do not make it look almost identical to the original; create a clear change in the coloring, lighting, and atmosphere\n* However, do not alter it so much that it looks like a completely different work\n* The effect strength should be about 70%, not 100%\n* Keep some tonal variation and depth; do not make it look flat\n\n## Avoid\n* Overly heavy shadows\n* Excessively strong contrast\n* Crushed blacks\n* Overly saturated colors\n* Overly thick or painterly rendering\n* Realistic 3D appearance\n* Glossy CGI lighting\n* Excessively dramatic lighting",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "ゴシックや悪魔のようなイラストでも清楚感が出る",
+      "元の色が薄すぎると効果が薄い",
+      "三面図や設定画でも、彩色・空気感の方向付けとして使いやすい"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-23 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
