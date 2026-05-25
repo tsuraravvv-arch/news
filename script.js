@@ -74,8 +74,8 @@ function isNewArticle(article) {
   const articleDate = parseArticleDate(article.datetime);
   if (!articleDate) return false;
   const diff = Date.now() - articleDate.getTime();
-  const sevenDays = 7 * 24 * 60 * 60 * 1000;
-  return diff >= 0 && diff <= sevenDays;
+  const oneDay = 24 * 60 * 60 * 1000;
+  return diff >= 0 && diff <= oneDay;
 }
 
 function isOriginalArticle(article) {
