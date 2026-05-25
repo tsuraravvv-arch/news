@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-25 09:00",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00041",
+    "title": "“歩道橋見下ろし構図” がシティポップ系で拡散",
+    "summary": "歩道橋や高架通路から街を見下ろす構図が、夜景系AI動画やMV風投稿で増加。車のライト軌跡や都会の情報量を活かしつつ、人物を小さめに配置することで“孤独感”や“青春感”を演出するスタイルが人気です。",
+    "trendElements": [
+      "歩道橋構図",
+      "都会俯瞰",
+      "車ライト軌跡",
+      "夜景演出",
+      "シティポップ感"
+    ],
+    "useCases": [
+      "夜景MV",
+      "エモ系動画",
+      "都会ポスター",
+      "AIショート動画"
+    ],
+    "promptJa": "夜の歩道橋から都会を見下ろす人物。車のライトが流れ、ネオン街が広がる。人物は小さめに配置され、静かな孤独感と映画的空気感を演出する。シティポップ風、実写ライクなライティング。",
+    "promptEn": "A person overlooking a neon-lit city from a pedestrian overpass at night. Flowing car headlights, cinematic urban atmosphere, small character composition, emotional city-pop-inspired mood with realistic lighting.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "人物を中央から外すと現在風",
+      "車ライトは少し流すと映像感が出る",
+      "空間の余白が重要な構図"
+    ],
+    "sourceUrl": "https://www.instagram.com/explore/tags/citypopaesthetic/"
+  },
+  {
     "datetime": "2026-05-24 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
