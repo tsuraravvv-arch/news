@@ -1,6 +1,36 @@
 [
   {
     "datetime": "2026-05-25 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00064",
+    "title": "全国で「初夏のベランダ夜風」投稿が増加",
+    "summary": "気温が上がり始める5月後半は、夜風やベランダ時間をテーマにした投稿が増加しています。夜空、白カーテン、間接照明を使った“静かな夜の日常”表現が人気です。",
+    "trendElements": [
+      "ベランダ",
+      "夜風",
+      "白カーテン",
+      "間接照明",
+      "静かな夜"
+    ],
+    "useCases": [
+      "夜系MV",
+      "SNS背景",
+      "日常動画",
+      "配信サムネ"
+    ],
+    "promptJa": "初夏の夜、ベランダで涼しい風を感じるシーン。白いカーテンが揺れ、暖かな間接照明が室内を照らしている。キャラクターが夜空を見上げながら静かに過ごしている。映画的で落ち着いた空気感。",
+    "promptEn": "An early-summer night on a balcony with a gentle breeze. White curtains sway softly while warm indirect lighting glows from inside the room. The character quietly gazes at the night sky in a calm cinematic atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "カーテンを大きめに入れる",
+      "照明は暖色中心",
+      "夜空を少し広めに取ると綺麗"
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-05-25 09:00",
     "category": "FA",
     "categoryLabel": "ファッション",
     "id": "FA00041",
