@@ -228,3 +228,7 @@ tarot.png     800 × 450px 以上、16:9推奨
 - 活用ガイド内に「著作物に関わるプロンプトの公開ポリシー」セクションを追加しました。
 - `images/guide/prompt-policy.png` を表示するようにしました。
 - 既存の `data/articles.json` を誤って上書きしないよう、差し替え用ZIPには index.html / style.css / script.js / README.md のみを入れています。
+
+
+## v39 adjustments
+- 記事カードの `New` バッジ表示条件を、現在時刻から24時間以内に変更しました。
