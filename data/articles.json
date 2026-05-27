@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-24 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00057",
+    "title": "全国で「レトロ喫茶」系ビジュアル投稿が人気継続",
+    "summary": "昭和レトロブームの流れから、純喫茶・クリームソーダ・木製内装を使った“レトロ喫茶店”系投稿が増加しています。暖色照明と少し暗めの店内演出が人気です。",
+    "trendElements": [
+      "純喫茶",
+      "クリームソーダ",
+      "昭和レトロ",
+      "木製家具",
+      "暖色照明"
+    ],
+    "useCases": [
+      "レトロ系MV",
+      "日常背景",
+      "配信サムネ",
+      "SNS投稿"
+    ],
+    "promptJa": "昭和レトロな純喫茶店の店内。木製家具と暖色照明に包まれ、テーブルにはクリームソーダが置かれている。キャラクターが静かに窓際へ座っている。少しノスタルジックで映画的な空気感。",
+    "promptEn": "Inside a retro Japanese café filled with warm lighting and wooden furniture. A cream soda rests on the table while the character quietly sits near the window. Nostalgic cinematic atmosphere with classic Showa-era café aesthetics.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "暗くしすぎない方が映える",
+      "ガラス反射を少し入れる",
+      "緑色のクリームソーダが定番演出"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-26 21:00",
     "category": "FA",
     "categoryLabel": "ファッション",
