@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-26 21:00",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00049",
+    "title": "“デジタルシスター” 系ゴシックが拡散",
+    "summary": "修道女風シルエットにサイバーアクセやLED装飾を組み合わせた“Digital Sister”系ビジュアルがAI界隈で増加。黒・白・銀を基調にした静かなゴシック感が特徴で、MV風イラストや短尺AI動画との相性が高いと注目されています。",
+    "trendElements": [
+      "ネオゴシック",
+      "修道女モチーフ",
+      "LEDアクセ",
+      "黒白銀配色",
+      "静かなサイバー感"
+    ],
+    "useCases": [
+      "ゴシックMV",
+      "近未来キャラクター制作",
+      "AIショート動画",
+      "ダーク系KV"
+    ],
+    "promptJa": "修道女風シルエットに未来的アクセサリーを組み合わせた少女。黒と白を基調に銀色アクセント、静かなLED発光、薄暗い未来都市背景、映画的ライティング、神秘的で近未来的なゴシック演出。",
+    "promptEn": "A girl styled with a nun-inspired silhouette combined with futuristic accessories. Black and white tones with silver accents, subtle LED glow, dark futuristic city background, cinematic lighting, mysterious neo-gothic cyber atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "発光は弱めの方が現在風",
+      "黒一色より灰色を混ぜると高級感が出る",
+      "背景に霧を入れると世界観が安定する"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-25 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
