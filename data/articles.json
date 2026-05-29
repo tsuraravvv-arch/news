@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-05-29 09:00",
+    "publishedAt": "2026-05-29 23:30",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00083",
+    "title": "5月下旬の紫陽花シーズン本格化",
+    "summary": "全国各地で紫陽花が見頃へ向かう時期となり、寺院・公園・庭園で初夏の花景色を楽しむ人が増えています。SNSでも紫陽花をテーマにした季節投稿が急増しています。",
+    "trendElements": [
+      "紫陽花",
+      "初夏",
+      "花景色",
+      "寺院",
+      "雨上がり"
+    ],
+    "useCases": [
+      "季節投稿",
+      "観光紹介",
+      "背景イラスト",
+      "和風動画"
+    ],
+    "promptJa": "雨上がりの寺院参道に咲く色鮮やかな紫陽花。石畳が少し濡れて光を反射し、静かな初夏の空気が漂っている。映画的で美しい日本の季節風景。",
+    "promptEn": "Colorful hydrangeas bloom along a temple pathway after the rain. Wet stone pavement reflects soft light while a peaceful early-summer atmosphere fills the scene. Beautiful cinematic Japanese seasonal scenery.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "青紫系の花を中心にする",
+      "石畳の反射を加える",
+      "曇天気味の光が映える"
+    ],
+    "sourceUrl": "https://www.japan.travel/"
+  },
+  {
     "datetime": "2026-05-29 08:46",
     "publishedAt": "2026-05-29 22:56",
     "category": "AI",
