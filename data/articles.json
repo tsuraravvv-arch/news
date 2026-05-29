@@ -1,5 +1,35 @@
 [
   {
+    "datetime": "2026-05-27 09:00",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00072",
+    "title": "全国で「夕方の公園ベンチ」系投稿が人気継続",
+    "summary": "夕暮れの公園ベンチを舞台にした“静かな青春感”のある投稿がSNSで継続的に人気です。オレンジ色の夕日や木陰を活かしたノスタルジックな演出が注目されています。",
+    "trendElements": [
+      "公園ベンチ",
+      "夕焼け",
+      "木陰",
+      "青春感",
+      "ノスタルジー"
+    ],
+    "useCases": [
+      "青春MV",
+      "ショート動画",
+      "エモ投稿",
+      "背景素材"
+    ],
+    "promptJa": "夕焼けに染まる公園。木陰のベンチに座るキャラクターが静かに空を見上げている。暖かな夕日、揺れる木々、少しノスタルジックな空気感。映画の青春シーンのような雰囲気。",
+    "promptEn": "A park glowing beneath a warm sunset sky. The character quietly sits on a bench beneath the trees while looking upward. Gentle evening light, swaying leaves, and nostalgic cinematic youth atmosphere.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "夕日は暖色を強めにする",
+      "木漏れ日を少し残す",
+      "人物を小さめにすると風景映えする"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-24 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
