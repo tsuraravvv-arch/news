@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-05-29 08:46",
+    "publishedAt": "2026-05-29 22:56",
+    "category": "AI",
+    "categoryLabel": "AI生成関連",
+    "id": "AI00196",
+    "title": "ChatGPT Images系で「未完成部分を意図的に残す」表現が拡散",
+    "summary": "ChatGPT Image利用者の共有プロンプト群では、「一部だけスケッチ状態」「完成と未完成が共存する画面」を作る手法が注目されています。人物や背景の一部のみを未完成にすることで、アート性や物語性を強く演出できるとして拡散しています。",
+    "trendElements": [
+      "未完成表現",
+      "スケッチ融合",
+      "アートポスター風",
+      "物語演出",
+      "ChatGPT Images"
+    ],
+    "useCases": [
+      "AIアート投稿",
+      "MVジャケット",
+      "コンセプトビジュアル",
+      "展示作品"
+    ],
+    "promptJa": "夜の都市に立つ少女。顔や手は超高精細な実写描写だが、服や背景の一部は鉛筆スケッチの未完成状態として残されている。完成と未完成が自然に融合した映画ポスター風ビジュアル。",
+    "promptEn": "A girl standing in a city at night. Her face and hands are rendered in ultra-detailed realism, while parts of her clothes and background remain unfinished pencil sketches. A cinematic poster blending completion and incompletion.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "完成部分と未完成部分を明確に分離する",
+      "輪郭線を残す",
+      "背景を描き込み過ぎない"
+    ],
+    "sourceUrl": "https://community.openai.com/"
+  },
+  {
     "datetime": "2026-05-27 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
