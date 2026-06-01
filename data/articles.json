@@ -1,5 +1,70 @@
 [
   {
+    "datetime": "2026-06-02 00:00",
+    "publishedAt": "2026-06-02 00:19",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "type": "OR",
+    "typeLabel": "オリジナル",
+    "id": "EV10001",
+    "title": "あなたに似合う「バラ」の品種 プロンプト",
+    "summary": "キャラクター画像を1枚添付すると、そのキャラクターに似合う実在の薔薇品種を選定し、薔薇と一緒に写った植物図鑑風・デザインシート風イラストを作れるオリジナルプロンプトです。好きな薔薇の品種がある場合は、品種指定欄に名前を入れることで指定品種を優先できます。",
+    "trendElements": [
+      "ローズの日",
+      "薔薇",
+      "花景色",
+      "キャラクター診断",
+      "水彩ポスター"
+    ],
+    "useCases": [
+      "6月2日のローズの日投稿",
+      "キャラクター紹介画像",
+      "SNSアイコン・ヘッダー素材",
+      "植物図鑑風ポスター",
+      "記念日イラスト"
+    ],
+    "promptJa": "【薔薇の品種指定欄】\n品種名【　】 \n\n※上記【　】内に実在する薔薇の品種名が記入されている場合は、キャラクターに合う品種を新しく選定せず、記入された品種を優先して使用してください。\n※記入された品種名が架空の名称、誤記、または検索・確認できない名称である場合は、その指定を無効として扱い、未記入の場合と同じように、キャラクターに合う実在の薔薇品種を選定してください。\n※品種名が未記入の場合は、キャラクターの色、衣装、性格、雰囲気、物語性から相性が良いと想像される実在の薔薇品種を選定してください。\n\n添付されたキャラクター画像を参照し、そのキャラクターと薔薇が一緒に写っている、1枚の完成イラストを作成してください。\n\n\n【キャラクターについて】 \n・添付画像のキャラクターの外見的アイデンティティを保ってください。\n・髪型、髪色、目の色、顔立ち、衣装の印象、体型、雰囲気はできるだけ維持してください。\n・薔薇やイラスト全体の雰囲気に合わせて、自然で魅力的なポーズにしてください。\n・添付イラストがバストアップの場合は、無理に全身化せず上半身中心の構図として自然にまとめてください。\n\n【薔薇の品種について】\n・薔薇の品種は実在する品種から選んでください。\n・最上部の【薔薇の品種指定欄】に実在する品種名が記入されている場合は、その品種を使用してください。\n・品種指定欄が未記入、または記入された品種が架空・不明・確認不能な場合は、キャラクターと\"相性が良い\"と感じられる実在品種を選定してください。\n・\"相性の良い\"とは、必ずしもキャラクターと同系色という意ではなく、キャラクターの色、衣装、性格、雰囲気、物語性とかみ合っていれば、補色（対照的）な色の薔薇でも構いません。\n・薔薇の本数やボリュームは、キャラクターの雰囲気から自然に想像できる量にしてください。\n・華やかなキャラクターなら多め、静かなキャラクターなら控えめ、上品なキャラクターなら整った量など、雰囲気に合わせて調整してください。\n・花弁とキャラクターのサイズ比は可能な限り実際に近づけてください\n\n\n【薔薇の形状について】\n・登場する薔薇の形状は、以下の３つからランダムに１つ選んでください。\n1. 地植え\n2. 鉢植え\n3. 花束\n\n・選んだ形状が画面上で明確に分かるように描いてください。\n・同じ形式に偏らないよう、地植え・鉢植え・花束のいずれも自然に選択候補として扱ってください。\n\n【背景について】\n・基本は白地背景としてください。\n・ただし、薔薇の形状によって背景の扱いを変えてください。\n・地植えの場合：白地背景を基調にしつつ、足元の地面、土、石畳、小道、ローズガーデンの一部などを描いてください。\n　ただし、背景全体を濃い風景にせず、白地の余白を残した上品なローズガーデン風にしてください。\n・鉢植えの場合： 背景は白一色にしてください。\n　鉢、足元の影、軽い装飾程度でまとめてください。\n・花束の場合：背景は白一色にしてください。キャラクターが花束を持つ、抱える、差し出すなど、花束として分かりやすい構図にしてください。\n\n【文字情報について 】\n・イラスト内に、選定または指定された薔薇の名称と特徴を記載してください。\n・文字は手書き風にしてください。\n・文字は読みやすく、イラストの雰囲気に合うように配置してください。\n・以下の情報を、短く分かりやすく記載してください。 \n・薔薇の品種名\n・日本語名またはカタカナ表記\n・花色\n・咲き方\n・性質（木立性、つる性、フロリバンダ、ハイブリッド・ティー、返り咲き、四季咲きなど）\n・香り\n・キャラクターとの相性を表す短いコメント \n\n【複数キャラクターの場合】\n・添付画像に複数のキャラクターが写っている場合は、最大2種類まで薔薇の品種を選定してください。\n・品種指定欄に1種類のみ記入されている場合は、その品種を主役の薔薇として扱い、必要に応じて全キャラクターに共通する薔薇として使用してください。\n・品種指定欄に2種類まで実在品種が記入されている場合は、それぞれの品種をキャラクターに対応させて使用してください。\n・2種類の薔薇を使う場合は、どちらの薔薇がどのキャラクターに対応しているか分かるように配置してください。\n\n【画風】\n・水彩画の雰囲気を70％くらい取り入れた、アニメ的な画風にしてください。\n・透明感のある色使い、柔らかいにじみ、繊細な線、淡い影を重視してください。\n・白地背景に合う、上品で軽やかな仕上がりにしてください。\n・キャラクター、薔薇、文字情報が1枚のデザインシートや植物図鑑風ポスターのように美しくまとまる構図にしてください。",
+    "promptEn": "[Rose Variety Specification Field]\nRose variety name: [　]\n\nIf a real rose variety name is written inside the brackets above, use that variety as the priority, without selecting a new rose variety to match the character.\n\nIf the written variety name is fictional, misspelled, or cannot be confirmed through search or verification, treat the specification as invalid and handle it the same way as if the field were left blank.\n\nIf the rose variety field is blank, select a real existing rose variety that feels well-matched to the character, based on the character’s colors, outfit, personality, atmosphere, and narrative impression.\n\nCreate one finished illustration featuring the attached character and roses together.\n\n[About the Character]\n\n* Refer to the attached character image and preserve the character’s visual identity.\n* Keep the hairstyle, hair color, eye color, facial features, outfit impression, body type, and overall atmosphere as faithfully as possible.\n* Choose a natural and appealing pose that matches the roses and the overall mood of the illustration.\n* If the attached illustration is a bust-up image, do not force a full-body composition. Instead, create a natural upper-body-centered composition.\n\n[About the Rose Variety]\n\n* The rose variety must be selected from real existing rose varieties.\n* If a real variety name is written in the [Rose Variety Specification Field] at the top, use that variety.\n* If the field is blank, or if the written variety is fictional, unknown, or impossible to verify, select a real rose variety that feels compatible with the character.\n* “Compatible” does not necessarily mean the same color as the character. A complementary or contrasting rose color is also acceptable if it harmonizes with the character’s colors, outfit, personality, atmosphere, or story.\n* Adjust the number and volume of roses naturally according to the character’s atmosphere.\n* For a glamorous character, use more roses. For a quiet character, use fewer roses. For an elegant character, use a refined and well-arranged amount.\n* Keep the size ratio between the rose petals and the character as close to real-life proportions as possible.\n\n[Rose Form.]\nRandomly choose one of the following three rose forms:\n\n1. Garden-planted roses\n2. Potted roses\n3. Rose bouquet\n\nMake sure the chosen form is clearly recognizable in the image.\n\nDo not bias the selection toward only one form. Treat garden-planted roses, potted roses, and rose bouquets as equally natural options.\n\n[Background]\n\n* The basic background should be white.\n* However, adjust the background treatment depending on the chosen rose form.\n\nIf garden-planted roses are chosen:\nUse a white background as the base, but include the ground around the feet, soil, stone pavement, a small path, or part of a rose garden. Do not turn the entire background into a dense landscape. Leave elegant white space and create a refined rose garden atmosphere.\n\nIf potted roses are chosen:\nUse a pure white background. Keep the composition simple with the pot, a shadow at the feet, and only light decorative elements.\n\nIf a rose bouquet is chosen:\nUse a pure white background. Make the bouquet clearly recognizable by having the character hold it, embrace it, or offer it forward.\n\n[Text Information.]\nInclude the selected or specified rose name and its characteristics within the illustration.\n\nThe text should have a handwritten style.\n\nMake the text readable and place it in a way that matches the mood of the illustration.\n\nWrite the following information briefly and clearly:\n\n* Rose variety name\n* Japanese name or katakana transcription\n* Flower color\n* Bloom form\n* Growth habit or type, such as shrub rose, climbing rose, floribunda, hybrid tea, repeat-blooming, or continuous-blooming\n* Fragrance\n* A short comment describing the compatibility between the rose and the character\n\n[If There Are Multiple Characters.]\n\n* If the attached image contains multiple characters, select up to two rose varieties.\n* If only one variety is written in the specification field, treat that variety as the main rose and use it as a shared rose for all characters if appropriate.\n* If up to two real rose varieties are written in the specification field, assign each variety to the corresponding character.\n* If using two rose varieties, arrange them so it is clear which rose corresponds to which character.\n\n[Art Style]\n\n* Use an anime-style illustration with about 70% watercolor influence.\n* Emphasize transparent colors, soft bleeding effects, delicate linework, and pale shadows.\n* Create an elegant, light, and refined finish that suits a white background.\n* Compose the character, roses, and text information beautifully in a single image, like a design sheet or a botanical encyclopedia-style poster.\\",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "品種指定欄を空欄にすると、キャラクターの色や雰囲気から相性の良い実在品種を選ぶ構成です",
+      "好きな薔薇の品種がある場合は、品種名を【】内に入れると指定品種を優先できます",
+      "白地背景・水彩寄りの画風にすると、植物図鑑風ポスターとしてまとまりやすいです"
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-05-29 21:00",
+    "publishedAt": "2026-05-30 11:11",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00068",
+    "title": "“ガラス越し雨粒構図” が感情系MV演出で拡大",
+    "summary": "窓ガラスに付いた雨粒を前景に配置し、その奥に人物や夜景を置く構図が増加。AI動画では静止画でも動きを感じやすく、感傷的な雰囲気や映画的演出を作りやすいことから人気を集めています。",
+    "trendElements": [
+      "雨粒前景",
+      "ガラス越し視点",
+      "夜景ボケ",
+      "感情演出",
+      "シネマティック"
+    ],
+    "useCases": [
+      "青春MV",
+      "AIショート動画",
+      "感傷系イラスト",
+      "SNSサムネイル"
+    ],
+    "promptJa": "雨粒が付いたガラス越しに人物を映したシネマティックな夜景。ネオンのボケ光、静かな都市背景、柔らかな被写界深度、感情的な映画ワンシーンの雰囲気。",
+    "promptEn": "A cinematic night scene viewed through a rain-covered glass window. Neon bokeh lights, quiet urban background, soft depth of field, emotional movie-like atmosphere.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "前景の雨粒を大きめにすると映える",
+      "背景は強くぼかすのが主流",
+      "青系ネオンとの相性が良い"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-05-29 09:00",
     "publishedAt": "2026-05-29 23:30",
     "category": "EV",
