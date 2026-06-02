@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-06-02 09:00",
+    "publishedAt": "2026-06-03 03:22",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00105",
+    "title": "梅雨入り直前の傘・レイングッズ需要増加",
+    "summary": "梅雨入りを控え、傘やレインコートなどのレイングッズが注目される時期です。透明傘や雨の日コーデをテーマにした投稿が増加しています。",
+    "trendElements": [
+      "透明傘",
+      "雨の日コーデ",
+      "レインコート",
+      "梅雨準備",
+      "街歩き"
+    ],
+    "useCases": [
+      "ファッション投稿",
+      "広告素材",
+      "MV背景",
+      "SNS企画"
+    ],
+    "promptJa": "小雨が降る街角。透明傘を差した人物が濡れた歩道を歩いている。街灯の光が路面に反射し、しっとりとした梅雨前の空気感が漂う。",
+    "promptEn": "A person walks through a city street under a transparent umbrella during a light rain. Streetlights reflect on the wet pavement, creating a calm pre-rainy-season atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "路面反射を強めにする",
+      "透明傘に雨粒を付ける",
+      "青灰色ベースの色調が映える"
+    ],
+    "sourceUrl": "https://www.jma.go.jp/"
+  },
+  {
     "datetime": "2026-06-02 00:00",
     "publishedAt": "2026-06-02 00:19",
     "category": "EV",
