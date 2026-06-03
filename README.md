@@ -232,3 +232,17 @@ tarot.png     800 × 450px 以上、16:9推奨
 
 ## v39 adjustments
 - 記事カードの `New` バッジ表示条件を、現在時刻から24時間以内に変更しました。
+
+
+## v43 adjustments
+- `New` バッジの判定基準を記事本文の `datetime` ではなく、公開・追加日時に近い `publishedAt` 優先に変更しました。
+- 判定順は `publishedAt` → `uploadedAt` → `createdAt` → `datetime` です。
+- しきい値は引き続き24時間以内です。
+- 今後の記事には `publishedAt: "YYYY-MM-DD HH:mm"` を入れる運用にします。
+
+
+## v50 adjustments
+- 記事一覧の上に「おすすめプロンプト」セクションを追加しました。
+- `featured: true` の記事を最大6件まで固定表示します。
+- カテゴリフィルターに「おすすめ」を追加しました。
+- EV10001をおすすめ記事として登録する統合版 `articles.json` も作成しました。
