@@ -246,3 +246,22 @@ tarot.png     800 × 450px 以上、16:9推奨
 - `featured: true` の記事を最大6件まで固定表示します。
 - カテゴリフィルターに「おすすめ」を追加しました。
 - EV10001をおすすめ記事として登録する統合版 `articles.json` も作成しました。
+
+
+## v52 featured icon image support
+- おすすめプロンプトの左側アイコン枠を、画像差し替え対応にしました。
+- 画像は `images/featured/<記事ID>.png` に配置してください。
+- 推奨サイズは 512x512 の正方形 PNG です。
+- 画像が未配置のときは、従来どおりグラデーションのフォールバック表示になります。
+
+例:
+- `images/featured/EV10001.png`
+- `images/featured/EV00083.png`
+
+
+## v53 featured common icon
+- おすすめプロンプトのアイコンを、記事ID別ではなく共通画像に変更しました。
+- 共通画像は `images/featured/featured.png` に配置してください。
+- 推奨サイズは 512x512 の正方形 PNG です。
+- 個別に変えたい記事がある場合だけ、記事JSONに `featuredIcon` を追加すると個別画像を指定できます。
+  例: `"featuredIcon": "images/featured/EV10001.png"`
