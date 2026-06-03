@@ -48,10 +48,23 @@
       </button>
     </section>
 
+
+    <section class="featured-section" aria-label="おすすめプロンプト">
+      <div class="featured-head">
+        <div>
+          <p class="section-kicker">Featured Prompts</p>
+          <h2>おすすめプロンプト</h2>
+          <p>評判が良かったもの、長く使いやすいものをここに固定表示します。</p>
+        </div>
+      </div>
+      <div class="featured-grid" id="featuredGrid"></div>
+    </section>
+
     <section class="toolbar" aria-label="記事フィルター">
       <div class="filter-buttons" role="tablist" aria-label="カテゴリ選択">
         <button class="filter-button is-active" data-filter="ALL">すべて</button>
         <button class="filter-button" data-filter="ORIGINAL">オリジナル</button>
+        <button class="filter-button" data-filter="FEATURED">おすすめ</button>
         <button class="filter-button" data-filter="AI">AI生成関連</button>
         <button class="filter-button" data-filter="FA">ファッション</button>
         <button class="filter-button" data-filter="EV">季節・イベント</button>
