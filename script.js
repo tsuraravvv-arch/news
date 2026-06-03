@@ -6,6 +6,7 @@ const categoryNames = {
   TO: 'ツール情報（予約）'
 };
 
+const featuredGrid = document.getElementById('featuredGrid');
 const cardsGrid = document.getElementById('cardsGrid');
 const detailPanel = document.getElementById('detailPanel');
 const toast = document.getElementById('toast');
@@ -36,6 +37,7 @@ async function init() {
   try {
     const response = await fetch('data/articles.json');
     articles = await response.json();
+    renderFeaturedCards();
     renderCards();
   } catch (error) {
     cardsGrid.innerHTML = '<p class="card-body">記事データを読み込めませんでした。ローカルで確認する場合は、Live Serverなどの簡易サーバー経由で開いてください。</p>';
@@ -70,8 +72,14 @@ function parseArticleDate(value = '') {
   return new Date(Number(y), Number(m) - 1, Number(d), Number(hh), Number(mm));
 }
 
+
+function isFeaturedArticle(article) {
+  return article.featured === true || article.pickup === 'featured' || article.pickup === 'hallOfFame';
+}
+
 function isNewArticle(article) {
-  const articleDate = parseArticleDate(article.datetime);
+  const basis = article.publishedAt || article.uploadedAt || article.createdAt || article.datetime;
+  const articleDate = parseArticleDate(basis);
   if (!articleDate) return false;
   const diff = Date.now() - articleDate.getTime();
   const oneDay = 24 * 60 * 60 * 1000;
@@ -91,6 +99,40 @@ function getDetailLabel(article) {
   return isOriginalArticle(article) ? `${category} / ${article.typeLabel || 'オリジナル'}` : category;
 }
 
+
+function renderFeaturedCards() {
+  if (!featuredGrid) return;
+
+  const featured = articles.filter(isFeaturedArticle).slice(0, 6);
+
+  if (!featured.length) {
+    featuredGrid.innerHTML = '<p class="featured-empty">おすすめプロンプトはまだ登録されていません。</p>';
+    return;
+  }
+
+  featuredGrid.innerHTML = featured.map(article => {
+    const label = article.featuredLabel || 'おすすめ';
+    const reason = article.featuredReason || article.summary || '';
+    const visual = escapeHtml(getVisualCategory(article));
+    return `
+      <button class="featured-card" type="button" data-id="${escapeHtml(article.id)}">
+        <div class="featured-visual ${visual}">
+          <span>${escapeHtml(label)}</span>
+          <strong>${escapeHtml(article.id)}</strong>
+        </div>
+        <div class="featured-copy">
+          <h3>${escapeHtml(article.title)}</h3>
+          <p>${escapeHtml(reason)}</p>
+        </div>
+      </button>
+    `;
+  }).join('');
+
+  document.querySelectorAll('.featured-card').forEach(card => {
+    card.addEventListener('click', () => selectArticle(card.dataset.id));
+  });
+}
+
 function renderCards() {
   const normalizedQuery = normalizeText(searchQuery);
   const filtered = articles.filter(article => {
@@ -98,7 +140,9 @@ function renderCards() {
       ? true
       : activeFilter === 'ORIGINAL'
         ? isOriginalArticle(article)
-        : article.category === activeFilter;
+        : activeFilter === 'FEATURED'
+          ? isFeaturedArticle(article)
+          : article.category === activeFilter;
 
     const matchesSearch = !normalizedQuery || articleSearchText(article).includes(normalizedQuery);
     return matchesFilter && matchesSearch;
@@ -141,6 +185,7 @@ function selectArticle(id) {
   const article = articles.find(item => item.id === id);
   if (!article) return;
   selectedId = id;
+  renderFeaturedCards();
   renderCards();
   renderDetail(article);
   if (window.innerWidth < 980) {
@@ -418,7 +463,7 @@ document.addEventListener('keydown', event => {
 
 function updateFilterButtonClasses() {
   filterButtons.forEach(button => {
-    button.classList.remove('filter-ai', 'filter-fa', 'filter-ev', 'filter-original', 'filter-all');
+    button.classList.remove('filter-ai', 'filter-fa', 'filter-ev', 'filter-original', 'filter-featured', 'filter-all');
     button.classList.add(`filter-${button.dataset.filter.toLowerCase()}`);
   });
 }
