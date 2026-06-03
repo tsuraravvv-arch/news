@@ -90,6 +90,11 @@ function isOriginalArticle(article) {
   return article.type === 'OR' || (article.trendElements || []).some(tag => normalizeText(tag) === 'オリジナル');
 }
 
+
+function getFeaturedIconPath(article) {
+  return article.featuredIcon || 'images/featured/featured.png';
+}
+
 function getVisualCategory(article) {
   return isOriginalArticle(article) ? 'OR' : article.category;
 }
@@ -114,11 +119,21 @@ function renderFeaturedCards() {
     const label = article.featuredLabel || 'おすすめ';
     const reason = article.featuredReason || article.summary || '';
     const visual = escapeHtml(getVisualCategory(article));
+    const iconPath = getFeaturedIconPath(article);
     return `
       <button class="featured-card" type="button" data-id="${escapeHtml(article.id)}">
         <div class="featured-visual ${visual}">
-          <span>${escapeHtml(label)}</span>
-          <strong>${escapeHtml(article.id)}</strong>
+          <img
+            class="featured-icon"
+            src="${escapeHtml(iconPath)}"
+            alt="${escapeHtml(article.title)} のおすすめアイコン"
+            loading="lazy"
+            onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"
+          >
+          <div class="featured-fallback">
+            <span>${escapeHtml(label)}</span>
+            <strong>${escapeHtml(article.id)}</strong>
+          </div>
         </div>
         <div class="featured-copy">
           <h3>${escapeHtml(article.title)}</h3>
