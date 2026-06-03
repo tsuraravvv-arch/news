@@ -1,5 +1,37 @@
 [
   {
+    "datetime": "2026-06-03 21:00",
+    "publishedAt": "2026-06-03 23:07",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00110",
+    "title": "“天気アプリUIオーバーレイ” がライフスタイル投稿で増加",
+    "summary": "スマートフォンの天気アプリ風UIを画像や動画へ重ねる演出が増加。気温や天候情報を世界観演出として利用できるため、日常投稿やMV風ビジュアルで活用例が伸びています。",
+    "trendElements": [
+      "天気アプリUI",
+      "ライフログ演出",
+      "スマホデザイン",
+      "日常投稿",
+      "SNS映え"
+    ],
+    "useCases": [
+      "SNS投稿",
+      "AI動画演出",
+      "MV導入カット",
+      "キャラクター紹介"
+    ],
+    "promptJa": "【地域入力】\n地域名【　】\n\n※上記【　】内に地域名・都市名・地名を入力してください。\n※地域名が入力されている場合は、その土地の現在の日時、季節、気温、天候に合う情報を想定し、天気アプリ風UIの表示内容へ反映してください。\n※地域名が未入力の場合は、特定の土地名を出さず、現在の季節感に合う架空の天気アプリUIとして自然に作成してください。\n\n天気アプリ風UIが重なったシネマティックな都市ビジュアル。\n入力された地域の現在日時・気温・天候を反映した、スマートフォンの天気アプリ風オーバーレイを画面上に配置してください。\n\nUIには、地域名、現在時刻、気温、天候アイコン、湿度や風速などの簡単な情報を含めてください。\n半透明のインターフェース、静かな街並み、柔らかな光、物語性のあるSNSデザイン。\n背景は、入力された地域の雰囲気に合う都市・住宅街・駅前・海沿い・公園などから自然に選び、日常写真やMV導入カットのように仕上げてください。\n\nUIは画面を覆いすぎず、半透明で読みやすいデザインにしてください。\n気温表示はやや大きめにし、スマートフォン画面のスクリーンショットやライフログ投稿のような雰囲気を出してください。",
+    "promptEn": "[Location Input]\nLocation name: [　]\n\nEnter a region, city, or place name inside the brackets above.\n\nIf a location name is provided, reflect the current date, time, season, temperature, and weather of that place in the weather-app-style UI overlay.\n\nIf the location field is blank, do not show a specific place name. Instead, create a natural fictional weather-app UI that matches the current seasonal atmosphere.\n\nCreate a cinematic urban visual featuring a weather-app-style UI overlay.\nPlace a smartphone weather-app-style overlay on the image, reflecting the current time, temperature, and weather of the entered location.\n\nThe UI should include the location name, current time, temperature, weather icon, and simple details such as humidity or wind speed.\nUse semi-transparent interface elements, quiet everyday scenery, soft lighting, and storytelling-focused social-media design.\n\nChoose the background naturally based on the entered location, such as a city street, residential area, station front, seaside, park, or other suitable everyday scene.\nThe final image should feel like a lifestyle post or an opening shot for a music video.\n\nKeep the UI semi-transparent, readable, and not too dominant.\nMake the temperature display slightly large, and create the atmosphere of a smartphone screenshot or lifelog-style social media post.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "地域入力欄に地名を入れると、その土地の日時・気温・天候を反映したUI演出として使いやすい",
+      "気温表示は大きめが人気",
+      "UIは半透明が現在風",
+      "日常写真やライフログ投稿との相性が高い"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-06-02 09:00",
     "publishedAt": "2026-06-03 03:22",
     "category": "EV",
