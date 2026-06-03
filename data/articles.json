@@ -159,7 +159,10 @@
       "石畳の反射を加える",
       "曇天気味の光が映える"
     ],
-    "sourceUrl": "https://www.japan.travel/"
+    "sourceUrl": "https://www.japan.travel/",
+    "featured": true,
+    "featuredLabel": "おすすめ",
+    "featuredReason": "紫陽花・寺院・雨上がりを組み合わせた、初夏の季節投稿や和風背景イラストに使いやすい定番プロンプトです。"
   },
   {
     "datetime": "2026-05-29 08:46",
