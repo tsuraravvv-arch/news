@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-06-04 09:00",
+    "publishedAt": "2026-06-04 18:03",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00114",
+    "title": "“音声波形UIオーバーレイ” がMV風投稿で増加",
+    "summary": "音声の波形グラフをビジュアルへ重ねる演出が増加。音楽やボイスの存在を直感的に伝えられるため、AI動画、歌ってみた、キャラクターボイス紹介投稿で利用例が伸びています。",
+    "trendElements": [
+      "音声波形",
+      "オーディオUI",
+      "MV演出",
+      "音楽投稿",
+      "SNSデザイン"
+    ],
+    "useCases": [
+      "歌ってみた動画",
+      "AI動画演出",
+      "キャラクターボイス紹介",
+      "MVサムネイル"
+    ],
+    "promptJa": "音声波形UIが重なったシネマティックな人物ビジュアル。半透明のオーディオグラフ、夜の都市背景、感情的な空気感、映画的ライティング、MV風デザイン。",
+    "promptEn": "A cinematic character visual overlaid with audio waveform UI. Semi-transparent audio graphs, nighttime city backdrop, emotional atmosphere, cinematic lighting, and music-video-inspired aesthetics.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "波形は中央配置が人気",
+      "色数は少なめが今風",
+      "音楽系投稿との相性が高い"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-06-03 21:00",
     "publishedAt": "2026-06-03 23:07",
     "category": "FA",
