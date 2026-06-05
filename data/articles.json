@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-06-05 09:00",
+    "publishedAt": "2026-06-05 19:59",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00118",
+    "title": "芒種（ぼうしゅ）直前の初夏シーズン",
+    "summary": "二十四節気の「芒種」を目前に控え、田植えや初夏の農村風景が各地で見られる時期です。緑豊かな田園風景が季節感を象徴しています。",
+    "trendElements": [
+      "田園風景",
+      "田植え",
+      "初夏",
+      "農村",
+      "日本の原風景"
+    ],
+    "useCases": [
+      "季節投稿",
+      "観光紹介",
+      "背景素材",
+      "地域PR"
+    ],
+    "promptJa": "初夏の田園地帯。青空の下に水を張った田んぼが広がり、遠くには山並みが見える。爽やかな風と豊かな自然を感じる日本の風景。",
+    "promptEn": "An early-summer countryside landscape with water-filled rice fields stretching beneath a blue sky. Mountains rise in the distance, creating a refreshing and nostalgic Japanese rural scene.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "空の映り込みを活用する",
+      "広角構図が映える",
+      "緑と青のコントラストを意識する"
+    ],
+    "sourceUrl": "https://www.maff.go.jp/"
+  },
+  {
     "datetime": "2026-06-04 09:00",
     "publishedAt": "2026-06-04 18:03",
     "category": "FA",
