@@ -1,6 +1,69 @@
 [
   {
     "datetime": "2026-06-05 09:00",
+    "publishedAt": "2026-06-06 02:44",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00119",
+    "title": "全国で紫陽花観賞シーズン最盛期へ",
+    "summary": "全国の寺院や公園で紫陽花が見頃を迎えつつあります。梅雨の風景を代表する花として、写真撮影や観光スポット巡りが人気を集めています。",
+    "trendElements": [
+      "紫陽花",
+      "寺院",
+      "梅雨",
+      "花景色",
+      "雨上がり"
+    ],
+    "useCases": [
+      "観光紹介",
+      "季節投稿",
+      "和風MV",
+      "背景イラスト"
+    ],
+    "promptJa": "雨上がりの日本庭園。青や紫の紫陽花が咲き誇り、石畳には柔らかな光が反射している。静かで美しい初夏の情景。",
+    "promptEn": "A Japanese garden after the rain, filled with blooming blue and purple hydrangeas. Soft light reflects on wet stone paths, creating a peaceful early-summer atmosphere.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "水滴表現を加える",
+      "石畳の反射を活かす",
+      "青紫系の配色が季節感を強める"
+    ],
+    "sourceUrl": "https://www.japan.travel/"
+  },
+  {
+    "datetime": "2026-06-05 09:00",
+    "publishedAt": "2026-06-05 20:32",
+    "category": "EV",
+    "categoryLabel": "季節・イベント",
+    "id": "EV00120",
+    "title": "梅雨入り直前のホタル観賞シーズン",
+    "summary": "6月上旬は各地でホタル観賞シーズンが始まる時期です。清流や里山で幻想的な光景が見られ、初夏ならではの風物詩として人気があります。",
+    "trendElements": [
+      "ホタル",
+      "里山",
+      "清流",
+      "幻想風景",
+      "初夏の夜"
+    ],
+    "useCases": [
+      "幻想イラスト",
+      "観光紹介",
+      "MV背景",
+      "自然紹介"
+    ],
+    "promptJa": "初夏の夜、川にかかった橋の上からホタルを見学している場面。夜の清流沿いを無数のホタルが舞い、静かな森に淡い緑の光が浮かび上がっている。橋の欄干、川面の反射、里山の暗いシルエットを入れ、幻想的で神秘的な雰囲気の初夏の夜を描く。",
+    "promptEn": "An early-summer night scene viewed from a bridge over a quiet stream, where countless fireflies dance above the water. Soft green lights glow in the silent forest, with the bridge railing, reflections on the river surface, and dark satoyama silhouettes creating a magical and mysterious atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "橋の上から見学する構図にすると奥行きが出る",
+      "暗部を残して光を際立たせる",
+      "緑系の淡い発光を加える",
+      "川面の反射を入れると幻想感が強まる"
+    ],
+    "sourceUrl": "https://www.japan.travel/"
+  },
+  {
+    "datetime": "2026-06-05 09:00",
     "publishedAt": "2026-06-05 19:59",
     "category": "EV",
     "categoryLabel": "季節・イベント",
