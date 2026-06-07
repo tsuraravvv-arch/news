@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-06-07 09:00",
+    "publishedAt": "2026-06-07 15:32",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00135",
+    "title": "“メカニカルロリータ” が近未来キャラクターデザインで増加",
+    "summary": "クラシカルなロリータファッションに、精密機械や時計部品をモチーフとした装飾を組み合わせるスタイルが増加。スチームパンクほど重厚ではなく、洗練された近未来感を持つため、AIイラストやVTuber衣装で利用例が伸びています。",
+    "trendElements": [
+      "メカニカルロリータ",
+      "時計モチーフ",
+      "シルバー装飾",
+      "近未来ゴシック",
+      "クラシカルデザイン"
+    ],
+    "useCases": [
+      "AIキャラクターデザイン",
+      "VTuber衣装",
+      "ゲーム立ち絵",
+      "MVビジュアル"
+    ],
+    "promptJa": "クラシカルなロリータファッションに精密機械装飾を組み合わせた近未来スタイル。銀色の歯車モチーフ、繊細なレース、落ち着いた都市背景、映画的ライティング、幻想的で洗練された雰囲気。",
+    "promptEn": "A futuristic style blending classic lolita fashion with intricate mechanical ornaments. Silver gear motifs, delicate lace, calm urban scenery, cinematic lighting, and an elegant fantasy atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "歯車は小型で繊細な表現が人気",
+      "黒銀系配色との相性が高い",
+      "過度なスチームパンク化は減少傾向"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-06-05 09:00",
     "publishedAt": "2026-06-06 02:44",
     "category": "EV",
