@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-06-08 09:00",
+    "publishedAt": "2026-06-08 20:12",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00145",
+    "title": "“ペールサファイア×フロストホワイト” が透明感ビジュアルで増加",
+    "summary": "淡いサファイアブルーと霜のようなホワイトを組み合わせた配色が増加。清潔感と近未来感を同時に演出できるため、AIイラスト、VTuber衣装、SNSバナーで利用例が伸びています。",
+    "trendElements": [
+      "ペールサファイア",
+      "フロストホワイト",
+      "透明感カラー",
+      "近未来デザイン",
+      "韓国ミニマル"
+    ],
+    "useCases": [
+      "AIポスター",
+      "SNSバナー",
+      "VTuber衣装",
+      "MV背景"
+    ],
+    "promptJa": "ペールサファイアとフロストホワイトを基調にした透明感のある未来的ビジュアル。柔らかな光、ガラス質感、静かな都市背景、韓国ミニマルデザイン、洗練された映像表現。",
+    "promptEn": "A futuristic visual themed around pale sapphire and frost white. Soft lighting, glass-like textures, quiet urban scenery, Korean minimalist aesthetics, and refined cinematic presentation.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "白背景との相性が非常に高い",
+      "氷やガラス演出が映える",
+      "プロフィール画像用途にも向く"
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-06-07 09:00",
     "publishedAt": "2026-06-07 15:32",
     "category": "FA",
