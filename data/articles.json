@@ -7,8 +7,8 @@
     "type": "OR",
     "typeLabel": "オリジナル",
     "id": "AI10002",
-    "title": "日本の妖怪診断プロンプト",
-    "summary": "添付画像の人物やキャラクターを、日本に実在する妖怪1種類に例えて、妖怪図鑑風の診断ポスターへ再構成するオリジナルプロンプトです。妖怪名は実在伝承に基づくものに限定し、妖力表示や伝承情報を入れることで、遊びながら妖怪知識も深められます。英語版も用意しているため、海外向けの投稿にも使いやすい構成です。",
+    "title": "日本の妖怪診断プロンプト（Yokai Prompt）",
+    "summary": "添付画像の人物やキャラクターを、日本に実在する妖怪1種類に例えて、妖怪図鑑風の診断ポスターへ再構成するオリジナルプロンプトです。妖怪名は実在伝承に基づくものに限定し、妖力表示や伝承情報を入れることで、遊びながら妖怪知識も深められます。英語版も用意しているため、海外向けの投稿にも使いやすい構成です。\n\nThis original prompt transforms a person or character from an attached image into a yokai diagnosis poster based on one real yokai from Japanese folklore. It keeps the yokai selection grounded in actual legends, adds a Yokai Power rating and folklore-style information, and makes the result easy to enjoy as both a visual diagnosis and a learning entry. An English version is also included, making it suitable for international audiences and social media posts.",
     "trendElements": [
       "夏",
       "怪談",
@@ -34,7 +34,7 @@
     "sourceUrl": "",
     "featured": true,
     "featuredLabel": "おすすめ",
-    "featuredReason": "添付画像から実在する日本妖怪に例えた診断ポスターを作れる、SNS向けに遊びやすいオリジナルプロンプトです。"
+    "featuredReason": "添付画像から実在する日本妖怪に例えた診断ポスターを作れる、SNS向けに遊びやすい日英対応のオリジナルプロンプトです。"
   },
   {
     "datetime": "2026-06-08 09:00",
