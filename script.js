@@ -20,6 +20,8 @@ const imageModalClose = document.getElementById('imageModalClose');
 const filterButtons = document.querySelectorAll('.filter-button');
 
 const languageToggle = document.getElementById('languageToggle');
+const languageSwitch = document.getElementById('languageSwitch');
+const languageSwitchButtons = document.querySelectorAll('.language-switch-button');
 const searchBox = document.getElementById('searchBox');
 const searchInput = document.getElementById('searchInput');
 const resetSearch = document.getElementById('resetSearch');
@@ -141,6 +143,7 @@ const formatDate = (value = '') => value ? `${value} JST` : '';
 function localizeStaticText() {
   document.documentElement.lang = currentLang;
   if (languageToggle) languageToggle.textContent = t('toggle');
+  languageSwitchButtons.forEach(button => button.classList.toggle('is-active', button.dataset.lang === currentLang));
 
   const setText = (selector, value) => {
     const el = document.querySelector(selector);
@@ -722,6 +725,10 @@ if (resetSearch) {
 if (languageToggle) {
   languageToggle.addEventListener('click', () => setLanguage(currentLang === 'ja' ? 'en' : 'ja'));
 }
+
+languageSwitchButtons.forEach(button => {
+  button.addEventListener('click', () => setLanguage(button.dataset.lang));
+});
 
 updateFilterButtonClasses();
 init();
