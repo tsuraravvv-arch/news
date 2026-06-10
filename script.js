@@ -316,7 +316,7 @@ function renderFeaturedCards() {
   const featured = articles.filter(isFeaturedArticle).slice(0, 6);
 
   if (!featured.length) {
-    featuredGrid.innerHTML = '<p class="featured-empty">${currentLang === 'en' ? 'No featured prompts have been registered yet.' : 'おすすめプロンプトはまだ登録されていません。'}</p>';
+    featuredGrid.innerHTML = `<p class="featured-empty">${currentLang === 'en' ? 'No featured prompts have been registered yet.' : 'おすすめプロンプトはまだ登録されていません。'}</p>`;
     return;
   }
 
