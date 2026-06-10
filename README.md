@@ -273,3 +273,9 @@ tarot.png     800 × 450px 以上、16:9推奨
 - 活用ガイド本文を日英切り替え対応にしました。
 - 記事本文は `titleEn`, `summaryEn`, `trendElementsEn`, `useCasesEn`, `notesEn`, `noteTitleEn`, `featuredReasonEn` がある場合のみ英語表示し、未登録の場合は日本語のまま表示します。
 - `data/articles.json` は含めていません。既存の記事データを上書きしないようにしています。
+
+
+## v63 hotfix
+- v62 の `script.js` にあったおすすめプロンプト空表示文のクォート不整合を修正しました。
+- この不整合によりJavaScript全体が停止し、記事一覧が表示されない状態になっていました。
+- `data/articles.json` は含めていません。
