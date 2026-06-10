@@ -265,3 +265,11 @@ tarot.png     800 × 450px 以上、16:9推奨
 - 推奨サイズは 512x512 の正方形 PNG です。
 - 個別に変えたい記事がある場合だけ、記事JSONに `featuredIcon` を追加すると個別画像を指定できます。
   例: `"featuredIcon": "images/featured/EV10001.png"`
+
+
+## v62 adjustments
+- サイトUIに `JP / EN` 切り替えボタンを追加しました。
+- ヘッダー、バナー、検索、カテゴリ、画像検索、記事詳細ラベルなどの固定UIを日英切り替え対応にしました。
+- 活用ガイド本文を日英切り替え対応にしました。
+- 記事本文は `titleEn`, `summaryEn`, `trendElementsEn`, `useCasesEn`, `notesEn`, `noteTitleEn`, `featuredReasonEn` がある場合のみ英語表示し、未登録の場合は日本語のまま表示します。
+- `data/articles.json` は含めていません。既存の記事データを上書きしないようにしています。
