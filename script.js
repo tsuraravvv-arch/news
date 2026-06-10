@@ -19,6 +19,110 @@ const imageModalCaption = document.getElementById('imageModalCaption');
 const imageModalClose = document.getElementById('imageModalClose');
 const filterButtons = document.querySelectorAll('.filter-button');
 
+const languageToggle = document.getElementById('languageToggle');
+const searchBox = document.getElementById('searchBox');
+const searchInput = document.getElementById('searchInput');
+const resetSearch = document.getElementById('resetSearch');
+const imageSearchButton = document.getElementById('imageSearchButton');
+const imageSearchModal = document.getElementById('imageSearchModal');
+const imageSearchGrid = document.getElementById('imageSearchGrid');
+const imageSearchEmpty = document.getElementById('imageSearchEmpty');
+const imageSearchClose = document.getElementById('imageSearchClose');
+
+let currentLang = localStorage.getItem('tsuraraLang') || 'ja';
+
+const uiText = {
+  ja: {
+    toggle: 'EN',
+    lead: 'AI生成・ファッション・季節イベントの情報をAIで自動収集し、創作に使いやすいアイデアとして整理したサイトです。\nSNSの情報を直接転載することはありませんが、類似の情報が載っている可能性があります。',
+    communityTitle: '動画生成AI研究＆交流コミュニティ（DISCODE）',
+    communityDesc: 'わたしが参加するコミュニティ、AI生成の仲間が欲しい方におすすめ',
+    tarotTitle: '氷洞つららの大アルカナ占い',
+    tarotDesc: 'わたしが作成したタロットカード占いです',
+    guideTitle: '活用ガイド',
+    guideDesc: 'プロンプトの使い方と楽しみ方',
+    featuredTitle: 'おすすめプロンプト',
+    featuredDesc: '評判が良かったもの、長く使いやすいものをここに固定表示します。',
+    filters: { ALL: 'すべて', ORIGINAL: 'オリジナル', FEATURED: 'おすすめ', AI: 'AI生成関連', FA: 'ファッション', EV: '季節・イベント' },
+    imageSearch: '画像から検索',
+    searchPlaceholder: 'タイトル・本文を検索',
+    search: '検索',
+    reset: 'リセット',
+    selectKicker: 'Select Article',
+    selectTitle: '記事カードを選択してください',
+    selectDesc: '左側または上部の記事カードをクリックすると、ここに詳細とコピー用プロンプトが表示されます。',
+    imageSearchTitle: '画像から検索',
+    imageSearchDesc: 'アップロード済みの記事画像を一覧表示します。画像をクリックすると、対応する記事を開きます。',
+    imageSearchEmpty: '表示できる記事画像がまだありません。',
+    guideModalTitle: '活用ガイド',
+    guideModalDesc: '掲載されているメモやプロンプトは、完成品をそのまま出すためだけのものではありません。あなたの環境や発想に合わせて、自由に足して楽しむためのアイデア集です。',
+    guideSteps: [
+      ['記事カードを選ぶ', '気になるカテゴリや検索から記事を探し、カードをクリックすると右側に詳細が表示されます。タイトル・概要・使いどころを見て、使いたい方向性を選びます。'],
+      ['プロンプトをコピーする', '日本語プロンプトや英語プロンプトをコピーして、ChatGPT Images、Gemini、Midjourneyなどの画像生成サービスに貼り付けて使います。'],
+      ['キーワードを追加して調整する', '用意されたプロンプトは、SNSで見かけるような「すぐ完成品になる文章」だけではありません。+αの演出や効果を与える素材として使えるものもあります。'],
+      ['環境ごとの変化を楽しむ', '出力結果は、使用する生成環境、モデル、設定、メモリ、添付する立ち絵や三面図によって変わります。違いも含めて創作の幅として楽しんでください。']
+    ],
+    tipsTitle: 'このサイトの使い方のコツ',
+    tips: [
+      'サイト内のサンプルは、立ち絵や三面図にプロンプトを組み合わせて作成されています。',
+      'プロンプトはそのまま使うだけでなく、キャラクター名、衣装、場所、時間帯、光、カメラ演出などを足すと使いやすくなります。',
+      '「構図」「色」「効果」「動画化メモ」など、欲しい要素だけを抜き出して別のプロンプトへ混ぜる使い方もおすすめです。',
+      '同じ文章でも環境によって違う結果になるため、出力の揺れもアイデア探しとして楽しんでください。'
+    ],
+    policyKicker: 'Publishing Policy',
+    policyTitle: '著作物に関わるプロンプトの公開ポリシー',
+    policyDesc: 'このサイトでは、既存作品や既存キャラクターを直接再現するプロンプトは掲載しません。自分のキャラクターやオリジナル要素を中心に、参考・雰囲気・ポーズ・衣装アレンジとして活用できる内容を掲載します。',
+    policyCaption: 'サイト掲載用の公開ポリシー目安'
+  },
+  en: {
+    toggle: 'JP',
+    lead: 'This site collects information about AI generation, fashion, and seasonal events with AI, then organizes it as creative idea notes.\nIt does not directly repost social media content, but similar information may appear.',
+    communityTitle: 'AI Video Generation Research & Exchange Community (Discord)',
+    communityDesc: 'A community I take part in. Recommended for people looking for AI generation friends.',
+    tarotTitle: "Tsurara Hyodo's Major Arcana Reading",
+    tarotDesc: 'A tarot-card reading site I created.',
+    guideTitle: 'Guide',
+    guideDesc: 'How to use and enjoy the prompts',
+    featuredTitle: 'Featured Prompts',
+    featuredDesc: 'Popular and long-lasting prompts are pinned here.',
+    filters: { ALL: 'All', ORIGINAL: 'Original', FEATURED: 'Featured', AI: 'AI Generation', FA: 'Fashion', EV: 'Seasonal Events' },
+    imageSearch: 'Search by Image',
+    searchPlaceholder: 'Search titles and text',
+    search: 'Search',
+    reset: 'Reset',
+    selectKicker: 'Select Article',
+    selectTitle: 'Select an article card',
+    selectDesc: 'Click an article card on the left or above to view details and copy-ready prompts here.',
+    imageSearchTitle: 'Search by Image',
+    imageSearchDesc: 'Browse uploaded article images. Click an image to open the matching article.',
+    imageSearchEmpty: 'No article images are available yet.',
+    guideModalTitle: 'Guide',
+    guideModalDesc: 'The notes and prompts on this site are not only for producing a finished image instantly. They are idea materials you can freely expand, combine, and adapt to your own tools and imagination.',
+    guideSteps: [
+      ['Choose an article card', 'Use categories or search to find an article. Click a card to show the details on the right. Check the title, summary, and use cases to choose a direction.'],
+      ['Copy a prompt', 'Copy the Japanese or English prompt and paste it into image-generation tools such as ChatGPT Images, Gemini, Midjourney, or similar services.'],
+      ['Add keywords and adjust', 'The prompts are not always complete one-shot recipes. Some are designed as extra effects, moods, compositions, or ideas that can be added to your own prompts.'],
+      ['Enjoy differences between environments', 'Results vary depending on the generation tool, model, settings, memory, and the character reference or design sheet you attach. Treat those differences as part of the creative process.']
+    ],
+    tipsTitle: 'Tips for using this site',
+    tips: [
+      'The sample images on this site are created by combining character references such as standing poses or model sheets with prompts.',
+      'Prompts become easier to use when you add character names, outfits, locations, time of day, lighting, camera direction, and other details.',
+      'You can also extract only the parts you need, such as composition, color, effects, or video notes, and mix them into another prompt.',
+      'Even with the same text, each environment can produce different results. Enjoy those variations as a source of ideas.'
+    ],
+    policyKicker: 'Publishing Policy',
+    policyTitle: 'Prompt publishing policy for copyrighted works',
+    policyDesc: 'This site does not publish prompts that directly recreate existing works or existing characters. It focuses on prompts that help you use your own characters and original elements, or adapt references, moods, poses, and outfit ideas creatively.',
+    policyCaption: 'Publishing policy guideline for this site'
+  }
+};
+
+function t(key) {
+  return uiText[currentLang]?.[key] ?? uiText.ja[key] ?? key;
+}
+
+
 let articles = [];
 let activeFilter = 'ALL';
 let searchQuery = '';
@@ -33,14 +137,115 @@ const escapeHtml = (value = '') => String(value)
 
 const formatDate = (value = '') => value ? `${value} JST` : '';
 
+
+function localizeStaticText() {
+  document.documentElement.lang = currentLang;
+  if (languageToggle) languageToggle.textContent = t('toggle');
+
+  const setText = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.textContent = value;
+  };
+  const setHTML = (selector, value) => {
+    const el = document.querySelector(selector);
+    if (el) el.innerHTML = escapeHtml(value).replaceAll('\n', '<br>');
+  };
+
+  setHTML('.lead', t('lead'));
+  setText('#community .banner-copy strong', t('communityTitle'));
+  setText('#community .banner-copy span:last-child', t('communityDesc'));
+  setText('.banner-secondary .banner-copy strong', t('tarotTitle'));
+  setText('.banner-secondary .banner-copy span:last-child', t('tarotDesc'));
+  setText('.banner-guide .banner-copy strong', t('guideTitle'));
+  setText('.banner-guide .banner-copy span:last-child', t('guideDesc'));
+
+  setText('.featured-head h2', t('featuredTitle'));
+  setText('.featured-head p:last-child', t('featuredDesc'));
+
+  filterButtons.forEach(button => {
+    const label = t('filters')[button.dataset.filter];
+    if (label) button.textContent = label;
+  });
+
+  if (imageSearchButton) imageSearchButton.textContent = t('imageSearch');
+  if (searchInput) searchInput.placeholder = t('searchPlaceholder');
+  document.querySelector('.search-button')?.replaceChildren(document.createTextNode(t('search')));
+  if (resetSearch) resetSearch.textContent = t('reset');
+
+  setText('.empty-state .section-kicker', t('selectKicker'));
+  setText('.empty-state h2', t('selectTitle'));
+  setText('.empty-state p:last-child', t('selectDesc'));
+
+  setText('.image-search-head h2', t('imageSearchTitle'));
+  setText('.image-search-head p:last-child', t('imageSearchDesc'));
+  if (imageSearchEmpty) imageSearchEmpty.textContent = t('imageSearchEmpty');
+
+  setText('.guide-head h2', t('guideModalTitle'));
+  setText('.guide-head p:last-child', t('guideModalDesc'));
+  document.querySelectorAll('.guide-card').forEach((card, index) => {
+    const step = t('guideSteps')[index];
+    if (!step) return;
+    const title = card.querySelector('h3');
+    const desc = card.querySelector('p');
+    if (title) title.textContent = step[0];
+    if (desc) desc.textContent = step[1];
+  });
+
+  setText('.guide-tips h3', t('tipsTitle'));
+  const tipItems = document.querySelectorAll('.guide-tips li');
+  t('tips').forEach((tip, index) => {
+    if (tipItems[index]) tipItems[index].textContent = tip;
+  });
+
+  setText('.guide-policy-copy .section-kicker', t('policyKicker'));
+  setText('.guide-policy-copy h3', t('policyTitle'));
+  setText('.guide-policy-copy p:last-child', t('policyDesc'));
+  setText('.guide-policy-image-wrap figcaption', t('policyCaption'));
+}
+
+function setLanguage(lang) {
+  currentLang = lang === 'en' ? 'en' : 'ja';
+  localStorage.setItem('tsuraraLang', currentLang);
+  localizeStaticText();
+  renderFeaturedCards();
+  renderCards();
+  if (selectedId) {
+    const article = articles.find(item => item.id === selectedId);
+    if (article) renderDetail(article);
+  }
+}
+
+function localizeArticle(article, key) {
+  if (currentLang === 'en') {
+    return article[`${key}En`] || article[key] || '';
+  }
+  return article[key] || '';
+}
+
+function localizeArray(article, key) {
+  if (currentLang === 'en') {
+    return article[`${key}En`] || article[key] || [];
+  }
+  return article[key] || [];
+}
+
+function localizeCategoryName(category) {
+  if (currentLang === 'en') {
+    return { AI: 'AI Generation', FA: 'Fashion', EV: 'Seasonal Events', TR: 'General Trends', TO: 'Tool Info', OR: 'Original' }[category] || category;
+  }
+  return categoryNames[category] || category;
+}
+
+
 async function init() {
+  localizeStaticText();
   try {
     const response = await fetch('data/articles.json');
     articles = await response.json();
     renderFeaturedCards();
     renderCards();
   } catch (error) {
-    cardsGrid.innerHTML = '<p class="card-body">記事データを読み込めませんでした。ローカルで確認する場合は、Live Serverなどの簡易サーバー経由で開いてください。</p>';
+    cardsGrid.innerHTML = `<p class="card-body">${currentLang === 'en' ? 'Could not load article data. If you are checking locally, open the site through a simple server such as Live Server.' : '記事データを読み込めませんでした。ローカルで確認する場合は、Live Serverなどの簡易サーバー経由で開いてください。'}</p>`;
     console.error(error);
   }
 }
@@ -100,8 +305,8 @@ function getVisualCategory(article) {
 }
 
 function getDetailLabel(article) {
-  const category = article.categoryLabel || categoryNames[article.category] || article.category || '';
-  return isOriginalArticle(article) ? `${category} / ${article.typeLabel || 'オリジナル'}` : category;
+  const category = currentLang === 'en' ? localizeCategoryName(article.category) : (article.categoryLabel || categoryNames[article.category] || article.category || '');
+  return isOriginalArticle(article) ? `${category} / ${currentLang === 'en' ? 'Original' : (article.typeLabel || 'オリジナル')}` : category;
 }
 
 
@@ -111,13 +316,13 @@ function renderFeaturedCards() {
   const featured = articles.filter(isFeaturedArticle).slice(0, 6);
 
   if (!featured.length) {
-    featuredGrid.innerHTML = '<p class="featured-empty">おすすめプロンプトはまだ登録されていません。</p>';
+    featuredGrid.innerHTML = '<p class="featured-empty">${currentLang === 'en' ? 'No featured prompts have been registered yet.' : 'おすすめプロンプトはまだ登録されていません。'}</p>';
     return;
   }
 
   featuredGrid.innerHTML = featured.map(article => {
-    const label = article.featuredLabel || 'おすすめ';
-    const reason = article.featuredReason || article.summary || '';
+    const label = currentLang === 'en' ? (article.featuredLabelEn || 'Featured') : (article.featuredLabel || 'おすすめ');
+    const reason = currentLang === 'en' ? (article.featuredReasonEn || article.summaryEn || article.featuredReason || article.summary || '') : (article.featuredReason || article.summary || '');
     const visual = escapeHtml(getVisualCategory(article));
     const iconPath = getFeaturedIconPath(article);
     return `
@@ -126,7 +331,7 @@ function renderFeaturedCards() {
           <img
             class="featured-icon"
             src="${escapeHtml(iconPath)}"
-            alt="${escapeHtml(article.title)} のおすすめアイコン"
+            alt="${escapeHtml(localizeArticle(article, 'title'))} ${currentLang === 'en' ? 'featured icon' : 'のおすすめアイコン'}"
             loading="lazy"
             onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-flex';"
           >
@@ -136,7 +341,7 @@ function renderFeaturedCards() {
           </div>
         </div>
         <div class="featured-copy">
-          <h3>${escapeHtml(article.title)}</h3>
+          <h3>${escapeHtml(localizeArticle(article, 'title'))}</h3>
           <p>${escapeHtml(reason)}</p>
         </div>
       </button>
@@ -164,12 +369,12 @@ function renderCards() {
   });
 
   if (!filtered.length) {
-    cardsGrid.innerHTML = '<p class="no-results">該当する記事がありません。検索文字やタグを変更してください。</p>';
+    cardsGrid.innerHTML = `<p class="no-results">${currentLang === 'en' ? 'No articles found. Try changing the search text or filter.' : '該当する記事がありません。検索文字やタグを変更してください。'}</p>`;
     return;
   }
 
   cardsGrid.innerHTML = filtered.map(article => {
-    const tags = (article.trendElements || []).slice(0, 3).map(tag => `<span class="tag">#${escapeHtml(tag)}</span>`).join('');
+    const tags = localizeArray(article, 'trendElements').slice(0, 3).map(tag => `<span class="tag">#${escapeHtml(tag)}</span>`).join('');
     const isSelected = selectedId === article.id ? ' is-selected' : '';
     return `
       <button class="card${isSelected}" type="button" data-id="${escapeHtml(article.id)}">
@@ -179,13 +384,13 @@ function renderCards() {
             <span class="card-date">${escapeHtml(formatDate(article.datetime))}</span>
           </div>
           <h3>
-            <span>${escapeHtml(article.title)}</span>
+            <span>${escapeHtml(localizeArticle(article, 'title'))}</span>
             ${isNewArticle(article) ? '<span class="new-badge">New</span>' : ''}
           </h3>
         </div>
         <div class="card-body">
           <div class="tags">${tags}</div>
-          <p class="card-summary">${escapeHtml(article.summary)}</p>
+          <p class="card-summary">${escapeHtml(localizeArticle(article, 'summary'))}</p>
         </div>
       </button>
     `;
@@ -209,51 +414,51 @@ function selectArticle(id) {
 }
 
 function renderDetail(article) {
-  const trendElements = listMarkup(article.trendElements);
-  const useCases = listMarkup(article.useCases);
-  const notes = listMarkup(article.notes);
-  const promptJa = promptMarkup('日本語プロンプト', article.promptJa, `${article.id}-ja`);
+  const trendElements = listMarkup(localizeArray(article, 'trendElements'));
+  const useCases = listMarkup(localizeArray(article, 'useCases'));
+  const notes = listMarkup(localizeArray(article, 'notes'));
+  const promptJa = promptMarkup(currentLang === 'en' ? 'Japanese Prompt' : '日本語プロンプト', article.promptJa, `${article.id}-ja`);
   const promptEn = article.promptEn ? promptMarkup('English Prompt', article.promptEn, `${article.id}-en`) : '';
   const articleImagePath = article.image || `images/articles/${article.id}.png`;
   const articleImage = `
     <figure class="article-image-wrap">
-      <a class="article-image-link" href="${escapeHtml(articleImagePath)}" data-modal-image="${escapeHtml(articleImagePath)}" data-modal-title="${escapeHtml(article.title)}" aria-label="生成画像を拡大表示">
-        <img class="article-image" src="${escapeHtml(articleImagePath)}" alt="${escapeHtml(article.title)} 生成例" loading="lazy">
+      <a class="article-image-link" href="${escapeHtml(articleImagePath)}" data-modal-image="${escapeHtml(articleImagePath)}" data-modal-title="${escapeHtml(localizeArticle(article, 'title'))}" aria-label="生成画像を拡大表示">
+        <img class="article-image" src="${escapeHtml(articleImagePath)}" alt="${escapeHtml(localizeArticle(article, 'title'))} ${currentLang === 'en' ? 'generated example' : '生成例'}" loading="lazy">
       </a>
-      <figcaption>このプロンプトで生成した画像例。クリックするとページ内で拡大表示します。</figcaption>
+      <figcaption>${currentLang === 'en' ? 'Example image generated with this prompt. Click to enlarge on this page.' : 'このプロンプトで生成した画像例。クリックするとページ内で拡大表示します。'}</figcaption>
     </figure>
   `;
   const source = article.sourceUrl
-    ? `<section class="detail-section"><h3>出典URL</h3><a class="source-link" href="${escapeHtml(article.sourceUrl)}" target="_blank" rel="noopener">出典を開く</a></section>`
+    ? `<section class="detail-section"><h3>${currentLang === 'en' ? 'Source URL' : '出典URL'}</h3><a class="source-link" href="${escapeHtml(article.sourceUrl)}" target="_blank" rel="noopener">${currentLang === 'en' ? 'Open source' : '出典を開く'}</a></section>`
     : '';
 
   detailPanel.innerHTML = `
     <div class="detail-head">
       <p class="section-kicker">${escapeHtml(article.id)} / ${escapeHtml(getDetailLabel(article))}</p>
-      <h2>${escapeHtml(article.title)}</h2>
+      <h2>${escapeHtml(localizeArticle(article, 'title'))}</h2>
       <p class="date">${escapeHtml(formatDate(article.datetime))}</p>
-      <p class="detail-summary">${escapeHtml(article.summary)}</p>
+      <p class="detail-summary">${escapeHtml(localizeArticle(article, 'summary'))}</p>
       ${articleImage}
     </div>
 
     <section class="detail-section">
-      <h3>トレンド要素</h3>
+      <h3>${currentLang === 'en' ? 'Trend Elements' : 'トレンド要素'}</h3>
       ${trendElements}
     </section>
 
     <section class="detail-section">
-      <h3>使いどころ</h3>
+      <h3>${currentLang === 'en' ? 'Use Cases' : '使いどころ'}</h3>
       ${useCases}
     </section>
 
     <section class="detail-section">
-      <h3>生成用プロンプト</h3>
+      <h3>${currentLang === 'en' ? 'Generation Prompt' : '生成用プロンプト'}</h3>
       ${promptJa}
       ${promptEn}
     </section>
 
     <section class="detail-section">
-      <h3>${escapeHtml(article.noteTitle || 'メモ')}</h3>
+      <h3>${escapeHtml(currentLang === 'en' ? (article.noteTitleEn || 'Notes') : (article.noteTitle || 'メモ'))}</h3>
       ${notes}
     </section>
 
@@ -274,13 +479,13 @@ function renderDetail(article) {
   detailPanel.querySelectorAll('[data-modal-image]').forEach(link => {
     link.addEventListener('click', event => {
       event.preventDefault();
-      openImageModal(link.dataset.modalImage, link.dataset.modalTitle || article.title);
+      openImageModal(link.dataset.modalImage, link.dataset.modalTitle || localizeArticle(article, 'title'));
     });
   });
 }
 
 function listMarkup(items = []) {
-  if (!items.length) return '<p class="detail-summary">登録なし</p>';
+  if (!items.length) return `<p class="detail-summary">${currentLang === 'en' ? 'Not registered' : '登録なし'}</p>`;
   return `<ul class="detail-list">${items.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`;
 }
 
@@ -289,7 +494,7 @@ function promptMarkup(label, text, key) {
     <div class="prompt-box">
       <div class="prompt-header">
         <span>${escapeHtml(label)}</span>
-        <button class="copy-button" type="button" data-copy="${escapeHtml(text)}">コピー</button>
+        <button class="copy-button" type="button" data-copy="${escapeHtml(text)}">${currentLang === 'en' ? 'Copy' : 'コピー'}</button>
       </div>
       <pre id="${escapeHtml(key)}">${escapeHtml(text)}</pre>
     </div>
@@ -299,9 +504,9 @@ function promptMarkup(label, text, key) {
 async function copyText(text) {
   try {
     await navigator.clipboard.writeText(text);
-    showToast('コピーしました');
+    showToast(currentLang === 'en' ? 'Copied' : 'コピーしました');
   } catch (error) {
-    showToast('コピーに失敗しました');
+    showToast(currentLang === 'en' ? 'Copy failed' : 'コピーに失敗しました');
     console.error(error);
   }
 }
@@ -333,14 +538,14 @@ function renderImageSearchGrid() {
 
     const image = document.createElement('img');
     image.src = getArticleImagePath(article);
-    image.alt = `${article.title} 生成画像`;
+    image.alt = `${localizeArticle(article, 'title')} ${currentLang === 'en' ? 'generated image' : '生成画像'}`;
     image.loading = 'lazy';
 
     const caption = document.createElement('span');
-    caption.textContent = article.title;
+    caption.textContent = localizeArticle(article, 'title');
 
     const meta = document.createElement('small');
-    meta.textContent = `${article.id} / ${article.categoryLabel || categoryNames[article.category] || ''}`;
+    meta.textContent = `${article.id} / ${getDetailLabel(article)}`;
 
     item.appendChild(image);
     item.appendChild(caption);
@@ -433,8 +638,8 @@ if (guideModalClose) {
 function openImageModal(src, title = '') {
   if (!imageModal || !imageModalImg) return;
   imageModalImg.src = src;
-  imageModalImg.alt = title ? `${title} 生成例` : '生成画像';
-  if (imageModalCaption) imageModalCaption.textContent = title || '生成画像';
+  imageModalImg.alt = title ? `${title} ${currentLang === 'en' ? 'generated example' : '生成例'}` : (currentLang === 'en' ? 'Generated image' : '生成画像');
+  if (imageModalCaption) imageModalCaption.textContent = title || (currentLang === 'en' ? 'Generated image' : '生成画像');
   imageModal.classList.add('is-open');
   imageModal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('modal-open');
@@ -512,6 +717,10 @@ if (resetSearch) {
     filterButtons.forEach(item => item.classList.toggle('is-active', item.dataset.filter === 'ALL'));
     renderCards();
   });
+}
+
+if (languageToggle) {
+  languageToggle.addEventListener('click', () => setLanguage(currentLang === 'ja' ? 'en' : 'ja'));
 }
 
 updateFilterButtonClasses();
