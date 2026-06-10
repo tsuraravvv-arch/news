@@ -1,5 +1,39 @@
 [
   {
+    "datetime": "2026-06-10 00:00",
+    "publishedAt": "2026-06-10 22:53",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "type": "OR",
+    "typeLabel": "オリジナル",
+    "id": "FA00163",
+    "title": "“ネオンロザリオ・ゴシック” がダークファンタジー系で増加",
+    "summary": "クラシカルなロザリオや聖堂モチーフに、ネオン発光やホログラム装飾を組み合わせるスタイルが増加。宗教建築風の神秘性とサイバーパンク的未来感を両立できるため、AIキャラクターやMVビジュアルで採用例が伸びています。",
+    "trendElements": [
+      "ネオンゴシック",
+      "ロザリオモチーフ",
+      "ホログラム装飾",
+      "サイバーパンク",
+      "ダークファンタジー"
+    ],
+    "useCases": [
+      "AIキャラクターデザイン",
+      "MV衣装",
+      "ゲーム立ち絵",
+      "コンセプトアート"
+    ],
+    "promptJa": "添付画像のキャラクターに、ネオン発光するロザリオとホログラム装飾を取り入れた近未来ゴシックファッションの効果を追加して、世界観に合ったポーズでイラストを作成してください。荘厳な聖堂風背景、青紫ネオン、神秘的な光、ダークファンタジー世界観、映画的ライティングを反映してください。",
+    "promptEn": "Create an illustration based on the attached character image, adding the effect of a futuristic gothic fashion style featuring glowing rosaries and holographic ornaments. Adjust the pose to match the worldbuilding and atmosphere. Use grand cathedral-inspired architecture, blue-purple neon lights, mystical illumination, dark fantasy aesthetics, and cinematic lighting.",
+    "noteTitle": "画像生成メモ",
+    "notes": [
+      "青紫ネオンが人気",
+      "黒主体＋発光差し色が定番",
+      "荘厳な建築背景と好相性",
+      "ロザリオや聖堂モチーフは神秘性が強く出るため、発光表現は強すぎず上品にするとまとまりやすい"
+    ],
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=neon%20gothic%20fashion"
+  },
+  {
     "datetime": "2026-06-09 18:00",
     "publishedAt": "2026-06-09 17:01",
     "category": "AI",
