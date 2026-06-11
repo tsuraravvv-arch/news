@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-06-10 09:00",
+    "publishedAt": "2026-06-11 17:56",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00160",
+    "title": "“改札越しフレーミング構図” が日常系MV演出で増加",
+    "summary": "駅の改札やゲートをフレームとして利用し、その向こう側に人物を配置する構図が増加。移動や別れ、再会などのストーリーを自然に連想させるため、ショート動画や青春系イラストで利用例が伸びています。",
+    "trendElements": [
+      "駅構図",
+      "フレーム構図",
+      "日常シネマティック",
+      "青春演出",
+      "都市スナップ"
+    ],
+    "useCases": [
+      "MVサムネイル",
+      "AI動画",
+      "青春系イラスト",
+      "SNS投稿"
+    ],
+    "promptJa": "駅の改札をフレームとして利用したシネマティック構図。改札越しに人物を捉え、都市の日常感と物語性を表現する。柔らかな照明、映画のワンシーンのような雰囲気。",
+    "promptEn": "A cinematic composition using train station gates as a natural frame. A character is viewed beyond the gate, creating an emotional urban atmosphere and strong storytelling.",
+    "noteTitle": "投稿メモ",
+    "notes": [
+      "人物は遠景配置が人気",
+      "駅照明の反射が映える",
+      "余白を活かす構図が主流"
+    ],
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=train%20station%20cinematic%20photography"
+  },
+  {
     "datetime": "2026-06-10 00:00",
     "publishedAt": "2026-06-10 22:53",
     "category": "FA",
