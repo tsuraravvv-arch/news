@@ -1856,3 +1856,25 @@ body.modal-open {
     font-size: 0.78rem;
   }
 }
+
+
+/* v66: make New badge more visible */
+.new-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 8px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #12b76a, #039855);
+  color: #ffffff !important;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0, 80, 45, 0.28);
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.82),
+    0 6px 14px rgba(3, 152, 85, 0.30);
+  vertical-align: middle;
+}
