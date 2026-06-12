@@ -1,5 +1,36 @@
 [
   {
+    "datetime": "2026-06-12 21:00",
+    "publishedAt": "2026-06-12 21:30",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "id": "FA00181",
+    "title": "“ダスティピンク×チャコールブラック” がダーク可愛い系で増加",
+    "summary": "柔らかなダスティピンクと深いチャコールブラックを組み合わせる配色が人気上昇。ゴシックや韓国ストリートにも応用しやすく、甘さとクールさを両立できるため幅広く利用されています。",
+    "trendElements": [
+      "ダスティピンク",
+      "チャコールブラック",
+      "ダークガーリー",
+      "韓国ストリート",
+      "ゴシックミックス"
+    ],
+    "useCases": [
+      "キャラクターデザイン",
+      "ファッションイラスト",
+      "SNSバナー",
+      "MV衣装設計"
+    ],
+    "promptJa": "ダスティピンクとチャコールブラックを基調としたダークガーリービジュアル。洗練された衣装、柔らかな発光、都会的背景、可愛さとクールさを兼ね備えた世界観。",
+    "promptEn": "A dark-girly visual themed around dusty pink and charcoal black. Stylish outfits, subtle glow, urban scenery, and a balance of cute and cool aesthetics.",
+    "noteTitle": "活用メモ",
+    "notes": [
+      "黒一色より柔らかい印象になる",
+      "ゴシック系と好相性",
+      "女性キャラクターで映えやすい"
+    ],
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=dusty%20pink%20black%20aesthetic"
+  },
+  {
     "datetime": "2026-06-10 09:00",
     "publishedAt": "2026-06-11 17:56",
     "category": "FA",
