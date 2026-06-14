@@ -20,17 +20,17 @@
         <p class="lead" data-i18n="lead">AI生成に使いやすいプロンプトと創作アイデアを、ファッション・構図背景・季節イベントに整理したサイトです。気になる記事から日本語版 / 英語版プロンプトをすぐにコピーできます。</p>
 
         <div class="hero-links" aria-label="関連リンク">
-          <button class="hero-link-card hero-guide-card" id="guideButton" type="button">
+          <button class="hero-link-card hero-guide-card guide-card-link" id="guideButton" type="button">
             <span class="hero-link-label">Guide</span>
             <strong data-i18n="guideTitle">活用ガイド</strong>
             <span data-i18n="guideDesc">プロンプトの使い方と楽しみ方</span>
           </button>
-          <a class="hero-link-card" id="community" href="https://discord.gg/sora2jp" target="_blank" rel="noopener">
+          <a class="hero-link-card community-card-link" id="community" href="https://discord.gg/sora2jp" target="_blank" rel="noopener">
             <span class="hero-link-label">Community</span>
             <strong data-i18n="communityTitle">動画生成AI研究＆交流コミュニティ</strong>
             <span data-i18n="communityDesc">AI生成の仲間が欲しい方におすすめ</span>
           </a>
-          <a class="hero-link-card" href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">
+          <a class="hero-link-card tarot-card-link" href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">
             <span class="hero-link-label">Tarot</span>
             <strong data-i18n="tarotTitle">氷洞つららの大アルカナ占い</strong>
             <span data-i18n="tarotDesc">わたしが作成したタロットカード占いです</span>
@@ -89,6 +89,7 @@
 
     <section class="prompt-list" id="cardsGrid" aria-live="polite"></section>
 
+    <div class="detail-backdrop" id="detailBackdrop"></div>
     <article class="detail-panel" id="detailPanel" aria-live="polite">
       <div class="empty-state">
         <p class="section-kicker">Detail</p>
