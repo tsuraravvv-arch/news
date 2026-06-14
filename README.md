@@ -338,3 +338,11 @@ tarot.png     800 × 450px 以上、16:9推奨
 - 記事詳細をページ下部へスクロールする方式から、モーダル表示へ変更しました。
 - サムネイルクリック時の画像拡大モーダルで、画像全体が収まりやすいように修正しました。
 - data/articles.json は含めていません。
+
+
+## v72 dark hero and icon cards
+- ヒーロー背景をグレー〜黒に近い、透き通った濃色グラデーションへ変更しました。
+- タイトルと説明文を白系に変更しました。
+- ガイド / コミュニティ / タロットの3カードに、実画像アイコンを表示する構造を追加しました。
+- アイコン参照先は `images/banners/guide.png`, `images/banners/community.png`, `images/banners/tarot.png` です。
+- data/articles.json は含めていません。
