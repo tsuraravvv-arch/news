@@ -31,8 +31,9 @@ const uiText = {
     selectTitle: 'サムネイルや文章をクリックすると全文が表示されます',
     selectDesc: '一覧から気になるプロンプトを選んでください。',
     copied: 'コピーしました',
-    jpCopy: '日本語コピー',
-    enCopy: 'English Copy',
+    promptCopy: 'プロンプトコピー',
+    jpCopy: '日',
+    enCopy: '英',
     detail: '詳細',
     noResults: '該当する記事がありません。',
     count: (n) => `全 ${n} 件`,
@@ -80,8 +81,9 @@ const uiText = {
     selectTitle: 'Click a thumbnail or text to view the full details',
     selectDesc: 'Select a prompt from the list.',
     copied: 'Copied',
-    jpCopy: 'Copy Japanese',
-    enCopy: 'Copy English',
+    promptCopy: 'Copy Prompt',
+    jpCopy: 'JP',
+    enCopy: 'EN',
     detail: 'Details',
     noResults: 'No matching articles.',
     count: (n) => `${n} items`,
@@ -261,8 +263,13 @@ function renderCard(article) {
         <p>${escapeHtml(summary)}</p>
       </div>
       <div class="prompt-actions">
-        <button class="copy-action primary" data-copy="ja" data-id="${escapeHtml(article.id)}">${escapeHtml(text('jpCopy'))}</button>
-        <button class="copy-action" data-copy="en" data-id="${escapeHtml(article.id)}">${escapeHtml(text('enCopy'))}</button>
+        <div class="copy-group">
+          <div class="copy-group-label">${escapeHtml(text('promptCopy'))}</div>
+          <div class="copy-lang-row">
+            <button class="copy-action primary" data-copy="ja" data-id="${escapeHtml(article.id)}">${escapeHtml(text('jpCopy'))}</button>
+            <button class="copy-action" data-copy="en" data-id="${escapeHtml(article.id)}">${escapeHtml(text('enCopy'))}</button>
+          </div>
+        </div>
         <button class="detail-action" data-open-detail="${escapeHtml(article.id)}">${escapeHtml(text('detail'))}</button>
       </div>
     </article>
