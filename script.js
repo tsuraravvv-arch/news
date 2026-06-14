@@ -108,6 +108,7 @@ const uiText = {
 
 const cardsGrid = document.getElementById('cardsGrid');
 const detailPanel = document.getElementById('detailPanel');
+const detailBackdrop = document.getElementById('detailBackdrop');
 const resultCount = document.getElementById('resultCount');
 const toast = document.getElementById('toast');
 const guideButton = document.getElementById('guideButton');
@@ -287,6 +288,7 @@ function renderDetail(article) {
   const notes = getField(article, 'notes') || [];
   const noteTitle = getField(article, 'noteTitle') || text('notes');
   detailPanel.innerHTML = `
+    <button class="detail-close" id="detailClose" type="button" aria-label="閉じる">×</button>
     <div class="detail-hero">
       <img class="optional-image" src="${escapeHtml(articleImage(article))}" alt="${escapeHtml(title)}" data-open-image="${escapeHtml(article.id)}">
       <div class="detail-copy">
@@ -325,7 +327,17 @@ function renderDetail(article) {
       <ul>${notes.map((note) => `<li>${escapeHtml(note)}</li>`).join('')}</ul>
     </section>
   `;
-  detailPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  detailPanel.classList.add('is-open');
+  detailBackdrop.classList.add('is-open');
+  detailPanel.setAttribute('aria-hidden', 'false');
+  detailBackdrop.setAttribute('aria-hidden', 'false');
+}
+
+function closeDetail() {
+  detailPanel.classList.remove('is-open');
+  detailBackdrop.classList.remove('is-open');
+  detailPanel.setAttribute('aria-hidden', 'true');
+  detailBackdrop.setAttribute('aria-hidden', 'true');
 }
 
 function showToast(message = text('copied')) {
@@ -418,6 +430,11 @@ document.addEventListener('click', (event) => {
       closeImageSearch();
       renderDetail(article);
     }
+    return;
+  }
+
+  if (event.target.closest('#detailClose')) {
+    closeDetail();
   }
 });
 
@@ -459,12 +476,14 @@ imageModal.querySelector('.image-modal-backdrop').addEventListener('click', clos
 imageSearchButton.addEventListener('click', openImageSearch);
 imageSearchClose.addEventListener('click', closeImageSearch);
 imageSearchModal.querySelector('.image-search-backdrop').addEventListener('click', closeImageSearch);
+detailBackdrop.addEventListener('click', closeDetail);
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     closeImageModal();
     closeGuide();
     closeImageSearch();
+    closeDetail();
   }
 });
 
