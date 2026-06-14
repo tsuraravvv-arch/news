@@ -369,3 +369,10 @@ tarot.png     800 × 450px 以上、16:9推奨
 - data/articles.json は含めていません。
 
 - v76: 区切り線を「プロンプトコピー」見出しの下ではなく、日/英ボタンの下に移動しました。
+
+
+## v77 copy buttons and guide image restore
+- 記事右側の「日」「英」コピー按钮を同じ中間色に統一しました。
+- 日本語版活用ガイドにあった公開ポリシー画像欄を復元しました。
+- 画像参照先は `images/guide/prompt-policy.png` です。画像ファイルは同じパスに配置してください。
+- data/articles.json は含めていません。
