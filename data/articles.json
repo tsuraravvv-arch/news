@@ -1,5 +1,62 @@
 [
   {
+    "datetime": "2026-06-14 21:21",
+    "publishedAt": "2026-06-14 21:21",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00003",
+    "title": "“ライブフォト風モーションポスター” が動画生成界隈で増加",
+    "titleEn": "Live-Photo-Style Motion Posters Are Rising in AI Video Communities",
+    "summary": "静止画と動画の中間表現として、ポスターの一部だけが動く「ライブフォト風」演出が人気。髪や光、UIだけを微細に動かすことで、短尺動画でも高級感を演出できるため活用が増えています。",
+    "summaryEn": "Live-photo-style effects, where only selected parts of a poster move, are becoming popular as an expression between still images and video. Subtle movement in hair, light, and UI elements can give short videos a premium music-video-like feel.",
+    "trendElements": [
+      "ライブフォト演出",
+      "部分アニメーション",
+      "モーションポスター",
+      "MV表現",
+      "AI動画"
+    ],
+    "trendElementsEn": [
+      "Live-photo effect",
+      "Partial animation",
+      "Motion poster",
+      "MV-style expression",
+      "AI video"
+    ],
+    "useCases": [
+      "MV告知",
+      "楽曲ジャケット",
+      "SNS動画投稿",
+      "ショート動画"
+    ],
+    "useCasesEn": [
+      "MV announcement",
+      "Music cover art",
+      "Social media video posts",
+      "Short-form videos"
+    ],
+    "promptJa": "映画ポスターのような静止画に微細な動きを加えたモーションポスター。髪が風でゆっくり揺れ、服やアクセサリーがわずかに反応する。光源は穏やかに明滅し、空気中の光粒子がゆっくり漂う。ガラスUIやテキスト、発光エフェクトのみが控えめにアニメーションする。高級感のあるMVビジュアル、シネマティックライティング、静止画の美しさを保ったまま一部だけが生きているように動く演出。",
+    "promptEn": "A cinematic motion poster with subtle live-photo-style animation. Hair gently sways in the wind, clothing and accessories react slightly, soft lights slowly pulse, and floating particles drift through the air. Glass UI elements, text, and glowing effects animate subtly while preserving the beauty of the still image. Premium music-video aesthetics, cinematic lighting, and elegant partial motion.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "動画生成AIとの相性が非常に高い",
+      "人物全体を大きく動かさず、一部だけを動かすのがポイント",
+      "髪、光、粒子、UIの組み合わせが特に人気",
+      "静止画ベースのため低コストで量産しやすい",
+      "楽曲告知、キャラクター紹介、世界観PVに活用例が増加中"
+    ],
+    "notesEn": [
+      "Works extremely well with AI video generation tools.",
+      "The key is to animate only selected parts instead of moving the whole character dramatically.",
+      "Hair, light, particles, and UI elements are an especially popular combination.",
+      "Because it is based on still images, it is easy to produce in volume at low cost.",
+      "Increasingly used for music announcements, character introductions, and worldbuilding promotional videos."
+    ],
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=motion%20poster%20aesthetic"
+  },
+  {
     "datetime": "2026-06-12 21:00",
     "publishedAt": "2026-06-12 21:30",
     "category": "FA",
