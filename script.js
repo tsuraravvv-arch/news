@@ -467,11 +467,13 @@ searchBox.addEventListener('submit', (event) => {
   render();
 });
 
-resetSearch.addEventListener('click', () => {
-  currentQuery = '';
-  searchInput.value = '';
-  render();
-});
+if (resetSearch) {
+  resetSearch.addEventListener('click', () => {
+    currentQuery = '';
+    searchInput.value = '';
+    render();
+  });
+}
 
 guideButton.addEventListener('click', openGuide);
 guideModalClose.addEventListener('click', closeGuide);
@@ -480,7 +482,7 @@ guideModal.querySelector('.guide-modal-backdrop').addEventListener('click', clos
 imageModalClose.addEventListener('click', closeImageModal);
 imageModal.querySelector('.image-modal-backdrop').addEventListener('click', closeImageModal);
 
-imageSearchButton.addEventListener('click', openImageSearch);
+if (imageSearchButton) imageSearchButton.addEventListener('click', openImageSearch);
 imageSearchClose.addEventListener('click', closeImageSearch);
 imageSearchModal.querySelector('.image-search-backdrop').addEventListener('click', closeImageSearch);
 detailBackdrop.addEventListener('click', closeDetail);
