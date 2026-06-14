@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Tsurara Idea Lab</title>
-  <meta name="description" content="AI生成・ファッション・季節イベントの実用メモを集めたニュースカードサイトです。" />
+  <meta name="description" content="AI生成に使いやすいプロンプトと創作アイデアを整理したプロンプトライブラリです。" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,91 +14,92 @@
         <button class="language-switch-button" type="button" data-lang="ja">JP</button>
         <button class="language-switch-button" type="button" data-lang="en">EN</button>
       </div>
+
       <div class="header-copy">
-        <p class="eyebrow">AI / Fashion / Seasonal Event</p>
         <h1>Tsurara Idea Lab</h1>
-        <p class="lead">AI生成・ファッション・季節イベントの情報をAIで自動収集し、創作に使いやすいアイデアとして整理したサイトです。<br>SNSの情報を直接転載することはありませんが、類似の情報が載っている可能性があります。</p>
+        <p class="lead" data-i18n="lead">AI生成に使いやすいプロンプトと創作アイデアを、ファッション・構図背景・季節イベントに整理したサイトです。気になる記事から日本語版 / 英語版プロンプトをすぐにコピーできます。</p>
+
+        <div class="hero-links" aria-label="関連リンク">
+          <button class="hero-link-card hero-guide-card" id="guideButton" type="button">
+            <span class="hero-link-label">Guide</span>
+            <strong data-i18n="guideTitle">活用ガイド</strong>
+            <span data-i18n="guideDesc">プロンプトの使い方と楽しみ方</span>
+          </button>
+          <a class="hero-link-card" id="community" href="https://discord.gg/sora2jp" target="_blank" rel="noopener">
+            <span class="hero-link-label">Community</span>
+            <strong data-i18n="communityTitle">動画生成AI研究＆交流コミュニティ</strong>
+            <span data-i18n="communityDesc">AI生成の仲間が欲しい方におすすめ</span>
+          </a>
+          <a class="hero-link-card" href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">
+            <span class="hero-link-label">Tarot</span>
+            <strong data-i18n="tarotTitle">氷洞つららの大アルカナ占い</strong>
+            <span data-i18n="tarotDesc">わたしが作成したタロットカード占いです</span>
+          </a>
+        </div>
       </div>
-      <img class="hero-image optional-image" src="images/banners/hero.png" alt="Tsurara Trend Notes メインビジュアル" />
+
+      <img class="hero-image optional-image" src="images/banners/hero.png" alt="Tsurara Idea Lab メインビジュアル" />
     </div>
   </header>
 
   <main>
-    <section class="banner-grid" aria-label="関連リンク">
-      <a class="banner banner-primary" id="community" href="#" aria-label="参加コミュニティへのリンク">
-        <img class="banner-image optional-image" src="images/banners/community.png" alt="参加コミュニティ" />
-        <div class="banner-copy">
-          <span class="banner-label">Community</span>
-          <strong>動画生成AI研究＆交流コミュニティ（DISCODE）</strong>
-          <span>わたしが参加するコミュニティ、AI生成の仲間が欲しい方におすすめ</span>
-        </div>
-      </a>
-      <a class="banner banner-secondary" href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">
-        <img class="banner-image optional-image" src="images/banners/tarot.png" alt="つららの大アルカナ占い" />
-        <div class="banner-copy">
-          <span class="banner-label">Tarot</span>
-          <strong>氷洞つららの大アルカナ占い</strong>
-          <span>わたしが作成したタロットカード占いです</span>
-        </div>
-      </a>
-
-      <button class="banner banner-guide" id="guideButton" type="button" aria-label="活用ガイドを開く">
-        <img class="guide-icon-image optional-image" src="images/banners/guide.png" alt="活用ガイド" />
-        <div class="banner-copy">
-          <span class="banner-label">Guide</span>
-          <strong>活用ガイド</strong>
-          <span>プロンプトの使い方と楽しみ方</span>
-        </div>
+    <section class="library-nav" aria-label="プロンプト分類">
+      <button class="library-tile is-active" data-filter="DEFAULT" type="button">
+        <span>✦</span><strong data-i18n="filterDefault">新着＋おすすめ</strong>
+      </button>
+      <button class="library-tile" data-filter="ALL" type="button">
+        <span>▦</span><strong data-i18n="filterAll">すべて</strong>
+      </button>
+      <button class="library-tile" data-filter="ORIGINAL" type="button">
+        <span>✎</span><strong data-i18n="filterOriginal">オリジナル</strong>
+      </button>
+      <button class="library-tile" data-filter="LABEL_100" type="button">
+        <span>100</span><strong data-i18n="filter100">100職</strong>
+      </button>
+      <button class="library-tile" data-filter="FA" type="button">
+        <span>◈</span><strong data-i18n="filterFashion">ファッション</strong>
+      </button>
+      <button class="library-tile" data-filter="CB" type="button">
+        <span>▧</span><strong data-i18n="filterComposition">構図・背景</strong>
+      </button>
+      <button class="library-tile" data-filter="EV" type="button">
+        <span>☂</span><strong data-i18n="filterSeason">季節・イベント</strong>
       </button>
     </section>
 
-
-    <section class="featured-section" aria-label="おすすめプロンプト">
-      <div class="featured-head">
-        <div>
-          <p class="section-kicker">Featured Prompts</p>
-          <h2>おすすめプロンプト</h2>
-          <p>評判が良かったもの、長く使いやすいものをここに固定表示します。</p>
-        </div>
-      </div>
-      <div class="featured-grid" id="featuredGrid"></div>
-    </section>
-
-    <section class="toolbar" aria-label="記事フィルター">
-      <div class="filter-buttons" role="tablist" aria-label="カテゴリ選択">
-        <button class="filter-button is-active" data-filter="ALL">すべて</button>
-        <button class="filter-button" data-filter="ORIGINAL">オリジナル</button>
-        <button class="filter-button" data-filter="FEATURED">おすすめ</button>
-        <button class="filter-button" data-filter="AI">AI生成関連</button>
-        <button class="filter-button" data-filter="FA">ファッション</button>
-        <button class="filter-button" data-filter="EV">季節・イベント</button>
-      </div>
-
+    <section class="toolbar" aria-label="記事検索">
+      <p class="default-note" data-i18n="defaultNote">初期表示：新着＋おすすめを表示しています</p>
       <div class="toolbar-actions">
-        <button class="image-search-button" id="imageSearchButton" type="button">画像から検索</button>
+        <button class="image-search-button" id="imageSearchButton" type="button" data-i18n="imageSearch">画像から検索</button>
         <form class="search-box" id="searchBox" role="search" aria-label="記事検索">
-          <input id="searchInput" type="search" placeholder="タイトル・本文を検索" autocomplete="off" />
-          <button class="search-button" type="submit">検索</button>
-          <button class="reset-button" id="resetSearch" type="button">リセット</button>
+          <input id="searchInput" type="search" placeholder="タイトル・本文・タグを検索" autocomplete="off" />
+          <button class="search-button" type="submit" data-i18n="search">検索</button>
+          <button class="reset-button" id="resetSearch" type="button" data-i18n="reset">リセット</button>
         </form>
       </div>
     </section>
 
-    <section class="content-layout">
-      <div class="cards-grid" id="cardsGrid" aria-live="polite"></div>
-
-      <article class="detail-panel" id="detailPanel" aria-live="polite">
-        <div class="empty-state">
-          <p class="section-kicker">Select Article</p>
-          <h2>記事カードを選択してください</h2>
-          <p>左側または上部の記事カードをクリックすると、ここに詳細とコピー用プロンプトが表示されます。</p>
-        </div>
-      </article>
+    <section class="prompt-head">
+      <div>
+        <p class="section-kicker">Prompt List</p>
+        <h2 data-i18n="promptListTitle">プロンプト</h2>
+      </div>
+      <p id="resultCount">読み込み中...</p>
     </section>
+
+    <section class="prompt-list" id="cardsGrid" aria-live="polite"></section>
+
+    <article class="detail-panel" id="detailPanel" aria-live="polite">
+      <div class="empty-state">
+        <p class="section-kicker">Detail</p>
+        <h2 data-i18n="selectTitle">サムネイルや文章をクリックすると全文が表示されます</h2>
+        <p data-i18n="selectDesc">一覧から気になるプロンプトを選んでください。</p>
+      </div>
+    </article>
   </main>
 
   <footer class="site-footer">
-    <p>© Tsurara Trend Notes. Prototype for GitHub Pages.</p>
+    <p>© Tsurara Idea Lab. Prototype for GitHub Pages.</p>
   </footer>
 
   <div class="image-search-modal" id="imageSearchModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="画像から検索">
@@ -107,11 +108,11 @@
       <button class="image-search-close" id="imageSearchClose" type="button" aria-label="閉じる">×</button>
       <div class="image-search-head">
         <p class="section-kicker">Image Search</p>
-        <h2>画像から検索</h2>
-        <p>アップロード済みの記事画像を一覧表示します。画像をクリックすると、対応する記事を開きます。</p>
+        <h2 data-i18n="imageSearchTitle">画像から検索</h2>
+        <p data-i18n="imageSearchDesc">アップロード済みの記事画像を一覧表示します。画像をクリックすると、対応する記事を開きます。</p>
       </div>
       <div class="image-search-grid" id="imageSearchGrid"></div>
-      <p class="image-search-empty" id="imageSearchEmpty">表示できる記事画像がまだありません。</p>
+      <p class="image-search-empty" id="imageSearchEmpty" data-i18n="imageSearchEmpty">表示できる記事画像がまだありません。</p>
     </div>
   </div>
 
@@ -122,65 +123,16 @@
 
       <div class="guide-head">
         <p class="section-kicker">How to use</p>
-        <h2>活用ガイド</h2>
-        <p>掲載されているメモやプロンプトは、完成品をそのまま出すためだけのものではありません。あなたの環境や発想に合わせて、自由に足して楽しむためのアイデア集です。</p>
+        <h2 data-i18n="guideModalTitle">活用ガイド</h2>
+        <p data-i18n="guideModalDesc">掲載されているメモやプロンプトは、完成品をそのまま出すためだけのものではありません。あなたの環境や発想に合わせて、自由に足して楽しむためのアイデア集です。</p>
       </div>
 
       <div class="guide-grid">
-        <section class="guide-card">
-          <div class="guide-visual guide-visual-1"><span>1</span></div>
-          <div>
-            <h3>記事カードを選ぶ</h3>
-            <p>気になるカテゴリや検索から記事を探し、カードをクリックすると右側に詳細が表示されます。タイトル・概要・使いどころを見て、使いたい方向性を選びます。</p>
-          </div>
-        </section>
-
-        <section class="guide-card">
-          <div class="guide-visual guide-visual-2"><span>2</span></div>
-          <div>
-            <h3>プロンプトをコピーする</h3>
-            <p>日本語プロンプトや英語プロンプトをコピーして、ChatGPT Images、Gemini、Midjourneyなどの画像生成サービスに貼り付けて使います。</p>
-          </div>
-        </section>
-
-        <section class="guide-card">
-          <div class="guide-visual guide-visual-3"><span>3</span></div>
-          <div>
-            <h3>キーワードを追加して調整する</h3>
-            <p>用意されたプロンプトは、SNSで見かけるような「すぐ完成品になる文章」だけではありません。+αの演出や効果を与える素材として使えるものもあります。</p>
-          </div>
-        </section>
-
-        <section class="guide-card">
-          <div class="guide-visual guide-visual-4"><span>4</span></div>
-          <div>
-            <h3>環境ごとの変化を楽しむ</h3>
-            <p>出力結果は、使用する生成環境、モデル、設定、メモリ、添付する立ち絵や三面図によって変わります。違いも含めて創作の幅として楽しんでください。</p>
-          </div>
-        </section>
+        <section class="guide-card"><div class="guide-visual"><span>1</span></div><div><h3 data-i18n="guideStep1Title">記事を探す</h3><p data-i18n="guideStep1Desc">新着・おすすめ・カテゴリ・検索から、使いたい方向性の記事を探します。</p></div></section>
+        <section class="guide-card"><div class="guide-visual"><span>2</span></div><div><h3 data-i18n="guideStep2Title">プロンプトをコピー</h3><p data-i18n="guideStep2Desc">一覧の日本語コピー / English Copy から、すぐに生成用プロンプトをコピーできます。</p></div></section>
+        <section class="guide-card"><div class="guide-visual"><span>3</span></div><div><h3 data-i18n="guideStep3Title">要素を足して調整</h3><p data-i18n="guideStep3Desc">キャラクター名、場所、時間帯、光、カメラ演出などを足すと使いやすくなります。</p></div></section>
+        <section class="guide-card"><div class="guide-visual"><span>4</span></div><div><h3 data-i18n="guideStep4Title">環境ごとの変化を楽しむ</h3><p data-i18n="guideStep4Desc">生成環境やモデルによって結果が変わります。違いも含めて創作の幅として楽しんでください。</p></div></section>
       </div>
-
-      <section class="guide-tips">
-        <h3>このサイトの使い方のコツ</h3>
-        <ul>
-          <li>サイト内のサンプルは、立ち絵や三面図にプロンプトを組み合わせて作成されています。</li>
-          <li>プロンプトはそのまま使うだけでなく、キャラクター名、衣装、場所、時間帯、光、カメラ演出などを足すと使いやすくなります。</li>
-          <li>「構図」「色」「効果」「動画化メモ」など、欲しい要素だけを抜き出して別のプロンプトへ混ぜる使い方もおすすめです。</li>
-          <li>同じ文章でも環境によって違う結果になるため、出力の揺れもアイデア探しとして楽しんでください。</li>
-        </ul>
-      </section>
-
-      <section class="guide-policy">
-        <div class="guide-policy-copy">
-          <p class="section-kicker">Publishing Policy</p>
-          <h3>著作物に関わるプロンプトの公開ポリシー</h3>
-          <p>このサイトでは、既存作品や既存キャラクターを直接再現するプロンプトは掲載しません。自分のキャラクターやオリジナル要素を中心に、参考・雰囲気・ポーズ・衣装アレンジとして活用できる内容を掲載します。</p>
-        </div>
-        <figure class="guide-policy-image-wrap">
-          <img class="guide-policy-image" src="images/guide/prompt-policy.png" alt="著作物に関わるプロンプト公開ポリシー" loading="lazy">
-          <figcaption>サイト掲載用の公開ポリシー目安</figcaption>
-        </figure>
-      </section>
     </div>
   </div>
 
