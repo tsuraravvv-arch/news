@@ -4,9 +4,12 @@
     "publishedAt": "2026-06-12 21:30",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00181",
     "title": "“ダスティピンク×チャコールブラック” がダーク可愛い系で増加",
+    "titleEn": "Dusty Pink × Charcoal Black Is Rising in Dark-Cute Visuals",
     "summary": "柔らかなダスティピンクと深いチャコールブラックを組み合わせる配色が人気上昇。ゴシックや韓国ストリートにも応用しやすく、甘さとクールさを両立できるため幅広く利用されています。",
+    "summaryEn": "A color pairing of soft dusty pink and deep charcoal black is gaining popularity. It works well with gothic and Korean street styles, balancing sweetness and coolness for a wide range of creative uses.",
     "trendElements": [
       "ダスティピンク",
       "チャコールブラック",
@@ -14,30 +17,52 @@
       "韓国ストリート",
       "ゴシックミックス"
     ],
+    "trendElementsEn": [
+      "Dusty pink",
+      "Charcoal black",
+      "Dark girly",
+      "Korean street",
+      "Gothic mix"
+    ],
     "useCases": [
       "キャラクターデザイン",
       "ファッションイラスト",
       "SNSバナー",
       "MV衣装設計"
     ],
+    "useCasesEn": [
+      "Character design",
+      "Fashion illustration",
+      "Social media banner",
+      "MV outfit design"
+    ],
     "promptJa": "ダスティピンクとチャコールブラックを基調としたダークガーリービジュアル。洗練された衣装、柔らかな発光、都会的背景、可愛さとクールさを兼ね備えた世界観。",
     "promptEn": "A dark-girly visual themed around dusty pink and charcoal black. Stylish outfits, subtle glow, urban scenery, and a balance of cute and cool aesthetics.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "黒一色より柔らかい印象になる",
       "ゴシック系と好相性",
       "女性キャラクターで映えやすい"
+    ],
+    "notesEn": [
+      "Creates a softer impression than pure black.",
+      "Works especially well with gothic styles.",
+      "Often looks especially good with female characters."
     ],
     "sourceUrl": "https://www.pinterest.com/search/pins/?q=dusty%20pink%20black%20aesthetic"
   },
   {
     "datetime": "2026-06-10 09:00",
     "publishedAt": "2026-06-11 17:56",
-    "category": "FA",
-    "categoryLabel": "ファッション",
-    "id": "FA00160",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00160",
     "title": "“改札越しフレーミング構図” が日常系MV演出で増加",
+    "titleEn": "Framing Through Station Gates Is Rising in Everyday MV Scenes",
     "summary": "駅の改札やゲートをフレームとして利用し、その向こう側に人物を配置する構図が増加。移動や別れ、再会などのストーリーを自然に連想させるため、ショート動画や青春系イラストで利用例が伸びています。",
+    "summaryEn": "Compositions that use station gates or ticket barriers as a frame, placing the character beyond them, are increasing. They naturally suggest movement, farewells, and reunions, making them useful for short videos and youth-themed illustrations.",
     "trendElements": [
       "駅構図",
       "フレーム構図",
@@ -45,19 +70,38 @@
       "青春演出",
       "都市スナップ"
     ],
+    "trendElementsEn": [
+      "Station composition",
+      "Framing composition",
+      "Everyday cinematic",
+      "Youthful storytelling",
+      "Urban snapshot"
+    ],
     "useCases": [
       "MVサムネイル",
       "AI動画",
       "青春系イラスト",
       "SNS投稿"
     ],
+    "useCasesEn": [
+      "MV thumbnail",
+      "AI video",
+      "Youth-themed illustration",
+      "Social media post"
+    ],
     "promptJa": "駅の改札をフレームとして利用したシネマティック構図。改札越しに人物を捉え、都市の日常感と物語性を表現する。柔らかな照明、映画のワンシーンのような雰囲気。",
     "promptEn": "A cinematic composition using train station gates as a natural frame. A character is viewed beyond the gate, creating an emotional urban atmosphere and strong storytelling.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
       "人物は遠景配置が人気",
       "駅照明の反射が映える",
       "余白を活かす構図が主流"
+    ],
+    "notesEn": [
+      "Distant character placement is popular.",
+      "Reflections from station lighting work well.",
+      "Compositions that use negative space are mainstream."
     ],
     "sourceUrl": "https://www.pinterest.com/search/pins/?q=train%20station%20cinematic%20photography"
   },
@@ -66,9 +110,12 @@
     "publishedAt": "2026-06-10 22:53",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00163",
     "title": "“ネオンロザリオ・ゴシック” がダークファンタジー系で増加",
+    "titleEn": "Neon Rosary Gothic Is Rising in Dark-Fantasy Visuals",
     "summary": "クラシカルなロザリオや聖堂モチーフに、ネオン発光やホログラム装飾を組み合わせるスタイルが増加。宗教建築風の神秘性とサイバーパンク的未来感を両立できるため、AIキャラクターやMVビジュアルで採用例が伸びています。",
+    "summaryEn": "Styles combining classical rosaries and cathedral motifs with neon glow and holographic ornaments are increasing. They balance religious architectural mystery with a cyberpunk future feeling, making them popular for AI characters and MV visuals.",
     "trendElements": [
       "ネオンゴシック",
       "ロザリオモチーフ",
@@ -76,39 +123,73 @@
       "サイバーパンク",
       "ダークファンタジー"
     ],
+    "trendElementsEn": [
+      "Neon gothic",
+      "Rosary motif",
+      "Holographic ornament",
+      "Cyberpunk",
+      "Dark fantasy"
+    ],
     "useCases": [
       "AIキャラクターデザイン",
       "MV衣装",
       "ゲーム立ち絵",
       "コンセプトアート"
     ],
+    "useCasesEn": [
+      "AI character design",
+      "MV costume",
+      "Game character standing art",
+      "Concept art"
+    ],
     "promptJa": "添付画像のキャラクターに、ネオン発光するロザリオとホログラム装飾を取り入れた近未来ゴシックファッションの効果を追加して、世界観に合ったポーズでイラストを作成してください。荘厳な聖堂風背景、青紫ネオン、神秘的な光、ダークファンタジー世界観、映画的ライティングを反映してください。",
     "promptEn": "Create an illustration based on the attached character image, adding the effect of a futuristic gothic fashion style featuring glowing rosaries and holographic ornaments. Adjust the pose to match the worldbuilding and atmosphere. Use grand cathedral-inspired architecture, blue-purple neon lights, mystical illumination, dark fantasy aesthetics, and cinematic lighting.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "青紫ネオンが人気",
       "黒主体＋発光差し色が定番",
       "荘厳な建築背景と好相性",
       "ロザリオや聖堂モチーフは神秘性が強く出るため、発光表現は強すぎず上品にするとまとまりやすい"
     ],
+    "notesEn": [
+      "Blue-purple neon is popular.",
+      "A black base with glowing accents is a standard approach.",
+      "Pairs well with grand architectural backgrounds.",
+      "Rosary and cathedral motifs already feel mystical, so keeping glow effects restrained and elegant helps the image feel cohesive."
+    ],
     "sourceUrl": "https://www.pinterest.com/search/pins/?q=neon%20gothic%20fashion"
   },
   {
     "datetime": "2026-06-09 18:00",
     "publishedAt": "2026-06-09 17:01",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "type": "OR",
-    "typeLabel": "オリジナル",
-    "id": "AI10002",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "labels": [
+      "オリジナル"
+    ],
+    "labelsEn": [
+      "Original"
+    ],
+    "id": "CB10002",
     "title": "日本の妖怪診断プロンプト（Yokai Prompt）",
+    "titleEn": "Japanese Yokai Diagnosis Prompt",
     "summary": "添付画像の人物やキャラクターを、日本に実在する妖怪1種類に例えて、妖怪図鑑風の診断ポスターへ再構成するオリジナルプロンプトです。妖怪名は実在伝承に基づくものに限定し、妖力表示や伝承情報を入れることで、遊びながら妖怪知識も深められます。英語版も用意しているため、海外向けの投稿にも使いやすい構成です。\n\nThis original prompt transforms a person or character from an attached image into a yokai diagnosis poster based on one real yokai from Japanese folklore. It keeps the yokai selection grounded in actual legends, adds a Yokai Power rating and folklore-style information, and makes the result easy to enjoy as both a visual diagnosis and a learning entry. An English version is also included, making it suitable for international audiences and social media posts.",
+    "summaryEn": "An original prompt that transforms a person or character from an attached image into a yokai diagnosis poster based on one real yokai from Japanese folklore. It includes folklore-based naming, Yokai Power, and encyclopedia-style information for both Japanese and international posts.",
     "trendElements": [
       "夏",
       "怪談",
       "妖怪",
       "診断ポスター",
       "和風図鑑"
+    ],
+    "trendElementsEn": [
+      "Summer",
+      "Ghost stories",
+      "Yokai",
+      "Diagnosis poster",
+      "Japanese encyclopedia style"
     ],
     "useCases": [
       "SNS診断投稿",
@@ -117,27 +198,45 @@
       "夏の怪談企画",
       "海外向け和風コンテンツ"
     ],
+    "useCasesEn": [
+      "Social diagnosis post",
+      "Character transformation",
+      "Yokai encyclopedia-style illustration",
+      "Summer ghost-story project",
+      "Japanese-style content for international audiences"
+    ],
     "promptJa": "添付画像の人物／キャラクターを、日本に実在する妖怪1種類に例えて「妖怪診断ポスター」風の1枚絵として再構成してください。創作妖怪・架空妖怪は禁止です。有名妖怪も除外せず、画像との類似性が高ければ採用してください。類似度が近い候補が複数ある場合は、よりマイナーな実在妖怪を優先してください。\n\n【妖怪名ルール】必ず日本の伝承、妖怪絵巻、妖怪画集、民話、地域伝承、郷土資料などで確認できる実在妖怪を1種類だけ選定してください。存在が不明な妖怪名、創作名、架空名は禁止です。候補が不確かな場合は、架空で補完せず別の実在妖怪を再選定してください。\n\n【妖怪化ルール】人物やキャラクターを「妖怪のコスプレ」にせず、「本当にその妖怪だったらどう見えるか」を基準に妖怪化してください。元画像の服装は維持せず、選定妖怪の伝承や時代背景にふさわしい衣装・素材・意匠を優先してください。ただし、髪色、瞳の色、顔立ち、体型、雰囲気、モチーフカラーは元画像から引き継いでください。露出の多い伝承妖怪でも、健全な図鑑イラストとして自然な衣装や布地で補完してください。伝承上で性別が重要な妖怪は変更せず、性別が明確でない妖怪は入力キャラクターに合わせて構いません。\n\n【絵柄】江戸時代の妖怪絵巻風。水墨画と淡彩水彩を主体に、古い和紙へ描かれた妖怪図鑑のようにしてください。にじみのある墨線、淡い藍色、灰青色、朱色を中心とした和風配色、経年劣化した和紙、古文書、朱印、筆文字、余白を活かした構図を使ってください。西洋ファンタジー表現、魔法陣、ソシャゲ風演出、アニメポスター風は禁止です。少し可愛くデフォルメしてもよいですが、幼児化やマスコット化は避け、妖怪らしさを保ってください。\n\n【構図】妖怪イラストを絶対的な主役にし、画面全体の75〜85％程度を占める大きさで描写してください。小さな枠やフレーム内に閉じ込めないでください。レイヤーは「背景 → 情報欄 → 妖怪イラスト」の順にし、妖怪を最前面へ配置してください。髪、袖、尾、翼、角、炎、水流、氷、煙、布などが情報欄へ一部重なっても構いません。SNSで見た瞬間に、①診断結果、②巨大な妖怪イラスト、③妖力、④伝承情報の順で目に入る構成にしてください。\n\n【診断見出し】画面上部に大きく「あなたは……【妖怪名】」と表示してください。妖怪名は画面内で最も目立つ要素の一つにしてください。\n\n【妖力】評価項目は「妖力」のみに統一し、危険度は表示しないでください。妖力は、妖怪としての格、強さ、伝承規模、知名度、危険性、存在感を総合した評価です。表示は必ず★1〜★5の5段階のみ。星は最大5個で、6個以上は禁止です。★ 小妖、★★ 並妖、★★★ 強妖、★★★★ 大妖、★★★★★ 伝説級。妖力は妖怪名の近く、画面上部に固定配置し、説明文より目立たせてください。\n\n【妖力デザイン】★は大きく、筆文字風の荒い輪郭で、墨・朱・伝統顔料で手描きしたように豪快に並べてください。星ごとに少し大きさ、角度、位置をずらして構いませんが、数は最大5個です。ランク文字は筆文字、朱印、判子、護符、墨書き札のように表示してください。★1〜2は墨色・灰青色、★3は朱色、★4は紫色、★5は和風の金泥のような上品な金色にしてください。妖力が高いほど朱印、墨飛沫、護符、筆跡、虫食い和紙、古文書の染みを強めてください。虹色、金色ラメ、宝石、魔法陣、ソシャゲ風SSR演出は禁止です。\n\n【情報欄】画面内に、分類、初出年代、伝承地域、特徴、伝承、出典を簡潔に記載してください。長文は禁止です。情報欄は整った長方形フレームや表組みにせず、破れた和紙、巻物の切れ端、古文書の貼り紙、護符、短冊、朱印紙などの不規則な形状にしてください。情報欄同士が少し重なっても構いません。発見された古い資料を貼り付けたような見た目にしてください。\n\n【色彩設計】背景と情報欄は落ち着いた古紙色にし、妖怪イラスト本体だけを少し鮮やかにして、最初に妖怪へ視線が向かうようにしてください。妖怪図鑑でありながら、診断結果ポスターとして成立するデザインを目指してください。",
     "promptEn": "Reconstruct the person or character in the attached image as a “Yokai Diagnosis Poster,” comparing them to exactly one real yokai from Japanese folklore. Do not create an original yokai. Famous yokai are allowed if they strongly resemble the input image. If several real yokai candidates are similarly suitable, prioritize the more obscure real yokai.\n\n[Yokai Name Rules] Select exactly one real Japanese yokai. Fictional yokai names, invented names, and unclear yokai are forbidden. Use only yokai that can be confirmed in Japanese folklore, yokai picture scrolls, yokai art books, folk tales, regional legends, or local historical materials. If the existence of a candidate cannot be confirmed, do not use it; reselect another real yokai. The yokai name shown in the final image must remain in Japanese, followed by romanized reading in parentheses, for example: You are... 雪女 (Yuki-onna). Do not translate the yokai name into English as the main name.\n\n[Yokai Transformation Rules] Do not depict the person or character as merely cosplaying the yokai. Transform them based on the idea: “What would this person or character look like if they truly were that yokai?” Do not preserve the original clothing. Prioritize clothing, materials, and visual motifs appropriate to the selected yokai’s folklore, era, and traditional background. However, preserve the original image’s hair color, eye color, facial features, body type, overall atmosphere, and motif colors. If the original yokai is traditionally nude, semi-nude, or revealing, reinterpret the design with natural clothing, cloth, or traditional materials so it remains a wholesome yokai encyclopedia illustration. If the yokai’s gender is important in folklore, do not change it; if gender is unclear, the depiction may follow the input character.\n\n[Art Style] Use an Edo-period yokai picture-scroll style, mainly ink wash painting and pale watercolor. Make it look like an old yokai encyclopedia drawn on aged washi paper. Use bleeding ink lines, pale indigo, grayish blue, vermilion, muted traditional colors, old manuscript textures, red seals, brush-written text, and strong use of empty space. Western fantasy expression, magic circles, mobile-game effects, and anime-poster styling are forbidden. The yokai-transformed character may be slightly cute and gently deformed, but must not become a childish mascot; keep a clear yokai presence.\n\n[Composition] The yokai illustration must be the absolute main subject and should occupy about 75–85% of the entire image. Do not trap it inside a small frame. Build the layer structure as Background → information labels → yokai illustration, with the yokai in the foreground. Hair, sleeves, tail, wings, horns, flames, water, ice, smoke, cloth, or other elements may overlap the information labels. The layout should guide the viewer’s eye in this order: 1. “You are... [Yokai Name]”, 2. the large yokai illustration, 3. Yokai Power, 4. folklore information.\n\n[Yokai Diagnosis Presentation] Display a large headline near the top: “You are... [Japanese Yokai Name] ([Romanized Reading])”. The Japanese yokai name must be one of the most visually prominent elements, and the poster should immediately read as a diagnosis result.\n\n[Yokai Power] Use only one evaluation category: Yokai Power. Do not display Danger Level. Yokai Power is a combined evaluation of yokai rank, strength, scale of folklore, name recognition, dangerousness, and presence. Show it as a 1–5 star rating only: ★ Lesser Yokai, ★★ Common Yokai, ★★★ Powerful Yokai, ★★★★ Great Yokai, ★★★★★ Legendary Yokai. The maximum number of stars is exactly five; never show six or more. Place Yokai Power near the yokai name at the top, more prominent than the description text.\n\n[Yokai Power Design] The stars should be large, rough, brush-like, and hand-painted with ink, vermilion, or traditional pigment. Each star may vary slightly in size, angle, and placement, but the count must never exceed five. The rank label must look like brush lettering, a red seal, a stamp, a talisman, or an ink-written paper tag rather than body text. Use ink black or grayish blue for ★–★★, vermilion for ★★★, purple for ★★★★, and refined traditional gold pigment for ★★★★★. As Yokai Power increases, strengthen red seals, ink splashes, talismans, brush marks, worm-eaten washi paper, and manuscript stains. Rainbow colors, glittering gold, jewels, magic circles, and mobile-game SSR effects are forbidden.\n\n[Information Labels] Include concise labels for Classification, First Appearance Period, Folklore Region, Characteristics, Legend, and Source. All information label text must be written in English. Only the yokai name itself should remain in Japanese with romanized reading. Do not use clean rectangular frames or tidy tables; use irregular torn washi paper, scroll fragments, pasted old manuscript scraps, talismans, paper strips, or red-seal papers. Labels may overlap and should look like old discovered documents pasted onto the poster.\n\n[Color Design and Goal] Use calm aged-paper colors for the background and information labels. Only the yokai illustration itself should be slightly more vivid to guide the viewer’s eye toward it first. The final image should work both as a yokai encyclopedia page and as a diagnosis-result poster.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "妖力の★が6個以上になることがあるため、最大5個までと強く指定しています",
       "AIが架空の妖怪名を作る場合があるため、実在妖怪のみを使う指示を重ねています",
       "英語版では妖怪名を日本語表記＋ローマ字読みにして、海外向けにも使いやすくしています"
     ],
+    "notesEn": [
+      "The star rating may sometimes exceed five, so the prompt strongly limits it to a maximum of five stars.",
+      "Because AI may invent yokai names, the prompt repeatedly specifies that only real yokai may be used.",
+      "In the English version, the yokai name is shown in Japanese with romanization, making it easier to use for international audiences."
+    ],
     "sourceUrl": "",
     "featured": true,
     "featuredLabel": "おすすめ",
-    "featuredReason": "添付画像から実在する日本妖怪に例えた診断ポスターを作れる、SNS向けに遊びやすい日英対応のオリジナルプロンプトです。"
+    "featuredLabelEn": "Featured",
+    "featuredReason": "添付画像から実在する日本妖怪に例えた診断ポスターを作れる、SNS向けに遊びやすい日英対応のオリジナルプロンプトです。",
+    "featuredReasonEn": "A bilingual original prompt that turns an attached image into a social-media-friendly diagnosis poster based on a real Japanese yokai."
   },
   {
     "datetime": "2026-06-08 09:00",
     "publishedAt": "2026-06-08 20:12",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00145",
     "title": "“ペールサファイア×フロストホワイト” が透明感ビジュアルで増加",
+    "titleEn": "Pale Sapphire × Frost White Is Rising in Translucent Visuals",
     "summary": "淡いサファイアブルーと霜のようなホワイトを組み合わせた配色が増加。清潔感と近未来感を同時に演出できるため、AIイラスト、VTuber衣装、SNSバナーで利用例が伸びています。",
+    "summaryEn": "Pale sapphire blue combined with frost-like white is becoming more common. The palette conveys cleanliness and a futuristic feeling, making it useful for AI illustrations, VTuber outfits, and social media banners.",
     "trendElements": [
       "ペールサファイア",
       "フロストホワイト",
@@ -145,19 +244,38 @@
       "近未来デザイン",
       "韓国ミニマル"
     ],
+    "trendElementsEn": [
+      "Pale sapphire",
+      "Frost white",
+      "Translucent color",
+      "Futuristic design",
+      "Korean minimalism"
+    ],
     "useCases": [
       "AIポスター",
       "SNSバナー",
       "VTuber衣装",
       "MV背景"
     ],
+    "useCasesEn": [
+      "AI poster",
+      "Social media banner",
+      "VTuber outfit",
+      "MV background"
+    ],
     "promptJa": "ペールサファイアとフロストホワイトを基調にした透明感のある未来的ビジュアル。柔らかな光、ガラス質感、静かな都市背景、韓国ミニマルデザイン、洗練された映像表現。",
     "promptEn": "A futuristic visual themed around pale sapphire and frost white. Soft lighting, glass-like textures, quiet urban scenery, Korean minimalist aesthetics, and refined cinematic presentation.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "白背景との相性が非常に高い",
       "氷やガラス演出が映える",
       "プロフィール画像用途にも向く"
+    ],
+    "notesEn": [
+      "Works extremely well with white backgrounds.",
+      "Ice and glass effects stand out beautifully.",
+      "Also suitable for profile images."
     ],
     "sourceUrl": ""
   },
@@ -166,9 +284,12 @@
     "publishedAt": "2026-06-07 15:32",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00135",
     "title": "“メカニカルロリータ” が近未来キャラクターデザインで増加",
+    "titleEn": "Mechanical Lolita Is Rising in Futuristic Character Design",
     "summary": "クラシカルなロリータファッションに、精密機械や時計部品をモチーフとした装飾を組み合わせるスタイルが増加。スチームパンクほど重厚ではなく、洗練された近未来感を持つため、AIイラストやVTuber衣装で利用例が伸びています。",
+    "summaryEn": "A style that combines classical lolita fashion with precise machine and clock-part motifs is increasing. It feels more refined and futuristic than heavy steampunk, making it popular for AI illustrations and VTuber outfits.",
     "trendElements": [
       "メカニカルロリータ",
       "時計モチーフ",
@@ -176,19 +297,38 @@
       "近未来ゴシック",
       "クラシカルデザイン"
     ],
+    "trendElementsEn": [
+      "Mechanical lolita",
+      "Clock motif",
+      "Silver ornament",
+      "Futuristic gothic",
+      "Classical design"
+    ],
     "useCases": [
       "AIキャラクターデザイン",
       "VTuber衣装",
       "ゲーム立ち絵",
       "MVビジュアル"
     ],
+    "useCasesEn": [
+      "AI character design",
+      "VTuber outfit",
+      "Game character standing art",
+      "MV visual"
+    ],
     "promptJa": "クラシカルなロリータファッションに精密機械装飾を組み合わせた近未来スタイル。銀色の歯車モチーフ、繊細なレース、落ち着いた都市背景、映画的ライティング、幻想的で洗練された雰囲気。",
     "promptEn": "A futuristic style blending classic lolita fashion with intricate mechanical ornaments. Silver gear motifs, delicate lace, calm urban scenery, cinematic lighting, and an elegant fantasy atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "歯車は小型で繊細な表現が人気",
       "黒銀系配色との相性が高い",
       "過度なスチームパンク化は減少傾向"
+    ],
+    "notesEn": [
+      "Small, delicate gear details are popular.",
+      "Pairs well with black-and-silver palettes.",
+      "Overly heavy steampunk styling is becoming less common."
     ],
     "sourceUrl": ""
   },
@@ -197,9 +337,12 @@
     "publishedAt": "2026-06-06 02:44",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00119",
     "title": "全国で紫陽花観賞シーズン最盛期へ",
+    "titleEn": "Hydrangea Viewing Season Reaches Its Peak Across Japan",
     "summary": "全国の寺院や公園で紫陽花が見頃を迎えつつあります。梅雨の風景を代表する花として、写真撮影や観光スポット巡りが人気を集めています。",
+    "summaryEn": "Hydrangeas are approaching peak bloom at temples and parks across Japan. As a representative rainy-season flower, they are popular for photography, sightseeing, and seasonal visual ideas.",
     "trendElements": [
       "紫陽花",
       "寺院",
@@ -207,19 +350,38 @@
       "花景色",
       "雨上がり"
     ],
+    "trendElementsEn": [
+      "Hydrangea",
+      "Temple",
+      "Rainy season",
+      "Flower scenery",
+      "After the rain"
+    ],
     "useCases": [
       "観光紹介",
       "季節投稿",
       "和風MV",
       "背景イラスト"
     ],
+    "useCasesEn": [
+      "Tourism introduction",
+      "Seasonal post",
+      "Japanese-style MV",
+      "Background illustration"
+    ],
     "promptJa": "雨上がりの日本庭園。青や紫の紫陽花が咲き誇り、石畳には柔らかな光が反射している。静かで美しい初夏の情景。",
     "promptEn": "A Japanese garden after the rain, filled with blooming blue and purple hydrangeas. Soft light reflects on wet stone paths, creating a peaceful early-summer atmosphere.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "水滴表現を加える",
       "石畳の反射を活かす",
       "青紫系の配色が季節感を強める"
+    ],
+    "notesEn": [
+      "Add water droplet details.",
+      "Use reflections on stone pavement.",
+      "Blue-purple palettes strengthen the seasonal mood."
     ],
     "sourceUrl": "https://www.japan.travel/"
   },
@@ -228,9 +390,12 @@
     "publishedAt": "2026-06-05 20:32",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00120",
     "title": "梅雨入り直前のホタル観賞シーズン",
+    "titleEn": "Firefly Viewing Season Just Before the Rainy Season",
     "summary": "6月上旬は各地でホタル観賞シーズンが始まる時期です。清流や里山で幻想的な光景が見られ、初夏ならではの風物詩として人気があります。",
+    "summaryEn": "Early June marks the beginning of firefly viewing season in many regions. Fireflies over streams and satoyama landscapes create a magical early-summer atmosphere.",
     "trendElements": [
       "ホタル",
       "里山",
@@ -238,20 +403,40 @@
       "幻想風景",
       "初夏の夜"
     ],
+    "trendElementsEn": [
+      "Fireflies",
+      "Satoyama",
+      "Clear stream",
+      "Magical scenery",
+      "Early-summer night"
+    ],
     "useCases": [
       "幻想イラスト",
       "観光紹介",
       "MV背景",
       "自然紹介"
     ],
+    "useCasesEn": [
+      "Fantasy illustration",
+      "Tourism introduction",
+      "MV background",
+      "Nature introduction"
+    ],
     "promptJa": "初夏の夜、川にかかった橋の上からホタルを見学している場面。夜の清流沿いを無数のホタルが舞い、静かな森に淡い緑の光が浮かび上がっている。橋の欄干、川面の反射、里山の暗いシルエットを入れ、幻想的で神秘的な雰囲気の初夏の夜を描く。",
     "promptEn": "An early-summer night scene viewed from a bridge over a quiet stream, where countless fireflies dance above the water. Soft green lights glow in the silent forest, with the bridge railing, reflections on the river surface, and dark satoyama silhouettes creating a magical and mysterious atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "橋の上から見学する構図にすると奥行きが出る",
       "暗部を残して光を際立たせる",
       "緑系の淡い発光を加える",
       "川面の反射を入れると幻想感が強まる"
+    ],
+    "notesEn": [
+      "Viewing from a bridge creates depth.",
+      "Keep dark areas so the lights stand out.",
+      "Add a soft green glow.",
+      "Reflections on the water enhance the magical feeling."
     ],
     "sourceUrl": "https://www.japan.travel/"
   },
@@ -260,9 +445,12 @@
     "publishedAt": "2026-06-05 19:59",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00118",
     "title": "芒種（ぼうしゅ）直前の初夏シーズン",
+    "titleEn": "Early-Summer Season Just Before Bōshu",
     "summary": "二十四節気の「芒種」を目前に控え、田植えや初夏の農村風景が各地で見られる時期です。緑豊かな田園風景が季節感を象徴しています。",
+    "summaryEn": "With the traditional solar term Bōshu approaching, rice planting and early-summer rural scenery can be seen in many areas. Lush green fields symbolize the season.",
     "trendElements": [
       "田園風景",
       "田植え",
@@ -270,30 +458,52 @@
       "農村",
       "日本の原風景"
     ],
+    "trendElementsEn": [
+      "Rural landscape",
+      "Rice planting",
+      "Early summer",
+      "Rural village",
+      "Nostalgic Japanese scenery"
+    ],
     "useCases": [
       "季節投稿",
       "観光紹介",
       "背景素材",
       "地域PR"
     ],
+    "useCasesEn": [
+      "Seasonal post",
+      "Tourism introduction",
+      "Background asset",
+      "Regional promotion"
+    ],
     "promptJa": "初夏の田園地帯。青空の下に水を張った田んぼが広がり、遠くには山並みが見える。爽やかな風と豊かな自然を感じる日本の風景。",
     "promptEn": "An early-summer countryside landscape with water-filled rice fields stretching beneath a blue sky. Mountains rise in the distance, creating a refreshing and nostalgic Japanese rural scene.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "空の映り込みを活用する",
       "広角構図が映える",
       "緑と青のコントラストを意識する"
+    ],
+    "notesEn": [
+      "Use reflections of the sky.",
+      "Wide-angle compositions work well.",
+      "Pay attention to the contrast between green and blue."
     ],
     "sourceUrl": "https://www.maff.go.jp/"
   },
   {
     "datetime": "2026-06-04 09:00",
     "publishedAt": "2026-06-04 18:03",
-    "category": "FA",
-    "categoryLabel": "ファッション",
-    "id": "FA00114",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00114",
     "title": "“音声波形UIオーバーレイ” がMV風投稿で増加",
+    "titleEn": "Audio Waveform UI Overlays Are Rising in MV-Style Posts",
     "summary": "音声の波形グラフをビジュアルへ重ねる演出が増加。音楽やボイスの存在を直感的に伝えられるため、AI動画、歌ってみた、キャラクターボイス紹介投稿で利用例が伸びています。",
+    "summaryEn": "Visuals that overlay audio waveform graphs onto images are increasing. They make music and voice easy to communicate intuitively, fitting AI videos, singing covers, and character voice introductions.",
     "trendElements": [
       "音声波形",
       "オーディオUI",
@@ -301,30 +511,52 @@
       "音楽投稿",
       "SNSデザイン"
     ],
+    "trendElementsEn": [
+      "Audio waveform",
+      "Audio UI",
+      "MV-style direction",
+      "Music posts",
+      "Social media design"
+    ],
     "useCases": [
       "歌ってみた動画",
       "AI動画演出",
       "キャラクターボイス紹介",
       "MVサムネイル"
     ],
+    "useCasesEn": [
+      "Singing cover video",
+      "AI video direction",
+      "Character voice introduction",
+      "MV thumbnail"
+    ],
     "promptJa": "音声波形UIが重なったシネマティックな人物ビジュアル。半透明のオーディオグラフ、夜の都市背景、感情的な空気感、映画的ライティング、MV風デザイン。",
     "promptEn": "A cinematic character visual overlaid with audio waveform UI. Semi-transparent audio graphs, nighttime city backdrop, emotional atmosphere, cinematic lighting, and music-video-inspired aesthetics.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "波形は中央配置が人気",
       "色数は少なめが今風",
       "音楽系投稿との相性が高い"
+    ],
+    "notesEn": [
+      "Center placement of the waveform is popular.",
+      "A limited color palette feels current.",
+      "Works well with music-related posts."
     ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-06-03 21:00",
     "publishedAt": "2026-06-03 23:07",
-    "category": "FA",
-    "categoryLabel": "ファッション",
-    "id": "FA00110",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00110",
     "title": "“天気アプリUIオーバーレイ” がライフスタイル投稿で増加",
+    "titleEn": "Weather App UI Overlays Are Rising in Lifestyle Posts",
     "summary": "スマートフォンの天気アプリ風UIを画像や動画へ重ねる演出が増加。気温や天候情報を世界観演出として利用できるため、日常投稿やMV風ビジュアルで活用例が伸びています。",
+    "summaryEn": "Weather-app-style UI overlays on images and videos are increasing. Temperature and weather information can be used as worldbuilding elements, making them useful for daily posts and MV-style visuals.",
     "trendElements": [
       "天気アプリUI",
       "ライフログ演出",
@@ -332,21 +564,42 @@
       "日常投稿",
       "SNS映え"
     ],
+    "trendElementsEn": [
+      "Weather app UI",
+      "Lifelog styling",
+      "Smartphone design",
+      "Everyday posts",
+      "Social-media appeal"
+    ],
     "useCases": [
       "SNS投稿",
       "AI動画演出",
       "MV導入カット",
       "キャラクター紹介"
     ],
+    "useCasesEn": [
+      "Social media post",
+      "AI video direction",
+      "MV opening shot",
+      "Character introduction"
+    ],
     "promptJa": "【地域入力】\n地域名【　】\n\n※上記【　】内に地域名・都市名・地名を入力してください。\n※地域名が入力されている場合は、その土地の現在の日時、季節、気温、天候に合う情報を想定し、天気アプリ風UIの表示内容へ反映してください。\n※地域名が未入力の場合は、特定の土地名を出さず、現在の季節感に合う架空の天気アプリUIとして自然に作成してください。\n※地域名が日本以外の土地である場合は、判別できる範囲で、その国・地域で自然に使われる言語をUI内の単語・短い表示文に反映してください。\n※判別が難しい場合や読みにくくなる場合は、英語または日本語を補助的に使っても構いません。\n\n天気アプリ風UIが重なったシネマティックな都市ビジュアル。\n入力された地域の現在日時・気温・天候を反映した、スマートフォンの天気アプリ風オーバーレイを画面上に配置してください。\n\nUIには、地域名、現在時刻、気温、天候アイコン、湿度や風速などの簡単な情報を含めてください。\n地域名が日本国内の場合は日本語UIを基本にしてください。\n地域名が海外の場合は、可能な限りその国・地域の言語で「天気」「気温」「湿度」「風」「雨」「晴れ」「曇り」などのUI単語を自然に表現してください。\n例：Parisならフランス語、Seoulなら韓国語、Taipeiなら繁体字中国語、New Yorkなら英語、Bangkokならタイ語のように、地域に合う言語を優先してください。\n\n半透明のインターフェース、静かな街並み、柔らかな光、物語性のあるSNSデザイン。\n背景は、入力された地域の雰囲気に合う都市・住宅街・駅前・海沿い・公園などから自然に選び、日常写真やMV導入カットのように仕上げてください。\n\nUIは画面を覆いすぎず、半透明で読みやすいデザインにしてください。\n気温表示はやや大きめにし、スマートフォン画面のスクリーンショットやライフログ投稿のような雰囲気を出してください。",
     "promptEn": "[Location Input]\nLocation name: [　]\n\nEnter a region, city, or place name inside the brackets above.\n\nIf a location name is provided, reflect the current date, time, season, temperature, and weather of that place in the weather-app-style UI overlay.\n\nIf the location field is blank, do not show a specific place name. Instead, create a natural fictional weather-app UI that matches the current seasonal atmosphere.\n\nIf the location is outside Japan, use the local language of that country or region for the words and short labels inside the weather app UI as much as can be reasonably inferred.\nIf the language cannot be determined clearly, or if readability would suffer, English or Japanese may be used as a supporting fallback.\n\nCreate a cinematic urban visual featuring a weather-app-style UI overlay.\nPlace a smartphone weather-app-style overlay on the image, reflecting the current time, temperature, and weather of the entered location.\n\nThe UI should include the location name, current time, temperature, weather icon, and simple details such as humidity or wind speed.\nFor locations in Japan, use Japanese UI text by default.\nFor locations outside Japan, express UI words such as “weather,” “temperature,” “humidity,” “wind,” “rain,” “sunny,” and “cloudy” in the natural local language of that country or region whenever possible.\nFor example, use French for Paris, Korean for Seoul, Traditional Chinese for Taipei, English for New York, and Thai for Bangkok when appropriate.\n\nUse semi-transparent interface elements, quiet everyday scenery, soft lighting, and storytelling-focused social-media design.\n\nChoose the background naturally based on the entered location, such as a city street, residential area, station front, seaside, park, or other suitable everyday scene.\nThe final image should feel like a lifestyle post or an opening shot for a music video.\n\nKeep the UI semi-transparent, readable, and not too dominant.\nMake the temperature display slightly large, and create the atmosphere of a smartphone screenshot or lifelog-style social media post.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "地域入力欄に地名を入れると、その土地の日時・気温・天候を反映したUI演出として使いやすい",
       "海外の地域名を入れた場合は、判別できる範囲でその国・地域の言語をUI単語に反映する",
       "気温表示は大きめが人気",
       "UIは半透明が現在風",
       "日常写真やライフログ投稿との相性が高い"
+    ],
+    "notesEn": [
+      "Entering a place name makes it easy to create UI that reflects that location’s time, temperature, and weather.",
+      "For overseas locations, reflect the local language in the UI terms whenever it can be inferred.",
+      "Larger temperature displays are popular.",
+      "Semi-transparent UI feels current.",
+      "Works well with everyday photos and lifelog-style posts."
     ],
     "sourceUrl": ""
   },
@@ -355,9 +608,12 @@
     "publishedAt": "2026-06-03 03:22",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00105",
     "title": "梅雨入り直前の傘・レイングッズ需要増加",
+    "titleEn": "Umbrellas and Rain Goods Gain Attention Before the Rainy Season",
     "summary": "梅雨入りを控え、傘やレインコートなどのレイングッズが注目される時期です。透明傘や雨の日コーデをテーマにした投稿が増加しています。",
+    "summaryEn": "As the rainy season approaches, umbrellas, raincoats, and other rain goods are gaining attention. Transparent umbrellas and rainy-day outfits are appearing more often in posts.",
     "trendElements": [
       "透明傘",
       "雨の日コーデ",
@@ -365,19 +621,38 @@
       "梅雨準備",
       "街歩き"
     ],
+    "trendElementsEn": [
+      "Transparent umbrella",
+      "Rainy-day outfit",
+      "Raincoat",
+      "Rainy-season preparation",
+      "City walk"
+    ],
     "useCases": [
       "ファッション投稿",
       "広告素材",
       "MV背景",
       "SNS企画"
     ],
+    "useCasesEn": [
+      "Fashion post",
+      "Advertising material",
+      "MV background",
+      "Social media project"
+    ],
     "promptJa": "小雨が降る街角。透明傘を差した人物が濡れた歩道を歩いている。街灯の光が路面に反射し、しっとりとした梅雨前の空気感が漂う。",
     "promptEn": "A person walks through a city street under a transparent umbrella during a light rain. Streetlights reflect on the wet pavement, creating a calm pre-rainy-season atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "路面反射を強めにする",
       "透明傘に雨粒を付ける",
       "青灰色ベースの色調が映える"
+    ],
+    "notesEn": [
+      "Emphasize pavement reflections.",
+      "Add raindrops to the transparent umbrella.",
+      "Blue-gray color tones work well."
     ],
     "sourceUrl": "https://www.jma.go.jp/"
   },
@@ -386,17 +661,31 @@
     "publishedAt": "2026-06-02 00:19",
     "category": "EV",
     "categoryLabel": "季節・イベント",
-    "type": "OR",
-    "typeLabel": "オリジナル",
+    "categoryLabelEn": "Seasonal Events",
+    "labels": [
+      "オリジナル"
+    ],
+    "labelsEn": [
+      "Original"
+    ],
     "id": "EV10001",
     "title": "あなたに似合う「バラ」の品種 プロンプト",
+    "titleEn": "Rose Variety Prompt That Matches Your Character",
     "summary": "キャラクター画像を1枚添付すると、そのキャラクターに似合う実在の薔薇品種を選定し、薔薇と一緒に写った植物図鑑風・デザインシート風イラストを作れるオリジナルプロンプトです。好きな薔薇の品種がある場合は、品種指定欄に名前を入れることで指定品種を優先できます。",
+    "summaryEn": "An original prompt that selects a real rose variety matching an attached character image and creates a botanical encyclopedia or design-sheet-style illustration with roses. A specific rose variety can also be prioritized if provided.",
     "trendElements": [
       "ローズの日",
       "薔薇",
       "花景色",
       "キャラクター診断",
       "水彩ポスター"
+    ],
+    "trendElementsEn": [
+      "Rose Day",
+      "Roses",
+      "Flower scenery",
+      "Character diagnosis",
+      "Watercolor poster"
     ],
     "useCases": [
       "6月2日のローズの日投稿",
@@ -405,27 +694,45 @@
       "植物図鑑風ポスター",
       "記念日イラスト"
     ],
+    "useCasesEn": [
+      "June 2 Rose Day post",
+      "Character introduction image",
+      "Social icon / header material",
+      "Botanical encyclopedia-style poster",
+      "Anniversary illustration"
+    ],
     "promptJa": "【薔薇の品種指定欄】\n品種名【　】 \n\n※上記【　】内に実在する薔薇の品種名が記入されている場合は、キャラクターに合う品種を新しく選定せず、記入された品種を優先して使用してください。\n※記入された品種名が架空の名称、誤記、または検索・確認できない名称である場合は、その指定を無効として扱い、未記入の場合と同じように、キャラクターに合う実在の薔薇品種を選定してください。\n※品種名が未記入の場合は、キャラクターの色、衣装、性格、雰囲気、物語性から相性が良いと想像される実在の薔薇品種を選定してください。\n\n添付されたキャラクター画像を参照し、そのキャラクターと薔薇が一緒に写っている、1枚の完成イラストを作成してください。\n\n\n【キャラクターについて】 \n・添付画像のキャラクターの外見的アイデンティティを保ってください。\n・髪型、髪色、目の色、顔立ち、衣装の印象、体型、雰囲気はできるだけ維持してください。\n・薔薇やイラスト全体の雰囲気に合わせて、自然で魅力的なポーズにしてください。\n・添付イラストがバストアップの場合は、無理に全身化せず上半身中心の構図として自然にまとめてください。\n\n【薔薇の品種について】\n・薔薇の品種は実在する品種から選んでください。\n・最上部の【薔薇の品種指定欄】に実在する品種名が記入されている場合は、その品種を使用してください。\n・品種指定欄が未記入、または記入された品種が架空・不明・確認不能な場合は、キャラクターと\"相性が良い\"と感じられる実在品種を選定してください。\n・\"相性の良い\"とは、必ずしもキャラクターと同系色という意ではなく、キャラクターの色、衣装、性格、雰囲気、物語性とかみ合っていれば、補色（対照的）な色の薔薇でも構いません。\n・薔薇の本数やボリュームは、キャラクターの雰囲気から自然に想像できる量にしてください。\n・華やかなキャラクターなら多め、静かなキャラクターなら控えめ、上品なキャラクターなら整った量など、雰囲気に合わせて調整してください。\n・花弁とキャラクターのサイズ比は可能な限り実際に近づけてください\n\n\n【薔薇の形状について】\n・登場する薔薇の形状は、以下の３つからランダムに１つ選んでください。\n1. 地植え\n2. 鉢植え\n3. 花束\n\n・選んだ形状が画面上で明確に分かるように描いてください。\n・同じ形式に偏らないよう、地植え・鉢植え・花束のいずれも自然に選択候補として扱ってください。\n\n【背景について】\n・基本は白地背景としてください。\n・ただし、薔薇の形状によって背景の扱いを変えてください。\n・地植えの場合：白地背景を基調にしつつ、足元の地面、土、石畳、小道、ローズガーデンの一部などを描いてください。\n　ただし、背景全体を濃い風景にせず、白地の余白を残した上品なローズガーデン風にしてください。\n・鉢植えの場合： 背景は白一色にしてください。\n　鉢、足元の影、軽い装飾程度でまとめてください。\n・花束の場合：背景は白一色にしてください。キャラクターが花束を持つ、抱える、差し出すなど、花束として分かりやすい構図にしてください。\n\n【文字情報について 】\n・イラスト内に、選定または指定された薔薇の名称と特徴を記載してください。\n・文字は手書き風にしてください。\n・文字は読みやすく、イラストの雰囲気に合うように配置してください。\n・以下の情報を、短く分かりやすく記載してください。 \n・薔薇の品種名\n・日本語名またはカタカナ表記\n・花色\n・咲き方\n・性質（木立性、つる性、フロリバンダ、ハイブリッド・ティー、返り咲き、四季咲きなど）\n・香り\n・キャラクターとの相性を表す短いコメント \n\n【複数キャラクターの場合】\n・添付画像に複数のキャラクターが写っている場合は、最大2種類まで薔薇の品種を選定してください。\n・品種指定欄に1種類のみ記入されている場合は、その品種を主役の薔薇として扱い、必要に応じて全キャラクターに共通する薔薇として使用してください。\n・品種指定欄に2種類まで実在品種が記入されている場合は、それぞれの品種をキャラクターに対応させて使用してください。\n・2種類の薔薇を使う場合は、どちらの薔薇がどのキャラクターに対応しているか分かるように配置してください。\n\n【画風】\n・水彩画の雰囲気を70％くらい取り入れた、アニメ的な画風にしてください。\n・透明感のある色使い、柔らかいにじみ、繊細な線、淡い影を重視してください。\n・白地背景に合う、上品で軽やかな仕上がりにしてください。\n・キャラクター、薔薇、文字情報が1枚のデザインシートや植物図鑑風ポスターのように美しくまとまる構図にしてください。",
     "promptEn": "[Rose Variety Specification Field]\nRose variety name: [　]\n\nIf a real rose variety name is written inside the brackets above, use that variety as the priority, without selecting a new rose variety to match the character.\n\nIf the written variety name is fictional, misspelled, or cannot be confirmed through search or verification, treat the specification as invalid and handle it the same way as if the field were left blank.\n\nIf the rose variety field is blank, select a real existing rose variety that feels well-matched to the character, based on the character’s colors, outfit, personality, atmosphere, and narrative impression.\n\nCreate one finished illustration featuring the attached character and roses together.\n\n[About the Character]\n\n* Refer to the attached character image and preserve the character’s visual identity.\n* Keep the hairstyle, hair color, eye color, facial features, outfit impression, body type, and overall atmosphere as faithfully as possible.\n* Choose a natural and appealing pose that matches the roses and the overall mood of the illustration.\n* If the attached illustration is a bust-up image, do not force a full-body composition. Instead, create a natural upper-body-centered composition.\n\n[About the Rose Variety]\n\n* The rose variety must be selected from real existing rose varieties.\n* If a real variety name is written in the [Rose Variety Specification Field] at the top, use that variety.\n* If the field is blank, or if the written variety is fictional, unknown, or impossible to verify, select a real rose variety that feels compatible with the character.\n* “Compatible” does not necessarily mean the same color as the character. A complementary or contrasting rose color is also acceptable if it harmonizes with the character’s colors, outfit, personality, atmosphere, or story.\n* Adjust the number and volume of roses naturally according to the character’s atmosphere.\n* For a glamorous character, use more roses. For a quiet character, use fewer roses. For an elegant character, use a refined and well-arranged amount.\n* Keep the size ratio between the rose petals and the character as close to real-life proportions as possible.\n\n[Rose Form.]\nRandomly choose one of the following three rose forms:\n\n1. Garden-planted roses\n2. Potted roses\n3. Rose bouquet\n\nMake sure the chosen form is clearly recognizable in the image.\n\nDo not bias the selection toward only one form. Treat garden-planted roses, potted roses, and rose bouquets as equally natural options.\n\n[Background]\n\n* The basic background should be white.\n* However, adjust the background treatment depending on the chosen rose form.\n\nIf garden-planted roses are chosen:\nUse a white background as the base, but include the ground around the feet, soil, stone pavement, a small path, or part of a rose garden. Do not turn the entire background into a dense landscape. Leave elegant white space and create a refined rose garden atmosphere.\n\nIf potted roses are chosen:\nUse a pure white background. Keep the composition simple with the pot, a shadow at the feet, and only light decorative elements.\n\nIf a rose bouquet is chosen:\nUse a pure white background. Make the bouquet clearly recognizable by having the character hold it, embrace it, or offer it forward.\n\n[Text Information.]\nInclude the selected or specified rose name and its characteristics within the illustration.\n\nThe text should have a handwritten style.\n\nMake the text readable and place it in a way that matches the mood of the illustration.\n\nWrite the following information briefly and clearly:\n\n* Rose variety name\n* Japanese name or katakana transcription\n* Flower color\n* Bloom form\n* Growth habit or type, such as shrub rose, climbing rose, floribunda, hybrid tea, repeat-blooming, or continuous-blooming\n* Fragrance\n* A short comment describing the compatibility between the rose and the character\n\n[If There Are Multiple Characters.]\n\n* If the attached image contains multiple characters, select up to two rose varieties.\n* If only one variety is written in the specification field, treat that variety as the main rose and use it as a shared rose for all characters if appropriate.\n* If up to two real rose varieties are written in the specification field, assign each variety to the corresponding character.\n* If using two rose varieties, arrange them so it is clear which rose corresponds to which character.\n\n[Art Style]\n\n* Use an anime-style illustration with about 70% watercolor influence.\n* Emphasize transparent colors, soft bleeding effects, delicate linework, and pale shadows.\n* Create an elegant, light, and refined finish that suits a white background.\n* Compose the character, roses, and text information beautifully in a single image, like a design sheet or a botanical encyclopedia-style poster.\\",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "品種指定欄を空欄にすると、キャラクターの色や雰囲気から相性の良い実在品種を選ぶ構成です",
       "好きな薔薇の品種がある場合は、品種名を【】内に入れると指定品種を優先できます",
       "白地背景・水彩寄りの画風にすると、植物図鑑風ポスターとしてまとまりやすいです"
     ],
+    "notesEn": [
+      "Leaving the variety field blank lets the prompt choose a real rose variety that matches the character’s colors and atmosphere.",
+      "If you have a favorite rose variety, entering it in the brackets will prioritize that variety.",
+      "A white background with a watercolor style helps the result work as a botanical poster."
+    ],
     "sourceUrl": "",
     "featured": true,
     "featuredLabel": "おすすめ",
-    "featuredReason": "キャラクター画像1枚から使えて、ローズの日投稿・キャラクター紹介・記念日イラストに応用しやすい定番プロンプトです。"
+    "featuredLabelEn": "Featured",
+    "featuredReason": "キャラクター画像1枚から使えて、ローズの日投稿・キャラクター紹介・記念日イラストに応用しやすい定番プロンプトです。",
+    "featuredReasonEn": "A versatile prompt for Rose Day posts, character introductions, and anniversary illustrations using one character image."
   },
   {
     "datetime": "2026-05-29 21:00",
     "publishedAt": "2026-05-30 11:11",
-    "category": "FA",
-    "categoryLabel": "ファッション",
-    "id": "FA00068",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00068",
     "title": "“ガラス越し雨粒構図” が感情系MV演出で拡大",
+    "titleEn": "Rain-on-Glass Framing Is Expanding in Emotional MV Visuals",
     "summary": "窓ガラスに付いた雨粒を前景に配置し、その奥に人物や夜景を置く構図が増加。AI動画では静止画でも動きを感じやすく、感傷的な雰囲気や映画的演出を作りやすいことから人気を集めています。",
+    "summaryEn": "Compositions that place raindrops on a window in the foreground with a character or night view beyond are expanding. Even still images can feel like they contain motion, making them useful for emotional and cinematic scenes.",
     "trendElements": [
       "雨粒前景",
       "ガラス越し視点",
@@ -433,19 +740,38 @@
       "感情演出",
       "シネマティック"
     ],
+    "trendElementsEn": [
+      "Raindrop foreground",
+      "Through-glass view",
+      "Night bokeh",
+      "Emotional direction",
+      "Cinematic"
+    ],
     "useCases": [
       "青春MV",
       "AIショート動画",
       "感傷系イラスト",
       "SNSサムネイル"
     ],
+    "useCasesEn": [
+      "Youth MV",
+      "AI short video",
+      "Sentimental illustration",
+      "Social media thumbnail"
+    ],
     "promptJa": "雨粒が付いたガラス越しに人物を映したシネマティックな夜景。ネオンのボケ光、静かな都市背景、柔らかな被写界深度、感情的な映画ワンシーンの雰囲気。",
     "promptEn": "A cinematic night scene viewed through a rain-covered glass window. Neon bokeh lights, quiet urban background, soft depth of field, emotional movie-like atmosphere.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
       "前景の雨粒を大きめにすると映える",
       "背景は強くぼかすのが主流",
       "青系ネオンとの相性が良い"
+    ],
+    "notesEn": [
+      "Larger foreground raindrops are visually effective.",
+      "Strong background blur is commonly used.",
+      "Pairs well with blue neon."
     ],
     "sourceUrl": ""
   },
@@ -454,9 +780,12 @@
     "publishedAt": "2026-05-29 23:30",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00083",
     "title": "5月下旬の紫陽花シーズン本格化",
+    "titleEn": "Hydrangea Season Enters Full Swing in Late May",
     "summary": "全国各地で紫陽花が見頃へ向かう時期となり、寺院・公園・庭園で初夏の花景色を楽しむ人が増えています。SNSでも紫陽花をテーマにした季節投稿が急増しています。",
+    "summaryEn": "Hydrangeas are entering their seasonal peak across Japan, especially in temples, parks, and gardens. Seasonal posts using hydrangea scenery are increasing on social media.",
     "trendElements": [
       "紫陽花",
       "初夏",
@@ -464,16 +793,35 @@
       "寺院",
       "雨上がり"
     ],
+    "trendElementsEn": [
+      "Hydrangea",
+      "Early summer",
+      "Flower scenery",
+      "Temple",
+      "After the rain"
+    ],
     "useCases": [
       "季節投稿",
       "観光紹介",
       "背景イラスト",
       "和風動画"
     ],
+    "useCasesEn": [
+      "Seasonal post",
+      "Tourism introduction",
+      "Background illustration",
+      "和風動画"
+    ],
     "promptJa": "雨上がりの寺院参道に咲く色鮮やかな紫陽花。石畳が少し濡れて光を反射し、静かな初夏の空気が漂っている。映画的で美しい日本の季節風景。",
     "promptEn": "Colorful hydrangeas bloom along a temple pathway after the rain. Wet stone pavement reflects soft light while a peaceful early-summer atmosphere fills the scene. Beautiful cinematic Japanese seasonal scenery.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
+      "青紫系の花を中心にする",
+      "石畳の反射を加える",
+      "曇天気味の光が映える"
+    ],
+    "notesEn": [
       "青紫系の花を中心にする",
       "石畳の反射を加える",
       "曇天気味の光が映える"
@@ -481,21 +829,33 @@
     "sourceUrl": "https://www.japan.travel/",
     "featured": true,
     "featuredLabel": "おすすめ",
-    "featuredReason": "紫陽花・寺院・雨上がりを組み合わせた、初夏の季節投稿や和風背景イラストに使いやすい定番プロンプトです。"
+    "featuredLabelEn": "Featured",
+    "featuredReason": "紫陽花・寺院・雨上がりを組み合わせた、初夏の季節投稿や和風背景イラストに使いやすい定番プロンプトです。",
+    "featuredReasonEn": "A reliable seasonal prompt combining hydrangeas, temples, and post-rain scenery for early-summer posts and Japanese-style backgrounds."
   },
   {
     "datetime": "2026-05-29 08:46",
     "publishedAt": "2026-05-29 22:56",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "id": "AI00196",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00196",
     "title": "ChatGPT Images系で「未完成部分を意図的に残す」表現が拡散",
+    "titleEn": "Intentionally Unfinished Elements Spread in ChatGPT Images-Style Art",
     "summary": "ChatGPT Image利用者の共有プロンプト群では、「一部だけスケッチ状態」「完成と未完成が共存する画面」を作る手法が注目されています。人物や背景の一部のみを未完成にすることで、アート性や物語性を強く演出できるとして拡散しています。",
+    "summaryEn": "Shared ChatGPT Image prompts are drawing attention to visuals where some parts remain sketched or unfinished. Keeping both finished and unfinished areas in one image can add artistry and narrative depth.",
     "trendElements": [
       "未完成表現",
       "スケッチ融合",
       "アートポスター風",
       "物語演出",
+      "ChatGPT Images"
+    ],
+    "trendElementsEn": [
+      "Unfinished expression",
+      "Sketch fusion",
+      "Art poster style",
+      "Storytelling",
       "ChatGPT Images"
     ],
     "useCases": [
@@ -504,23 +864,38 @@
       "コンセプトビジュアル",
       "展示作品"
     ],
+    "useCasesEn": [
+      "AI art post",
+      "MV cover art",
+      "Concept visual",
+      "Exhibition artwork"
+    ],
     "promptJa": "夜の都市に立つ少女。顔や手は超高精細な実写描写だが、服や背景の一部は鉛筆スケッチの未完成状態として残されている。完成と未完成が自然に融合した映画ポスター風ビジュアル。",
     "promptEn": "A girl standing in a city at night. Her face and hands are rendered in ultra-detailed realism, while parts of her clothes and background remain unfinished pencil sketches. A cinematic poster blending completion and incompletion.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "完成部分と未完成部分を明確に分離する",
       "輪郭線を残す",
       "背景を描き込み過ぎない"
     ],
+    "notesEn": [
+      "Separate finished and unfinished areas clearly.",
+      "Leave outline lines visible.",
+      "Avoid over-detailing the background."
+    ],
     "sourceUrl": "https://community.openai.com/"
   },
   {
     "datetime": "2026-05-27 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "id": "EV00072",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00072",
     "title": "全国で「夕方の公園ベンチ」系投稿が人気継続",
+    "titleEn": "Evening Park Bench Visuals Continue to Trend",
     "summary": "夕暮れの公園ベンチを舞台にした“静かな青春感”のある投稿がSNSで継続的に人気です。オレンジ色の夕日や木陰を活かしたノスタルジックな演出が注目されています。",
+    "summaryEn": "Quiet youth-themed posts set around evening park benches remain popular on social media. Orange sunsets and tree shade create a nostalgic cinematic mood.",
     "trendElements": [
       "公園ベンチ",
       "夕焼け",
@@ -528,29 +903,51 @@
       "青春感",
       "ノスタルジー"
     ],
+    "trendElementsEn": [
+      "Park bench",
+      "Sunset",
+      "Tree shade",
+      "Youthful mood",
+      "Nostalgia"
+    ],
     "useCases": [
       "青春MV",
       "ショート動画",
       "エモ投稿",
       "背景素材"
     ],
+    "useCasesEn": [
+      "Youth MV",
+      "Short video",
+      "Emotional post",
+      "Background asset"
+    ],
     "promptJa": "夕焼けに染まる公園。木陰のベンチに座るキャラクターが静かに空を見上げている。暖かな夕日、揺れる木々、少しノスタルジックな空気感。映画の青春シーンのような雰囲気。",
     "promptEn": "A park glowing beneath a warm sunset sky. The character quietly sits on a bench beneath the trees while looking upward. Gentle evening light, swaying leaves, and nostalgic cinematic youth atmosphere.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
       "夕日は暖色を強めにする",
       "木漏れ日を少し残す",
       "人物を小さめにすると風景映えする"
     ],
+    "notesEn": [
+      "Make the sunset tones warm and strong.",
+      "Leave some dappled light.",
+      "Smaller character placement lets the scenery stand out."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-24 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "id": "EV00057",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00057",
     "title": "全国で「レトロ喫茶」系ビジュアル投稿が人気継続",
+    "titleEn": "Retro Café Visual Posts Continue to Trend",
     "summary": "昭和レトロブームの流れから、純喫茶・クリームソーダ・木製内装を使った“レトロ喫茶店”系投稿が増加しています。暖色照明と少し暗めの店内演出が人気です。",
+    "summaryEn": "Retro café posts featuring kissaten interiors, cream soda, and wooden furniture are increasing. Warm lighting and slightly dim interiors create a popular Showa-retro atmosphere.",
     "trendElements": [
       "純喫茶",
       "クリームソーダ",
@@ -558,19 +955,38 @@
       "木製家具",
       "暖色照明"
     ],
+    "trendElementsEn": [
+      "Retro café",
+      "Cream soda",
+      "Showa retro",
+      "Wooden furniture",
+      "Warm lighting"
+    ],
     "useCases": [
       "レトロ系MV",
       "日常背景",
       "配信サムネ",
       "SNS投稿"
     ],
+    "useCasesEn": [
+      "Retro-style MV",
+      "Everyday background",
+      "Streaming thumbnail",
+      "Social media post"
+    ],
     "promptJa": "昭和レトロな純喫茶店の店内。木製家具と暖色照明に包まれ、テーブルにはクリームソーダが置かれている。キャラクターが静かに窓際へ座っている。少しノスタルジックで映画的な空気感。",
     "promptEn": "Inside a retro Japanese café filled with warm lighting and wooden furniture. A cream soda rests on the table while the character quietly sits near the window. Nostalgic cinematic atmosphere with classic Showa-era café aesthetics.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
       "暗くしすぎない方が映える",
       "ガラス反射を少し入れる",
       "緑色のクリームソーダが定番演出"
+    ],
+    "notesEn": [
+      "Avoid making it too dark.",
+      "Add subtle glass reflections.",
+      "Green cream soda is a classic visual cue."
     ],
     "sourceUrl": ""
   },
@@ -578,9 +994,12 @@
     "datetime": "2026-05-26 21:00",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00049",
     "title": "“デジタルシスター” 系ゴシックが拡散",
+    "titleEn": "Digital Sister Gothic Visuals Are Spreading",
     "summary": "修道女風シルエットにサイバーアクセやLED装飾を組み合わせた“Digital Sister”系ビジュアルがAI界隈で増加。黒・白・銀を基調にした静かなゴシック感が特徴で、MV風イラストや短尺AI動画との相性が高いと注目されています。",
+    "summaryEn": "Digital Sister visuals combine nun-inspired silhouettes with cyber accessories and LED details. Their quiet black, white, and silver gothic tone works well with MV-style illustrations and short AI videos.",
     "trendElements": [
       "ネオゴシック",
       "修道女モチーフ",
@@ -588,19 +1007,38 @@
       "黒白銀配色",
       "静かなサイバー感"
     ],
+    "trendElementsEn": [
+      "Neo-gothic",
+      "Nun motif",
+      "LED accessories",
+      "Black-white-silver palette",
+      "Quiet cyber feel"
+    ],
     "useCases": [
       "ゴシックMV",
       "近未来キャラクター制作",
       "AIショート動画",
       "ダーク系KV"
     ],
+    "useCasesEn": [
+      "Gothic MV",
+      "Futuristic character creation",
+      "AI short video",
+      "Dark key visual"
+    ],
     "promptJa": "修道女風シルエットに未来的アクセサリーを組み合わせた少女。黒と白を基調に銀色アクセント、静かなLED発光、薄暗い未来都市背景、映画的ライティング、神秘的で近未来的なゴシック演出。",
     "promptEn": "A girl styled with a nun-inspired silhouette combined with futuristic accessories. Black and white tones with silver accents, subtle LED glow, dark futuristic city background, cinematic lighting, mysterious neo-gothic cyber atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "発光は弱めの方が現在風",
       "黒一色より灰色を混ぜると高級感が出る",
       "背景に霧を入れると世界観が安定する"
+    ],
+    "notesEn": [
+      "Subtle glow feels more current.",
+      "Mixing in gray instead of pure black adds a premium feel.",
+      "Adding mist helps stabilize the worldbuilding."
     ],
     "sourceUrl": ""
   },
@@ -608,9 +1046,12 @@
     "datetime": "2026-05-25 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00064",
     "title": "全国で「初夏のベランダ夜風」投稿が増加",
+    "titleEn": "Early-Summer Balcony Night-Breeze Posts Are Increasing",
     "summary": "気温が上がり始める5月後半は、夜風やベランダ時間をテーマにした投稿が増加しています。夜空、白カーテン、間接照明を使った“静かな夜の日常”表現が人気です。",
+    "summaryEn": "In late May, posts themed around night breezes and balcony time increase as temperatures rise. Night skies, white curtains, and indirect lighting create quiet everyday-night visuals.",
     "trendElements": [
       "ベランダ",
       "夜風",
@@ -618,29 +1059,51 @@
       "間接照明",
       "静かな夜"
     ],
+    "trendElementsEn": [
+      "Balcony",
+      "Night breeze",
+      "White curtains",
+      "Indirect lighting",
+      "Quiet night"
+    ],
     "useCases": [
       "夜系MV",
       "SNS背景",
       "日常動画",
       "配信サムネ"
     ],
+    "useCasesEn": [
+      "Night-themed MV",
+      "Social media background",
+      "Everyday video",
+      "Streaming thumbnail"
+    ],
     "promptJa": "初夏の夜、ベランダで涼しい風を感じるシーン。白いカーテンが揺れ、暖かな間接照明が室内を照らしている。キャラクターが夜空を見上げながら静かに過ごしている。映画的で落ち着いた空気感。",
     "promptEn": "An early-summer night on a balcony with a gentle breeze. White curtains sway softly while warm indirect lighting glows from inside the room. The character quietly gazes at the night sky in a calm cinematic atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "カーテンを大きめに入れる",
       "照明は暖色中心",
       "夜空を少し広めに取ると綺麗"
     ],
+    "notesEn": [
+      "Make the curtains relatively prominent.",
+      "Use mainly warm lighting.",
+      "A slightly wider night sky looks beautiful."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-25 09:00",
-    "category": "FA",
-    "categoryLabel": "ファッション",
-    "id": "FA00041",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00041",
     "title": "“歩道橋見下ろし構図” がシティポップ系で拡散",
+    "titleEn": "Pedestrian Overpass Overlook Compositions Spread in City-Pop Visuals",
     "summary": "歩道橋や高架通路から街を見下ろす構図が、夜景系AI動画やMV風投稿で増加。車のライト軌跡や都会の情報量を活かしつつ、人物を小さめに配置することで“孤独感”や“青春感”を演出するスタイルが人気です。",
+    "summaryEn": "Compositions overlooking the city from pedestrian overpasses or elevated walkways are increasing in night-view AI videos and MV-style posts. Small figures and car light trails create solitude and youthfulness.",
     "trendElements": [
       "歩道橋構図",
       "都会俯瞰",
@@ -648,19 +1111,38 @@
       "夜景演出",
       "シティポップ感"
     ],
+    "trendElementsEn": [
+      "Pedestrian overpass composition",
+      "Urban overlook",
+      "Car light trails",
+      "Nightscape direction",
+      "City-pop mood"
+    ],
     "useCases": [
       "夜景MV",
       "エモ系動画",
       "都会ポスター",
       "AIショート動画"
     ],
+    "useCasesEn": [
+      "Nightscape MV",
+      "Emotional video",
+      "Urban poster",
+      "AI short video"
+    ],
     "promptJa": "夜の歩道橋から都会を見下ろす人物。車のライトが流れ、ネオン街が広がる。人物は小さめに配置され、静かな孤独感と映画的空気感を演出する。シティポップ風、実写ライクなライティング。",
     "promptEn": "A person overlooking a neon-lit city from a pedestrian overpass at night. Flowing car headlights, cinematic urban atmosphere, small character composition, emotional city-pop-inspired mood with realistic lighting.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
       "人物を中央から外すと現在風",
       "車ライトは少し流すと映像感が出る",
       "空間の余白が重要な構図"
+    ],
+    "notesEn": [
+      "Placing the character off-center feels current.",
+      "Slightly streaked car lights create a video-like mood.",
+      "Negative space is important for this composition."
     ],
     "sourceUrl": "https://www.instagram.com/explore/tags/citypopaesthetic/"
   },
@@ -668,9 +1150,12 @@
     "datetime": "2026-05-24 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00060",
     "title": "全国で「梅雨前の夕立ち」ビジュアルが増加開始",
+    "titleEn": "Pre-Rainy-Season Evening Shower Visuals Start Increasing",
     "summary": "梅雨入り前の不安定な天候により、“夕立ち直前・雨上がり”をテーマにした投稿が増え始めています。濡れた道路や曇り空を活かしたエモーショナルな表現が人気です。",
+    "summaryEn": "Before the rainy season begins, visuals themed around the moments before or after evening showers are increasing. Wet roads and cloudy skies help create emotional scenes.",
     "trendElements": [
       "雨上がり",
       "曇り空",
@@ -678,48 +1163,90 @@
       "水たまり",
       "夕立ち"
     ],
+    "trendElementsEn": [
+      "After the rain",
+      "Cloudy sky",
+      "Wet road",
+      "Puddles",
+      "Evening shower"
+    ],
     "useCases": [
       "エモMV",
       "雨演出動画",
       "SNS背景",
       "日常系イラスト"
     ],
+    "useCasesEn": [
+      "Emotional MV",
+      "Rainy-scene video",
+      "Social media background",
+      "Slice-of-life illustration"
+    ],
     "promptJa": "夕立ち直後の街並み。濡れた道路と水たまりに街灯や空が反射している。キャラクターが透明傘を持ちながら静かに立っている。少し湿った空気感、映画的な雨上がり演出。",
     "promptEn": "A city street just after an evening rain shower. Wet roads and puddles reflect the lights and cloudy sky while the character quietly stands holding a transparent umbrella. Humid cinematic atmosphere with emotional rainy scenery.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "反射を強めると映える",
       "傘は透明系が定番",
       "青灰色ベースが今風"
     ],
+    "notesEn": [
+      "Stronger reflections look good.",
+      "Transparent umbrellas are a standard choice.",
+      "A blue-gray base feels current."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-24 13:00",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "type": "OR",
-    "typeLabel": "オリジナル",
-    "id": "AI10000",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "labels": [
+      "オリジナル"
+    ],
+    "labelsEn": [
+      "Original"
+    ],
+    "id": "CB10000",
     "title": "「透明感」＋「パステル」＋「水彩」プロンプト",
+    "titleEn": "Transparency + Pastel + Watercolor Prompt",
     "summary": "元イラストのデザインやキャラクター性をできるだけ保ちながら、清楚感のある色合いへやさしく変化させるオリジナルプロンプトです。三面図や設定画からでも使いやすく、彩色・光・空気感を中心に印象を整えたいときに向いています。",
+    "summaryEn": "An original prompt that gently shifts an existing character image toward a clean, pastel, watercolor-like atmosphere while preserving the original design and character identity.",
     "trendElements": [
       "清楚",
       "水彩",
       "パステル"
+    ],
+    "trendElementsEn": [
+      "Clean and elegant",
+      "Watercolor",
+      "Pastel"
     ],
     "useCases": [
       "サムネ",
       "イメージ変更",
       "三面図からの雰囲気変換"
     ],
+    "useCasesEn": [
+      "Thumbnail",
+      "Image transformation",
+      "Atmosphere conversion from character sheets"
+    ],
     "promptJa": "添付画像のキャラクターと衣装デザインを元に画像を作成してください。\n\n【キャラクター】\nキャラクターの顔立ち、髪型、髪色、前髪、瞳、服装構造、アクセサリー、全体の印象はできるだけそのまま維持してください。\nそのうえで、元のイラストの特徴は残しながら、「やわらかいパステルアニメ塗り」「淡い水彩風の空気感」を約70％の強さで加えてください。\n元絵の情報量・デザイン性・キャラクター性を保ったまま、彩色と空気感だけを優しく変化させるイメージです。\n\n【描写スタイル】\n* 繊細で細い線画\n* 空気を含んだような淡く透ける色使い\n* 低〜中コントラスト\n* 影はやや控えめだが、立体感がなくなりすぎないよう適度に濃淡を残す\n* やさしいセル塗りをベースに、部分的に淡いグラデーション\n* 透明感のあるやわらかな光\n* 夢見心地で上品な雰囲気\n* 少しだけ絵本・水彩風のニュアンス\n\n【ポーズ】\n元のイラストにポーズがある場合は、できるだけ変更しない\n元のイラストが三面図やポーズがない場合は、キャラクターイメージに合うポーズをデザインする\n\n【色設計】\n* ペールブルー\n* ホワイト\n* クリーム\n* ごく淡いラベンダー\n* 必要に応じて少量の淡いピーチ〜ソフトオレンジ系アクセント\n\n【衣装表現】\n* レース\n* フリル\n* リボン\n* 薄布\n* 透け感\n* 繊細な布の質感\n  これらをやわらかく上品に表現してください。\n\n【背景】\n* 明るくクリーンな背景\n* 白〜ごく薄いグラデーション基調\n* 小さな装飾モチーフや繊細な意匠をうっすら加える\n* 主役を邪魔しない、軽く夢幻的な空気感\n\n【重要】\n* 元画像のゴシック感や衣装ディテールは消しすぎない\n* 元絵をほぼそのままに見せるのではなく、彩色・光・空気感に明確な変化を出す\n* ただし、別作品レベルに改変しすぎない\n* 効果量は100％ではなく70％程度\n* 濃淡はやや残し、のっぺりさせない\n\n【避けること】\n* 重すぎる影\n* 強すぎるコントラスト\n* 黒つぶれ\n* 彩度の高すぎる色\n* 厚塗りすぎる質感\n* 写実的3D感\n* glossy CGI lighting\n* 過剰なドラマチックライティング",
     "promptEn": "Create an image based on the attached character and outfit design.\n\n## Character\nPreserve the character’s facial features, hairstyle, hair color, bangs, eyes, outfit structure, accessories, and overall impression as faithfully as possible.\n\nAt the same time, while keeping the original illustration’s core characteristics, apply a “soft pastel anime coloring” and a “light watercolor-like atmosphere” at about 70% strength.\n\nThe goal is to gently transform only the coloring and atmosphere, while preserving the original image’s level of detail, design quality, and character identity.\n\n## Rendering Style\n* Delicate, thin lineart\n* Soft, airy, slightly translucent colors\n* Low to medium contrast\n* Shadows should be somewhat restrained, but still retain enough depth and tonal variation so the image does not become flat\n* Gentle cel shading as a base, with soft gradients in selected areas\n* Transparent, soft lighting\n* A dreamy and elegant atmosphere\n* A slight storybook / watercolor-like nuance\n\n## Pose\n* If the original illustration already has a pose, keep it as much as possible\n* If the original image is a character sheet, turnaround, or has no clear pose, design a pose that suits the character’s image\n\n## Color Design\n* Pale blue\n* White\n* Cream\n* Very pale lavender\n* If needed, add small amounts of pale peach to soft orange accents\n\n## Outfit Rendering\n* Lace\n* Frills\n* Ribbons\n* Light fabric\n* Sheerness / translucency\n* Delicate fabric texture\n\nRender these elements softly and elegantly.\n\n## Background\n* Bright and clean background\n* Mainly white to a very pale gradient\n* Faintly include small decorative motifs and delicate ornamental details\n* A light, dreamy atmosphere that does not distract from the main subject\n\n## Important\n* Do not erase the original image’s gothic feel or outfit details too much\n* Do not make it look almost identical to the original; create a clear change in the coloring, lighting, and atmosphere\n* However, do not alter it so much that it looks like a completely different work\n* The effect strength should be about 70%, not 100%\n* Keep some tonal variation and depth; do not make it look flat\n\n## Avoid\n* Overly heavy shadows\n* Excessively strong contrast\n* Crushed blacks\n* Overly saturated colors\n* Overly thick or painterly rendering\n* Realistic 3D appearance\n* Glossy CGI lighting\n* Excessively dramatic lighting",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "ゴシックや悪魔のようなイラストでも清楚感が出る",
       "元の色が薄すぎると効果が薄い",
       "三面図や設定画でも、彩色・空気感の方向付けとして使いやすい"
+    ],
+    "notesEn": [
+      "Even gothic or demonic illustrations can gain a clean, elegant feeling.",
+      "If the original colors are too pale, the effect may be subtle.",
+      "Useful for guiding color and atmosphere even from character sheets or design references."
     ],
     "sourceUrl": ""
   },
@@ -727,9 +1254,12 @@
     "datetime": "2026-05-23 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00052",
     "title": "全国で「夕方の海沿いドライブ」系投稿が人気継続",
+    "titleEn": "Evening Seaside Drive Visual Posts Continue to Trend",
     "summary": "夕暮れの海岸道路やサービスエリアをテーマにした“ドライブ感”投稿がSNSで増加しています。オレンジ色の夕日と海面反射を活かした映像風ビジュアルが人気です。",
+    "summaryEn": "Posts themed around seaside roads and evening drives are increasing. Orange sunsets and ocean reflections create a road-movie-like seasonal mood.",
     "trendElements": [
       "海岸道路",
       "夕焼け",
@@ -737,29 +1267,51 @@
       "海面反射",
       "青春感"
     ],
+    "trendElementsEn": [
+      "Seaside road",
+      "Sunset",
+      "Drive",
+      "Ocean reflection",
+      "Youthful mood"
+    ],
     "useCases": [
       "MV背景",
       "旅行系投稿",
       "Vlog風動画",
       "青春イラスト"
     ],
+    "useCasesEn": [
+      "MV background",
+      "Travel post",
+      "Vlog-style video",
+      "青春イラスト"
+    ],
     "promptJa": "夕焼けに染まる海沿いの道路。オレンジ色の空と海面が輝き、キャラクターが潮風を感じながら立っている。映画のロードムービーのような雰囲気、暖かな光、穏やかな初夏の空気感。",
     "promptEn": "A seaside road glowing under a warm sunset sky. The ocean reflects orange light while the character stands quietly feeling the sea breeze. Cinematic road-trip atmosphere with warm lighting and calm early-summer scenery.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
       "空と海を広めに取る",
       "夕日を少し強めると映える",
       "反射演出が重要"
     ],
+    "notesEn": [
+      "Give the sky and ocean plenty of space.",
+      "A slightly stronger sunset looks effective.",
+      "Reflection effects are important."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-23 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "id": "EV00053",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00053",
     "title": "初夏の「カフェ読書」系ビジュアル投稿が増加",
+    "titleEn": "Early-Summer Café Reading Visual Posts Are Increasing",
     "summary": "気温が安定する時期に入り、カフェでの読書やノート作業をテーマにした“静かな日常”系投稿が増えています。窓際、自然光、木製家具を活かした柔らかな空気感が人気です。",
+    "summaryEn": "As temperatures become more stable, posts themed around reading or notebook work in cafés are increasing. Window seats, natural light, and wooden furniture create a soft everyday atmosphere.",
     "trendElements": [
       "窓際席",
       "自然光",
@@ -767,29 +1319,51 @@
       "木製家具",
       "静かな日常"
     ],
+    "trendElementsEn": [
+      "Window seat",
+      "Natural light",
+      "Reading",
+      "Wooden furniture",
+      "Quiet everyday life"
+    ],
     "useCases": [
       "日常系イラスト",
       "配信背景",
       "Vlog動画",
       "SNS投稿"
     ],
+    "useCasesEn": [
+      "Slice-of-life illustration",
+      "Streaming background",
+      "Vlog動画",
+      "Social media post"
+    ],
     "promptJa": "柔らかな自然光が差し込むカフェの窓際席。木製テーブルの上に本や飲み物が置かれ、キャラクターが静かに読書している。暖かな空気感、穏やかな日常、映画のワンシーンのような演出。",
     "promptEn": "A cozy café window seat illuminated by soft natural sunlight. Books and drinks rest on a wooden table while the character quietly reads. Warm atmosphere, peaceful everyday life, and cinematic slice-of-life mood.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "木製家具を明るめにする",
       "自然光中心が綺麗",
       "背景を少しぼかすと映える"
     ],
+    "notesEn": [
+      "Keep the wooden furniture relatively bright.",
+      "Natural light works beautifully.",
+      "Slight background blur works well."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-23 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "id": "EV00054",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00054",
     "title": "全国で「夜の橋・川沿い」ビジュアルが人気上昇",
+    "titleEn": "Night Bridge and Riverside Visuals Are Rising",
     "summary": "川沿いの遊歩道や夜の橋を背景にした“静かな都会夜景”投稿が増加しています。水面反射や青白い街灯を活かした映像的な雰囲気がAI生成でも人気です。",
+    "summaryEn": "Riverside walkways and night bridges are becoming popular urban-night visual themes. Water reflections and cool streetlights create cinematic atmosphere for AI generation.",
     "trendElements": [
       "川沿い",
       "橋",
@@ -797,19 +1371,38 @@
       "街灯",
       "夜散歩"
     ],
+    "trendElementsEn": [
+      "Riverside",
+      "Bridge",
+      "Water reflection",
+      "Street lamps",
+      "Night walk"
+    ],
     "useCases": [
       "エモMV",
       "夜景背景",
       "SNSサムネ",
       "Vlog映像"
     ],
+    "useCasesEn": [
+      "Emotional MV",
+      "Nightscape background",
+      "SNSサムネ",
+      "Vlog footage"
+    ],
     "promptJa": "夜の川沿い遊歩道。橋のライトと街灯が水面に反射し、静かな都会の空気が流れている。キャラクターが欄干にもたれながら夜景を見つめている。青白い照明、映画的な夜景表現。",
     "promptEn": "A riverside walkway at night with bridge lights and street lamps reflecting beautifully on the water. The character leans quietly against the railing while gazing at the city lights. Pale blue lighting and cinematic urban night atmosphere.",
     "noteTitle": "動画化メモ",
+    "noteTitleEn": "Video Notes",
     "notes": [
       "水面を少し揺らすとリアル",
       "光反射を細かく入れる",
       "風演出は控えめが自然"
+    ],
+    "notesEn": [
+      "A slight ripple on the water feels realistic.",
+      "Add fine light reflections.",
+      "Subtle wind effects feel more natural."
     ],
     "sourceUrl": ""
   },
@@ -817,9 +1410,12 @@
     "datetime": "2026-05-22 09:00",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00022",
     "title": "“退廃ゴシック×ネオン” の夜景系ビジュアルが急増",
+    "titleEn": "Decadent Gothic × Neon Night Visuals Are Rapidly Increasing",
     "summary": "SNSでは、ゴシック衣装に青紫ネオンや都市夜景を組み合わせた“退廃感”重視のビジュアル投稿が増加。暗めの世界観ながら、発光アクセや濡れた路面反射を加えることで、MV風・AI動画風の雰囲気が出しやすいとして人気になっています。",
+    "summaryEn": "Gothic outfits combined with blue-purple neon and city nightscapes are increasing on social media. Wet asphalt reflections and glowing accessories help create a decadent MV-style mood.",
     "trendElements": [
       "黒×青紫ネオン",
       "濡れた路面反射",
@@ -827,29 +1423,51 @@
       "退廃都市感",
       "深夜MV演出"
     ],
+    "trendElementsEn": [
+      "Black × blue-purple neon",
+      "Wet pavement reflection",
+      "Gothic accessories",
+      "Decadent city mood",
+      "Late-night MV direction"
+    ],
     "useCases": [
       "ダークMV風動画",
       "ゴシック系キャラクター",
       "深夜投稿用KV",
       "近未来ストリート表現"
     ],
+    "useCasesEn": [
+      "Dark MV-style video",
+      "Gothic character",
+      "Late-night post key visual",
+      "Futuristic street expression"
+    ],
     "promptJa": "退廃的なネオン都市に立つゴシックファッションの少女。黒を基調にした衣装、青紫ネオン、濡れたアスファルト反射、霧のある深夜背景。映画的ライティング、MV風構図、静かな退廃感。",
     "promptEn": "A gothic-fashion girl standing in a dystopian neon city at night. Black-based outfit, blue-purple neon lighting, wet asphalt reflections, foggy urban atmosphere, cinematic lighting, music-video-inspired composition, quiet dystopian mood.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "床反射を入れるとMV感が一気に強くなる",
       "霧は薄めの方がSNS映えしやすい",
       "ネオン色を2色以内に絞るとまとまりやすい"
     ],
+    "notesEn": [
+      "Floor reflections quickly strengthen the MV-like feeling.",
+      "Light mist is more social-media friendly.",
+      "Limiting neon colors to two or fewer keeps the image cohesive."
+    ],
     "sourceUrl": "https://www.pinterest.com/search/pins/?q=cyber%20gothic%20aesthetic"
   },
   {
     "datetime": "2026-05-22 20:46",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "id": "AI00066",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00066",
     "title": "「終バス停ベンチ」構図がAIシネマShortsで急増",
+    "titleEn": "Last-Bus Stop Bench Compositions Surge in AI Cinematic Shorts",
     "summary": "X上では、終バス後の静かなバス停を使った“待機ベンチ構図”が急増しています。人物を小さく配置し、街灯だけで照らすことで「映画エンドロール感」が出るとして人気です。",
+    "summaryEn": "Quiet late-night bus stop bench compositions are rapidly increasing on X. Placing the character small under a single streetlight creates an end-credits-like cinematic mood.",
     "trendElements": [
       "終バス",
       "バス停ベンチ",
@@ -857,29 +1475,51 @@
       "余白構図",
       "シネマ感"
     ],
+    "trendElementsEn": [
+      "Last bus",
+      "Bus stop bench",
+      "Streetlight lighting",
+      "Negative-space composition",
+      "Cinematic mood"
+    ],
     "useCases": [
       "AI MV",
       "Shorts",
       "青春系映像",
       "Vlog風サムネ"
     ],
+    "useCasesEn": [
+      "AI MV",
+      "Shorts",
+      "Youth-themed video",
+      "Vlog-style thumbnail"
+    ],
     "promptJa": "深夜の静かなバス停ベンチに座る少女。人物は小さめに配置され、古い街灯だけが周囲を照らしている。湿った道路、低照度、静かな映画ラストのような空気感。",
     "promptEn": "A girl sitting quietly at a late-night bus stop bench. The character appears small within the frame while an old streetlight softly illuminates the wet streets, creating cinematic ending-scene aesthetics.",
     "noteTitle": "動画化メモ",
+    "noteTitleEn": "Video Notes",
     "notes": [
       "人物を中央に置きすぎない",
       "街灯光を強めにする",
       "環境音を静かに残す"
     ],
+    "notesEn": [
+      "Avoid placing the character too centrally.",
+      "Make the streetlight a bit stronger.",
+      "Leave quiet ambient sound if used in video."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-22 09:00",
-    "category": "FA",
-    "categoryLabel": "ファッション",
-    "id": "FA00024",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00024",
     "title": "“透明UIホログラム演出” がAI動画系で定番化",
+    "titleEn": "Transparent Hologram UI Effects Become Standard in AI Video Visuals",
     "summary": "人物の周囲に半透明ホログラムUIを浮かせる演出が、AI動画・画像生成界隈で定番化。特に白青系UIや円形HUDデザインが人気で、“未来デバイス感”を簡単に出せるため活用が広がっています。",
+    "summaryEn": "Floating semi-transparent hologram UI elements around a character have become a standard effect in AI video and image generation. White-blue HUDs and circular UI designs are especially popular.",
     "trendElements": [
       "透明HUD",
       "円形UI",
@@ -887,19 +1527,38 @@
       "未来デバイス感",
       "空中インターフェース"
     ],
+    "trendElementsEn": [
+      "Transparent HUD",
+      "Circular UI",
+      "White-blue glow",
+      "Futuristic device feel",
+      "Floating interface"
+    ],
     "useCases": [
       "近未来MV",
       "VTuber配信演出",
       "AI動画サムネ",
       "SF系キャラビジュアル"
     ],
+    "useCasesEn": [
+      "Futuristic MV",
+      "VTuber stream effect",
+      "AI video thumbnail",
+      "Sci-fi character visual"
+    ],
     "promptJa": "未来的なホログラムUIに囲まれた少女。白青に発光する透明HUD、空中インターフェース、近未来都市背景。映画的ライティング、クリーンなサイバー感、SNS映えする未来演出。",
     "promptEn": "A futuristic girl surrounded by transparent holographic HUD interfaces glowing in white and pale blue. Floating futuristic UI elements, cyber city background, cinematic lighting, clean sci-fi aesthetic optimized for social media visuals.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "UIを増やしすぎない方が今風",
       "白青発光がもっとも安定しやすい",
       "背景を暗めにするとホログラムが映える"
+    ],
+    "notesEn": [
+      "Not overloading the UI feels more current.",
+      "White-blue glow is the most stable choice.",
+      "A darker background makes holograms stand out."
     ],
     "sourceUrl": "https://www.behance.net/search/projects?search=futuristic%20hud%20ui"
   },
@@ -907,9 +1566,12 @@
     "datetime": "2026-05-22 21:00",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00027",
     "title": "“ミルキーネオン” 配色がAIビジュアル界隈で拡大",
+    "titleEn": "Milky Neon Color Palettes Expand in AI Visual Communities",
     "summary": "強い原色ネオンではなく、白を混ぜたような“ミルキー系ネオンカラー”がSNSで増加。パステル寄りの青・紫・ピンクを柔らかく発光させることで、近未来感を出しつつも“かわいさ”を残せるとして人気です。",
+    "summaryEn": "Soft neon colors mixed with white, rather than strong primary neon, are increasing on social media. Pastel blue, purple, and pink glows create a cute yet futuristic feeling.",
     "trendElements": [
       "ミルキーブルー",
       "淡いネオン紫",
@@ -917,19 +1579,38 @@
       "白混色",
       "柔らかい未来感"
     ],
+    "trendElementsEn": [
+      "Milky blue",
+      "Soft neon purple",
+      "Pastel glow",
+      "White-blended color",
+      "Soft futuristic feel"
+    ],
     "useCases": [
       "VTuber背景",
       "近未来MV",
       "AIイラスト背景",
       "SNS用プロフィール画像"
     ],
+    "useCasesEn": [
+      "VTuber background",
+      "Futuristic MV",
+      "AI illustration background",
+      "Social media profile image"
+    ],
     "promptJa": "ミルキーネオンカラーに包まれた近未来空間。淡い青、紫、ピンクの柔らかい発光。透明感のある空気、白を混ぜたようなネオン色彩、SNS映えするかわいい未来感。",
     "promptEn": "A futuristic environment illuminated by milky neon colors. Soft glowing blue, purple, and pink tones blended with white, transparent atmosphere, cute futuristic aesthetic optimized for social media visuals.",
     "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
     "notes": [
       "“強発光”より“柔らかい光”が現在の主流",
       "白を少し混ぜると高級感が出やすい",
       "暗背景にすると発色が安定する"
+    ],
+    "notesEn": [
+      "Soft glow is more current than intense glow.",
+      "Adding a little white gives a premium feeling.",
+      "Dark backgrounds stabilize the color impact."
     ],
     "sourceUrl": ""
   },
@@ -937,9 +1618,12 @@
     "datetime": "2026-05-21 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00043",
     "title": "初夏の「制服＋放課後」ビジュアル投稿が継続人気",
+    "titleEn": "Uniform After-School Visuals Remain Popular in Early Summer",
     "summary": "5月後半は、夕方の学校帰りや放課後をテーマにした青春系ビジュアル投稿が増える時期です。夕焼け、自転車、川沿い、制服姿などを組み合わせた“静かな青春感”がSNSで人気となっています。",
+    "summaryEn": "In late May, youth-themed visuals of after-school evenings and school routes increase. Sunsets, bicycles, riversides, and uniforms create a quiet nostalgic mood.",
     "trendElements": [
       "夕焼け",
       "放課後",
@@ -947,53 +1631,93 @@
       "川沿い",
       "青春感"
     ],
+    "trendElementsEn": [
+      "Sunset",
+      "After school",
+      "School uniform",
+      "Riverside",
+      "Youthful mood"
+    ],
     "useCases": [
       "青春MV",
       "ショート動画",
       "日常系イラスト",
       "エモ系投稿"
     ],
+    "useCasesEn": [
+      "Youth MV",
+      "Short video",
+      "Slice-of-life illustration",
+      "エモ系投稿"
+    ],
     "promptJa": "夕焼けに染まる放課後の川沿い。制服姿のキャラクターが自転車を押しながら歩いている。暖かな夕日、静かな風、少しノスタルジックな空気感。映画の青春ワンシーンのような雰囲気。",
     "promptEn": "A riverside path during sunset after school. The character in a school uniform walks while pushing a bicycle. Warm evening sunlight, gentle wind, and a nostalgic cinematic atmosphere create a youthful emotional scene.",
     "noteTitle": "投稿メモ",
+    "noteTitleEn": "Posting Notes",
     "notes": [
       "オレンジ空を強めにすると映える",
       "自転車を小道具にすると青春感が出る",
       "制服はシンプル寄りが今風"
     ],
+    "notesEn": [
+      "A stronger orange sky looks effective.",
+      "Using a bicycle as a prop creates a youthful feeling.",
+      "Simpler uniforms feel more current."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-22 10:00",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "type": "OR",
-    "typeLabel": "オリジナル",
-    "id": "AI00100",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "labels": [
+      "オリジナル"
+    ],
+    "labelsEn": [
+      "Original"
+    ],
+    "id": "CB00100",
     "title": "あの角度になるプロンプト",
+    "titleEn": "The “That Angle” Pose Prompt",
     "summary": "某アニメーション作品の“あの角度”を再現するためのオリジナルプロンプトです。首の角度や上半身の反りにランダム性を持たせ、毎回少し違う大胆な構図になるよう設計されています。",
+    "summaryEn": "An original prompt designed to recreate a bold anime-style dramatic head-and-neck pose. Randomized angles and upper-body arching create a different striking composition each time.",
     "trendElements": [
       "アニメ",
       "構図"
+    ],
+    "trendElementsEn": [
+      "Anime",
+      "Composition"
     ],
     "useCases": [
       "SNS投稿",
       "キャラクターポートレート",
       "MV風サムネイル"
     ],
+    "useCasesEn": [
+      "Social media post",
+      "キャラクターポートレート",
+      "MV風サムネイル"
+    ],
     "promptJa": "",
     "promptEn": "Use the attached character reference image as the main subject.\nPreserve the character’s facial features, hairstyle, hair color, eye color, outfit, accessories, body shape, and overall personality as faithfully as possible.\n\nHowever, do not preserve the original pose or original camera angle.\nDo not keep the original front-facing, centered bust-up composition.\nRecompose the character into a clearly different anime-style illustration.\n\nCreate a single-character anime illustration with a very strong dramatic head-and-neck pose.\nThe pose should emphasize an exaggerated neck angle and a backward arch of the upper body.\nThe character should be shown from a side, three-quarter back, or over-the-shoulder angle, with the body turned away or partly away from the viewer while the face turns back toward the camera.\n\nDo not use a mild head tilt.\nThe neck angle should vary randomly with each generation.\nFor each generation, choose one bold variation such as:\n\n- the face tilted almost sideways, with the neck bent close to a 70–90 degree angle\n- a deep backward diagonal head tilt with the chin raised high\n- the upper body arched backward, with the neck and face tilted even further\n- the body facing sideways or away while the face twists strongly back toward the camera\n- the face rotated so strongly that it appears diagonal or almost horizontal in the frame\n- a strong mismatch between the shoulder line and the face angle, emphasizing the curve of the neck\n- the chin raised upward while only the eyes look back toward the viewer\n- a deep sideways neck bend, with the hair falling toward one side due to gravity\n- a large curved line formed by the back, chest, shoulders, neck, and raised chin\n\nVary the neck angle, tilt direction, chin height, body arch, and twist between torso and face in every generation.\nThe unusual neck angle must be immediately noticeable.\nAvoid ordinary over-the-shoulder poses, normal head tilts, weak angles, and front-facing poses.\n\nThe pose should be bold, exaggerated, iconic, and visually striking.\nIt does not need to be fully realistic, but it should still feel believable as stylized anime anatomy.\nAvoid a completely broken neck, disconnected head, overly long neck, overly thin neck, or impossible anatomy.\n\nThe character should look toward the camera according to the head angle.\nThe gaze may look back from an upward-facing head, look down from a sideways-tilted face, or coldly glance over the shoulder.\nThe expression should feel cool, expressionless, mysterious, slightly provocative, quietly confident, or emotionally restrained.\n\nUse a stylized Japanese anime frame aesthetic.\nFocus on crisp outlines, clean cel shading, flat color areas, hard-edged shadows, graphic shadow shapes, and strong contrast between light and dark.\nAdd dramatic shadows on the face, neck, under the chin, collarbone, shoulders, and hair.\nMake the neck angle and upper-body arch stand out through lighting and shadow.\nAvoid overly soft painterly rendering; use organized anime-style shading.\n\nThe background should be dark and simple, matching the character’s mood.\nUse black, deep purple, navy, dark blue-gray, or similar tones.\nA simple gradient, dim interior, night-like atmosphere, or stage-like spotlight may be used.\nKeep the background understated so the neck angle, body arch, expression, and shadows remain the main focus.\n\nHigh-quality anime illustration, strong dramatic head tilt, neck angle variations close to 90 degrees, arched upper body, over-the-shoulder composition, almost sideways face angle, cool gaze, strong cel-shaded shadows, dark stylish atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [],
+    "notesEn": [],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-21 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00045",
     "title": "全国で「梅雨前の青空」投稿がラストスパート傾向",
+    "titleEn": "Pre-Rainy-Season Blue-Sky Posts Enter Their Final Stretch",
     "summary": "梅雨入り前の晴天シーズンとして、青空・白雲・バルコニー・散歩写真などの投稿がSNSで増加しています。“今のうちに晴れを楽しむ”空気感が強く、明るい自然光ビジュアルとの相性が良い時期です。",
+    "summaryEn": "Before the rainy season, posts featuring blue skies, white clouds, balconies, and walks are increasing. The mood of enjoying clear weather while it lasts pairs well with bright natural-light visuals.",
     "trendElements": [
       "青空",
       "白い雲",
@@ -1001,16 +1725,35 @@
       "初夏の日差し",
       "散歩感"
     ],
+    "trendElementsEn": [
+      "Blue sky",
+      "White clouds",
+      "Balcony",
+      "Early-summer sunlight",
+      "Walk-like mood"
+    ],
     "useCases": [
       "朝投稿",
       "爽やかMV",
       "日常系画像",
       "SNSヘッダー"
     ],
+    "useCasesEn": [
+      "Morning post",
+      "Fresh MV",
+      "Everyday image",
+      "Social media header"
+    ],
     "promptJa": "初夏の青空が広がるバルコニー。白いカーテンが風で揺れ、キャラクターが空を見上げている。暖かな日差し、爽やかな空気感、生活感のある静かな朝。映画のワンカットのような自然な雰囲気。",
     "promptEn": "A balcony beneath a bright early-summer blue sky. White curtains sway gently in the breeze while the character looks up toward the sky. Warm sunlight, refreshing atmosphere, and a calm everyday morning feeling create a cinematic snapshot mood.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
+      "空を広めに取ると爽やか",
+      "白カーテンが今風",
+      "逆光を少し入れると映える"
+    ],
+    "notesEn": [
       "空を広めに取ると爽やか",
       "白カーテンが今風",
       "逆光を少し入れると映える"
@@ -1019,11 +1762,14 @@
   },
   {
     "datetime": "2026-05-21 08:46",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "id": "AI00039",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00039",
     "title": "「エレベーター鏡セルフィー」構図がSNS系AI画像で急増",
+    "titleEn": "Elevator Mirror Selfie Compositions Surge in Social AI Images",
     "summary": "X上では、エレベーター内部の鏡を使った“鏡セルフィー構図”がAI画像で急増しています。金属反射、狭い空間、縦長構図との相性が良く、「リアルな日常写真感」が強いとして人気です。",
+    "summaryEn": "Elevator mirror selfie compositions are rapidly increasing in AI images on X. Metallic reflections, tight spaces, and vertical framing create a realistic everyday photo feel.",
     "trendElements": [
       "鏡セルフィー",
       "エレベーター",
@@ -1031,19 +1777,38 @@
       "縦長写真",
       "日常感"
     ],
+    "trendElementsEn": [
+      "Mirror selfie",
+      "Elevator",
+      "Metal reflection",
+      "Vertical photo",
+      "Everyday realism"
+    ],
     "useCases": [
       "SNS投稿",
       "Vlog風",
       "実写系AI画像",
       "ファッション演出"
     ],
+    "useCasesEn": [
+      "Social media post",
+      "Vlog-style",
+      "Realistic AI image",
+      "Fashion styling"
+    ],
     "promptJa": "エレベーター内部の鏡越しにスマホセルフィーを撮る少女。金属壁にネオン光が反射し、少し低照度。リアルなスマホ写真感、自然な手ブレ、生活感のある日常構図。",
     "promptEn": "A girl taking a smartphone mirror selfie inside an elevator. Neon lighting softly reflects across metallic walls in a slightly low-exposure environment. Realistic handheld smartphone-photo aesthetics with authentic everyday atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "鏡を少し曇らせると自然",
       "金属反射を入れる",
       "画面端を少し切るとリアル"
+    ],
+    "notesEn": [
+      "Slightly fogging the mirror looks natural.",
+      "Add metallic reflections.",
+      "Slightly cropping the edges feels realistic."
     ],
     "sourceUrl": ""
   },
@@ -1051,9 +1816,12 @@
     "datetime": "2026-05-20 21:01",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00015",
     "title": "ネオロリータ×テック素材の軽サイバー系が増加",
+    "titleEn": "Neo-Lolita × Tech Materials Gain Attention in Light Cyber Fashion",
     "summary": "ロリータ要素を残しつつ、PVCや半透明素材、小型メタルアクセを取り入れた“ネオロリータ”系が、AIビジュアルやSNS向け衣装表現で使いやすいトレンドとして注目されています。",
+    "summaryEn": "Neo-lolita styles that retain lolita elements while adding PVC, translucent materials, and small metal accessories are gaining attention as an easy-to-use trend for AI visuals and social media outfits.",
     "trendElements": [
       "ネオロリータ",
       "PVC素材",
@@ -1061,19 +1829,38 @@
       "白×黒配色",
       "軽サイバー感"
     ],
+    "trendElementsEn": [
+      "Neo-lolita",
+      "PVC material",
+      "Translucent frills",
+      "White × black palette",
+      "Light cyber feel"
+    ],
     "useCases": [
       "VTuber衣装",
       "AIライブビジュアル",
       "MV衣装",
       "SNS用KV"
     ],
+    "useCasesEn": [
+      "VTuber outfit",
+      "AI live visual",
+      "MV costume",
+      "SNS用KV"
+    ],
     "promptJa": "ネオロリータ風ファッションの少女。白と黒を基調に、半透明フリル、PVC素材、小型メタルアクセを組み合わせた軽サイバー系デザイン。青白ネオン背景、未来感のある街並み、上品でSNS映えする雰囲気。",
     "promptEn": "A girl wearing neo-lolita fashion featuring black-and-white tones, semi-transparent frills, PVC materials, and small metallic accessories. Futuristic city background with pale neon lighting and a stylish cyber-inspired aesthetic optimized for social media visuals.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "フリルを少しだけ揺らすと、静止画でも動画でも衣装の軽さが出しやすいです。",
       "透明素材は光を透過させ、PVC部分は控えめな反射を入れると近未来感が出ます。",
       "青白ネオン背景と組み合わせると、甘さを残しつつ軽サイバーな雰囲気になります。"
+    ],
+    "notesEn": [
+      "Slightly moving the frills helps convey lightness in both stills and video.",
+      "Let translucent materials pass light through, and add subtle reflections to PVC for a futuristic feel.",
+      "Combining it with pale blue neon backgrounds creates a light cyber feeling while keeping sweetness."
     ],
     "sourceUrl": ""
   },
@@ -1081,42 +1868,74 @@
     "datetime": "2026-05-19 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00034",
     "title": "梅雨入り前の「五月晴れ」シーズン",
+    "titleEn": "Clear May Skies Before the Rainy Season",
     "summary": "5月後半は、梅雨入り前の晴天が“五月晴れ”として親しまれる時期です。青空、風、洗濯物、バルコニー、散歩など、“生活感＋爽やかさ”を組み合わせた投稿と相性が良い季節です。",
+    "summaryEn": "Late May is a time when clear skies before the rainy season are enjoyed as satsuki-bare. Blue skies, laundry, balconies, and walks combine freshness with everyday life.",
     "trendElements": [
       "青空",
       "洗濯物",
       "ベランダ・バルコニー"
+    ],
+    "trendElementsEn": [
+      "Blue sky",
+      "Laundry",
+      "Veranda / balcony"
     ],
     "useCases": [
       "朝の挨拶イラスト",
       "生活感のあるSNS風投稿",
       "日常アニメ風動画"
     ],
+    "useCasesEn": [
+      "Morning greeting illustration",
+      "Everyday social-media-style post",
+      "Everyday anime-style video"
+    ],
     "promptJa": "晴れた5月の朝。南向きバルコニーで風を感じるキャラクター。白いカーテンが揺れ、青空と柔らかな日差し。生活感のある静かな朝。自然なポーズで外を眺めている。",
     "promptEn": "A clear May morning on a south-facing balcony. A character quietly feels the breeze, white curtains gently moving, blue sky and soft sunlight, a calm morning with subtle everyday details, natural pose while looking outside.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "風の表現を入れると季節感が出る",
       "カーテンや髪の揺れが重要",
       "白ベース＋空色の組み合わせが安定"
     ],
+    "notesEn": [
+      "Wind expression adds seasonal feeling.",
+      "Movement in curtains and hair is important.",
+      "A white base with sky blue is a stable combination."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-19 02:46",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "id": "AI00028",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00028",
     "title": "窓際逆光＋室内暗め構図",
+    "titleEn": "Window-Side Backlight with a Dim Interior Composition",
     "summary": "朝の白光、雨粒、曇天、カーテン揺れ、小さな生活感を含めることで、“映画の1カット感”を出しやすい構図です。静止画から動画化しても破綻しにくい構図として使いやすいです。",
+    "summaryEn": "A composition that uses white morning light, rainy windows, cloudy skies, swaying curtains, and small everyday objects to create a cinematic one-shot feeling that is also suitable for animation.",
     "trendElements": [
       "窓際逆光",
       "雨粒",
       "室内暗め"
     ],
+    "trendElementsEn": [
+      "Window-side backlight",
+      "Raindrops",
+      "Dim interior"
+    ],
     "useCases": [
+      "映画風の1カット",
+      "日常系キャラクター画像",
+      "静止画から動画化する素材"
+    ],
+    "useCasesEn": [
       "映画風の1カット",
       "日常系キャラクター画像",
       "静止画から動画化する素材"
@@ -1124,37 +1943,62 @@
     "promptJa": "窓際の逆光構図。室内は少し暗め。朝の白い光、雨粒のついた窓、曇り空、ゆっくり揺れるカーテン、小さな生活感のある小物。映画のワンカットのような静かな雰囲気。",
     "promptEn": "Window-side backlight composition, slightly dim indoor room, soft white morning light, rainy window, cloudy sky, gently moving curtains, subtle everyday objects, cinematic one-shot atmosphere, quiet emotional mood.",
     "noteTitle": "動画化メモ",
+    "noteTitleEn": "Video Notes",
     "notes": [
       "カーテンを小さく揺らす",
       "雨粒をゆっくり流す",
       "カメラは固定またはごく小さな寄り"
     ],
+    "notesEn": [
+      "Move the curtains slightly.",
+      "Let raindrops move slowly.",
+      "Keep the camera fixed or use only a very slight push-in."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-19 11:30",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "id": "AI00035",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00035",
     "title": "静止画から動画化しやすい最小モーション",
+    "titleEn": "Minimal Motion for Easier Still-Image Animation",
     "summary": "大きな動きよりも、呼吸、髪の揺れ、布の揺れ、視線移動などの小さな動きに限定することで、キャラクターの崩れを抑えた動画化がしやすくなります。",
+    "summaryEn": "Limiting motion to breathing, hair movement, cloth movement, and eye movement makes it easier to animate still images while preserving character stability.",
     "trendElements": [
       "微細モーション",
       "idle animation",
       "破綻回避"
+    ],
+    "trendElementsEn": [
+      "Subtle motion",
+      "Idle animation",
+      "Avoiding visual glitches"
     ],
     "useCases": [
       "SNS用ショート動画",
       "キャラクター紹介",
       "MV風の静止画アニメーション"
     ],
+    "useCasesEn": [
+      "Social media short video",
+      "Character introduction",
+      "MV-style still-image animation"
+    ],
     "promptJa": "ほぼ静止したキャラクターイラスト。自然な呼吸、わずかな髪の揺れ、服の小さな揺れ、ゆっくりした瞬き。カメラは固定。落ち着いた高品質なアイドルアニメーション。",
     "promptEn": "Mostly still character illustration, subtle breathing, tiny hair movement, slight cloth motion, slow blinking, fixed camera, calm premium idle animation, minimal animation, stable character identity.",
     "noteTitle": "動画化メモ",
+    "noteTitleEn": "Video Notes",
     "notes": [
       "口や手を大きく動かしすぎない",
       "背景の動きは控えめにする",
       "6秒程度の短尺と相性が良い"
+    ],
+    "notesEn": [
+      "Avoid moving the mouth or hands too much.",
+      "Keep background motion restrained.",
+      "Works well for short clips of around six seconds."
     ],
     "sourceUrl": "https://example.com/sample-ai-motion"
   },
@@ -1162,26 +2006,45 @@
     "datetime": "2026-05-19 13:10",
     "category": "FA",
     "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
     "id": "FA00036",
     "title": "白×水色の初夏コーデ傾向",
+    "titleEn": "White × Pale Blue Early-Summer Outfit Trend",
     "summary": "白をベースに、水色や淡いグレーを差し色として入れるコーデは、初夏らしい清潔感と軽さを出しやすい組み合わせです。背景に青空やカフェを置くとSNS向けにまとまりやすくなります。",
+    "summaryEn": "A white base with pale blue or light gray accents creates a clean and light early-summer outfit. Blue-sky or café backgrounds help it work well for social media.",
     "trendElements": [
       "白ベース",
       "水色アクセント",
       "初夏の軽さ"
+    ],
+    "trendElementsEn": [
+      "White base",
+      "Pale-blue accent",
+      "Early-summer lightness"
     ],
     "useCases": [
       "キャラクター私服デザイン",
       "ファッションポスター",
       "初夏のSNS投稿"
     ],
+    "useCasesEn": [
+      "Character casual outfit design",
+      "Fashion poster",
+      "Early-summer social media post"
+    ],
     "promptJa": "白を基調にした初夏のカジュアルコーデ。淡い水色のアクセント、軽い素材感、清潔感のあるシルエット。青空の下、自然光で撮影したファッションポートレート。",
     "promptEn": "Early summer casual outfit based on white, pale blue accents, lightweight fabric, clean silhouette, fashion portrait under a blue sky, natural light, fresh and calm atmosphere.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "背景を白壁や青空にすると色が安定する",
       "小物は入れすぎない",
       "ラベンダーを少量入れると柔らかい印象になる"
+    ],
+    "notesEn": [
+      "White walls or blue skies help stabilize the colors.",
+      "Do not add too many accessories.",
+      "A small amount of lavender creates a softer impression."
     ],
     "sourceUrl": ""
   },
@@ -1189,53 +2052,91 @@
     "datetime": "2026-05-19 15:20",
     "category": "EV",
     "categoryLabel": "季節・イベント",
+    "categoryLabelEn": "Seasonal Events",
     "id": "EV00037",
     "title": "屋外フェス・グルメイベント背景",
+    "titleEn": "Outdoor Festival and Food Event Backgrounds",
     "summary": "春から初夏にかけて、屋外フェスやグルメイベントを背景にした投稿と相性が良い時期です。屋台、提灯、夕方の空、人混みを入れるとイベント感が出ます。",
+    "summaryEn": "From spring into early summer, outdoor festivals and food events work well as post backgrounds. Stalls, lanterns, evening skies, and crowds create a lively event feeling.",
     "trendElements": [
       "屋台",
       "夕方の空",
       "イベント会場"
+    ],
+    "trendElementsEn": [
+      "Food stalls",
+      "Evening sky",
+      "Event venue"
     ],
     "useCases": [
       "イベント参加風イラスト",
       "Vlog風ショート動画",
       "屋台グルメ投稿"
     ],
+    "useCasesEn": [
+      "Event-visit illustration",
+      "Vlog風ショート動画",
+      "Food-stall post"
+    ],
     "promptJa": "初夏の屋外イベント会場。カラフルな屋台、やわらかな夕方の空、提灯、フードブース、にぎわう人々。キャラクターが屋台グルメを楽しんでいる、明るく自然なSNS投稿風イラスト。",
     "promptEn": "Early summer outdoor event venue, colorful food stalls, soft evening sky, lanterns, food booths, lively crowd, a character enjoying festival food, bright natural social-media-style illustration.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "人混みは描き込みすぎない",
       "食べ物は手元に寄せると伝わりやすい",
       "夕方の光でイベント感を強める"
     ],
+    "notesEn": [
+      "Do not over-detail the crowd.",
+      "Placing food near the hands makes the idea clear.",
+      "Evening light enhances the event atmosphere."
+    ],
     "sourceUrl": ""
   },
   {
     "datetime": "2026-05-19 18:00",
-    "category": "AI",
-    "categoryLabel": "AI生成関連",
-    "id": "AI00038",
+    "category": "CB",
+    "categoryLabel": "構図・背景",
+    "categoryLabelEn": "Composition & Background",
+    "id": "CB00038",
     "title": "2Dアニメ寄せのエフェクト調整",
+    "titleEn": "Effect Adjustment for a 2D Anime Look",
     "summary": "リアルな発光や粒子を強くしすぎるとゲームCG寄りに見えるため、線画、セル影、平面的な色面、アニメ撮影処理を意識した調整が有効です。",
+    "summaryEn": "Strong realistic glow and particles can make visuals look like game CG. Focusing on lineart, cel shading, flat color layers, and anime-style compositing helps keep a 2D anime look.",
     "trendElements": [
       "セル調",
       "硬い影",
       "発光控えめ"
+    ],
+    "trendElementsEn": [
+      "Cel style",
+      "Hard shadows",
+      "Restrained glow"
     ],
     "useCases": [
       "アクションイラスト",
       "アニメ風キービジュアル",
       "動画生成用の参照画像"
     ],
+    "useCasesEn": [
+      "Action illustration",
+      "Anime-style key visual",
+      "Reference image for video generation"
+    ],
     "promptJa": "日本のアクションアニメのセル画風。クリーンな線画、はっきりした輪郭、硬いセル影、平面的な色面、発光は控えめ。リアルな粒子や過度なブルームを避け、アニメの1シーンのように見せる。",
     "promptEn": "Japanese action anime cel look, clean lineart, crisp outlines, hard-edged cel shading, flat color layers, restrained glow, avoid realistic particles and excessive bloom, make it look like a frame from an animated scene.",
     "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
     "notes": [
       "“cinematic”だけだとCG寄りになりやすい",
       "エフェクトは図形的に整理する",
       "影を硬めにするとアニメ感が出る"
+    ],
+    "notesEn": [
+      "Using only “cinematic” may make it look too CG-like.",
+      "Organize effects into clear graphic shapes.",
+      "Harder shadows create a stronger anime feel."
     ],
     "sourceUrl": "https://example.com/sample-cel-effect"
   }
