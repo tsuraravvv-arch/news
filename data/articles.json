@@ -1,5 +1,310 @@
 [
   {
+    "datetime": "2026-06-15 01:16",
+    "publishedAt": "2026-06-15 01:16",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
+    "labels": [
+      "オリジナル",
+      "100職"
+    ],
+    "labelsEn": [
+      "Original",
+      "100 Jobs"
+    ],
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "sourceUrl": "",
+    "id": "FA10001",
+    "title": "100職衣装プロンプト：宝石鑑定士として再構成するキャラクターデザイン",
+    "titleEn": "100 Jobs Outfit Prompt: Reimagining a Character as a Gem Appraiser",
+    "summary": "添付キャラクターを宝石鑑定士として再構成する、透明感と知性を重視した職業衣装プロンプト。ルーペ、宝石ケース、鑑定机、反射光を組み合わせ、上品で緻密なキャラクターデザインに展開できます。",
+    "summaryEn": "A job-outfit prompt that reimagines an attached character as a gem appraiser, emphasizing clarity, intelligence, and refined details. It combines a loupe, gemstone cases, appraisal tools, and reflected light for an elegant character design.",
+    "trendElements": [
+      "職業衣装",
+      "宝石鑑定士",
+      "透明感",
+      "ルーペ",
+      "デザインシート"
+    ],
+    "trendElementsEn": [
+      "Occupational outfit",
+      "Gem appraiser",
+      "Transparency",
+      "Loupe",
+      "Design sheet"
+    ],
+    "useCases": [
+      "100職シリーズ",
+      "キャラクター衣装案",
+      "立ち絵制作",
+      "職業モチーフ投稿"
+    ],
+    "useCasesEn": [
+      "100 Jobs series",
+      "Character outfit ideas",
+      "Standing character art",
+      "Job-motif posts"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、宝石鑑定士の職業衣装として再構成してください。上品な白シャツや淡いベスト、細身のジャケット、宝石鑑定用ルーペ、白手袋、宝石ケース、鑑定机、カットされた宝石の反射光を取り入れる。表情は冷静で知的、宝石を慎重に見極めているポーズ。透明感のある光、繊細なハイライト、宝石のきらめき、清潔感のあるアトリエ背景。キャラクター本人の特徴を崩さず、職業モチーフが自然に伝わるデザインシート風の完成イラスト。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a gem appraiser while preserving their face, hairstyle, hair color, eyes, body type, and overall atmosphere. Add an elegant white shirt, a pale vest, a slim jacket, a jeweler's loupe, white gloves, gemstone cases, an appraisal desk, and reflected light from cut gemstones. The character has a calm, intelligent expression and carefully examines a gemstone. Transparent lighting, delicate highlights, sparkling gems, and a clean atelier background. Create a finished design-sheet-style illustration where the occupational motif is clear without losing the original character identity.",
+    "notes": [
+      "宝石の反射光を入れると職業性が伝わりやすい",
+      "ルーペや白手袋は小物として扱いやすい",
+      "透明感や知性を出したいキャラクターと相性が良い"
+    ],
+    "notesEn": [
+      "Reflected gemstone light makes the job theme easier to read.",
+      "A loupe and white gloves are easy accessories to incorporate.",
+      "Works especially well for characters with a clear, intelligent atmosphere."
+    ]
+  },
+  {
+    "datetime": "2026-06-15 01:16",
+    "publishedAt": "2026-06-15 01:16",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
+    "labels": [
+      "オリジナル",
+      "100職"
+    ],
+    "labelsEn": [
+      "Original",
+      "100 Jobs"
+    ],
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "sourceUrl": "",
+    "id": "FA10002",
+    "title": "100職衣装プロンプト：書道家として再構成するキャラクターデザイン",
+    "titleEn": "100 Jobs Outfit Prompt: Reimagining a Character as a Calligrapher",
+    "summary": "添付キャラクターを和の書道家として再構成する職業衣装プロンプト。袴、筆、墨、和紙、墨飛沫を組み合わせ、静けさと勢いを両立した和風キャラクタービジュアルにできます。",
+    "summaryEn": "A job-outfit prompt that reimagines an attached character as a Japanese calligrapher. It combines hakama, brushes, ink, washi paper, and ink splashes to create a design that balances stillness and dynamic motion.",
+    "trendElements": [
+      "職業衣装",
+      "書道家",
+      "和風",
+      "墨飛沫",
+      "袴"
+    ],
+    "trendElementsEn": [
+      "Occupational outfit",
+      "Calligrapher",
+      "Japanese style",
+      "Ink splash",
+      "Hakama"
+    ],
+    "useCases": [
+      "100職シリーズ",
+      "和風衣装案",
+      "キャラクター立ち絵",
+      "筆文字ポスター"
+    ],
+    "useCasesEn": [
+      "100 Jobs series",
+      "Japanese outfit ideas",
+      "Character standing art",
+      "Brush-letter poster"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、書道家の職業衣装として再構成してください。落ち着いた和装、袴、たすき掛け、筆、硯、墨、和紙を取り入れる。キャラクターは大きな筆を持ち、集中した表情で一筆を書き上げる瞬間。墨の飛沫は荒れすぎず、画面構成として美しく整理する。背景は和室または白い展示空間、柔らかな自然光、余白を活かした構図。静けさ、集中力、筆運びの勢いが伝わる、上品な職業衣装デザイン。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a calligrapher while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add calm Japanese clothing, hakama, a tasuki cord, brush, inkstone, black ink, and washi paper. The character holds a large brush and is captured at the moment of writing a powerful stroke with a focused expression. Keep the ink splashes beautiful and composed rather than chaotic. Use a Japanese room or a clean white exhibition space, soft natural light, and an elegant use of negative space. Create a refined occupational outfit design that conveys stillness, concentration, and the movement of the brush.",
+    "notes": [
+      "墨飛沫は多すぎると汚く見えるため整理する",
+      "和装と職業小物の組み合わせで一目で伝わりやすい",
+      "余白を残すと書道らしい緊張感が出る"
+    ],
+    "notesEn": [
+      "Too many ink splashes can look messy, so keep them composed.",
+      "Japanese clothing and calligraphy tools make the job instantly recognizable.",
+      "Leaving negative space creates a calligraphy-like sense of tension."
+    ]
+  },
+  {
+    "datetime": "2026-06-15 01:16",
+    "publishedAt": "2026-06-15 01:16",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
+    "labels": [
+      "オリジナル",
+      "100職"
+    ],
+    "labelsEn": [
+      "Original",
+      "100 Jobs"
+    ],
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "sourceUrl": "",
+    "id": "FA10003",
+    "title": "100職衣装プロンプト：時計職人として再構成するキャラクターデザイン",
+    "titleEn": "100 Jobs Outfit Prompt: Reimagining a Character as a Watchmaker",
+    "summary": "添付キャラクターを時計職人として再構成する、精密機械とアンティーク感を活かした職業衣装プロンプト。歯車、懐中時計、作業机、細かな工具で、緻密な世界観を作れます。",
+    "summaryEn": "A job-outfit prompt that reimagines an attached character as a watchmaker, using precision machinery and antique atmosphere. Gears, pocket watches, workbenches, and tiny tools create a detailed world.",
+    "trendElements": [
+      "職業衣装",
+      "時計職人",
+      "歯車",
+      "アンティーク",
+      "精密工具"
+    ],
+    "trendElementsEn": [
+      "Occupational outfit",
+      "Watchmaker",
+      "Gears",
+      "Antique",
+      "Precision tools"
+    ],
+    "useCases": [
+      "100職シリーズ",
+      "スチームパンク風衣装",
+      "職人キャラ",
+      "細密背景イラスト"
+    ],
+    "useCasesEn": [
+      "100 Jobs series",
+      "Steampunk-style outfit",
+      "Craftsperson character",
+      "Detailed background illustration"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、時計職人の職業衣装として再構成してください。クラシカルなシャツ、ベスト、エプロン、細い作業手袋、懐中時計、歯車、精密ドライバー、小さな作業台を取り入れる。キャラクターは時計の内部を丁寧に調整しているポーズ。背景には木製の机、古い時計、真鍮色の部品、柔らかなランプ光。スチームパンクに寄せすぎず、職人らしい落ち着きと細密感を重視する。繊細で温かみのある職業衣装デザイン。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a watchmaker while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a classic shirt, vest, apron, thin work gloves, pocket watches, gears, precision screwdrivers, and a small workbench. The character carefully adjusts the inside of a watch. Include a wooden desk, old clocks, brass parts, and soft lamp light in the background. Avoid making it overly steampunk; focus on calm craftsmanship and delicate detail. Create a warm, refined occupational outfit design.",
+    "notes": [
+      "歯車を入れすぎるとファンタジー寄りになるため控えめにする",
+      "ランプ光と真鍮色で職人工房らしさが出る",
+      "手元の作業ポーズがあると職業性が強くなる"
+    ],
+    "notesEn": [
+      "Too many gears can make it overly fantasy-like, so use them moderately.",
+      "Lamp light and brass tones create a watchmaker workshop atmosphere.",
+      "A hand-focused working pose makes the occupation clearer."
+    ]
+  },
+  {
+    "datetime": "2026-06-15 01:16",
+    "publishedAt": "2026-06-15 01:16",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
+    "labels": [
+      "オリジナル",
+      "100職"
+    ],
+    "labelsEn": [
+      "Original",
+      "100 Jobs"
+    ],
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "sourceUrl": "",
+    "id": "FA10004",
+    "title": "100職衣装プロンプト：天文学者として再構成するキャラクターデザイン",
+    "titleEn": "100 Jobs Outfit Prompt: Reimagining a Character as an Astronomer",
+    "summary": "添付キャラクターを天文学者として再構成する、星空と研究者感を組み合わせた職業衣装プロンプト。望遠鏡、星図、観測ノート、夜空の光で、静かな知的ビジュアルを作れます。",
+    "summaryEn": "A job-outfit prompt that reimagines an attached character as an astronomer, combining a starry sky with a researcher atmosphere. Telescopes, star charts, observation notes, and night-sky light create a quiet, intelligent visual.",
+    "trendElements": [
+      "職業衣装",
+      "天文学者",
+      "望遠鏡",
+      "星図",
+      "夜空"
+    ],
+    "trendElementsEn": [
+      "Occupational outfit",
+      "Astronomer",
+      "Telescope",
+      "Star chart",
+      "Night sky"
+    ],
+    "useCases": [
+      "100職シリーズ",
+      "研究者衣装",
+      "星空イラスト",
+      "キャラクター紹介"
+    ],
+    "useCasesEn": [
+      "100 Jobs series",
+      "Researcher outfit",
+      "Starry-sky illustration",
+      "Character introduction"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、天文学者の職業衣装として再構成してください。知的な研究者風コート、落ち着いたブラウス、観測ノート、星図、望遠鏡、小さな星座モチーフのアクセサリーを取り入れる。キャラクターは夜の天文台で星空を見上げる、または望遠鏡の横で記録を取っているポーズ。背景は天文台、星空、淡い月光、静かな青い空気感。派手な魔法表現ではなく、実在の天文学者らしい落ち着いた研究感と幻想的な美しさを両立する。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as an astronomer while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add an intelligent researcher-style coat, a calm blouse, observation notes, star charts, a telescope, and small constellation-themed accessories. The character either looks up at the night sky in an observatory or takes notes beside a telescope. Use an observatory, starry sky, pale moonlight, and a quiet blue atmosphere. Avoid flashy magic effects; balance the grounded feeling of a real astronomer with gentle fantasy beauty.",
+    "notes": [
+      "魔法使い風になりすぎないよう研究道具を入れる",
+      "星図や観測ノートがあると職業性が明確になる",
+      "青い夜光と月光がキャラクターを美しく見せる"
+    ],
+    "notesEn": [
+      "Add research tools to avoid making it look too much like a wizard.",
+      "Star charts and observation notes clearly communicate the occupation.",
+      "Blue night light and moonlight make the character look elegant."
+    ]
+  },
+  {
+    "datetime": "2026-06-15 01:16",
+    "publishedAt": "2026-06-15 01:16",
+    "category": "FA",
+    "categoryLabel": "ファッション",
+    "categoryLabelEn": "Fashion",
+    "labels": [
+      "オリジナル",
+      "100職"
+    ],
+    "labelsEn": [
+      "Original",
+      "100 Jobs"
+    ],
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "sourceUrl": "",
+    "id": "FA10005",
+    "title": "100職衣装プロンプト：パティシエとして再構成するキャラクターデザイン",
+    "titleEn": "100 Jobs Outfit Prompt: Reimagining a Character as a Pastry Chef",
+    "summary": "添付キャラクターをパティシエとして再構成する、可愛さと清潔感を両立した職業衣装プロンプト。コックコート、エプロン、ケーキ、絞り袋、淡いスイーツカラーで親しみやすいデザインにできます。",
+    "summaryEn": "A job-outfit prompt that reimagines an attached character as a pastry chef, balancing cuteness and cleanliness. A chef coat, apron, cakes, piping bag, and soft dessert colors create an approachable design.",
+    "trendElements": [
+      "職業衣装",
+      "パティシエ",
+      "コックコート",
+      "スイーツ",
+      "エプロン"
+    ],
+    "trendElementsEn": [
+      "Occupational outfit",
+      "Pastry chef",
+      "Chef coat",
+      "Sweets",
+      "Apron"
+    ],
+    "useCases": [
+      "100職シリーズ",
+      "かわいい職業衣装",
+      "スイーツ投稿",
+      "キャラクター立ち絵"
+    ],
+    "useCasesEn": [
+      "100 Jobs series",
+      "Cute occupational outfit",
+      "Sweets-themed post",
+      "Character standing art"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、パティシエの職業衣装として再構成してください。清潔感のあるコックコート、淡い色のエプロン、スカーフ、絞り袋、ケーキ、マカロン、クリーム、粉砂糖を取り入れる。キャラクターはケーキを仕上げている、または完成したスイーツを差し出しているポーズ。背景は明るい洋菓子店または厨房、柔らかな自然光、淡いスイーツカラー。可愛らしさを出しつつ、職業衣装としての清潔感と実用性も保つ。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a pastry chef while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a clean chef coat, a pale-colored apron, a scarf, a piping bag, cakes, macarons, cream, and powdered sugar. The character is either finishing a cake or presenting completed sweets. Use a bright pastry shop or kitchen, soft natural light, and gentle dessert colors. Keep the design cute while preserving the cleanliness and practicality of an occupational outfit.",
+    "notes": [
+      "白いコックコートで職業性が一目で伝わる",
+      "淡いスイーツカラーはかわいいキャラクターと相性が良い",
+      "背景に厨房か洋菓子店を入れると用途が明確になる"
+    ],
+    "notesEn": [
+      "A white chef coat makes the occupation immediately recognizable.",
+      "Soft dessert colors work well with cute characters.",
+      "A kitchen or pastry shop background makes the use case clear."
+    ]
+  },
+  {
     "datetime": "2026-06-14 21:21",
     "publishedAt": "2026-06-14 21:21",
     "category": "CB",
