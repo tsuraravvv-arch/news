@@ -1089,3 +1089,61 @@ button.hero-link-card {
     width: 100%;
   }
 }
+
+
+/* v77: make JP/EN prompt copy buttons the same intermediate color */
+.prompt-actions .copy-action,
+.prompt-actions .copy-action.primary {
+  border-color: rgba(121, 151, 205, 0.38);
+  background: linear-gradient(135deg, #dbe9fb, #e8e3fb) !important;
+  color: #2c415f !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.72);
+}
+
+.prompt-actions .copy-action:hover,
+.prompt-actions .copy-action.primary:hover {
+  background: linear-gradient(135deg, #cfdef6, #ded8f7) !important;
+}
+
+/* v77: restore guide policy image block */
+.guide-policy {
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px solid #e4edf7;
+  border-radius: 20px;
+  background: #f8fbfe;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  gap: 18px;
+  align-items: center;
+}
+
+.guide-policy-copy p {
+  color: var(--muted-strong);
+  line-height: 1.8;
+}
+
+.guide-policy-image-wrap {
+  margin: 0;
+}
+
+.guide-policy-image {
+  display: block;
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid #e1ebf5;
+  background: #eef5fb;
+}
+
+.guide-policy-image-wrap figcaption {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .guide-policy {
+    grid-template-columns: 1fr;
+  }
+}
