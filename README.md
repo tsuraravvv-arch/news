@@ -346,3 +346,9 @@ tarot.png     800 × 450px 以上、16:9推奨
 - ガイド / コミュニティ / タロットの3カードに、実画像アイコンを表示する構造を追加しました。
 - アイコン参照先は `images/banners/guide.png`, `images/banners/community.png`, `images/banners/tarot.png` です。
 - data/articles.json は含めていません。
+
+
+## v73 glass hero and bigger icons
+- ヒーロー背景を、より透明感のあるガラス風・クリアパーツ風の濃色パネルに調整しました。
+- ハイライト層とブラー感を追加し、黒〜グレー寄りでも重くなりすぎない見た目にしました。
+- ガイド / コミュニティ / タロットのアイコンを大きくし、カード自体も少し高くして見やすくしました。
