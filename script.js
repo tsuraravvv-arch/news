@@ -1,4 +1,6 @@
 const categoryNames = {
+  FAS: { ja: 'ファッション', en: 'Fashion' },
+  JOB: { ja: '職業', en: 'Jobs' },
   FA: { ja: 'ファッション', en: 'Fashion' },
   CB: { ja: '構図・背景', en: 'Composition & Background' },
   EV: { ja: '季節・イベント', en: 'Seasonal Events' },
@@ -15,7 +17,8 @@ const uiText = {
     filterDefault: '新着＋おすすめ',
     filterAll: 'すべて',
     filterOriginal: 'オリジナル',
-    filter100: '100職',
+    filterJob: '職業',
+    filter100: '職業',
     filterFashion: 'ファッション',
     filterComposition: '構図・背景',
     filterSeason: '季節・イベント',
@@ -65,7 +68,8 @@ const uiText = {
     filterDefault: 'New + Featured',
     filterAll: 'All',
     filterOriginal: 'Original',
-    filter100: '100 Jobs',
+    filterJob: 'Jobs',
+    filter100: 'Jobs',
     filterFashion: 'Fashion',
     filterComposition: 'Composition',
     filterSeason: 'Seasonal',
@@ -210,7 +214,15 @@ function matchesFilter(article) {
   if (currentFilter === 'DEFAULT') return isNewArticle(article) || article.featured;
   if (currentFilter === 'ALL') return true;
   if (currentFilter === 'ORIGINAL') return hasOriginal(article);
-  if (currentFilter === 'LABEL_100') return (article.labels || []).includes('100職') || (article.labelsEn || []).includes('100 Jobs');
+  if (currentFilter === 'JOB') {
+    const labels = article.labels || [];
+    const labelsEn = article.labelsEn || [];
+    return article.category === 'JOB'
+      || labels.includes('職業')
+      || labels.includes('100職')
+      || labelsEn.includes('Jobs')
+      || labelsEn.includes('100 Jobs');
+  }
   return article.category === currentFilter;
 }
 
