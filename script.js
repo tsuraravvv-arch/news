@@ -506,3 +506,12 @@ fetch('data/articles.json')
     console.error(error);
     cardsGrid.innerHTML = '<div class="empty-state"><h2>articles.json を読み込めませんでした</h2></div>';
   });
+
+
+function displayLabel(label) {
+  if (!label) return '';
+  if (label === '100職' || label === '職業') return currentLang === 'ja' ? '職業' : 'Jobs';
+  if (label === '100 Jobs' || label === 'Jobs') return currentLang === 'ja' ? '職業' : 'Jobs';
+  return label;
+}
+
