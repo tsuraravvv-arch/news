@@ -1147,3 +1147,6 @@ button.hero-link-card {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* v78: 100職 is displayed as 職業 / Jobs for readability */
