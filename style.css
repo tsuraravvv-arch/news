@@ -1150,3 +1150,10 @@ button.hero-link-card {
 
 
 /* v78: 100職 is displayed as 職業 / Jobs for readability */
+
+
+/* v80: JOB category is now an independent prompt section */
+.library-tile[data-filter="JOB"] span {
+  letter-spacing: 0.02em;
+  font-size: 0.78rem;
+}
