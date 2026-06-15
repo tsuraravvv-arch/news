@@ -389,3 +389,11 @@ tarot.png     800 × 450px 以上、16:9推奨
 - 100職シリーズのJSONラベルも、今後は `labels: ["オリジナル", "職業"]` / `labelsEn: ["Original", "Jobs"]` を使う想定に変更しました。
 - 既存データ互換のため、旧ラベル `100職` / `100 Jobs` もフィルター対象として残しています。
 - data/articles.json は含めていません。
+
+
+## v80 JOB category first
+- 「職業」を `LABEL_100` ではなく、独立カテゴリ `JOB` として扱う準備を入れました。
+- フィルタータイルも `data-filter="JOB"` に変更しました。
+- 新規の職業記事は `category: "JOB"` / `categoryLabel: "職業"` / `categoryLabelEn: "Jobs"` を想定します。
+- 互換性のため、旧データの `labels: ["職業"]`、`labels: ["100職"]`、`labelsEn: ["Jobs"]`、`labelsEn: ["100 Jobs"]` でも職業フィルターに表示されます。
+- data/articles.json は含めていません。
