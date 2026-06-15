@@ -376,3 +376,16 @@ tarot.png     800 × 450px 以上、16:9推奨
 - 日本語版活用ガイドにあった公開ポリシー画像欄を復元しました。
 - 画像参照先は `images/guide/prompt-policy.png` です。画像ファイルは同じパスに配置してください。
 - data/articles.json は含めていません。
+
+
+## v78 100 Jobs label display
+- 100職シリーズの表示ラベルを、ユーザーに直感的な「職業」に変更しました。
+- 英語表示では「Jobs」と表示します。
+- 内部データの `labels: ["オリジナル", "100職"]` は互換性維持のためそのまま使えます。
+- data/articles.json は含めていません。
+
+
+## v79 actual Jobs label
+- 100職シリーズのJSONラベルも、今後は `labels: ["オリジナル", "職業"]` / `labelsEn: ["Original", "Jobs"]` を使う想定に変更しました。
+- 既存データ互換のため、旧ラベル `100職` / `100 Jobs` もフィルター対象として残しています。
+- data/articles.json は含めていません。
