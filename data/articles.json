@@ -1,5 +1,482 @@
 [
   {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00012",
+    "title": "【魔法薬調合師】：もし、つららが魔法薬調合師だったら～",
+    "titleEn": "Potion Brewer: What if Tsurara were a potion brewer?",
+    "summary": "魔法薬調合師をキャラクター化するための職業プロンプト。薬瓶、調合机、乳鉢、発光する液体、手書きラベルを組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a potion brewer, combining potion bottles, mixing desk, mortar and pestle, glowing liquids for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "魔法薬調合師",
+      "薬瓶",
+      "調合机",
+      "乳鉢",
+      "発光液体"
+    ],
+    "trendElementsEn": [
+      "Potion brewer",
+      "Potion bottles",
+      "Mixing desk",
+      "Mortar and pestle",
+      "Glowing liquids"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、魔法薬調合師として再構成してください。長めの作業コート、エプロン、手袋、薬瓶ホルダー、乳鉢、調合スプーン、発光する液体の入ったフラスコ、手書きラベル付きの小瓶を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には木製の調合机、棚に並ぶ薬瓶、乾燥ハーブ、魔法薬のレシピ帳、柔らかなランプ光を配置する。完成画像の画風再現ではなく、魔法薬調合師を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a potion brewer while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a long work coat, apron, gloves, bottle holders, mortar and pestle, mixing spoon, flasks filled with glowing liquids, and small bottles with handwritten labels. The character should handle tools related to the occupation or take a natural working pose. Use a background with a wooden mixing desk, shelves of potion bottles, dried herbs, a potion recipe book, and soft lamp light. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the potion brewer theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "薬瓶と調合机を入れると職業性が伝わりやすい",
+      "発光液体は画面のアクセントにしやすい",
+      "魔法使い風に寄せすぎず、調合する手元を見せると安定しやすい"
+    ],
+    "notesEn": [
+      "Potion bottles and a mixing desk make the occupation clear.",
+      "Glowing liquids work well as visual accents.",
+      "Showing the act of mixing keeps it grounded as a job rather than only a wizard theme."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00013",
+    "title": "【水族館飼育員】：もし、つららが水族館飼育員だったら～",
+    "titleEn": "Aquarium Keeper: What if Tsurara were an aquarium keeper?",
+    "summary": "水族館飼育員をキャラクター化するための職業プロンプト。水槽、給餌バケツ、飼育ノート、防水エプロン、青い水の光を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into an aquarium keeper, combining aquarium tank, feeding bucket, care notes, waterproof apron for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "水族館飼育員",
+      "水槽",
+      "給餌バケツ",
+      "飼育ノート",
+      "防水エプロン"
+    ],
+    "trendElementsEn": [
+      "Aquarium keeper",
+      "Aquarium tank",
+      "Feeding bucket",
+      "Care notes",
+      "Waterproof apron"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、水族館飼育員として再構成してください。動きやすいシャツ、防水エプロン、長靴、給餌バケツ、魚用の餌、飼育ノート、タオル、簡単な清掃道具を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には大型水槽、青い水の反射、泳ぐ魚、清潔な水族館の通路、柔らかな水中光を配置する。完成画像の画風再現ではなく、水族館飼育員を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as an aquarium keeper while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a practical shirt, waterproof apron, rubber boots, feeding bucket, fish food, care notes, towel, and simple cleaning tools. The character should handle tools related to the occupation or take a natural working pose. Use a background with large aquarium tanks, blue water reflections, swimming fish, clean aquarium corridors, and soft underwater light. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the aquarium keeper theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "水槽の青い反射光で雰囲気が出しやすい",
+      "給餌バケツや飼育ノートで職業性が明確になる",
+      "水族館背景は情報量が多いためキャラクターが埋もれないよう整理する"
+    ],
+    "notesEn": [
+      "Blue tank reflections help create the aquarium mood.",
+      "Feeding buckets and care notes clearly communicate the job.",
+      "Keep the background organized so the character does not get lost among details."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00014",
+    "title": "【探偵】：もし、つららが探偵だったら～",
+    "titleEn": "Detective: What if Tsurara were a detective?",
+    "summary": "探偵をキャラクター化するための職業プロンプト。トレンチコート、手帳、虫眼鏡、事件資料、薄暗い街角を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a detective, combining trench coat, magnifying glass, notebook, mystery for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "探偵",
+      "トレンチコート",
+      "虫眼鏡",
+      "手帳",
+      "ミステリー"
+    ],
+    "trendElementsEn": [
+      "Detective",
+      "Trench coat",
+      "Magnifying glass",
+      "Notebook",
+      "Mystery"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、探偵として再構成してください。トレンチコート、落ち着いたシャツ、手袋、手帳、ペン、虫眼鏡、封筒、事件資料、古い鍵を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には夜の路地、雨上がりの石畳、事務所の机、壁に貼られた資料、低めのランプ光を配置する。完成画像の画風再現ではなく、探偵を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a detective while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a trench coat, calm shirt, gloves, notebook, pen, magnifying glass, envelopes, case files, and an old key. The character should handle tools related to the occupation or take a natural working pose. Use a background with a nighttime alley, wet stone pavement, an office desk, pinned case documents, and low lamp light. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the detective theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "手帳や資料で探偵らしさが出る",
+      "暗すぎると衣装が見えにくいため顔周りに光を残す",
+      "虫眼鏡は分かりやすいが大きくしすぎない方が自然"
+    ],
+    "notesEn": [
+      "Notebooks and case files make the detective role clear.",
+      "Keep light around the face so the outfit remains visible.",
+      "A magnifying glass is recognizable, but it should not be oversized."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00015",
+    "title": "【看護師】：もし、つららが看護師だったら～",
+    "titleEn": "Nurse: What if Tsurara were a nurse?",
+    "summary": "看護師をキャラクター化するための職業プロンプト。清潔感のある制服、名札、バインダー、聴診器、明るい医療施設を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a nurse, combining clean impression, medical uniform, stethoscope, clipboard for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "看護師",
+      "清潔感",
+      "医療制服",
+      "聴診器",
+      "バインダー"
+    ],
+    "trendElementsEn": [
+      "Nurse",
+      "Clean impression",
+      "Medical uniform",
+      "Stethoscope",
+      "Clipboard"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、看護師として再構成してください。清潔感のある医療制服、カーディガン、名札、バインダー、ペン、聴診器、消毒ボトル、ナースシューズを取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には明るい病院の廊下、診察室、白いカーテン、柔らかな自然光、清潔な医療棚を配置する。完成画像の画風再現ではなく、看護師を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a nurse while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a clean medical uniform, cardigan, name tag, clipboard, pen, stethoscope, sanitizer bottle, and nurse shoes. The character should handle tools related to the occupation or take a natural working pose. Use a background with a bright hospital corridor, examination room, white curtains, soft natural light, and clean medical shelves. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the nurse theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "白や淡色を中心にすると清潔感が出る",
+      "名札やバインダーで仕事中の雰囲気が出る",
+      "医療表現は過度に重くせず、安心感を優先すると使いやすい"
+    ],
+    "notesEn": [
+      "White and pale colors create a clean impression.",
+      "A name tag and clipboard make the working context clear.",
+      "Keep the medical atmosphere reassuring rather than overly heavy."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00016",
+    "title": "【メイドカフェ店員】：もし、つららがメイドカフェ店員だったら～",
+    "titleEn": "Maid Café Server: What if Tsurara were a maid café server?",
+    "summary": "メイドカフェ店員をキャラクター化するための職業プロンプト。フリルエプロン、カチューシャ、トレー、オムライス、明るい店内を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a maid café server, combining frilled apron, headband, tray, omurice for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "メイドカフェ店員",
+      "フリルエプロン",
+      "カチューシャ",
+      "トレー",
+      "オムライス"
+    ],
+    "trendElementsEn": [
+      "Maid café server",
+      "Frilled apron",
+      "Headband",
+      "Tray",
+      "Omurice"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、メイドカフェ店員として再構成してください。フリル付きのメイド風制服、白いエプロン、カチューシャ、リボン、トレー、ドリンク、オムライス、注文メモを取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には明るいメイドカフェ店内、丸テーブル、装飾されたメニュー、柔らかな照明、可愛い小物を配置する。完成画像の画風再現ではなく、メイドカフェ店員を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a maid café server while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a frilled maid-style uniform, white apron, headband, ribbons, serving tray, drinks, omurice, and order notes. The character should handle tools related to the occupation or take a natural working pose. Use a background with a bright maid café interior, round tables, decorated menus, soft lighting, and cute small props. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the maid café server theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "トレーや注文メモで店員らしさが出る",
+      "衣装が派手になりすぎないよう白エプロンで整理する",
+      "オムライスやドリンクを入れるとメイドカフェ感が伝わりやすい"
+    ],
+    "notesEn": [
+      "A tray and order notes make the server role clear.",
+      "A white apron helps keep the outfit organized.",
+      "Omurice and drinks clearly communicate the maid café setting."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00017",
+    "title": "【鍛冶師】：もし、つららが鍛冶師だったら～",
+    "titleEn": "Blacksmith: What if Tsurara were a blacksmith?",
+    "summary": "鍛冶師をキャラクター化するための職業プロンプト。革エプロン、ハンマー、金床、炉、火花を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a blacksmith, combining leather apron, hammer, anvil, forge for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "鍛冶師",
+      "革エプロン",
+      "ハンマー",
+      "金床",
+      "炉"
+    ],
+    "trendElementsEn": [
+      "Blacksmith",
+      "Leather apron",
+      "Hammer",
+      "Anvil",
+      "Forge"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、鍛冶師として再構成してください。丈夫なシャツ、革エプロン、作業手袋、ハンマー、金床、火ばさみ、金属片、保護具を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には鍛冶工房、赤く光る炉、金属の作業台、火花、暗めの石壁を配置する。完成画像の画風再現ではなく、鍛冶師を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a blacksmith while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a sturdy shirt, leather apron, work gloves, hammer, anvil, tongs, metal pieces, and protective gear. The character should handle tools related to the occupation or take a natural working pose. Use a background with a blacksmith workshop, glowing forge, metal workbench, sparks, and dark stone walls. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the blacksmith theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "ハンマーと金床で職業性が一目で伝わる",
+      "火花は少量でも迫力が出る",
+      "炉の光を顔や手元に当てると作業感が強くなる"
+    ],
+    "notesEn": [
+      "A hammer and anvil make the occupation instantly recognizable.",
+      "Even a small amount of sparks adds impact.",
+      "Forge light on the face and hands strengthens the working atmosphere."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00018",
+    "title": "【動物写真家】：もし、つららが動物写真家だったら～",
+    "titleEn": "Wildlife Photographer: What if Tsurara were a wildlife photographer?",
+    "summary": "動物写真家をキャラクター化するための職業プロンプト。カメラ、望遠レンズ、フィールドジャケット、自然背景、静かな観察ポーズを組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a wildlife photographer, combining camera, telephoto lens, field jacket, natural background for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "動物写真家",
+      "カメラ",
+      "望遠レンズ",
+      "フィールドジャケット",
+      "自然背景"
+    ],
+    "trendElementsEn": [
+      "Wildlife photographer",
+      "Camera",
+      "Telephoto lens",
+      "Field jacket",
+      "Natural background"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、動物写真家として再構成してください。フィールドジャケット、動きやすいパンツ、カメラストラップ、一眼カメラ、望遠レンズ、カメラバッグ、双眼鏡、メモ帳を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には森、草原、川辺、木漏れ日、遠くにいる動物の気配を配置する。完成画像の画風再現ではなく、動物写真家を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a wildlife photographer while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add a field jacket, practical pants, camera strap, DSLR-style camera, telephoto lens, camera bag, binoculars, and notebook. The character should handle tools related to the occupation or take a natural working pose. Use a background with a forest, grassland, riverside, dappled sunlight, and signs of animals in the distance. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the wildlife photographer theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "望遠レンズで写真家らしさが出る",
+      "動物は主役にしすぎず背景要素にすると扱いやすい",
+      "しゃがみ姿勢や静かな観察ポーズと相性が良い"
+    ],
+    "notesEn": [
+      "A telephoto lens makes the photographer role clear.",
+      "Keeping animals as background elements prevents them from overtaking the character.",
+      "Crouching or quiet observation poses work well."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00019",
+    "title": "【和菓子職人】：もし、つららが和菓子職人だったら～",
+    "titleEn": "Wagashi Artisan: What if Tsurara were a wagashi artisan?",
+    "summary": "和菓子職人をキャラクター化するための職業プロンプト。和装エプロン、木型、練り切り、茶器、和菓子店の背景を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a wagashi artisan, combining nerikiri, wooden molds, japanese-style apron, tea utensils for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "和菓子職人",
+      "練り切り",
+      "木型",
+      "和装エプロン",
+      "茶器"
+    ],
+    "trendElementsEn": [
+      "Wagashi artisan",
+      "Nerikiri",
+      "Wooden molds",
+      "Japanese-style apron",
+      "Tea utensils"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、和菓子職人として再構成してください。落ち着いた和装、作業エプロン、木型、練り切り、菓子切り、和紙の敷き紙、茶器、小さな作業台を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には和菓子店の作業場、木製棚、季節の和菓子、障子越しの柔らかな光を配置する。完成画像の画風再現ではなく、和菓子職人を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a wagashi artisan while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add calm Japanese clothing, work apron, wooden molds, nerikiri sweets, confectionery tools, washi paper liners, tea utensils, and a small workbench. The character should handle tools related to the occupation or take a natural working pose. Use a background with a wagashi shop workspace, wooden shelves, seasonal sweets, and soft light through shoji screens. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the wagashi artisan theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "練り切りや木型で和菓子職人らしさが出る",
+      "季節の花や色を少し入れると華やかになる",
+      "和紙や茶器を入れると上品にまとまりやすい"
+    ],
+    "notesEn": [
+      "Nerikiri and wooden molds make the wagashi artisan theme clear.",
+      "A touch of seasonal flowers or colors adds elegance.",
+      "Washi paper and tea utensils help create a refined Japanese atmosphere."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-18 21:58",
+    "publishedAt": "2026-06-18 21:58",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00020",
+    "title": "【宝石鑑定士】：もし、つららが宝石鑑定士だったら～",
+    "titleEn": "Gem Appraiser: What if Tsurara were a gem appraiser?",
+    "summary": "宝石鑑定士をキャラクター化するための職業プロンプト。ルーペ、白手袋、宝石ケース、鑑定机、透明感のある反射光を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a gem appraiser, combining loupe, white gloves, gemstone case, appraisal desk for an occupational visual that clearly communicates the role.",
+    "trendElements": [
+      "宝石鑑定士",
+      "ルーペ",
+      "白手袋",
+      "宝石ケース",
+      "鑑定机"
+    ],
+    "trendElementsEn": [
+      "Gem appraiser",
+      "Loupe",
+      "White gloves",
+      "Gemstone case",
+      "Appraisal desk"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、宝石鑑定士として再構成してください。上品な白シャツ、淡いベスト、細身のジャケット、白手袋、宝石鑑定用ルーペ、宝石ケース、ピンセット、鑑定メモを取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には清潔感のあるアトリエ、鑑定机、カットされた宝石、反射光、ガラスケースを配置する。完成画像の画風再現ではなく、宝石鑑定士を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a gem appraiser while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add an elegant white shirt, pale vest, slim jacket, white gloves, jeweler's loupe, gemstone cases, tweezers, and appraisal notes. The character should handle tools related to the occupation or take a natural working pose. Use a background with a clean atelier, appraisal desk, cut gemstones, reflected light, and glass display cases. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the gem appraiser theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "ルーペと白手袋で職業性が伝わりやすい",
+      "宝石の反射光は画面の透明感を出しやすい",
+      "鑑定机や宝石ケースを入れると仕事中の雰囲気になる"
+    ],
+    "notesEn": [
+      "A loupe and white gloves make the occupation clear.",
+      "Gemstone reflections help create a transparent atmosphere.",
+      "An appraisal desk and gemstone cases make the working context clear."
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-06-15 22:10",
     "publishedAt": "2026-06-15 22:10",
     "category": "JOB",
