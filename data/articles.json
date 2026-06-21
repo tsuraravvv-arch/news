@@ -1,5 +1,217 @@
 [
   {
+    "datetime": "2026-06-09 18:00",
+    "publishedAt": "2026-06-09 17:01",
+    "category": "ORI",
+    "categoryLabel": "オリジナル企画",
+    "categoryLabelEn": "Original Projects",
+    "id": "ORI00002",
+    "title": "日本の妖怪診断プロンプト（Yokai Prompt）",
+    "titleEn": "Japanese Yokai Diagnosis Prompt",
+    "summary": "添付画像の人物やキャラクターを、日本に実在する妖怪1種類に例えて、妖怪図鑑風の診断ポスターへ再構成するオリジナルプロンプトです。妖怪名は実在伝承に基づくものに限定し、妖力表示や伝承情報を入れることで、遊びながら妖怪知識も深められます。英語版も用意しているため、海外向けの投稿にも使いやすい構成です。\n\nThis original prompt transforms a person or character from an attached image into a yokai diagnosis poster based on one real yokai from Japanese folklore. It keeps the yokai selection grounded in actual legends, adds a Yokai Power rating and folklore-style information, and makes the result easy to enjoy as both a visual diagnosis and a learning entry. An English version is also included, making it suitable for international audiences and social media posts.",
+    "summaryEn": "An original prompt that transforms a person or character from an attached image into a yokai diagnosis poster based on one real yokai from Japanese folklore. It includes folklore-based naming, Yokai Power, and encyclopedia-style information for both Japanese and international posts.",
+    "trendElements": [
+      "夏",
+      "怪談",
+      "妖怪",
+      "診断ポスター",
+      "和風図鑑"
+    ],
+    "trendElementsEn": [
+      "Summer",
+      "Ghost stories",
+      "Yokai",
+      "Diagnosis poster",
+      "Japanese encyclopedia style"
+    ],
+    "useCases": [
+      "SNS診断投稿",
+      "キャラクター変換",
+      "妖怪図鑑風イラスト",
+      "夏の怪談企画",
+      "海外向け和風コンテンツ"
+    ],
+    "useCasesEn": [
+      "Social diagnosis post",
+      "Character transformation",
+      "Yokai encyclopedia-style illustration",
+      "Summer ghost-story project",
+      "Japanese-style content for international audiences"
+    ],
+    "promptJa": "添付画像の人物／キャラクターを、日本に実在する妖怪1種類に例えて「妖怪診断ポスター」風の1枚絵として再構成してください。創作妖怪・架空妖怪は禁止です。有名妖怪も除外せず、画像との類似性が高ければ採用してください。類似度が近い候補が複数ある場合は、よりマイナーな実在妖怪を優先してください。\n\n【妖怪名ルール】必ず日本の伝承、妖怪絵巻、妖怪画集、民話、地域伝承、郷土資料などで確認できる実在妖怪を1種類だけ選定してください。存在が不明な妖怪名、創作名、架空名は禁止です。候補が不確かな場合は、架空で補完せず別の実在妖怪を再選定してください。\n\n【妖怪化ルール】人物やキャラクターを「妖怪のコスプレ」にせず、「本当にその妖怪だったらどう見えるか」を基準に妖怪化してください。元画像の服装は維持せず、選定妖怪の伝承や時代背景にふさわしい衣装・素材・意匠を優先してください。ただし、髪色、瞳の色、顔立ち、体型、雰囲気、モチーフカラーは元画像から引き継いでください。露出の多い伝承妖怪でも、健全な図鑑イラストとして自然な衣装や布地で補完してください。伝承上で性別が重要な妖怪は変更せず、性別が明確でない妖怪は入力キャラクターに合わせて構いません。\n\n【絵柄】江戸時代の妖怪絵巻風。水墨画と淡彩水彩を主体に、古い和紙へ描かれた妖怪図鑑のようにしてください。にじみのある墨線、淡い藍色、灰青色、朱色を中心とした和風配色、経年劣化した和紙、古文書、朱印、筆文字、余白を活かした構図を使ってください。西洋ファンタジー表現、魔法陣、ソシャゲ風演出、アニメポスター風は禁止です。少し可愛くデフォルメしてもよいですが、幼児化やマスコット化は避け、妖怪らしさを保ってください。\n\n【構図】妖怪イラストを絶対的な主役にし、画面全体の75〜85％程度を占める大きさで描写してください。小さな枠やフレーム内に閉じ込めないでください。レイヤーは「背景 → 情報欄 → 妖怪イラスト」の順にし、妖怪を最前面へ配置してください。髪、袖、尾、翼、角、炎、水流、氷、煙、布などが情報欄へ一部重なっても構いません。SNSで見た瞬間に、①診断結果、②巨大な妖怪イラスト、③妖力、④伝承情報の順で目に入る構成にしてください。\n\n【診断見出し】画面上部に大きく「あなたは……【妖怪名】」と表示してください。妖怪名は画面内で最も目立つ要素の一つにしてください。\n\n【妖力】評価項目は「妖力」のみに統一し、危険度は表示しないでください。妖力は、妖怪としての格、強さ、伝承規模、知名度、危険性、存在感を総合した評価です。表示は必ず★1〜★5の5段階のみ。星は最大5個で、6個以上は禁止です。★ 小妖、★★ 並妖、★★★ 強妖、★★★★ 大妖、★★★★★ 伝説級。妖力は妖怪名の近く、画面上部に固定配置し、説明文より目立たせてください。\n\n【妖力デザイン】★は大きく、筆文字風の荒い輪郭で、墨・朱・伝統顔料で手描きしたように豪快に並べてください。星ごとに少し大きさ、角度、位置をずらして構いませんが、数は最大5個です。ランク文字は筆文字、朱印、判子、護符、墨書き札のように表示してください。★1〜2は墨色・灰青色、★3は朱色、★4は紫色、★5は和風の金泥のような上品な金色にしてください。妖力が高いほど朱印、墨飛沫、護符、筆跡、虫食い和紙、古文書の染みを強めてください。虹色、金色ラメ、宝石、魔法陣、ソシャゲ風SSR演出は禁止です。\n\n【情報欄】画面内に、分類、初出年代、伝承地域、特徴、伝承、出典を簡潔に記載してください。長文は禁止です。情報欄は整った長方形フレームや表組みにせず、破れた和紙、巻物の切れ端、古文書の貼り紙、護符、短冊、朱印紙などの不規則な形状にしてください。情報欄同士が少し重なっても構いません。発見された古い資料を貼り付けたような見た目にしてください。\n\n【色彩設計】背景と情報欄は落ち着いた古紙色にし、妖怪イラスト本体だけを少し鮮やかにして、最初に妖怪へ視線が向かうようにしてください。妖怪図鑑でありながら、診断結果ポスターとして成立するデザインを目指してください。",
+    "promptEn": "Reconstruct the person or character in the attached image as a “Yokai Diagnosis Poster,” comparing them to exactly one real yokai from Japanese folklore. Do not create an original yokai. Famous yokai are allowed if they strongly resemble the input image. If several real yokai candidates are similarly suitable, prioritize the more obscure real yokai.\n\n[Yokai Name Rules] Select exactly one real Japanese yokai. Fictional yokai names, invented names, and unclear yokai are forbidden. Use only yokai that can be confirmed in Japanese folklore, yokai picture scrolls, yokai art books, folk tales, regional legends, or local historical materials. If the existence of a candidate cannot be confirmed, do not use it; reselect another real yokai. The yokai name shown in the final image must remain in Japanese, followed by romanized reading in parentheses, for example: You are... 雪女 (Yuki-onna). Do not translate the yokai name into English as the main name.\n\n[Yokai Transformation Rules] Do not depict the person or character as merely cosplaying the yokai. Transform them based on the idea: “What would this person or character look like if they truly were that yokai?” Do not preserve the original clothing. Prioritize clothing, materials, and visual motifs appropriate to the selected yokai’s folklore, era, and traditional background. However, preserve the original image’s hair color, eye color, facial features, body type, overall atmosphere, and motif colors. If the original yokai is traditionally nude, semi-nude, or revealing, reinterpret the design with natural clothing, cloth, or traditional materials so it remains a wholesome yokai encyclopedia illustration. If the yokai’s gender is important in folklore, do not change it; if gender is unclear, the depiction may follow the input character.\n\n[Art Style] Use an Edo-period yokai picture-scroll style, mainly ink wash painting and pale watercolor. Make it look like an old yokai encyclopedia drawn on aged washi paper. Use bleeding ink lines, pale indigo, grayish blue, vermilion, muted traditional colors, old manuscript textures, red seals, brush-written text, and strong use of empty space. Western fantasy expression, magic circles, mobile-game effects, and anime-poster styling are forbidden. The yokai-transformed character may be slightly cute and gently deformed, but must not become a childish mascot; keep a clear yokai presence.\n\n[Composition] The yokai illustration must be the absolute main subject and should occupy about 75–85% of the entire image. Do not trap it inside a small frame. Build the layer structure as Background → information labels → yokai illustration, with the yokai in the foreground. Hair, sleeves, tail, wings, horns, flames, water, ice, smoke, cloth, or other elements may overlap the information labels. The layout should guide the viewer’s eye in this order: 1. “You are... [Yokai Name]”, 2. the large yokai illustration, 3. Yokai Power, 4. folklore information.\n\n[Yokai Diagnosis Presentation] Display a large headline near the top: “You are... [Japanese Yokai Name] ([Romanized Reading])”. The Japanese yokai name must be one of the most visually prominent elements, and the poster should immediately read as a diagnosis result.\n\n[Yokai Power] Use only one evaluation category: Yokai Power. Do not display Danger Level. Yokai Power is a combined evaluation of yokai rank, strength, scale of folklore, name recognition, dangerousness, and presence. Show it as a 1–5 star rating only: ★ Lesser Yokai, ★★ Common Yokai, ★★★ Powerful Yokai, ★★★★ Great Yokai, ★★★★★ Legendary Yokai. The maximum number of stars is exactly five; never show six or more. Place Yokai Power near the yokai name at the top, more prominent than the description text.\n\n[Yokai Power Design] The stars should be large, rough, brush-like, and hand-painted with ink, vermilion, or traditional pigment. Each star may vary slightly in size, angle, and placement, but the count must never exceed five. The rank label must look like brush lettering, a red seal, a stamp, a talisman, or an ink-written paper tag rather than body text. Use ink black or grayish blue for ★–★★, vermilion for ★★★, purple for ★★★★, and refined traditional gold pigment for ★★★★★. As Yokai Power increases, strengthen red seals, ink splashes, talismans, brush marks, worm-eaten washi paper, and manuscript stains. Rainbow colors, glittering gold, jewels, magic circles, and mobile-game SSR effects are forbidden.\n\n[Information Labels] Include concise labels for Classification, First Appearance Period, Folklore Region, Characteristics, Legend, and Source. All information label text must be written in English. Only the yokai name itself should remain in Japanese with romanized reading. Do not use clean rectangular frames or tidy tables; use irregular torn washi paper, scroll fragments, pasted old manuscript scraps, talismans, paper strips, or red-seal papers. Labels may overlap and should look like old discovered documents pasted onto the poster.\n\n[Color Design and Goal] Use calm aged-paper colors for the background and information labels. Only the yokai illustration itself should be slightly more vivid to guide the viewer’s eye toward it first. The final image should work both as a yokai encyclopedia page and as a diagnosis-result poster.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "妖力の★が6個以上になることがあるため、最大5個までと強く指定しています",
+      "AIが架空の妖怪名を作る場合があるため、実在妖怪のみを使う指示を重ねています",
+      "英語版では妖怪名を日本語表記＋ローマ字読みにして、海外向けにも使いやすくしています"
+    ],
+    "notesEn": [
+      "The star rating may sometimes exceed five, so the prompt strongly limits it to a maximum of five stars.",
+      "Because AI may invent yokai names, the prompt repeatedly specifies that only real yokai may be used.",
+      "In the English version, the yokai name is shown in Japanese with romanization, making it easier to use for international audiences."
+    ],
+    "sourceUrl": "",
+    "featured": true,
+    "featuredLabel": "おすすめ",
+    "featuredLabelEn": "Featured",
+    "featuredReason": "添付画像から実在する日本妖怪に例えた診断ポスターを作れる、SNS向けに遊びやすい日英対応のオリジナルプロンプトです。",
+    "featuredReasonEn": "A bilingual original prompt that turns an attached image into a social-media-friendly diagnosis poster based on a real Japanese yokai."
+  },
+  {
+    "datetime": "2026-06-02 00:00",
+    "publishedAt": "2026-06-02 00:19",
+    "category": "ORI",
+    "categoryLabel": "オリジナル企画",
+    "categoryLabelEn": "Original Projects",
+    "id": "ORI00003",
+    "title": "あなたに似合う「バラ」の品種 プロンプト",
+    "titleEn": "Rose Variety Prompt That Matches Your Character",
+    "summary": "キャラクター画像を1枚添付すると、そのキャラクターに似合う実在の薔薇品種を選定し、薔薇と一緒に写った植物図鑑風・デザインシート風イラストを作れるオリジナルプロンプトです。好きな薔薇の品種がある場合は、品種指定欄に名前を入れることで指定品種を優先できます。",
+    "summaryEn": "An original prompt that selects a real rose variety matching an attached character image and creates a botanical encyclopedia or design-sheet-style illustration with roses. A specific rose variety can also be prioritized if provided.",
+    "trendElements": [
+      "ローズの日",
+      "薔薇",
+      "花景色",
+      "キャラクター診断",
+      "水彩ポスター"
+    ],
+    "trendElementsEn": [
+      "Rose Day",
+      "Roses",
+      "Flower scenery",
+      "Character diagnosis",
+      "Watercolor poster"
+    ],
+    "useCases": [
+      "6月2日のローズの日投稿",
+      "キャラクター紹介画像",
+      "SNSアイコン・ヘッダー素材",
+      "植物図鑑風ポスター",
+      "記念日イラスト"
+    ],
+    "useCasesEn": [
+      "June 2 Rose Day post",
+      "Character introduction image",
+      "Social icon / header material",
+      "Botanical encyclopedia-style poster",
+      "Anniversary illustration"
+    ],
+    "promptJa": "【薔薇の品種指定欄】\n品種名【　】 \n\n※上記【　】内に実在する薔薇の品種名が記入されている場合は、キャラクターに合う品種を新しく選定せず、記入された品種を優先して使用してください。\n※記入された品種名が架空の名称、誤記、または検索・確認できない名称である場合は、その指定を無効として扱い、未記入の場合と同じように、キャラクターに合う実在の薔薇品種を選定してください。\n※品種名が未記入の場合は、キャラクターの色、衣装、性格、雰囲気、物語性から相性が良いと想像される実在の薔薇品種を選定してください。\n\n添付されたキャラクター画像を参照し、そのキャラクターと薔薇が一緒に写っている、1枚の完成イラストを作成してください。\n\n\n【キャラクターについて】 \n・添付画像のキャラクターの外見的アイデンティティを保ってください。\n・髪型、髪色、目の色、顔立ち、衣装の印象、体型、雰囲気はできるだけ維持してください。\n・薔薇やイラスト全体の雰囲気に合わせて、自然で魅力的なポーズにしてください。\n・添付イラストがバストアップの場合は、無理に全身化せず上半身中心の構図として自然にまとめてください。\n\n【薔薇の品種について】\n・薔薇の品種は実在する品種から選んでください。\n・最上部の【薔薇の品種指定欄】に実在する品種名が記入されている場合は、その品種を使用してください。\n・品種指定欄が未記入、または記入された品種が架空・不明・確認不能な場合は、キャラクターと\"相性が良い\"と感じられる実在品種を選定してください。\n・\"相性の良い\"とは、必ずしもキャラクターと同系色という意ではなく、キャラクターの色、衣装、性格、雰囲気、物語性とかみ合っていれば、補色（対照的）な色の薔薇でも構いません。\n・薔薇の本数やボリュームは、キャラクターの雰囲気から自然に想像できる量にしてください。\n・華やかなキャラクターなら多め、静かなキャラクターなら控えめ、上品なキャラクターなら整った量など、雰囲気に合わせて調整してください。\n・花弁とキャラクターのサイズ比は可能な限り実際に近づけてください\n\n\n【薔薇の形状について】\n・登場する薔薇の形状は、以下の３つからランダムに１つ選んでください。\n1. 地植え\n2. 鉢植え\n3. 花束\n\n・選んだ形状が画面上で明確に分かるように描いてください。\n・同じ形式に偏らないよう、地植え・鉢植え・花束のいずれも自然に選択候補として扱ってください。\n\n【背景について】\n・基本は白地背景としてください。\n・ただし、薔薇の形状によって背景の扱いを変えてください。\n・地植えの場合：白地背景を基調にしつつ、足元の地面、土、石畳、小道、ローズガーデンの一部などを描いてください。\n　ただし、背景全体を濃い風景にせず、白地の余白を残した上品なローズガーデン風にしてください。\n・鉢植えの場合： 背景は白一色にしてください。\n　鉢、足元の影、軽い装飾程度でまとめてください。\n・花束の場合：背景は白一色にしてください。キャラクターが花束を持つ、抱える、差し出すなど、花束として分かりやすい構図にしてください。\n\n【文字情報について 】\n・イラスト内に、選定または指定された薔薇の名称と特徴を記載してください。\n・文字は手書き風にしてください。\n・文字は読みやすく、イラストの雰囲気に合うように配置してください。\n・以下の情報を、短く分かりやすく記載してください。 \n・薔薇の品種名\n・日本語名またはカタカナ表記\n・花色\n・咲き方\n・性質（木立性、つる性、フロリバンダ、ハイブリッド・ティー、返り咲き、四季咲きなど）\n・香り\n・キャラクターとの相性を表す短いコメント \n\n【複数キャラクターの場合】\n・添付画像に複数のキャラクターが写っている場合は、最大2種類まで薔薇の品種を選定してください。\n・品種指定欄に1種類のみ記入されている場合は、その品種を主役の薔薇として扱い、必要に応じて全キャラクターに共通する薔薇として使用してください。\n・品種指定欄に2種類まで実在品種が記入されている場合は、それぞれの品種をキャラクターに対応させて使用してください。\n・2種類の薔薇を使う場合は、どちらの薔薇がどのキャラクターに対応しているか分かるように配置してください。\n\n【画風】\n・水彩画の雰囲気を70％くらい取り入れた、アニメ的な画風にしてください。\n・透明感のある色使い、柔らかいにじみ、繊細な線、淡い影を重視してください。\n・白地背景に合う、上品で軽やかな仕上がりにしてください。\n・キャラクター、薔薇、文字情報が1枚のデザインシートや植物図鑑風ポスターのように美しくまとまる構図にしてください。",
+    "promptEn": "[Rose Variety Specification Field]\nRose variety name: [　]\n\nIf a real rose variety name is written inside the brackets above, use that variety as the priority, without selecting a new rose variety to match the character.\n\nIf the written variety name is fictional, misspelled, or cannot be confirmed through search or verification, treat the specification as invalid and handle it the same way as if the field were left blank.\n\nIf the rose variety field is blank, select a real existing rose variety that feels well-matched to the character, based on the character’s colors, outfit, personality, atmosphere, and narrative impression.\n\nCreate one finished illustration featuring the attached character and roses together.\n\n[About the Character]\n\n* Refer to the attached character image and preserve the character’s visual identity.\n* Keep the hairstyle, hair color, eye color, facial features, outfit impression, body type, and overall atmosphere as faithfully as possible.\n* Choose a natural and appealing pose that matches the roses and the overall mood of the illustration.\n* If the attached illustration is a bust-up image, do not force a full-body composition. Instead, create a natural upper-body-centered composition.\n\n[About the Rose Variety]\n\n* The rose variety must be selected from real existing rose varieties.\n* If a real variety name is written in the [Rose Variety Specification Field] at the top, use that variety.\n* If the field is blank, or if the written variety is fictional, unknown, or impossible to verify, select a real rose variety that feels compatible with the character.\n* “Compatible” does not necessarily mean the same color as the character. A complementary or contrasting rose color is also acceptable if it harmonizes with the character’s colors, outfit, personality, atmosphere, or story.\n* Adjust the number and volume of roses naturally according to the character’s atmosphere.\n* For a glamorous character, use more roses. For a quiet character, use fewer roses. For an elegant character, use a refined and well-arranged amount.\n* Keep the size ratio between the rose petals and the character as close to real-life proportions as possible.\n\n[Rose Form.]\nRandomly choose one of the following three rose forms:\n\n1. Garden-planted roses\n2. Potted roses\n3. Rose bouquet\n\nMake sure the chosen form is clearly recognizable in the image.\n\nDo not bias the selection toward only one form. Treat garden-planted roses, potted roses, and rose bouquets as equally natural options.\n\n[Background]\n\n* The basic background should be white.\n* However, adjust the background treatment depending on the chosen rose form.\n\nIf garden-planted roses are chosen:\nUse a white background as the base, but include the ground around the feet, soil, stone pavement, a small path, or part of a rose garden. Do not turn the entire background into a dense landscape. Leave elegant white space and create a refined rose garden atmosphere.\n\nIf potted roses are chosen:\nUse a pure white background. Keep the composition simple with the pot, a shadow at the feet, and only light decorative elements.\n\nIf a rose bouquet is chosen:\nUse a pure white background. Make the bouquet clearly recognizable by having the character hold it, embrace it, or offer it forward.\n\n[Text Information.]\nInclude the selected or specified rose name and its characteristics within the illustration.\n\nThe text should have a handwritten style.\n\nMake the text readable and place it in a way that matches the mood of the illustration.\n\nWrite the following information briefly and clearly:\n\n* Rose variety name\n* Japanese name or katakana transcription\n* Flower color\n* Bloom form\n* Growth habit or type, such as shrub rose, climbing rose, floribunda, hybrid tea, repeat-blooming, or continuous-blooming\n* Fragrance\n* A short comment describing the compatibility between the rose and the character\n\n[If There Are Multiple Characters.]\n\n* If the attached image contains multiple characters, select up to two rose varieties.\n* If only one variety is written in the specification field, treat that variety as the main rose and use it as a shared rose for all characters if appropriate.\n* If up to two real rose varieties are written in the specification field, assign each variety to the corresponding character.\n* If using two rose varieties, arrange them so it is clear which rose corresponds to which character.\n\n[Art Style]\n\n* Use an anime-style illustration with about 70% watercolor influence.\n* Emphasize transparent colors, soft bleeding effects, delicate linework, and pale shadows.\n* Create an elegant, light, and refined finish that suits a white background.\n* Compose the character, roses, and text information beautifully in a single image, like a design sheet or a botanical encyclopedia-style poster.\\",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "品種指定欄を空欄にすると、キャラクターの色や雰囲気から相性の良い実在品種を選ぶ構成です",
+      "好きな薔薇の品種がある場合は、品種名を【】内に入れると指定品種を優先できます",
+      "白地背景・水彩寄りの画風にすると、植物図鑑風ポスターとしてまとまりやすいです"
+    ],
+    "notesEn": [
+      "Leaving the variety field blank lets the prompt choose a real rose variety that matches the character’s colors and atmosphere.",
+      "If you have a favorite rose variety, entering it in the brackets will prioritize that variety.",
+      "A white background with a watercolor style helps the result work as a botanical poster."
+    ],
+    "sourceUrl": "",
+    "featured": true,
+    "featuredLabel": "おすすめ",
+    "featuredLabelEn": "Featured",
+    "featuredReason": "キャラクター画像1枚から使えて、ローズの日投稿・キャラクター紹介・記念日イラストに応用しやすい定番プロンプトです。",
+    "featuredReasonEn": "A versatile prompt for Rose Day posts, character introductions, and anniversary illustrations using one character image."
+  },
+  {
+    "datetime": "2026-05-24 13:00",
+    "category": "ORI",
+    "categoryLabel": "オリジナル企画",
+    "categoryLabelEn": "Original Projects",
+    "id": "ORI00004",
+    "title": "「透明感」＋「パステル」＋「水彩」プロンプト",
+    "titleEn": "Transparency + Pastel + Watercolor Prompt",
+    "summary": "元イラストのデザインやキャラクター性をできるだけ保ちながら、清楚感のある色合いへやさしく変化させるオリジナルプロンプトです。三面図や設定画からでも使いやすく、彩色・光・空気感を中心に印象を整えたいときに向いています。",
+    "summaryEn": "An original prompt that gently shifts an existing character image toward a clean, pastel, watercolor-like atmosphere while preserving the original design and character identity.",
+    "trendElements": [
+      "清楚",
+      "水彩",
+      "パステル"
+    ],
+    "trendElementsEn": [
+      "Clean and elegant",
+      "Watercolor",
+      "Pastel"
+    ],
+    "useCases": [
+      "サムネ",
+      "イメージ変更",
+      "三面図からの雰囲気変換"
+    ],
+    "useCasesEn": [
+      "Thumbnail",
+      "Image transformation",
+      "Atmosphere conversion from character sheets"
+    ],
+    "promptJa": "添付画像のキャラクターと衣装デザインを元に画像を作成してください。\n\n【キャラクター】\nキャラクターの顔立ち、髪型、髪色、前髪、瞳、服装構造、アクセサリー、全体の印象はできるだけそのまま維持してください。\nそのうえで、元のイラストの特徴は残しながら、「やわらかいパステルアニメ塗り」「淡い水彩風の空気感」を約70％の強さで加えてください。\n元絵の情報量・デザイン性・キャラクター性を保ったまま、彩色と空気感だけを優しく変化させるイメージです。\n\n【描写スタイル】\n* 繊細で細い線画\n* 空気を含んだような淡く透ける色使い\n* 低〜中コントラスト\n* 影はやや控えめだが、立体感がなくなりすぎないよう適度に濃淡を残す\n* やさしいセル塗りをベースに、部分的に淡いグラデーション\n* 透明感のあるやわらかな光\n* 夢見心地で上品な雰囲気\n* 少しだけ絵本・水彩風のニュアンス\n\n【ポーズ】\n元のイラストにポーズがある場合は、できるだけ変更しない\n元のイラストが三面図やポーズがない場合は、キャラクターイメージに合うポーズをデザインする\n\n【色設計】\n* ペールブルー\n* ホワイト\n* クリーム\n* ごく淡いラベンダー\n* 必要に応じて少量の淡いピーチ〜ソフトオレンジ系アクセント\n\n【衣装表現】\n* レース\n* フリル\n* リボン\n* 薄布\n* 透け感\n* 繊細な布の質感\n  これらをやわらかく上品に表現してください。\n\n【背景】\n* 明るくクリーンな背景\n* 白〜ごく薄いグラデーション基調\n* 小さな装飾モチーフや繊細な意匠をうっすら加える\n* 主役を邪魔しない、軽く夢幻的な空気感\n\n【重要】\n* 元画像のゴシック感や衣装ディテールは消しすぎない\n* 元絵をほぼそのままに見せるのではなく、彩色・光・空気感に明確な変化を出す\n* ただし、別作品レベルに改変しすぎない\n* 効果量は100％ではなく70％程度\n* 濃淡はやや残し、のっぺりさせない\n\n【避けること】\n* 重すぎる影\n* 強すぎるコントラスト\n* 黒つぶれ\n* 彩度の高すぎる色\n* 厚塗りすぎる質感\n* 写実的3D感\n* glossy CGI lighting\n* 過剰なドラマチックライティング",
+    "promptEn": "Create an image based on the attached character and outfit design.\n\n## Character\nPreserve the character’s facial features, hairstyle, hair color, bangs, eyes, outfit structure, accessories, and overall impression as faithfully as possible.\n\nAt the same time, while keeping the original illustration’s core characteristics, apply a “soft pastel anime coloring” and a “light watercolor-like atmosphere” at about 70% strength.\n\nThe goal is to gently transform only the coloring and atmosphere, while preserving the original image’s level of detail, design quality, and character identity.\n\n## Rendering Style\n* Delicate, thin lineart\n* Soft, airy, slightly translucent colors\n* Low to medium contrast\n* Shadows should be somewhat restrained, but still retain enough depth and tonal variation so the image does not become flat\n* Gentle cel shading as a base, with soft gradients in selected areas\n* Transparent, soft lighting\n* A dreamy and elegant atmosphere\n* A slight storybook / watercolor-like nuance\n\n## Pose\n* If the original illustration already has a pose, keep it as much as possible\n* If the original image is a character sheet, turnaround, or has no clear pose, design a pose that suits the character’s image\n\n## Color Design\n* Pale blue\n* White\n* Cream\n* Very pale lavender\n* If needed, add small amounts of pale peach to soft orange accents\n\n## Outfit Rendering\n* Lace\n* Frills\n* Ribbons\n* Light fabric\n* Sheerness / translucency\n* Delicate fabric texture\n\nRender these elements softly and elegantly.\n\n## Background\n* Bright and clean background\n* Mainly white to a very pale gradient\n* Faintly include small decorative motifs and delicate ornamental details\n* A light, dreamy atmosphere that does not distract from the main subject\n\n## Important\n* Do not erase the original image’s gothic feel or outfit details too much\n* Do not make it look almost identical to the original; create a clear change in the coloring, lighting, and atmosphere\n* However, do not alter it so much that it looks like a completely different work\n* The effect strength should be about 70%, not 100%\n* Keep some tonal variation and depth; do not make it look flat\n\n## Avoid\n* Overly heavy shadows\n* Excessively strong contrast\n* Crushed blacks\n* Overly saturated colors\n* Overly thick or painterly rendering\n* Realistic 3D appearance\n* Glossy CGI lighting\n* Excessively dramatic lighting",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "ゴシックや悪魔のようなイラストでも清楚感が出る",
+      "元の色が薄すぎると効果が薄い",
+      "三面図や設定画でも、彩色・空気感の方向付けとして使いやすい"
+    ],
+    "notesEn": [
+      "Even gothic or demonic illustrations can gain a clean, elegant feeling.",
+      "If the original colors are too pale, the effect may be subtle.",
+      "Useful for guiding color and atmosphere even from character sheets or design references."
+    ],
+    "sourceUrl": "",
+    "featured": true,
+    "featuredLabel": "おすすめ",
+    "featuredLabelEn": "Featured",
+    "featuredReason": "オリジナル企画として使いやすいプロンプトです。",
+    "featuredReasonEn": "An original project prompt suitable for creative use."
+  },
+  {
+    "datetime": "2026-05-22 10:00",
+    "category": "ORI",
+    "categoryLabel": "オリジナル企画",
+    "categoryLabelEn": "Original Projects",
+    "id": "ORI00005",
+    "title": "あの角度になるプロンプト",
+    "titleEn": "The “That Angle” Pose Prompt",
+    "summary": "某アニメーション作品の“あの角度”を再現するためのオリジナルプロンプトです。首の角度や上半身の反りにランダム性を持たせ、毎回少し違う大胆な構図になるよう設計されています。",
+    "summaryEn": "An original prompt designed to recreate a bold anime-style dramatic head-and-neck pose. Randomized angles and upper-body arching create a different striking composition each time.",
+    "trendElements": [
+      "アニメ",
+      "構図"
+    ],
+    "trendElementsEn": [
+      "Anime",
+      "Composition"
+    ],
+    "useCases": [
+      "SNS投稿",
+      "キャラクターポートレート",
+      "MV風サムネイル"
+    ],
+    "useCasesEn": [
+      "Social media post",
+      "キャラクターポートレート",
+      "MV風サムネイル"
+    ],
+    "promptJa": "",
+    "promptEn": "Use the attached character reference image as the main subject.\nPreserve the character’s facial features, hairstyle, hair color, eye color, outfit, accessories, body shape, and overall personality as faithfully as possible.\n\nHowever, do not preserve the original pose or original camera angle.\nDo not keep the original front-facing, centered bust-up composition.\nRecompose the character into a clearly different anime-style illustration.\n\nCreate a single-character anime illustration with a very strong dramatic head-and-neck pose.\nThe pose should emphasize an exaggerated neck angle and a backward arch of the upper body.\nThe character should be shown from a side, three-quarter back, or over-the-shoulder angle, with the body turned away or partly away from the viewer while the face turns back toward the camera.\n\nDo not use a mild head tilt.\nThe neck angle should vary randomly with each generation.\nFor each generation, choose one bold variation such as:\n\n- the face tilted almost sideways, with the neck bent close to a 70–90 degree angle\n- a deep backward diagonal head tilt with the chin raised high\n- the upper body arched backward, with the neck and face tilted even further\n- the body facing sideways or away while the face twists strongly back toward the camera\n- the face rotated so strongly that it appears diagonal or almost horizontal in the frame\n- a strong mismatch between the shoulder line and the face angle, emphasizing the curve of the neck\n- the chin raised upward while only the eyes look back toward the viewer\n- a deep sideways neck bend, with the hair falling toward one side due to gravity\n- a large curved line formed by the back, chest, shoulders, neck, and raised chin\n\nVary the neck angle, tilt direction, chin height, body arch, and twist between torso and face in every generation.\nThe unusual neck angle must be immediately noticeable.\nAvoid ordinary over-the-shoulder poses, normal head tilts, weak angles, and front-facing poses.\n\nThe pose should be bold, exaggerated, iconic, and visually striking.\nIt does not need to be fully realistic, but it should still feel believable as stylized anime anatomy.\nAvoid a completely broken neck, disconnected head, overly long neck, overly thin neck, or impossible anatomy.\n\nThe character should look toward the camera according to the head angle.\nThe gaze may look back from an upward-facing head, look down from a sideways-tilted face, or coldly glance over the shoulder.\nThe expression should feel cool, expressionless, mysterious, slightly provocative, quietly confident, or emotionally restrained.\n\nUse a stylized Japanese anime frame aesthetic.\nFocus on crisp outlines, clean cel shading, flat color areas, hard-edged shadows, graphic shadow shapes, and strong contrast between light and dark.\nAdd dramatic shadows on the face, neck, under the chin, collarbone, shoulders, and hair.\nMake the neck angle and upper-body arch stand out through lighting and shadow.\nAvoid overly soft painterly rendering; use organized anime-style shading.\n\nThe background should be dark and simple, matching the character’s mood.\nUse black, deep purple, navy, dark blue-gray, or similar tones.\nA simple gradient, dim interior, night-like atmosphere, or stage-like spotlight may be used.\nKeep the background understated so the neck angle, body arch, expression, and shadows remain the main focus.\n\nHigh-quality anime illustration, strong dramatic head tilt, neck angle variations close to 90 degrees, arched upper body, over-the-shoulder composition, almost sideways face angle, cool gaze, strong cel-shaded shadows, dark stylish atmosphere.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [],
+    "notesEn": [],
+    "sourceUrl": "",
+    "featured": true,
+    "featuredLabel": "おすすめ",
+    "featuredLabelEn": "Featured",
+    "featuredReason": "オリジナル企画として使いやすいプロンプトです。",
+    "featuredReasonEn": "An original project prompt suitable for creative use."
+  },
+  {
     "datetime": "2026-06-20 09:56",
     "publishedAt": "2026-06-20 09:56",
     "category": "ORI",
@@ -1319,72 +1531,6 @@
     "sourceUrl": "https://www.pinterest.com/search/pins/?q=neon%20gothic%20fashion"
   },
   {
-    "datetime": "2026-06-09 18:00",
-    "publishedAt": "2026-06-09 17:01",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "labels": [
-      "オリジナル"
-    ],
-    "labelsEn": [
-      "Original"
-    ],
-    "id": "CB10002",
-    "title": "日本の妖怪診断プロンプト（Yokai Prompt）",
-    "titleEn": "Japanese Yokai Diagnosis Prompt",
-    "summary": "添付画像の人物やキャラクターを、日本に実在する妖怪1種類に例えて、妖怪図鑑風の診断ポスターへ再構成するオリジナルプロンプトです。妖怪名は実在伝承に基づくものに限定し、妖力表示や伝承情報を入れることで、遊びながら妖怪知識も深められます。英語版も用意しているため、海外向けの投稿にも使いやすい構成です。\n\nThis original prompt transforms a person or character from an attached image into a yokai diagnosis poster based on one real yokai from Japanese folklore. It keeps the yokai selection grounded in actual legends, adds a Yokai Power rating and folklore-style information, and makes the result easy to enjoy as both a visual diagnosis and a learning entry. An English version is also included, making it suitable for international audiences and social media posts.",
-    "summaryEn": "An original prompt that transforms a person or character from an attached image into a yokai diagnosis poster based on one real yokai from Japanese folklore. It includes folklore-based naming, Yokai Power, and encyclopedia-style information for both Japanese and international posts.",
-    "trendElements": [
-      "夏",
-      "怪談",
-      "妖怪",
-      "診断ポスター",
-      "和風図鑑"
-    ],
-    "trendElementsEn": [
-      "Summer",
-      "Ghost stories",
-      "Yokai",
-      "Diagnosis poster",
-      "Japanese encyclopedia style"
-    ],
-    "useCases": [
-      "SNS診断投稿",
-      "キャラクター変換",
-      "妖怪図鑑風イラスト",
-      "夏の怪談企画",
-      "海外向け和風コンテンツ"
-    ],
-    "useCasesEn": [
-      "Social diagnosis post",
-      "Character transformation",
-      "Yokai encyclopedia-style illustration",
-      "Summer ghost-story project",
-      "Japanese-style content for international audiences"
-    ],
-    "promptJa": "添付画像の人物／キャラクターを、日本に実在する妖怪1種類に例えて「妖怪診断ポスター」風の1枚絵として再構成してください。創作妖怪・架空妖怪は禁止です。有名妖怪も除外せず、画像との類似性が高ければ採用してください。類似度が近い候補が複数ある場合は、よりマイナーな実在妖怪を優先してください。\n\n【妖怪名ルール】必ず日本の伝承、妖怪絵巻、妖怪画集、民話、地域伝承、郷土資料などで確認できる実在妖怪を1種類だけ選定してください。存在が不明な妖怪名、創作名、架空名は禁止です。候補が不確かな場合は、架空で補完せず別の実在妖怪を再選定してください。\n\n【妖怪化ルール】人物やキャラクターを「妖怪のコスプレ」にせず、「本当にその妖怪だったらどう見えるか」を基準に妖怪化してください。元画像の服装は維持せず、選定妖怪の伝承や時代背景にふさわしい衣装・素材・意匠を優先してください。ただし、髪色、瞳の色、顔立ち、体型、雰囲気、モチーフカラーは元画像から引き継いでください。露出の多い伝承妖怪でも、健全な図鑑イラストとして自然な衣装や布地で補完してください。伝承上で性別が重要な妖怪は変更せず、性別が明確でない妖怪は入力キャラクターに合わせて構いません。\n\n【絵柄】江戸時代の妖怪絵巻風。水墨画と淡彩水彩を主体に、古い和紙へ描かれた妖怪図鑑のようにしてください。にじみのある墨線、淡い藍色、灰青色、朱色を中心とした和風配色、経年劣化した和紙、古文書、朱印、筆文字、余白を活かした構図を使ってください。西洋ファンタジー表現、魔法陣、ソシャゲ風演出、アニメポスター風は禁止です。少し可愛くデフォルメしてもよいですが、幼児化やマスコット化は避け、妖怪らしさを保ってください。\n\n【構図】妖怪イラストを絶対的な主役にし、画面全体の75〜85％程度を占める大きさで描写してください。小さな枠やフレーム内に閉じ込めないでください。レイヤーは「背景 → 情報欄 → 妖怪イラスト」の順にし、妖怪を最前面へ配置してください。髪、袖、尾、翼、角、炎、水流、氷、煙、布などが情報欄へ一部重なっても構いません。SNSで見た瞬間に、①診断結果、②巨大な妖怪イラスト、③妖力、④伝承情報の順で目に入る構成にしてください。\n\n【診断見出し】画面上部に大きく「あなたは……【妖怪名】」と表示してください。妖怪名は画面内で最も目立つ要素の一つにしてください。\n\n【妖力】評価項目は「妖力」のみに統一し、危険度は表示しないでください。妖力は、妖怪としての格、強さ、伝承規模、知名度、危険性、存在感を総合した評価です。表示は必ず★1〜★5の5段階のみ。星は最大5個で、6個以上は禁止です。★ 小妖、★★ 並妖、★★★ 強妖、★★★★ 大妖、★★★★★ 伝説級。妖力は妖怪名の近く、画面上部に固定配置し、説明文より目立たせてください。\n\n【妖力デザイン】★は大きく、筆文字風の荒い輪郭で、墨・朱・伝統顔料で手描きしたように豪快に並べてください。星ごとに少し大きさ、角度、位置をずらして構いませんが、数は最大5個です。ランク文字は筆文字、朱印、判子、護符、墨書き札のように表示してください。★1〜2は墨色・灰青色、★3は朱色、★4は紫色、★5は和風の金泥のような上品な金色にしてください。妖力が高いほど朱印、墨飛沫、護符、筆跡、虫食い和紙、古文書の染みを強めてください。虹色、金色ラメ、宝石、魔法陣、ソシャゲ風SSR演出は禁止です。\n\n【情報欄】画面内に、分類、初出年代、伝承地域、特徴、伝承、出典を簡潔に記載してください。長文は禁止です。情報欄は整った長方形フレームや表組みにせず、破れた和紙、巻物の切れ端、古文書の貼り紙、護符、短冊、朱印紙などの不規則な形状にしてください。情報欄同士が少し重なっても構いません。発見された古い資料を貼り付けたような見た目にしてください。\n\n【色彩設計】背景と情報欄は落ち着いた古紙色にし、妖怪イラスト本体だけを少し鮮やかにして、最初に妖怪へ視線が向かうようにしてください。妖怪図鑑でありながら、診断結果ポスターとして成立するデザインを目指してください。",
-    "promptEn": "Reconstruct the person or character in the attached image as a “Yokai Diagnosis Poster,” comparing them to exactly one real yokai from Japanese folklore. Do not create an original yokai. Famous yokai are allowed if they strongly resemble the input image. If several real yokai candidates are similarly suitable, prioritize the more obscure real yokai.\n\n[Yokai Name Rules] Select exactly one real Japanese yokai. Fictional yokai names, invented names, and unclear yokai are forbidden. Use only yokai that can be confirmed in Japanese folklore, yokai picture scrolls, yokai art books, folk tales, regional legends, or local historical materials. If the existence of a candidate cannot be confirmed, do not use it; reselect another real yokai. The yokai name shown in the final image must remain in Japanese, followed by romanized reading in parentheses, for example: You are... 雪女 (Yuki-onna). Do not translate the yokai name into English as the main name.\n\n[Yokai Transformation Rules] Do not depict the person or character as merely cosplaying the yokai. Transform them based on the idea: “What would this person or character look like if they truly were that yokai?” Do not preserve the original clothing. Prioritize clothing, materials, and visual motifs appropriate to the selected yokai’s folklore, era, and traditional background. However, preserve the original image’s hair color, eye color, facial features, body type, overall atmosphere, and motif colors. If the original yokai is traditionally nude, semi-nude, or revealing, reinterpret the design with natural clothing, cloth, or traditional materials so it remains a wholesome yokai encyclopedia illustration. If the yokai’s gender is important in folklore, do not change it; if gender is unclear, the depiction may follow the input character.\n\n[Art Style] Use an Edo-period yokai picture-scroll style, mainly ink wash painting and pale watercolor. Make it look like an old yokai encyclopedia drawn on aged washi paper. Use bleeding ink lines, pale indigo, grayish blue, vermilion, muted traditional colors, old manuscript textures, red seals, brush-written text, and strong use of empty space. Western fantasy expression, magic circles, mobile-game effects, and anime-poster styling are forbidden. The yokai-transformed character may be slightly cute and gently deformed, but must not become a childish mascot; keep a clear yokai presence.\n\n[Composition] The yokai illustration must be the absolute main subject and should occupy about 75–85% of the entire image. Do not trap it inside a small frame. Build the layer structure as Background → information labels → yokai illustration, with the yokai in the foreground. Hair, sleeves, tail, wings, horns, flames, water, ice, smoke, cloth, or other elements may overlap the information labels. The layout should guide the viewer’s eye in this order: 1. “You are... [Yokai Name]”, 2. the large yokai illustration, 3. Yokai Power, 4. folklore information.\n\n[Yokai Diagnosis Presentation] Display a large headline near the top: “You are... [Japanese Yokai Name] ([Romanized Reading])”. The Japanese yokai name must be one of the most visually prominent elements, and the poster should immediately read as a diagnosis result.\n\n[Yokai Power] Use only one evaluation category: Yokai Power. Do not display Danger Level. Yokai Power is a combined evaluation of yokai rank, strength, scale of folklore, name recognition, dangerousness, and presence. Show it as a 1–5 star rating only: ★ Lesser Yokai, ★★ Common Yokai, ★★★ Powerful Yokai, ★★★★ Great Yokai, ★★★★★ Legendary Yokai. The maximum number of stars is exactly five; never show six or more. Place Yokai Power near the yokai name at the top, more prominent than the description text.\n\n[Yokai Power Design] The stars should be large, rough, brush-like, and hand-painted with ink, vermilion, or traditional pigment. Each star may vary slightly in size, angle, and placement, but the count must never exceed five. The rank label must look like brush lettering, a red seal, a stamp, a talisman, or an ink-written paper tag rather than body text. Use ink black or grayish blue for ★–★★, vermilion for ★★★, purple for ★★★★, and refined traditional gold pigment for ★★★★★. As Yokai Power increases, strengthen red seals, ink splashes, talismans, brush marks, worm-eaten washi paper, and manuscript stains. Rainbow colors, glittering gold, jewels, magic circles, and mobile-game SSR effects are forbidden.\n\n[Information Labels] Include concise labels for Classification, First Appearance Period, Folklore Region, Characteristics, Legend, and Source. All information label text must be written in English. Only the yokai name itself should remain in Japanese with romanized reading. Do not use clean rectangular frames or tidy tables; use irregular torn washi paper, scroll fragments, pasted old manuscript scraps, talismans, paper strips, or red-seal papers. Labels may overlap and should look like old discovered documents pasted onto the poster.\n\n[Color Design and Goal] Use calm aged-paper colors for the background and information labels. Only the yokai illustration itself should be slightly more vivid to guide the viewer’s eye toward it first. The final image should work both as a yokai encyclopedia page and as a diagnosis-result poster.",
-    "noteTitle": "画像生成メモ",
-    "noteTitleEn": "Image Generation Notes",
-    "notes": [
-      "妖力の★が6個以上になることがあるため、最大5個までと強く指定しています",
-      "AIが架空の妖怪名を作る場合があるため、実在妖怪のみを使う指示を重ねています",
-      "英語版では妖怪名を日本語表記＋ローマ字読みにして、海外向けにも使いやすくしています"
-    ],
-    "notesEn": [
-      "The star rating may sometimes exceed five, so the prompt strongly limits it to a maximum of five stars.",
-      "Because AI may invent yokai names, the prompt repeatedly specifies that only real yokai may be used.",
-      "In the English version, the yokai name is shown in Japanese with romanization, making it easier to use for international audiences."
-    ],
-    "sourceUrl": "",
-    "featured": true,
-    "featuredLabel": "おすすめ",
-    "featuredLabelEn": "Featured",
-    "featuredReason": "添付画像から実在する日本妖怪に例えた診断ポスターを作れる、SNS向けに遊びやすい日英対応のオリジナルプロンプトです。",
-    "featuredReasonEn": "A bilingual original prompt that turns an attached image into a social-media-friendly diagnosis poster based on a real Japanese yokai."
-  },
-  {
     "datetime": "2026-06-08 09:00",
     "publishedAt": "2026-06-08 20:12",
     "category": "FA",
@@ -1813,72 +1959,6 @@
       "Blue-gray color tones work well."
     ],
     "sourceUrl": "https://www.jma.go.jp/"
-  },
-  {
-    "datetime": "2026-06-02 00:00",
-    "publishedAt": "2026-06-02 00:19",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "labels": [
-      "オリジナル"
-    ],
-    "labelsEn": [
-      "Original"
-    ],
-    "id": "EV10001",
-    "title": "あなたに似合う「バラ」の品種 プロンプト",
-    "titleEn": "Rose Variety Prompt That Matches Your Character",
-    "summary": "キャラクター画像を1枚添付すると、そのキャラクターに似合う実在の薔薇品種を選定し、薔薇と一緒に写った植物図鑑風・デザインシート風イラストを作れるオリジナルプロンプトです。好きな薔薇の品種がある場合は、品種指定欄に名前を入れることで指定品種を優先できます。",
-    "summaryEn": "An original prompt that selects a real rose variety matching an attached character image and creates a botanical encyclopedia or design-sheet-style illustration with roses. A specific rose variety can also be prioritized if provided.",
-    "trendElements": [
-      "ローズの日",
-      "薔薇",
-      "花景色",
-      "キャラクター診断",
-      "水彩ポスター"
-    ],
-    "trendElementsEn": [
-      "Rose Day",
-      "Roses",
-      "Flower scenery",
-      "Character diagnosis",
-      "Watercolor poster"
-    ],
-    "useCases": [
-      "6月2日のローズの日投稿",
-      "キャラクター紹介画像",
-      "SNSアイコン・ヘッダー素材",
-      "植物図鑑風ポスター",
-      "記念日イラスト"
-    ],
-    "useCasesEn": [
-      "June 2 Rose Day post",
-      "Character introduction image",
-      "Social icon / header material",
-      "Botanical encyclopedia-style poster",
-      "Anniversary illustration"
-    ],
-    "promptJa": "【薔薇の品種指定欄】\n品種名【　】 \n\n※上記【　】内に実在する薔薇の品種名が記入されている場合は、キャラクターに合う品種を新しく選定せず、記入された品種を優先して使用してください。\n※記入された品種名が架空の名称、誤記、または検索・確認できない名称である場合は、その指定を無効として扱い、未記入の場合と同じように、キャラクターに合う実在の薔薇品種を選定してください。\n※品種名が未記入の場合は、キャラクターの色、衣装、性格、雰囲気、物語性から相性が良いと想像される実在の薔薇品種を選定してください。\n\n添付されたキャラクター画像を参照し、そのキャラクターと薔薇が一緒に写っている、1枚の完成イラストを作成してください。\n\n\n【キャラクターについて】 \n・添付画像のキャラクターの外見的アイデンティティを保ってください。\n・髪型、髪色、目の色、顔立ち、衣装の印象、体型、雰囲気はできるだけ維持してください。\n・薔薇やイラスト全体の雰囲気に合わせて、自然で魅力的なポーズにしてください。\n・添付イラストがバストアップの場合は、無理に全身化せず上半身中心の構図として自然にまとめてください。\n\n【薔薇の品種について】\n・薔薇の品種は実在する品種から選んでください。\n・最上部の【薔薇の品種指定欄】に実在する品種名が記入されている場合は、その品種を使用してください。\n・品種指定欄が未記入、または記入された品種が架空・不明・確認不能な場合は、キャラクターと\"相性が良い\"と感じられる実在品種を選定してください。\n・\"相性の良い\"とは、必ずしもキャラクターと同系色という意ではなく、キャラクターの色、衣装、性格、雰囲気、物語性とかみ合っていれば、補色（対照的）な色の薔薇でも構いません。\n・薔薇の本数やボリュームは、キャラクターの雰囲気から自然に想像できる量にしてください。\n・華やかなキャラクターなら多め、静かなキャラクターなら控えめ、上品なキャラクターなら整った量など、雰囲気に合わせて調整してください。\n・花弁とキャラクターのサイズ比は可能な限り実際に近づけてください\n\n\n【薔薇の形状について】\n・登場する薔薇の形状は、以下の３つからランダムに１つ選んでください。\n1. 地植え\n2. 鉢植え\n3. 花束\n\n・選んだ形状が画面上で明確に分かるように描いてください。\n・同じ形式に偏らないよう、地植え・鉢植え・花束のいずれも自然に選択候補として扱ってください。\n\n【背景について】\n・基本は白地背景としてください。\n・ただし、薔薇の形状によって背景の扱いを変えてください。\n・地植えの場合：白地背景を基調にしつつ、足元の地面、土、石畳、小道、ローズガーデンの一部などを描いてください。\n　ただし、背景全体を濃い風景にせず、白地の余白を残した上品なローズガーデン風にしてください。\n・鉢植えの場合： 背景は白一色にしてください。\n　鉢、足元の影、軽い装飾程度でまとめてください。\n・花束の場合：背景は白一色にしてください。キャラクターが花束を持つ、抱える、差し出すなど、花束として分かりやすい構図にしてください。\n\n【文字情報について 】\n・イラスト内に、選定または指定された薔薇の名称と特徴を記載してください。\n・文字は手書き風にしてください。\n・文字は読みやすく、イラストの雰囲気に合うように配置してください。\n・以下の情報を、短く分かりやすく記載してください。 \n・薔薇の品種名\n・日本語名またはカタカナ表記\n・花色\n・咲き方\n・性質（木立性、つる性、フロリバンダ、ハイブリッド・ティー、返り咲き、四季咲きなど）\n・香り\n・キャラクターとの相性を表す短いコメント \n\n【複数キャラクターの場合】\n・添付画像に複数のキャラクターが写っている場合は、最大2種類まで薔薇の品種を選定してください。\n・品種指定欄に1種類のみ記入されている場合は、その品種を主役の薔薇として扱い、必要に応じて全キャラクターに共通する薔薇として使用してください。\n・品種指定欄に2種類まで実在品種が記入されている場合は、それぞれの品種をキャラクターに対応させて使用してください。\n・2種類の薔薇を使う場合は、どちらの薔薇がどのキャラクターに対応しているか分かるように配置してください。\n\n【画風】\n・水彩画の雰囲気を70％くらい取り入れた、アニメ的な画風にしてください。\n・透明感のある色使い、柔らかいにじみ、繊細な線、淡い影を重視してください。\n・白地背景に合う、上品で軽やかな仕上がりにしてください。\n・キャラクター、薔薇、文字情報が1枚のデザインシートや植物図鑑風ポスターのように美しくまとまる構図にしてください。",
-    "promptEn": "[Rose Variety Specification Field]\nRose variety name: [　]\n\nIf a real rose variety name is written inside the brackets above, use that variety as the priority, without selecting a new rose variety to match the character.\n\nIf the written variety name is fictional, misspelled, or cannot be confirmed through search or verification, treat the specification as invalid and handle it the same way as if the field were left blank.\n\nIf the rose variety field is blank, select a real existing rose variety that feels well-matched to the character, based on the character’s colors, outfit, personality, atmosphere, and narrative impression.\n\nCreate one finished illustration featuring the attached character and roses together.\n\n[About the Character]\n\n* Refer to the attached character image and preserve the character’s visual identity.\n* Keep the hairstyle, hair color, eye color, facial features, outfit impression, body type, and overall atmosphere as faithfully as possible.\n* Choose a natural and appealing pose that matches the roses and the overall mood of the illustration.\n* If the attached illustration is a bust-up image, do not force a full-body composition. Instead, create a natural upper-body-centered composition.\n\n[About the Rose Variety]\n\n* The rose variety must be selected from real existing rose varieties.\n* If a real variety name is written in the [Rose Variety Specification Field] at the top, use that variety.\n* If the field is blank, or if the written variety is fictional, unknown, or impossible to verify, select a real rose variety that feels compatible with the character.\n* “Compatible” does not necessarily mean the same color as the character. A complementary or contrasting rose color is also acceptable if it harmonizes with the character’s colors, outfit, personality, atmosphere, or story.\n* Adjust the number and volume of roses naturally according to the character’s atmosphere.\n* For a glamorous character, use more roses. For a quiet character, use fewer roses. For an elegant character, use a refined and well-arranged amount.\n* Keep the size ratio between the rose petals and the character as close to real-life proportions as possible.\n\n[Rose Form.]\nRandomly choose one of the following three rose forms:\n\n1. Garden-planted roses\n2. Potted roses\n3. Rose bouquet\n\nMake sure the chosen form is clearly recognizable in the image.\n\nDo not bias the selection toward only one form. Treat garden-planted roses, potted roses, and rose bouquets as equally natural options.\n\n[Background]\n\n* The basic background should be white.\n* However, adjust the background treatment depending on the chosen rose form.\n\nIf garden-planted roses are chosen:\nUse a white background as the base, but include the ground around the feet, soil, stone pavement, a small path, or part of a rose garden. Do not turn the entire background into a dense landscape. Leave elegant white space and create a refined rose garden atmosphere.\n\nIf potted roses are chosen:\nUse a pure white background. Keep the composition simple with the pot, a shadow at the feet, and only light decorative elements.\n\nIf a rose bouquet is chosen:\nUse a pure white background. Make the bouquet clearly recognizable by having the character hold it, embrace it, or offer it forward.\n\n[Text Information.]\nInclude the selected or specified rose name and its characteristics within the illustration.\n\nThe text should have a handwritten style.\n\nMake the text readable and place it in a way that matches the mood of the illustration.\n\nWrite the following information briefly and clearly:\n\n* Rose variety name\n* Japanese name or katakana transcription\n* Flower color\n* Bloom form\n* Growth habit or type, such as shrub rose, climbing rose, floribunda, hybrid tea, repeat-blooming, or continuous-blooming\n* Fragrance\n* A short comment describing the compatibility between the rose and the character\n\n[If There Are Multiple Characters.]\n\n* If the attached image contains multiple characters, select up to two rose varieties.\n* If only one variety is written in the specification field, treat that variety as the main rose and use it as a shared rose for all characters if appropriate.\n* If up to two real rose varieties are written in the specification field, assign each variety to the corresponding character.\n* If using two rose varieties, arrange them so it is clear which rose corresponds to which character.\n\n[Art Style]\n\n* Use an anime-style illustration with about 70% watercolor influence.\n* Emphasize transparent colors, soft bleeding effects, delicate linework, and pale shadows.\n* Create an elegant, light, and refined finish that suits a white background.\n* Compose the character, roses, and text information beautifully in a single image, like a design sheet or a botanical encyclopedia-style poster.\\",
-    "noteTitle": "画像生成メモ",
-    "noteTitleEn": "Image Generation Notes",
-    "notes": [
-      "品種指定欄を空欄にすると、キャラクターの色や雰囲気から相性の良い実在品種を選ぶ構成です",
-      "好きな薔薇の品種がある場合は、品種名を【】内に入れると指定品種を優先できます",
-      "白地背景・水彩寄りの画風にすると、植物図鑑風ポスターとしてまとまりやすいです"
-    ],
-    "notesEn": [
-      "Leaving the variety field blank lets the prompt choose a real rose variety that matches the character’s colors and atmosphere.",
-      "If you have a favorite rose variety, entering it in the brackets will prioritize that variety.",
-      "A white background with a watercolor style helps the result work as a botanical poster."
-    ],
-    "sourceUrl": "",
-    "featured": true,
-    "featuredLabel": "おすすめ",
-    "featuredLabelEn": "Featured",
-    "featuredReason": "キャラクター画像1枚から使えて、ローズの日投稿・キャラクター紹介・記念日イラストに応用しやすい定番プロンプトです。",
-    "featuredReasonEn": "A versatile prompt for Rose Day posts, character introductions, and anniversary illustrations using one character image."
   },
   {
     "datetime": "2026-05-29 21:00",
@@ -2357,58 +2437,6 @@
     "sourceUrl": ""
   },
   {
-    "datetime": "2026-05-24 13:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "labels": [
-      "オリジナル"
-    ],
-    "labelsEn": [
-      "Original"
-    ],
-    "id": "CB10000",
-    "title": "「透明感」＋「パステル」＋「水彩」プロンプト",
-    "titleEn": "Transparency + Pastel + Watercolor Prompt",
-    "summary": "元イラストのデザインやキャラクター性をできるだけ保ちながら、清楚感のある色合いへやさしく変化させるオリジナルプロンプトです。三面図や設定画からでも使いやすく、彩色・光・空気感を中心に印象を整えたいときに向いています。",
-    "summaryEn": "An original prompt that gently shifts an existing character image toward a clean, pastel, watercolor-like atmosphere while preserving the original design and character identity.",
-    "trendElements": [
-      "清楚",
-      "水彩",
-      "パステル"
-    ],
-    "trendElementsEn": [
-      "Clean and elegant",
-      "Watercolor",
-      "Pastel"
-    ],
-    "useCases": [
-      "サムネ",
-      "イメージ変更",
-      "三面図からの雰囲気変換"
-    ],
-    "useCasesEn": [
-      "Thumbnail",
-      "Image transformation",
-      "Atmosphere conversion from character sheets"
-    ],
-    "promptJa": "添付画像のキャラクターと衣装デザインを元に画像を作成してください。\n\n【キャラクター】\nキャラクターの顔立ち、髪型、髪色、前髪、瞳、服装構造、アクセサリー、全体の印象はできるだけそのまま維持してください。\nそのうえで、元のイラストの特徴は残しながら、「やわらかいパステルアニメ塗り」「淡い水彩風の空気感」を約70％の強さで加えてください。\n元絵の情報量・デザイン性・キャラクター性を保ったまま、彩色と空気感だけを優しく変化させるイメージです。\n\n【描写スタイル】\n* 繊細で細い線画\n* 空気を含んだような淡く透ける色使い\n* 低〜中コントラスト\n* 影はやや控えめだが、立体感がなくなりすぎないよう適度に濃淡を残す\n* やさしいセル塗りをベースに、部分的に淡いグラデーション\n* 透明感のあるやわらかな光\n* 夢見心地で上品な雰囲気\n* 少しだけ絵本・水彩風のニュアンス\n\n【ポーズ】\n元のイラストにポーズがある場合は、できるだけ変更しない\n元のイラストが三面図やポーズがない場合は、キャラクターイメージに合うポーズをデザインする\n\n【色設計】\n* ペールブルー\n* ホワイト\n* クリーム\n* ごく淡いラベンダー\n* 必要に応じて少量の淡いピーチ〜ソフトオレンジ系アクセント\n\n【衣装表現】\n* レース\n* フリル\n* リボン\n* 薄布\n* 透け感\n* 繊細な布の質感\n  これらをやわらかく上品に表現してください。\n\n【背景】\n* 明るくクリーンな背景\n* 白〜ごく薄いグラデーション基調\n* 小さな装飾モチーフや繊細な意匠をうっすら加える\n* 主役を邪魔しない、軽く夢幻的な空気感\n\n【重要】\n* 元画像のゴシック感や衣装ディテールは消しすぎない\n* 元絵をほぼそのままに見せるのではなく、彩色・光・空気感に明確な変化を出す\n* ただし、別作品レベルに改変しすぎない\n* 効果量は100％ではなく70％程度\n* 濃淡はやや残し、のっぺりさせない\n\n【避けること】\n* 重すぎる影\n* 強すぎるコントラスト\n* 黒つぶれ\n* 彩度の高すぎる色\n* 厚塗りすぎる質感\n* 写実的3D感\n* glossy CGI lighting\n* 過剰なドラマチックライティング",
-    "promptEn": "Create an image based on the attached character and outfit design.\n\n## Character\nPreserve the character’s facial features, hairstyle, hair color, bangs, eyes, outfit structure, accessories, and overall impression as faithfully as possible.\n\nAt the same time, while keeping the original illustration’s core characteristics, apply a “soft pastel anime coloring” and a “light watercolor-like atmosphere” at about 70% strength.\n\nThe goal is to gently transform only the coloring and atmosphere, while preserving the original image’s level of detail, design quality, and character identity.\n\n## Rendering Style\n* Delicate, thin lineart\n* Soft, airy, slightly translucent colors\n* Low to medium contrast\n* Shadows should be somewhat restrained, but still retain enough depth and tonal variation so the image does not become flat\n* Gentle cel shading as a base, with soft gradients in selected areas\n* Transparent, soft lighting\n* A dreamy and elegant atmosphere\n* A slight storybook / watercolor-like nuance\n\n## Pose\n* If the original illustration already has a pose, keep it as much as possible\n* If the original image is a character sheet, turnaround, or has no clear pose, design a pose that suits the character’s image\n\n## Color Design\n* Pale blue\n* White\n* Cream\n* Very pale lavender\n* If needed, add small amounts of pale peach to soft orange accents\n\n## Outfit Rendering\n* Lace\n* Frills\n* Ribbons\n* Light fabric\n* Sheerness / translucency\n* Delicate fabric texture\n\nRender these elements softly and elegantly.\n\n## Background\n* Bright and clean background\n* Mainly white to a very pale gradient\n* Faintly include small decorative motifs and delicate ornamental details\n* A light, dreamy atmosphere that does not distract from the main subject\n\n## Important\n* Do not erase the original image’s gothic feel or outfit details too much\n* Do not make it look almost identical to the original; create a clear change in the coloring, lighting, and atmosphere\n* However, do not alter it so much that it looks like a completely different work\n* The effect strength should be about 70%, not 100%\n* Keep some tonal variation and depth; do not make it look flat\n\n## Avoid\n* Overly heavy shadows\n* Excessively strong contrast\n* Crushed blacks\n* Overly saturated colors\n* Overly thick or painterly rendering\n* Realistic 3D appearance\n* Glossy CGI lighting\n* Excessively dramatic lighting",
-    "noteTitle": "画像生成メモ",
-    "noteTitleEn": "Image Generation Notes",
-    "notes": [
-      "ゴシックや悪魔のようなイラストでも清楚感が出る",
-      "元の色が薄すぎると効果が薄い",
-      "三面図や設定画でも、彩色・空気感の方向付けとして使いやすい"
-    ],
-    "notesEn": [
-      "Even gothic or demonic illustrations can gain a clean, elegant feeling.",
-      "If the original colors are too pale, the effect may be subtle.",
-      "Useful for guiding color and atmosphere even from character sheets or design references."
-    ],
-    "sourceUrl": ""
-  },
-  {
     "datetime": "2026-05-23 09:00",
     "category": "EV",
     "categoryLabel": "季節・イベント",
@@ -2822,48 +2850,6 @@
       "Using a bicycle as a prop creates a youthful feeling.",
       "Simpler uniforms feel more current."
     ],
-    "sourceUrl": ""
-  },
-  {
-    "datetime": "2026-05-22 10:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "labels": [
-      "オリジナル"
-    ],
-    "labelsEn": [
-      "Original"
-    ],
-    "id": "CB00100",
-    "title": "あの角度になるプロンプト",
-    "titleEn": "The “That Angle” Pose Prompt",
-    "summary": "某アニメーション作品の“あの角度”を再現するためのオリジナルプロンプトです。首の角度や上半身の反りにランダム性を持たせ、毎回少し違う大胆な構図になるよう設計されています。",
-    "summaryEn": "An original prompt designed to recreate a bold anime-style dramatic head-and-neck pose. Randomized angles and upper-body arching create a different striking composition each time.",
-    "trendElements": [
-      "アニメ",
-      "構図"
-    ],
-    "trendElementsEn": [
-      "Anime",
-      "Composition"
-    ],
-    "useCases": [
-      "SNS投稿",
-      "キャラクターポートレート",
-      "MV風サムネイル"
-    ],
-    "useCasesEn": [
-      "Social media post",
-      "キャラクターポートレート",
-      "MV風サムネイル"
-    ],
-    "promptJa": "",
-    "promptEn": "Use the attached character reference image as the main subject.\nPreserve the character’s facial features, hairstyle, hair color, eye color, outfit, accessories, body shape, and overall personality as faithfully as possible.\n\nHowever, do not preserve the original pose or original camera angle.\nDo not keep the original front-facing, centered bust-up composition.\nRecompose the character into a clearly different anime-style illustration.\n\nCreate a single-character anime illustration with a very strong dramatic head-and-neck pose.\nThe pose should emphasize an exaggerated neck angle and a backward arch of the upper body.\nThe character should be shown from a side, three-quarter back, or over-the-shoulder angle, with the body turned away or partly away from the viewer while the face turns back toward the camera.\n\nDo not use a mild head tilt.\nThe neck angle should vary randomly with each generation.\nFor each generation, choose one bold variation such as:\n\n- the face tilted almost sideways, with the neck bent close to a 70–90 degree angle\n- a deep backward diagonal head tilt with the chin raised high\n- the upper body arched backward, with the neck and face tilted even further\n- the body facing sideways or away while the face twists strongly back toward the camera\n- the face rotated so strongly that it appears diagonal or almost horizontal in the frame\n- a strong mismatch between the shoulder line and the face angle, emphasizing the curve of the neck\n- the chin raised upward while only the eyes look back toward the viewer\n- a deep sideways neck bend, with the hair falling toward one side due to gravity\n- a large curved line formed by the back, chest, shoulders, neck, and raised chin\n\nVary the neck angle, tilt direction, chin height, body arch, and twist between torso and face in every generation.\nThe unusual neck angle must be immediately noticeable.\nAvoid ordinary over-the-shoulder poses, normal head tilts, weak angles, and front-facing poses.\n\nThe pose should be bold, exaggerated, iconic, and visually striking.\nIt does not need to be fully realistic, but it should still feel believable as stylized anime anatomy.\nAvoid a completely broken neck, disconnected head, overly long neck, overly thin neck, or impossible anatomy.\n\nThe character should look toward the camera according to the head angle.\nThe gaze may look back from an upward-facing head, look down from a sideways-tilted face, or coldly glance over the shoulder.\nThe expression should feel cool, expressionless, mysterious, slightly provocative, quietly confident, or emotionally restrained.\n\nUse a stylized Japanese anime frame aesthetic.\nFocus on crisp outlines, clean cel shading, flat color areas, hard-edged shadows, graphic shadow shapes, and strong contrast between light and dark.\nAdd dramatic shadows on the face, neck, under the chin, collarbone, shoulders, and hair.\nMake the neck angle and upper-body arch stand out through lighting and shadow.\nAvoid overly soft painterly rendering; use organized anime-style shading.\n\nThe background should be dark and simple, matching the character’s mood.\nUse black, deep purple, navy, dark blue-gray, or similar tones.\nA simple gradient, dim interior, night-like atmosphere, or stage-like spotlight may be used.\nKeep the background understated so the neck angle, body arch, expression, and shadows remain the main focus.\n\nHigh-quality anime illustration, strong dramatic head tilt, neck angle variations close to 90 degrees, arched upper body, over-the-shoulder composition, almost sideways face angle, cool gaze, strong cel-shaded shadows, dark stylish atmosphere.",
-    "noteTitle": "画像生成メモ",
-    "noteTitleEn": "Image Generation Notes",
-    "notes": [],
-    "notesEn": [],
     "sourceUrl": ""
   },
   {
