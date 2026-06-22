@@ -1,6 +1,7 @@
 const categoryNames = {
   FAS: { ja: 'ファッション', en: 'Fashion' },
   JOB: { ja: '職業', en: 'Jobs' },
+  ORI: { ja: 'オリジナル企画', en: 'Original Projects' },
   FA: { ja: 'ファッション', en: 'Fashion' },
   CB: { ja: '構図・背景', en: 'Composition & Background' },
   EV: { ja: '季節・イベント', en: 'Seasonal Events' },
@@ -207,13 +208,36 @@ function getLabels(article) {
 }
 
 function hasOriginal(article) {
-  return article.type === 'OR' || article.typeLabel === 'オリジナル' || (article.labels || []).includes('オリジナル') || (article.labelsEn || []).includes('Original');
+  const id = String(article.id || '');
+  const labels = article.labels || [];
+  const labelsEn = article.labelsEn || [];
+  return article.category === 'ORI'
+    || article.type === 'OR'
+    || article.typeLabel === 'オリジナル'
+    || labels.includes('オリジナル')
+    || labelsEn.includes('Original')
+    || /^(AI|CB|EV|FA)100\d+$/.test(id);
+}
+
+function normalizeArticle(article) {
+  const copy = { ...article };
+  if (hasOriginal(copy)) {
+    copy.category = 'ORI';
+    copy.categoryLabel = 'オリジナル企画';
+    copy.categoryLabelEn = 'Original Projects';
+    copy.featured = copy.featured === undefined ? true : copy.featured;
+    delete copy.type;
+    delete copy.typeLabel;
+    delete copy.labels;
+    delete copy.labelsEn;
+  }
+  return copy;
 }
 
 function matchesFilter(article) {
   if (currentFilter === 'DEFAULT') return isNewArticle(article) || article.featured;
   if (currentFilter === 'ALL') return true;
-  if (currentFilter === 'ORIGINAL') return hasOriginal(article);
+  if (currentFilter === 'ORIGINAL' || currentFilter === 'ORI') return hasOriginal(article);
   if (currentFilter === 'JOB') {
     const labels = article.labels || [];
     const labelsEn = article.labelsEn || [];
@@ -511,7 +535,7 @@ document.addEventListener('keydown', (event) => {
 fetch('data/articles.json')
   .then((response) => response.json())
   .then((data) => {
-    articles = Array.isArray(data) ? data : [];
+    articles = Array.isArray(data) ? data.map(normalizeArticle) : [];
     applyLanguage();
   })
   .catch((error) => {
