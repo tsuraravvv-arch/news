@@ -53,12 +53,113 @@
       <button class="library-tile" data-filter="ALL" type="button">
         <span>▦</span><strong data-i18n="filterAll">すべて</strong>
       </button>
-      <button class="library-tile" data-filter="ORIGINAL" type="button">
+      <button class="library-tile" data-filter="ORI" type="button">
         <span>✎</span><strong data-i18n="filterOriginal">オリジナル</strong>
       </button>
       <button class="library-tile" data-filter="JOB" type="button">
         <span>JOB</span><strong data-i18n="filterJob">職業</strong>
       </button>
-<button class="library-tile" data-filter="ORI" type="button">
-        <span>JOB</span><strong data-i18n="filterJob">オリジナル</strong>
+      <button class="library-tile" data-filter="FA" type="button">
+        <span>◈</span><strong data-i18n="filterFashion">ファッション</strong>
       </button>
+      <button class="library-tile" data-filter="CB" type="button">
+        <span>▧</span><strong data-i18n="filterComposition">構図・背景</strong>
+      </button>
+      <button class="library-tile" data-filter="EV" type="button">
+        <span>☂</span><strong data-i18n="filterSeason">季節・イベント</strong>
+      </button>
+    </section>
+
+    <section class="toolbar" aria-label="記事検索">
+      <p class="default-note" data-i18n="defaultNote">初期表示：新着＋おすすめを表示しています</p>
+      <div class="toolbar-actions">
+        <form class="search-box" id="searchBox" role="search" aria-label="記事検索">
+          <input id="searchInput" type="search" placeholder="タイトル・本文・タグを検索" autocomplete="off" />
+          <button class="search-button" type="submit" data-i18n="search">検索</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="prompt-head">
+      <div>
+        <p class="section-kicker">Prompt List</p>
+        <h2 data-i18n="promptListTitle">プロンプト</h2>
+      </div>
+      <p id="resultCount">読み込み中...</p>
+    </section>
+
+    <section class="prompt-list" id="cardsGrid" aria-live="polite"></section>
+
+    <div class="detail-backdrop" id="detailBackdrop"></div>
+    <article class="detail-panel" id="detailPanel" aria-live="polite">
+      <div class="empty-state">
+        <p class="section-kicker">Detail</p>
+        <h2 data-i18n="selectTitle">サムネイルや文章をクリックすると全文が表示されます</h2>
+        <p data-i18n="selectDesc">一覧から気になるプロンプトを選んでください。</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>© Tsurara Idea Lab. Prototype for GitHub Pages.</p>
+  </footer>
+
+  <div class="image-search-modal" id="imageSearchModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="画像から検索">
+    <div class="image-search-backdrop"></div>
+    <div class="image-search-content">
+      <button class="image-search-close" id="imageSearchClose" type="button" aria-label="閉じる">×</button>
+      <div class="image-search-head">
+        <p class="section-kicker">Image Search</p>
+        <h2 data-i18n="imageSearchTitle">画像から検索</h2>
+        <p data-i18n="imageSearchDesc">アップロード済みの記事画像を一覧表示します。画像をクリックすると、対応する記事を開きます。</p>
+      </div>
+      <div class="image-search-grid" id="imageSearchGrid"></div>
+      <p class="image-search-empty" id="imageSearchEmpty" data-i18n="imageSearchEmpty">表示できる記事画像がまだありません。</p>
+    </div>
+  </div>
+
+  <div class="guide-modal" id="guideModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="活用ガイド">
+    <div class="guide-modal-backdrop"></div>
+    <div class="guide-modal-content">
+      <button class="guide-modal-close" id="guideModalClose" type="button" aria-label="閉じる">×</button>
+
+      <div class="guide-head">
+        <p class="section-kicker">How to use</p>
+        <h2 data-i18n="guideModalTitle">活用ガイド</h2>
+        <p data-i18n="guideModalDesc">掲載されているメモやプロンプトは、完成品をそのまま出すためだけのものではありません。あなたの環境や発想に合わせて、自由に足して楽しむためのアイデア集です。</p>
+      </div>
+
+      <div class="guide-grid">
+        <section class="guide-card"><div class="guide-visual"><span>1</span></div><div><h3 data-i18n="guideStep1Title">記事を探す</h3><p data-i18n="guideStep1Desc">新着・おすすめ・カテゴリ・検索から、使いたい方向性の記事を探します。</p></div></section>
+        <section class="guide-card"><div class="guide-visual"><span>2</span></div><div><h3 data-i18n="guideStep2Title">プロンプトをコピー</h3><p data-i18n="guideStep2Desc">一覧の日本語コピー / English Copy から、すぐに生成用プロンプトをコピーできます。</p></div></section>
+        <section class="guide-card"><div class="guide-visual"><span>3</span></div><div><h3 data-i18n="guideStep3Title">要素を足して調整</h3><p data-i18n="guideStep3Desc">キャラクター名、場所、時間帯、光、カメラ演出などを足すと使いやすくなります。</p></div></section>
+        <section class="guide-card"><div class="guide-visual"><span>4</span></div><div><h3 data-i18n="guideStep4Title">環境ごとの変化を楽しむ</h3><p data-i18n="guideStep4Desc">生成環境やモデルによって結果が変わります。違いも含めて創作の幅として楽しんでください。</p></div></section>
+      </div>
+
+      <section class="guide-policy">
+        <div class="guide-policy-copy">
+          <p class="section-kicker">Publishing Policy</p>
+          <h3>著作物に関わるプロンプトの公開ポリシー</h3>
+          <p>このサイトでは、既存作品や既存キャラクターを直接再現するプロンプトは掲載しません。自分のキャラクターやオリジナル要素を中心に、参考・雰囲気・ポーズ・衣装アレンジとして活用できる内容を掲載します。</p>
+        </div>
+        <figure class="guide-policy-image-wrap">
+          <img class="guide-policy-image optional-image" src="images/guide/prompt-policy.png" alt="著作物に関わるプロンプト公開ポリシー" loading="lazy">
+          <figcaption>サイト掲載用の公開ポリシー目安</figcaption>
+        </figure>
+      </section>
+    </div>
+  </div>
+
+  <div class="image-modal" id="imageModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="生成画像の拡大表示">
+    <div class="image-modal-backdrop"></div>
+    <div class="image-modal-content">
+      <button class="image-modal-close" id="imageModalClose" type="button" aria-label="閉じる">×</button>
+      <img id="imageModalImg" src="" alt="">
+      <p id="imageModalCaption"></p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite">コピーしました</div>
+  <script src="script.js"></script>
+</body>
+</html>
