@@ -1,5 +1,535 @@
 [
   {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00031",
+    "title": "【空港グランドスタッフ】：もし、つららが空港グランドスタッフだったら～",
+    "titleEn": "Airport Ground Staff: What if Tsurara were an airport ground staff member?",
+    "summary": "空港グランドスタッフをキャラクター化するための職業プロンプト。空港制服、搭乗案内、無線機、スーツケース、チェックインカウンターを組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into an airport ground staff member, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "空港グランドスタッフ",
+      "空港制服",
+      "搭乗案内",
+      "無線機",
+      "チェックインカウンター"
+    ],
+    "trendElementsEn": [
+      "Airport ground staff",
+      "Airport uniform",
+      "Boarding guidance",
+      "Radio",
+      "Check-in counter"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、空港グランドスタッフとして再構成してください。清潔感のある空港制服、スカーフ、名札、無線機、搭乗券、案内ボード、タブレット、スーツケースを取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には空港ロビー、チェックインカウンター、出発案内表示、ガラス張りの明るい空間、旅行客の気配を配置する。完成画像の画風再現ではなく、空港グランドスタッフを作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as an airport ground staff member while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the airport ground staff theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00032",
+    "title": "【人魚専門医】：もし、つららが人魚専門医だったら～",
+    "titleEn": "Mermaid Specialist Doctor: What if Tsurara were a mermaid specialist doctor?",
+    "summary": "人魚専門医をキャラクター化するための職業プロンプト。海洋医療、白衣、防水カルテ、貝殻モチーフ、青い診療室を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a mermaid specialist doctor, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "人魚専門医",
+      "海洋医療",
+      "白衣",
+      "防水カルテ",
+      "貝殻モチーフ"
+    ],
+    "trendElementsEn": [
+      "Mermaid specialist doctor",
+      "Marine medicine",
+      "White coat",
+      "Waterproof chart",
+      "Shell motif"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、人魚専門医として再構成してください。清潔感のある白衣、淡い青の医療服、防水カルテ、海洋生物用の聴診器、貝殻モチーフの小物、ガラス器具を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には海中診療室、青く揺れる水光、珊瑚や貝殻の装飾、透明な水槽、幻想的で清潔な医療空間を配置する。完成画像の画風再現ではなく、人魚専門医を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a mermaid specialist doctor while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the mermaid specialist doctor theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00033",
+    "title": "【ガラス工芸作家】：もし、つららがガラス工芸作家だったら～",
+    "titleEn": "Glass Artist: What if Tsurara were a glass artist?",
+    "summary": "ガラス工芸作家をキャラクター化するための職業プロンプト。吹きガラス、ガラス工房、炉、透明な作品、保護具を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a glass artist, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "ガラス工芸作家",
+      "吹きガラス",
+      "ガラス工房",
+      "炉",
+      "透明な作品"
+    ],
+    "trendElementsEn": [
+      "Glass artist",
+      "Glassblowing",
+      "Glass workshop",
+      "Furnace",
+      "Transparent artwork"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、ガラス工芸作家として再構成してください。作業エプロン、保護メガネ、手袋、吹き竿、ガラス片、透明なガラス作品、耐熱道具を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景にはガラス工房、赤く光る炉、棚に並ぶガラス作品、透明な反射光、暖かい工房照明を配置する。完成画像の画風再現ではなく、ガラス工芸作家を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a glass artist while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the glass artist theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00034",
+    "title": "【書道家】：もし、つららが書道家だったら～",
+    "titleEn": "Calligrapher: What if Tsurara were a calligrapher?",
+    "summary": "書道家をキャラクター化するための職業プロンプト。筆、墨、和紙、硯、静かな和室を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a calligrapher, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "書道家",
+      "筆",
+      "墨",
+      "和紙",
+      "硯"
+    ],
+    "trendElementsEn": [
+      "Calligrapher",
+      "Brush",
+      "Ink",
+      "Washi paper",
+      "Inkstone"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、書道家として再構成してください。落ち着いた和装、たすき掛け、筆、墨、硯、和紙、文鎮、筆置きを取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には静かな和室、畳、障子越しの柔らかな光、掛け軸、書道机、墨の香りが漂う空間を配置する。完成画像の画風再現ではなく、書道家を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a calligrapher while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the calligrapher theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00035",
+    "title": "【タクシー運転手】：もし、つららがタクシー運転手だったら～",
+    "titleEn": "Taxi Driver: What if Tsurara were a taxi driver?",
+    "summary": "タクシー運転手をキャラクター化するための職業プロンプト。制服、タクシー車内、ハンドル、料金メーター、街の夜景を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a taxi driver, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "タクシー運転手",
+      "制服",
+      "タクシー車内",
+      "料金メーター",
+      "街の夜景"
+    ],
+    "trendElementsEn": [
+      "Taxi driver",
+      "Uniform",
+      "Taxi interior",
+      "Fare meter",
+      "City nightscape"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、タクシー運転手として再構成してください。きちんとした制服、運転手帽、白手袋、ハンドル、料金メーター、ナビ画面、シートベルトを取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景にはタクシー車内、フロントガラス越しの街並み、夜のネオン、雨上がりの道路、車内の柔らかな照明を配置する。完成画像の画風再現ではなく、タクシー運転手を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a taxi driver while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the taxi driver theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00036",
+    "title": "【漁師】：もし、つららが漁師だったら～",
+    "titleEn": "Fisher: What if Tsurara were a fisher?",
+    "summary": "漁師をキャラクター化するための職業プロンプト。漁船、網、防水作業着、魚箱、朝焼けの港を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a fisher, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "漁師",
+      "漁船",
+      "漁網",
+      "防水作業着",
+      "港"
+    ],
+    "trendElementsEn": [
+      "Fisher",
+      "Fishing boat",
+      "Fishing net",
+      "Waterproof workwear",
+      "Harbor"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、漁師として再構成してください。防水作業着、長靴、手袋、漁網、ロープ、魚箱、タオル、帽子を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には朝焼けの港、漁船、海面の反射、積まれた網、波しぶき、働く港の空気感を配置する。完成画像の画風再現ではなく、漁師を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a fisher while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the fisher theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00037",
+    "title": "【弁護士】：もし、つららが弁護士だったら～",
+    "titleEn": "Lawyer: What if Tsurara were a lawyer?",
+    "summary": "弁護士をキャラクター化するための職業プロンプト。スーツ、法律書、書類、ブリーフケース、落ち着いた法律事務所を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a lawyer, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "弁護士",
+      "スーツ",
+      "法律書",
+      "書類",
+      "法律事務所"
+    ],
+    "trendElementsEn": [
+      "Lawyer",
+      "Suit",
+      "Law books",
+      "Documents",
+      "Law office"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、弁護士として再構成してください。端正なスーツ、白シャツ、書類ファイル、法律書、ペン、ブリーフケース、名刺を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には法律事務所、木製のデスク、本棚に並ぶ法律書、落ち着いた照明、整理された書類を配置する。完成画像の画風再現ではなく、弁護士を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a lawyer while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the lawyer theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00038",
+    "title": "【配管工】：もし、つららが配管工だったら～",
+    "titleEn": "Plumber: What if Tsurara were a plumber?",
+    "summary": "配管工をキャラクター化するための職業プロンプト。作業服、工具箱、レンチ、配管、修理現場を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a plumber, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "配管工",
+      "作業服",
+      "工具箱",
+      "レンチ",
+      "配管"
+    ],
+    "trendElementsEn": [
+      "Plumber",
+      "Work clothes",
+      "Toolbox",
+      "Wrench",
+      "Pipes"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、配管工として再構成してください。動きやすい作業服、工具ベルト、レンチ、工具箱、手袋、ヘッドライト、配管部品を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には整備された修理現場、壁面の配管、工具が並ぶ作業スペース、清潔感のあるメンテナンス空間を配置する。完成画像の画風再現ではなく、配管工を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a plumber while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the plumber theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00039",
+    "title": "【歯科衛生士】：もし、つららが歯科衛生士だったら～",
+    "titleEn": "Dental Hygienist: What if Tsurara were a dental hygienist?",
+    "summary": "歯科衛生士をキャラクター化するための職業プロンプト。医療制服、マスク、歯科器具、診療台、明るい歯科クリニックを組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a dental hygienist, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "歯科衛生士",
+      "医療制服",
+      "マスク",
+      "歯科器具",
+      "診療台"
+    ],
+    "trendElementsEn": [
+      "Dental hygienist",
+      "Medical uniform",
+      "Mask",
+      "Dental tools",
+      "Dental chair"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、歯科衛生士として再構成してください。清潔感のある医療制服、マスク、手袋、歯科ミラー、歯ブラシ、カルテ、トレー、名札を取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には明るい歯科クリニック、診療台、白い医療ライト、清潔な器具棚、柔らかな白い照明を配置する。完成画像の画風再現ではなく、歯科衛生士を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a dental hygienist while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the dental hygienist theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-06-26 04:15",
+    "publishedAt": "2026-06-26 04:15",
+    "category": "JOB",
+    "categoryLabel": "職業",
+    "categoryLabelEn": "Jobs",
+    "id": "JOB00040",
+    "title": "【酪農家】：もし、つららが酪農家だったら～",
+    "titleEn": "Dairy Farmer: What if Tsurara were a dairy farmer?",
+    "summary": "酪農家をキャラクター化するための職業プロンプト。牧場、牛、作業着、ミルク缶、朝の牛舎を組み合わせ、職業性が自然に伝わるビジュアルとして展開できます。",
+    "summaryEn": "A job prompt for turning a character into a dairy farmer, combining occupation-specific outfits, tools, background, and poses to create a clear job-themed visual.",
+    "trendElements": [
+      "酪農家",
+      "牧場",
+      "牛",
+      "作業着",
+      "ミルク缶"
+    ],
+    "trendElementsEn": [
+      "Dairy farmer",
+      "Farm",
+      "Cows",
+      "Work clothes",
+      "Milk can"
+    ],
+    "useCases": [
+      "職業プロンプト",
+      "キャラクター衣装",
+      "立ち絵制作",
+      "職業モチーフ"
+    ],
+    "useCasesEn": [
+      "Job prompt",
+      "Character outfit",
+      "Standing character art",
+      "Job motif"
+    ],
+    "promptJa": "添付画像のキャラクターを主参照にし、顔立ち・髪型・髪色・瞳・体型・雰囲気を保ったまま、酪農家として再構成してください。動きやすい作業着、エプロン、長靴、手袋、ミルク缶、飼料バケツ、タオルを取り入れる。キャラクターはその職業らしい道具を扱っている、または仕事中の自然なポーズ。背景には朝の牧場、牛舎、牛、干し草、木の柵、柔らかな朝日、のどかな空気感を配置する。完成画像の画風再現ではなく、酪農家を作るための衣装・小物・背景・ポーズのキーワードを中心に、職業モチーフが自然に伝わるキャラクターデザインにしてください。",
+    "promptEn": "Use the attached character image as the main reference and reimagine the character as a dairy farmer while preserving their face, hairstyle, hair color, eyes, body type, and atmosphere. Add occupation-specific clothing, tools, accessories, and a suitable workplace background. The character should handle tools related to the occupation or take a natural working pose. Rather than reproducing a specific finished image style, focus on outfit, accessories, background, and pose keywords that clearly communicate the dairy farmer theme.",
+    "noteTitle": "活用メモ",
+    "noteTitleEn": "Usage Notes",
+    "notes": [
+      "完成画像の画風再現ではなく、職業を作るための汎用キーワードとして使う",
+      "衣装・小物・背景をセットで指定すると職業性が伝わりやすい",
+      "キャラクター本人の特徴を維持し、職業要素だけを自然に追加する"
+    ],
+    "notesEn": [
+      "Use this as a general job keyword prompt rather than a style reproduction prompt.",
+      "Specifying outfit, accessories, and background together makes the occupation easier to read.",
+      "Preserve the character identity and add the occupational elements naturally."
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-06-22 03:30",
     "publishedAt": "2026-06-22 03:30",
     "category": "JOB",
