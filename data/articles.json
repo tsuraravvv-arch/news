@@ -1,5 +1,64 @@
 [
   {
+    "datetime": "2026-07-02 21:58",
+    "publishedAt": "2026-07-02 21:58",
+    "category": "ORI",
+    "categoryLabel": "オリジナル企画",
+    "categoryLabelEn": "Original Projects",
+    "id": "ORI00006",
+    "title": "カバン＋ラバスト作成プロンプト",
+    "titleEn": "Bag + Rubber Strap Creation Prompt",
+    "summary": "添付ファイルのキャラクターを参照し、そのキャラクターの雰囲気やモチーフを反映したラバーストラップ付きカバンを作成するオリジナルプロンプトです。キャラクター本人の立ち絵ではなく、バッグ本体とラバーストラップを主役にしたグッズデザイン風イラストを作れます。複数キャラクターの場合は、キャラ数に応じたストラップを付けつつ、バッグ本体は総合的なデザインとしてまとめます。",
+    "summaryEn": "An original prompt that creates a merchandise-style illustration of a bag with rubber straps inspired by attached character images. Rather than focusing on a full character illustration, it turns the character’s colors, motifs, and atmosphere into a cute bag design with PVC rubber straps.",
+    "trendElements": [
+      "ラバーストラップ",
+      "カバンデザイン",
+      "キャラクターグッズ",
+      "PVC素材",
+      "グッズ化プロンプト"
+    ],
+    "trendElementsEn": [
+      "Rubber strap",
+      "Bag design",
+      "Character merchandise",
+      "PVC material",
+      "Merchandise prompt"
+    ],
+    "useCases": [
+      "キャラクターグッズ案",
+      "バッグデザイン",
+      "ラバストデザイン",
+      "SNS投稿",
+      "グッズ紹介風イラスト"
+    ],
+    "useCasesEn": [
+      "Character merchandise idea",
+      "Bag design",
+      "Rubber strap design",
+      "Social media post",
+      "Merchandise showcase illustration"
+    ],
+    "promptJa": "添付イラストのキャラクターをモチーフにした、ラバーストラップ付きカバンの画像を作成してください。\n\n【ラバーストラップのデザイン】\nラバーストラップは添付キャラクターをデフォルメした体型で、かわいくまとめてください。\nポーズや仕草は、そのキャラクターが自然に取りそうなものを選び、キャラクターらしさが伝わるデザインにしてください。\nキャラクターが武器やアイテムを持っている場合は、必要に応じて1つまで持たせても構いません。\n\n【カバンのデザイン】\nカバンは、キャラクターの性別、年齢、雰囲気、衣装、配色、世界観から連想されるデザインにしてください。\nキャラクター本人をそのままカバンに描くのではなく、キャラクターのイメージカラー、モチーフ、性格、雰囲気をもとに、実際にありそうな可愛いバッグとして再構成してください。\nバッグ本体は、トートバッグ、ショルダーバッグ、ハンドバッグ、ミニバッグ、通学・通勤風バッグ、ファンタジー風バッグなど、キャラクターに似合う形を自然に選んでください。\nカバンは1つの完成品として見えるようにし、正面または斜め正面から、形と装飾が分かりやすい構図にしてください。\n\n【ラバーストラップの数量と配置】\n1つの添付画像に複数のキャラクターがいる場合は、ラバーストラップ1つにキャラクターをまとめてください。\n添付ファイルが複数ある場合は、添付ファイル1つにつきラバーストラップ1つを生成してください。\n複数のストラップは、できるだけ同じ場所に重なることとし、裏にあるストラップがそれぞれ50%程度見えるようにしてください。\nストラップはカバンに対して大きすぎないサイズにし、カバン本体のデザインが見えるようにしてください。\nラバーストラップのサイズは、カバン本体の高さの20%前後を目安にしてください。\n\n【質感】\nラバーストラップはPVC製です。\n輪郭や服の境界線などの実線部分は、印刷線ではなく浅い溝として表現してください。\nストラップ本体は少し厚みのあるラバー素材で、マットで柔らかい質感にしてください。\nストラップ（紐）は簡単な金属リング、短いナイロン紐、またはシンプルなボールチェーン程度にしてください。\nストラップを長い鎖や複雑な構造にしないでください。\n\n【複数キャラクターの場合】\n複数キャラクターがいる場合、バッグ本体は全員の雰囲気を総合したデザインにしてください。\nラバーストラップはキャラクターごとに分けても、1つの添付画像内でまとまっているキャラクターは1つのストラップにまとめても構いません。\n複数のストラップは、色や形がそれぞれ違っても、同じバッグに付いていて自然に見えるように統一感を持たせてください。\n\n【構図】\nカバンとラバーストラップが主役です。\nキャラクター本人の大きな立ち絵や背景演出を主役にしないでください。\n商品写真風、グッズ紹介風、デザインシート風、可愛い広告ビジュアル風のいずれかとして、カバンの形・素材・ストラップの見え方が分かりやすい構図にしてください。\n背景はシンプルで、カバンとラバーストラップを邪魔しないようにしてください。\n\n【品質】\n高品質なグッズデザイン風イラスト。\nカバンの素材感、縫い目、金具、布地、ラバーストラップの厚み、PVCのマットな質感が分かるようにしてください。\nキャラクターらしさ、グッズとしての可愛さ、実物感、見やすさを重視してください。",
+    "promptEn": "Create an illustration of a bag with rubber straps inspired by the character or characters in the attached image.\n\n[Rubber Strap Design]\nTurn the attached character into a cute deformed rubber strap design. Choose a pose or gesture that naturally suits the character and clearly communicates their personality. If the character has a weapon or signature item, you may include up to one item if necessary.\n\n[Bag Design]\nDesign the bag based on the character’s gender impression, age impression, atmosphere, outfit, color palette, and world setting. Do not simply print the character directly on the bag. Instead, reconstruct the character’s image colors, motifs, personality, and mood into a cute bag that could exist as real merchandise. Choose a bag shape that naturally suits the character, such as a tote bag, shoulder bag, handbag, mini bag, school or work-style bag, or fantasy-inspired bag. The bag should look like one complete product. Show it from the front or a three-quarter front angle so its shape and decorations are easy to understand.\n\n[Number and Placement of Rubber Straps]\nIf one attached image contains multiple characters, combine those characters into one rubber strap. If multiple image files are attached, create one rubber strap for each attached file. If there are multiple straps, place them as close together as possible in the same area, with the straps behind still about 50% visible. Do not make the straps too large compared to the bag. The bag design itself should remain visible. As a guideline, each rubber strap should be around 20% of the bag’s height.\n\n[Material and Texture]\nThe rubber straps are made of PVC. The solid outline and clothing boundary lines should look like shallow grooves rather than printed lines. The strap body should have slight thickness, a matte rubber texture, and a soft material feel. The hanging part should be a simple metal ring, short nylon cord, or simple ball chain. Do not make the strap a long chain or a complicated structure.\n\n[If There Are Multiple Characters]\nIf there are multiple characters, design the bag itself as a combined design that reflects the overall atmosphere of all characters. The rubber straps may be separated by character, or characters within one attached image may be combined into a single strap. Even if multiple straps have different colors or shapes, they should still feel unified and natural on the same bag.\n\n[Composition]\nThe bag and rubber straps are the main subject. Do not make a large full-body character illustration or background performance the main focus. Use a product-photo style, merchandise showcase style, design-sheet style, or cute advertisement visual style, making the bag shape, material, and rubber strap visibility easy to understand. Keep the background simple so it does not distract from the bag and straps.\n\n[Quality]\nHigh-quality merchandise design illustration. Show the bag material, stitching, metal parts, fabric texture, rubber strap thickness, and matte PVC texture clearly. Prioritize character identity, merchandise cuteness, realistic product feel, and easy readability.",
+    "noteTitle": "使い方のコツ",
+    "noteTitleEn": "Usage Tips",
+    "notes": [
+      "添付ファイルを1枚以上つけて使うプロンプトです。",
+      "キャラクターの色、雰囲気、モチーフからバッグ本体とラバーストラップを作るため、キャラクター性が分かりやすい画像と相性が良いです。",
+      "複数キャラクターの場合、ストラップはキャラ数分または添付ファイル数分に増やし、バッグ本体は全体の雰囲気を総合したデザインにするとまとまりやすいです。",
+      "ラバーストラップは大きくしすぎず、カバン本体の高さの20%前後を目安にするとグッズらしく見えます。",
+      "背景をシンプルにすると、商品写真風・グッズ紹介風として使いやすくなります。"
+    ],
+    "notesEn": [
+      "Use this prompt with at least one attached character image.",
+      "It works best with images where the character’s colors, atmosphere, and motifs are easy to read.",
+      "For multiple characters, increase the number of straps while designing the bag itself as one unified product based on the combined atmosphere.",
+      "Keep each rubber strap around 20% of the bag’s height so it looks like real merchandise.",
+      "A simple background makes the result easier to use as a product-photo-style or merchandise showcase image."
+    ],
+    "sourceUrl": ""
+  },
+  {
     "datetime": "2026-07-01 00:26",
     "publishedAt": "2026-07-01 00:26",
     "category": "JOB",
