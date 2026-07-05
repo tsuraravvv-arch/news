@@ -4040,11 +4040,7 @@
       "曇天気味の光が映える"
     ],
     "sourceUrl": "https://www.japan.travel/",
-    "featured": true,
-    "featuredLabel": "おすすめ",
-    "featuredLabelEn": "Featured",
-    "featuredReason": "紫陽花・寺院・雨上がりを組み合わせた、初夏の季節投稿や和風背景イラストに使いやすい定番プロンプトです。",
-    "featuredReasonEn": "A reliable seasonal prompt combining hydrangeas, temples, and post-rain scenery for early-summer posts and Japanese-style backgrounds."
+    "featured": false
   },
   {
     "datetime": "2026-05-29 08:46",
