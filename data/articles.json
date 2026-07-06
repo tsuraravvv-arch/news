@@ -1,5 +1,58 @@
 [
   {
+    "datetime": "2026-07-06 09:00",
+    "publishedAt": "2026-07-06 09:00",
+    "category": "EV",
+    "categoryLabel": "国内イベント",
+    "categoryLabelEn": "Domestic Events",
+    "id": "EV00273",
+    "title": "七夕イベント最盛期",
+    "titleEn": "Tanabata Events Reach Their Peak",
+    "summary": "七夕前日の週末明けとなる7月6日は、全国各地の神社・商店街・商業施設で七夕イベントが最盛期を迎えています。笹飾りや短冊、ライトアップなどが各地で楽しめます。",
+    "summaryEn": "On July 6, the day before Tanabata and just after the weekend, Tanabata events are reaching their peak at shrines, shopping streets, and commercial facilities across Japan. Visitors can enjoy bamboo decorations, colorful wish strips, illuminations, and seasonal displays.",
+    "trendElements": [
+      "七夕",
+      "短冊",
+      "笹飾り",
+      "星空",
+      "願い事"
+    ],
+    "trendElementsEn": [
+      "Tanabata",
+      "Wish strips",
+      "Bamboo decorations",
+      "Starry sky",
+      "Wishes"
+    ],
+    "useCases": [
+      "季節投稿",
+      "イベント紹介",
+      "和風イラスト",
+      "SNS投稿"
+    ],
+    "useCasesEn": [
+      "Seasonal post",
+      "Event introduction",
+      "Japanese-style illustration",
+      "Social media post"
+    ],
+    "promptJa": "色鮮やかな短冊が揺れる大きな笹飾り。夕暮れから夜へ移り変わる空に星が輝き始め、人々が願い事を書いて飾る幻想的な七夕の風景。",
+    "promptEn": "A large bamboo tree decorated with colorful wish strips beneath a twilight sky where stars begin to shine, as visitors write wishes during Japan's Tanabata celebrations.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "短冊をカラフルに描く",
+      "夕暮れと星空を組み合わせる",
+      "幻想的なライティングを取り入れる"
+    ],
+    "notesEn": [
+      "Use colorful wish strips.",
+      "Combine twilight and a starry sky.",
+      "Use dreamy, atmospheric lighting."
+    ],
+    "sourceUrl": "https://voyapon.com/best-events-japan-july-2026/"
+  },
+  {
     "datetime": "2026-07-05 14:56",
     "publishedAt": "2026-07-05 14:56",
     "category": "ORI",
