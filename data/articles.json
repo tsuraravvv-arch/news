@@ -1,5 +1,58 @@
 [
   {
+    "datetime": "2026-07-16 09:00",
+    "publishedAt": "2026-07-16 09:00",
+    "category": "EV",
+    "categoryLabel": "国内イベント",
+    "categoryLabelEn": "Domestic Events",
+    "id": "EV00322",
+    "title": "駅弁記念日",
+    "titleEn": "Ekiben Anniversary Day",
+    "summary": "7月16日は「駅弁記念日」です。1885年7月16日に栃木県の宇都宮駅で日本初の駅弁が販売されたとされることに由来しています。旅行や鉄道文化、日本各地の郷土料理を楽しむきっかけとなる記念日です。",
+    "summaryEn": "July 16 is Ekiben Anniversary Day in Japan. It is said to originate from July 16, 1885, when Japan’s first ekiben railway lunch box was sold at Utsunomiya Station in Tochigi Prefecture. The day is a good opportunity to enjoy rail travel, railway culture, and regional Japanese cuisine.",
+    "trendElements": [
+      "駅弁",
+      "鉄道",
+      "旅行",
+      "郷土料理",
+      "グルメ"
+    ],
+    "trendElementsEn": [
+      "Ekiben",
+      "Railway",
+      "Travel",
+      "Regional cuisine",
+      "Gourmet food"
+    ],
+    "useCases": [
+      "旅行記事",
+      "鉄道紹介",
+      "グルメ投稿",
+      "SNS投稿"
+    ],
+    "useCasesEn": [
+      "Travel article",
+      "Railway feature",
+      "Food post",
+      "Social media post"
+    ],
+    "promptJa": "新幹線の車窓を背景に、彩り豊かな駅弁が広げられた旅のワンシーン。季節の食材を使った和食弁当が、日本らしい旅情を感じさせる。",
+    "promptEn": "A beautifully arranged Japanese ekiben lunch enjoyed beside a train window, featuring seasonal delicacies that capture the charm of rail travel in Japan.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "駅弁を主役にする",
+      "車窓から夏の風景を見せる",
+      "彩り豊かな料理を描く"
+    ],
+    "notesEn": [
+      "Make the ekiben the main subject.",
+      "Show a summer landscape through the train window.",
+      "Depict colorful and appetizing dishes."
+    ],
+    "sourceUrl": "https://www.kinenbi.gr.jp/"
+  },
+  {
     "datetime": "2026-07-12 22:57",
     "publishedAt": "2026-07-12 22:37",
     "category": "ORI",
