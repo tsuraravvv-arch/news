@@ -1,16 +1,21 @@
 const categoryNames = {
   FAS: { ja: 'ファッション', en: 'Fashion' },
   JOB: { ja: '職業', en: 'Jobs' },
+  PNF: { ja: 'ポーズ・表情', en: 'Pose & Expression' },
+  VIS: { ja: 'ビジュアル演出', en: 'Visual Direction' },
+  SSN: { ja: '季節', en: 'Seasonal' },
   ORI: { ja: 'オリジナル企画', en: 'Original Projects' },
+  ITM: { ja: 'アイテム', en: 'Items' },
+  // Legacy aliases for old articles or old shared links
   FA: { ja: 'ファッション', en: 'Fashion' },
-  CB: { ja: '構図・背景', en: 'Composition & Background' },
-  EV: { ja: '季節・イベント', en: 'Seasonal Events' },
-  AI: { ja: 'AI生成関連', en: 'AI Generation' }
+  CB: { ja: 'ビジュアル演出', en: 'Visual Direction' },
+  EV: { ja: '季節', en: 'Seasonal' },
+  AI: { ja: 'ビジュアル演出', en: 'Visual Direction' }
 };
 
 const uiText = {
   ja: {
-    lead: 'AI生成に使いやすいプロンプトと創作アイデアを、ファッション・構図背景・季節イベントに整理したサイトです。気になる記事から日本語版 / 英語版プロンプトをすぐにコピーできます。',
+    lead: 'AI生成に使いやすいプロンプトと創作アイデアを、ファッション・職業・ビジュアル演出・ポーズ表情・季節のアイデアに整理したサイトです。気になる記事から日本語版 / 英語版プロンプトをすぐにコピーできます。',
     communityTitle: '動画生成AI研究＆交流コミュニティ',
     communityDesc: 'AI生成の仲間が欲しい方におすすめ',
     tarotTitle: '氷洞つららの大アルカナ占い',
@@ -21,8 +26,10 @@ const uiText = {
     filterJob: '職業',
     filter100: '職業',
     filterFashion: 'ファッション',
-    filterComposition: '構図・背景',
-    filterSeason: '季節・イベント',
+    filterComposition: 'ビジュアル演出',
+    filterPose: 'ポーズ・表情',
+    filterItem: 'アイテム',
+    filterSeason: '季節',
     filterGuide: '活用ガイド',
     guideTitle: '活用ガイド',
     guideDesc: 'プロンプトの使い方と楽しみ方',
@@ -61,7 +68,7 @@ const uiText = {
     promptEn: 'English Prompt'
   },
   en: {
-    lead: 'A bilingual prompt library that organizes creative ideas for AI generation into fashion, composition/background, and seasonal events. Copy Japanese or English prompts directly from each item.',
+    lead: 'A bilingual prompt library that organizes creative ideas for AI generation into fashion, jobs, visual direction, pose/expression, and seasonal ideas. Copy Japanese or English prompts directly from each item.',
     communityTitle: 'AI Video Generation Community',
     communityDesc: 'Recommended for creators who want AI-generation friends',
     tarotTitle: 'Tsurara Major Arcana Tarot',
@@ -72,7 +79,9 @@ const uiText = {
     filterJob: 'Jobs',
     filter100: 'Jobs',
     filterFashion: 'Fashion',
-    filterComposition: 'Composition',
+    filterComposition: 'Visual',
+    filterPose: 'Pose',
+    filterItem: 'Items',
     filterSeason: 'Seasonal',
     filterGuide: 'Guide',
     guideTitle: 'Usage Guide',
@@ -237,7 +246,7 @@ function normalizeArticle(article) {
 function matchesFilter(article) {
   if (currentFilter === 'DEFAULT') return isNewArticle(article) || article.featured;
   if (currentFilter === 'ALL') return true;
-  if (currentFilter === 'ORIGINAL' || currentFilter === 'ORI') return hasOriginal(article);
+  if (currentFilter === 'ORIGINAL' || currentFilter === 'ORI') return article.category === 'ORI' || hasOriginal(article);
   if (currentFilter === 'JOB') {
     const labels = article.labels || [];
     const labelsEn = article.labelsEn || [];
@@ -247,6 +256,14 @@ function matchesFilter(article) {
       || labelsEn.includes('Jobs')
       || labelsEn.includes('100 Jobs');
   }
+  if (currentFilter === 'FAS') return article.category === 'FAS' || article.category === 'FA';
+  if (currentFilter === 'VIS') return article.category === 'VIS' || article.category === 'CB' || article.category === 'AI';
+  if (currentFilter === 'SSN') return article.category === 'SSN' || article.category === 'EV';
+  if (currentFilter === 'PNF') return article.category === 'PNF';
+  if (currentFilter === 'ITM') return article.category === 'ITM';
+  if (currentFilter === 'FA') return article.category === 'FAS' || article.category === 'FA';
+  if (currentFilter === 'CB') return article.category === 'VIS' || article.category === 'CB' || article.category === 'AI';
+  if (currentFilter === 'EV') return article.category === 'SSN' || article.category === 'EV';
   return article.category === currentFilter;
 }
 
@@ -454,21 +471,21 @@ function closeImageSearch() {
 document.addEventListener('click', (event) => {
   const copyButton = event.target.closest('[data-copy]');
   if (copyButton) {
-    const article = articles.find((item) => item.id === copyButton.dataset.id);
+    const article = articles.find((item) => item.id === copyButton.dataset.id || item.oldId === copyButton.dataset.id);
     if (article) copyPrompt(article, copyButton.dataset.copy);
     return;
   }
 
   const imageButton = event.target.closest('[data-open-image]');
   if (imageButton) {
-    const article = articles.find((item) => item.id === imageButton.dataset.openImage);
+    const article = articles.find((item) => item.id === imageButton.dataset.openImage || item.oldId === imageButton.dataset.openImage);
     if (article) openImageModal(article);
     return;
   }
 
   const detailButton = event.target.closest('[data-open-detail]');
   if (detailButton) {
-    const article = articles.find((item) => item.id === detailButton.dataset.openDetail);
+    const article = articles.find((item) => item.id === detailButton.dataset.openDetail || item.oldId === detailButton.dataset.openDetail);
     if (article) {
       closeImageSearch();
       renderDetail(article);
