@@ -2,10 +2,10 @@
   {
     "datetime": "2026-07-16 09:00",
     "publishedAt": "2026-07-16 09:00",
-    "category": "EV",
-    "categoryLabel": "国内イベント",
-    "categoryLabelEn": "Domestic Events",
-    "id": "EV00322",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00322",
     "title": "駅弁記念日",
     "titleEn": "Ekiben Anniversary Day",
     "summary": "7月16日は「駅弁記念日」です。1885年7月16日に栃木県の宇都宮駅で日本初の駅弁が販売されたとされることに由来しています。旅行や鉄道文化、日本各地の郷土料理を楽しむきっかけとなる記念日です。",
@@ -50,7 +50,8 @@
       "Show a summer landscape through the train window.",
       "Depict colorful and appetizing dishes."
     ],
-    "sourceUrl": "https://www.kinenbi.gr.jp/"
+    "sourceUrl": "https://www.kinenbi.gr.jp/",
+    "oldId": "EV00322"
   },
   {
     "datetime": "2026-07-12 22:57",
@@ -1445,10 +1446,10 @@
   {
     "datetime": "2026-07-06 09:00",
     "publishedAt": "2026-07-06 09:00",
-    "category": "EV",
-    "categoryLabel": "国内イベント",
-    "categoryLabelEn": "Domestic Events",
-    "id": "EV00273",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00273",
     "title": "七夕イベント最盛期",
     "titleEn": "Tanabata Events Reach Their Peak",
     "summary": "七夕前日の週末明けとなる7月6日は、全国各地の神社・商店街・商業施設で七夕イベントが最盛期を迎えています。笹飾りや短冊、ライトアップなどが各地で楽しめます。",
@@ -1493,7 +1494,8 @@
       "Combine twilight and a starry sky.",
       "Use dreamy, atmospheric lighting."
     ],
-    "sourceUrl": "https://voyapon.com/best-events-japan-july-2026/"
+    "sourceUrl": "https://voyapon.com/best-events-japan-july-2026/",
+    "oldId": "EV00273"
   },
   {
     "datetime": "2026-07-05 14:56",
@@ -4786,10 +4788,10 @@
   {
     "datetime": "2026-06-14 21:21",
     "publishedAt": "2026-06-14 21:21",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00003",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00003",
     "title": "“ライブフォト風モーションポスター” が動画生成界隈で増加",
     "titleEn": "Live-Photo-Style Motion Posters Are Rising in AI Video Communities",
     "summary": "静止画と動画の中間表現として、ポスターの一部だけが動く「ライブフォト風」演出が人気。髪や光、UIだけを微細に動かすことで、短尺動画でも高級感を演出できるため活用が増えています。",
@@ -4838,15 +4840,16 @@
       "Because it is based on still images, it is easy to produce in volume at low cost.",
       "Increasingly used for music announcements, character introductions, and worldbuilding promotional videos."
     ],
-    "sourceUrl": "https://www.pinterest.com/search/pins/?q=motion%20poster%20aesthetic"
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=motion%20poster%20aesthetic",
+    "oldId": "CB00003"
   },
   {
     "datetime": "2026-06-12 21:00",
     "publishedAt": "2026-06-12 21:30",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00181",
+    "id": "FAS00181",
     "title": "“ダスティピンク×チャコールブラック” がダーク可愛い系で増加",
     "titleEn": "Dusty Pink × Charcoal Black Is Rising in Dark-Cute Visuals",
     "summary": "柔らかなダスティピンクと深いチャコールブラックを組み合わせる配色が人気上昇。ゴシックや韓国ストリートにも応用しやすく、甘さとクールさを両立できるため幅広く利用されています。",
@@ -4891,15 +4894,16 @@
       "Works especially well with gothic styles.",
       "Often looks especially good with female characters."
     ],
-    "sourceUrl": "https://www.pinterest.com/search/pins/?q=dusty%20pink%20black%20aesthetic"
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=dusty%20pink%20black%20aesthetic",
+    "oldId": "FA00181"
   },
   {
     "datetime": "2026-06-10 09:00",
     "publishedAt": "2026-06-11 17:56",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00160",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00160",
     "title": "“改札越しフレーミング構図” が日常系MV演出で増加",
     "titleEn": "Framing Through Station Gates Is Rising in Everyday MV Scenes",
     "summary": "駅の改札やゲートをフレームとして利用し、その向こう側に人物を配置する構図が増加。移動や別れ、再会などのストーリーを自然に連想させるため、ショート動画や青春系イラストで利用例が伸びています。",
@@ -4944,15 +4948,16 @@
       "Reflections from station lighting work well.",
       "Compositions that use negative space are mainstream."
     ],
-    "sourceUrl": "https://www.pinterest.com/search/pins/?q=train%20station%20cinematic%20photography"
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=train%20station%20cinematic%20photography",
+    "oldId": "CB00160"
   },
   {
     "datetime": "2026-06-10 00:00",
     "publishedAt": "2026-06-10 22:53",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00163",
+    "id": "FAS00163",
     "title": "“ネオンロザリオ・ゴシック” がダークファンタジー系で増加",
     "titleEn": "Neon Rosary Gothic Is Rising in Dark-Fantasy Visuals",
     "summary": "クラシカルなロザリオや聖堂モチーフに、ネオン発光やホログラム装飾を組み合わせるスタイルが増加。宗教建築風の神秘性とサイバーパンク的未来感を両立できるため、AIキャラクターやMVビジュアルで採用例が伸びています。",
@@ -4999,15 +5004,16 @@
       "Pairs well with grand architectural backgrounds.",
       "Rosary and cathedral motifs already feel mystical, so keeping glow effects restrained and elegant helps the image feel cohesive."
     ],
-    "sourceUrl": "https://www.pinterest.com/search/pins/?q=neon%20gothic%20fashion"
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=neon%20gothic%20fashion",
+    "oldId": "FA00163"
   },
   {
     "datetime": "2026-06-08 09:00",
     "publishedAt": "2026-06-08 20:12",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00145",
+    "id": "FAS00145",
     "title": "“ペールサファイア×フロストホワイト” が透明感ビジュアルで増加",
     "titleEn": "Pale Sapphire × Frost White Is Rising in Translucent Visuals",
     "summary": "淡いサファイアブルーと霜のようなホワイトを組み合わせた配色が増加。清潔感と近未来感を同時に演出できるため、AIイラスト、VTuber衣装、SNSバナーで利用例が伸びています。",
@@ -5052,15 +5058,16 @@
       "Ice and glass effects stand out beautifully.",
       "Also suitable for profile images."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "FA00145"
   },
   {
     "datetime": "2026-06-07 09:00",
     "publishedAt": "2026-06-07 15:32",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00135",
+    "id": "FAS00135",
     "title": "“メカニカルロリータ” が近未来キャラクターデザインで増加",
     "titleEn": "Mechanical Lolita Is Rising in Futuristic Character Design",
     "summary": "クラシカルなロリータファッションに、精密機械や時計部品をモチーフとした装飾を組み合わせるスタイルが増加。スチームパンクほど重厚ではなく、洗練された近未来感を持つため、AIイラストやVTuber衣装で利用例が伸びています。",
@@ -5105,15 +5112,16 @@
       "Pairs well with black-and-silver palettes.",
       "Overly heavy steampunk styling is becoming less common."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "FA00135"
   },
   {
     "datetime": "2026-06-05 09:00",
     "publishedAt": "2026-06-06 02:44",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00119",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00119",
     "title": "全国で紫陽花観賞シーズン最盛期へ",
     "titleEn": "Hydrangea Viewing Season Reaches Its Peak Across Japan",
     "summary": "全国の寺院や公園で紫陽花が見頃を迎えつつあります。梅雨の風景を代表する花として、写真撮影や観光スポット巡りが人気を集めています。",
@@ -5158,15 +5166,16 @@
       "Use reflections on stone pavement.",
       "Blue-purple palettes strengthen the seasonal mood."
     ],
-    "sourceUrl": "https://www.japan.travel/"
+    "sourceUrl": "https://www.japan.travel/",
+    "oldId": "EV00119"
   },
   {
     "datetime": "2026-06-05 09:00",
     "publishedAt": "2026-06-05 20:32",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00120",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00120",
     "title": "梅雨入り直前のホタル観賞シーズン",
     "titleEn": "Firefly Viewing Season Just Before the Rainy Season",
     "summary": "6月上旬は各地でホタル観賞シーズンが始まる時期です。清流や里山で幻想的な光景が見られ、初夏ならではの風物詩として人気があります。",
@@ -5213,15 +5222,16 @@
       "Add a soft green glow.",
       "Reflections on the water enhance the magical feeling."
     ],
-    "sourceUrl": "https://www.japan.travel/"
+    "sourceUrl": "https://www.japan.travel/",
+    "oldId": "EV00120"
   },
   {
     "datetime": "2026-06-05 09:00",
     "publishedAt": "2026-06-05 19:59",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00118",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00118",
     "title": "芒種（ぼうしゅ）直前の初夏シーズン",
     "titleEn": "Early-Summer Season Just Before Bōshu",
     "summary": "二十四節気の「芒種」を目前に控え、田植えや初夏の農村風景が各地で見られる時期です。緑豊かな田園風景が季節感を象徴しています。",
@@ -5266,15 +5276,16 @@
       "Wide-angle compositions work well.",
       "Pay attention to the contrast between green and blue."
     ],
-    "sourceUrl": "https://www.maff.go.jp/"
+    "sourceUrl": "https://www.maff.go.jp/",
+    "oldId": "EV00118"
   },
   {
     "datetime": "2026-06-04 09:00",
     "publishedAt": "2026-06-04 18:03",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00114",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00114",
     "title": "“音声波形UIオーバーレイ” がMV風投稿で増加",
     "titleEn": "Audio Waveform UI Overlays Are Rising in MV-Style Posts",
     "summary": "音声の波形グラフをビジュアルへ重ねる演出が増加。音楽やボイスの存在を直感的に伝えられるため、AI動画、歌ってみた、キャラクターボイス紹介投稿で利用例が伸びています。",
@@ -5319,15 +5330,16 @@
       "A limited color palette feels current.",
       "Works well with music-related posts."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00114"
   },
   {
     "datetime": "2026-06-03 21:00",
     "publishedAt": "2026-06-03 23:07",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00110",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00110",
     "title": "“天気アプリUIオーバーレイ” がライフスタイル投稿で増加",
     "titleEn": "Weather App UI Overlays Are Rising in Lifestyle Posts",
     "summary": "スマートフォンの天気アプリ風UIを画像や動画へ重ねる演出が増加。気温や天候情報を世界観演出として利用できるため、日常投稿やMV風ビジュアルで活用例が伸びています。",
@@ -5376,15 +5388,16 @@
       "Semi-transparent UI feels current.",
       "Works well with everyday photos and lifelog-style posts."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00110"
   },
   {
     "datetime": "2026-06-02 09:00",
     "publishedAt": "2026-06-03 03:22",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00105",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00105",
     "title": "梅雨入り直前の傘・レイングッズ需要増加",
     "titleEn": "Umbrellas and Rain Goods Gain Attention Before the Rainy Season",
     "summary": "梅雨入りを控え、傘やレインコートなどのレイングッズが注目される時期です。透明傘や雨の日コーデをテーマにした投稿が増加しています。",
@@ -5429,15 +5442,16 @@
       "Add raindrops to the transparent umbrella.",
       "Blue-gray color tones work well."
     ],
-    "sourceUrl": "https://www.jma.go.jp/"
+    "sourceUrl": "https://www.jma.go.jp/",
+    "oldId": "EV00105"
   },
   {
     "datetime": "2026-05-29 21:00",
     "publishedAt": "2026-05-30 11:11",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00068",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00068",
     "title": "“ガラス越し雨粒構図” が感情系MV演出で拡大",
     "titleEn": "Rain-on-Glass Framing Is Expanding in Emotional MV Visuals",
     "summary": "窓ガラスに付いた雨粒を前景に配置し、その奥に人物や夜景を置く構図が増加。AI動画では静止画でも動きを感じやすく、感傷的な雰囲気や映画的演出を作りやすいことから人気を集めています。",
@@ -5482,15 +5496,16 @@
       "Strong background blur is commonly used.",
       "Pairs well with blue neon."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00068"
   },
   {
     "datetime": "2026-05-29 09:00",
     "publishedAt": "2026-05-29 23:30",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00083",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00083",
     "title": "5月下旬の紫陽花シーズン本格化",
     "titleEn": "Hydrangea Season Enters Full Swing in Late May",
     "summary": "全国各地で紫陽花が見頃へ向かう時期となり、寺院・公園・庭園で初夏の花景色を楽しむ人が増えています。SNSでも紫陽花をテーマにした季節投稿が急増しています。",
@@ -5536,15 +5551,16 @@
       "曇天気味の光が映える"
     ],
     "sourceUrl": "https://www.japan.travel/",
-    "featured": false
+    "featured": false,
+    "oldId": "EV00083"
   },
   {
     "datetime": "2026-05-29 08:46",
     "publishedAt": "2026-05-29 22:56",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00196",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00196",
     "title": "ChatGPT Images系で「未完成部分を意図的に残す」表現が拡散",
     "titleEn": "Intentionally Unfinished Elements Spread in ChatGPT Images-Style Art",
     "summary": "ChatGPT Image利用者の共有プロンプト群では、「一部だけスケッチ状態」「完成と未完成が共存する画面」を作る手法が注目されています。人物や背景の一部のみを未完成にすることで、アート性や物語性を強く演出できるとして拡散しています。",
@@ -5589,14 +5605,15 @@
       "Leave outline lines visible.",
       "Avoid over-detailing the background."
     ],
-    "sourceUrl": "https://community.openai.com/"
+    "sourceUrl": "https://community.openai.com/",
+    "oldId": "CB00196"
   },
   {
     "datetime": "2026-05-27 09:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00072",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00072",
     "title": "全国で「夕方の公園ベンチ」系投稿が人気継続",
     "titleEn": "Evening Park Bench Visuals Continue to Trend",
     "summary": "夕暮れの公園ベンチを舞台にした“静かな青春感”のある投稿がSNSで継続的に人気です。オレンジ色の夕日や木陰を活かしたノスタルジックな演出が注目されています。",
@@ -5641,14 +5658,15 @@
       "Leave some dappled light.",
       "Smaller character placement lets the scenery stand out."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00072"
   },
   {
     "datetime": "2026-05-24 09:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00057",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00057",
     "title": "全国で「レトロ喫茶」系ビジュアル投稿が人気継続",
     "titleEn": "Retro Café Visual Posts Continue to Trend",
     "summary": "昭和レトロブームの流れから、純喫茶・クリームソーダ・木製内装を使った“レトロ喫茶店”系投稿が増加しています。暖色照明と少し暗めの店内演出が人気です。",
@@ -5693,14 +5711,15 @@
       "Add subtle glass reflections.",
       "Green cream soda is a classic visual cue."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00057"
   },
   {
     "datetime": "2026-05-26 21:00",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00049",
+    "id": "FAS00049",
     "title": "“デジタルシスター” 系ゴシックが拡散",
     "titleEn": "Digital Sister Gothic Visuals Are Spreading",
     "summary": "修道女風シルエットにサイバーアクセやLED装飾を組み合わせた“Digital Sister”系ビジュアルがAI界隈で増加。黒・白・銀を基調にした静かなゴシック感が特徴で、MV風イラストや短尺AI動画との相性が高いと注目されています。",
@@ -5745,14 +5764,15 @@
       "Mixing in gray instead of pure black adds a premium feel.",
       "Adding mist helps stabilize the worldbuilding."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "FA00049"
   },
   {
     "datetime": "2026-05-25 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00064",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00064",
     "title": "全国で「初夏のベランダ夜風」投稿が増加",
     "titleEn": "Early-Summer Balcony Night-Breeze Posts Are Increasing",
     "summary": "気温が上がり始める5月後半は、夜風やベランダ時間をテーマにした投稿が増加しています。夜空、白カーテン、間接照明を使った“静かな夜の日常”表現が人気です。",
@@ -5797,14 +5817,15 @@
       "Use mainly warm lighting.",
       "A slightly wider night sky looks beautiful."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "EV00064"
   },
   {
     "datetime": "2026-05-25 09:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00041",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00041",
     "title": "“歩道橋見下ろし構図” がシティポップ系で拡散",
     "titleEn": "Pedestrian Overpass Overlook Compositions Spread in City-Pop Visuals",
     "summary": "歩道橋や高架通路から街を見下ろす構図が、夜景系AI動画やMV風投稿で増加。車のライト軌跡や都会の情報量を活かしつつ、人物を小さめに配置することで“孤独感”や“青春感”を演出するスタイルが人気です。",
@@ -5849,14 +5870,15 @@
       "Slightly streaked car lights create a video-like mood.",
       "Negative space is important for this composition."
     ],
-    "sourceUrl": "https://www.instagram.com/explore/tags/citypopaesthetic/"
+    "sourceUrl": "https://www.instagram.com/explore/tags/citypopaesthetic/",
+    "oldId": "CB00041"
   },
   {
     "datetime": "2026-05-24 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00060",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00060",
     "title": "全国で「梅雨前の夕立ち」ビジュアルが増加開始",
     "titleEn": "Pre-Rainy-Season Evening Shower Visuals Start Increasing",
     "summary": "梅雨入り前の不安定な天候により、“夕立ち直前・雨上がり”をテーマにした投稿が増え始めています。濡れた道路や曇り空を活かしたエモーショナルな表現が人気です。",
@@ -5901,14 +5923,15 @@
       "Transparent umbrellas are a standard choice.",
       "A blue-gray base feels current."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "EV00060"
   },
   {
     "datetime": "2026-05-23 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00052",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00052",
     "title": "全国で「夕方の海沿いドライブ」系投稿が人気継続",
     "titleEn": "Evening Seaside Drive Visual Posts Continue to Trend",
     "summary": "夕暮れの海岸道路やサービスエリアをテーマにした“ドライブ感”投稿がSNSで増加しています。オレンジ色の夕日と海面反射を活かした映像風ビジュアルが人気です。",
@@ -5953,14 +5976,15 @@
       "A slightly stronger sunset looks effective.",
       "Reflection effects are important."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "EV00052"
   },
   {
     "datetime": "2026-05-23 09:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00053",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00053",
     "title": "初夏の「カフェ読書」系ビジュアル投稿が増加",
     "titleEn": "Early-Summer Café Reading Visual Posts Are Increasing",
     "summary": "気温が安定する時期に入り、カフェでの読書やノート作業をテーマにした“静かな日常”系投稿が増えています。窓際、自然光、木製家具を活かした柔らかな空気感が人気です。",
@@ -6005,14 +6029,15 @@
       "Natural light works beautifully.",
       "Slight background blur works well."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00053"
   },
   {
     "datetime": "2026-05-23 09:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00054",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00054",
     "title": "全国で「夜の橋・川沿い」ビジュアルが人気上昇",
     "titleEn": "Night Bridge and Riverside Visuals Are Rising",
     "summary": "川沿いの遊歩道や夜の橋を背景にした“静かな都会夜景”投稿が増加しています。水面反射や青白い街灯を活かした映像的な雰囲気がAI生成でも人気です。",
@@ -6057,14 +6082,15 @@
       "Add fine light reflections.",
       "Subtle wind effects feel more natural."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00054"
   },
   {
     "datetime": "2026-05-22 09:00",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00022",
+    "id": "FAS00022",
     "title": "“退廃ゴシック×ネオン” の夜景系ビジュアルが急増",
     "titleEn": "Decadent Gothic × Neon Night Visuals Are Rapidly Increasing",
     "summary": "SNSでは、ゴシック衣装に青紫ネオンや都市夜景を組み合わせた“退廃感”重視のビジュアル投稿が増加。暗めの世界観ながら、発光アクセや濡れた路面反射を加えることで、MV風・AI動画風の雰囲気が出しやすいとして人気になっています。",
@@ -6109,14 +6135,15 @@
       "Light mist is more social-media friendly.",
       "Limiting neon colors to two or fewer keeps the image cohesive."
     ],
-    "sourceUrl": "https://www.pinterest.com/search/pins/?q=cyber%20gothic%20aesthetic"
+    "sourceUrl": "https://www.pinterest.com/search/pins/?q=cyber%20gothic%20aesthetic",
+    "oldId": "FA00022"
   },
   {
     "datetime": "2026-05-22 20:46",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00066",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00066",
     "title": "「終バス停ベンチ」構図がAIシネマShortsで急増",
     "titleEn": "Last-Bus Stop Bench Compositions Surge in AI Cinematic Shorts",
     "summary": "X上では、終バス後の静かなバス停を使った“待機ベンチ構図”が急増しています。人物を小さく配置し、街灯だけで照らすことで「映画エンドロール感」が出るとして人気です。",
@@ -6161,14 +6188,15 @@
       "Make the streetlight a bit stronger.",
       "Leave quiet ambient sound if used in video."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00066"
   },
   {
     "datetime": "2026-05-22 09:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00024",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00024",
     "title": "“透明UIホログラム演出” がAI動画系で定番化",
     "titleEn": "Transparent Hologram UI Effects Become Standard in AI Video Visuals",
     "summary": "人物の周囲に半透明ホログラムUIを浮かせる演出が、AI動画・画像生成界隈で定番化。特に白青系UIや円形HUDデザインが人気で、“未来デバイス感”を簡単に出せるため活用が広がっています。",
@@ -6213,14 +6241,15 @@
       "White-blue glow is the most stable choice.",
       "A darker background makes holograms stand out."
     ],
-    "sourceUrl": "https://www.behance.net/search/projects?search=futuristic%20hud%20ui"
+    "sourceUrl": "https://www.behance.net/search/projects?search=futuristic%20hud%20ui",
+    "oldId": "CB00024"
   },
   {
     "datetime": "2026-05-22 21:00",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00027",
+    "id": "FAS00027",
     "title": "“ミルキーネオン” 配色がAIビジュアル界隈で拡大",
     "titleEn": "Milky Neon Color Palettes Expand in AI Visual Communities",
     "summary": "強い原色ネオンではなく、白を混ぜたような“ミルキー系ネオンカラー”がSNSで増加。パステル寄りの青・紫・ピンクを柔らかく発光させることで、近未来感を出しつつも“かわいさ”を残せるとして人気です。",
@@ -6265,14 +6294,15 @@
       "Adding a little white gives a premium feeling.",
       "Dark backgrounds stabilize the color impact."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "FA00027"
   },
   {
     "datetime": "2026-05-21 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00043",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00043",
     "title": "初夏の「制服＋放課後」ビジュアル投稿が継続人気",
     "titleEn": "Uniform After-School Visuals Remain Popular in Early Summer",
     "summary": "5月後半は、夕方の学校帰りや放課後をテーマにした青春系ビジュアル投稿が増える時期です。夕焼け、自転車、川沿い、制服姿などを組み合わせた“静かな青春感”がSNSで人気となっています。",
@@ -6317,14 +6347,15 @@
       "Using a bicycle as a prop creates a youthful feeling.",
       "Simpler uniforms feel more current."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "EV00043"
   },
   {
     "datetime": "2026-05-21 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00045",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00045",
     "title": "全国で「梅雨前の青空」投稿がラストスパート傾向",
     "titleEn": "Pre-Rainy-Season Blue-Sky Posts Enter Their Final Stretch",
     "summary": "梅雨入り前の晴天シーズンとして、青空・白雲・バルコニー・散歩写真などの投稿がSNSで増加しています。“今のうちに晴れを楽しむ”空気感が強く、明るい自然光ビジュアルとの相性が良い時期です。",
@@ -6369,14 +6400,15 @@
       "白カーテンが今風",
       "逆光を少し入れると映える"
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "EV00045"
   },
   {
     "datetime": "2026-05-21 08:46",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00039",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00039",
     "title": "「エレベーター鏡セルフィー」構図がSNS系AI画像で急増",
     "titleEn": "Elevator Mirror Selfie Compositions Surge in Social AI Images",
     "summary": "X上では、エレベーター内部の鏡を使った“鏡セルフィー構図”がAI画像で急増しています。金属反射、狭い空間、縦長構図との相性が良く、「リアルな日常写真感」が強いとして人気です。",
@@ -6421,14 +6453,15 @@
       "Add metallic reflections.",
       "Slightly cropping the edges feels realistic."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00039"
   },
   {
     "datetime": "2026-05-20 21:01",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00015",
+    "id": "FAS00015",
     "title": "ネオロリータ×テック素材の軽サイバー系が増加",
     "titleEn": "Neo-Lolita × Tech Materials Gain Attention in Light Cyber Fashion",
     "summary": "ロリータ要素を残しつつ、PVCや半透明素材、小型メタルアクセを取り入れた“ネオロリータ”系が、AIビジュアルやSNS向け衣装表現で使いやすいトレンドとして注目されています。",
@@ -6473,14 +6506,15 @@
       "Let translucent materials pass light through, and add subtle reflections to PVC for a futuristic feel.",
       "Combining it with pale blue neon backgrounds creates a light cyber feeling while keeping sweetness."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "FA00015"
   },
   {
     "datetime": "2026-05-19 09:00",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00034",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00034",
     "title": "梅雨入り前の「五月晴れ」シーズン",
     "titleEn": "Clear May Skies Before the Rainy Season",
     "summary": "5月後半は、梅雨入り前の晴天が“五月晴れ”として親しまれる時期です。青空、風、洗濯物、バルコニー、散歩など、“生活感＋爽やかさ”を組み合わせた投稿と相性が良い季節です。",
@@ -6519,14 +6553,15 @@
       "Movement in curtains and hair is important.",
       "A white base with sky blue is a stable combination."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "EV00034"
   },
   {
     "datetime": "2026-05-19 02:46",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00028",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00028",
     "title": "窓際逆光＋室内暗め構図",
     "titleEn": "Window-Side Backlight with a Dim Interior Composition",
     "summary": "朝の白光、雨粒、曇天、カーテン揺れ、小さな生活感を含めることで、“映画の1カット感”を出しやすい構図です。静止画から動画化しても破綻しにくい構図として使いやすいです。",
@@ -6565,14 +6600,15 @@
       "Let raindrops move slowly.",
       "Keep the camera fixed or use only a very slight push-in."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "CB00028"
   },
   {
     "datetime": "2026-05-19 11:30",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00035",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00035",
     "title": "静止画から動画化しやすい最小モーション",
     "titleEn": "Minimal Motion for Easier Still-Image Animation",
     "summary": "大きな動きよりも、呼吸、髪の揺れ、布の揺れ、視線移動などの小さな動きに限定することで、キャラクターの崩れを抑えた動画化がしやすくなります。",
@@ -6611,14 +6647,15 @@
       "Keep background motion restrained.",
       "Works well for short clips of around six seconds."
     ],
-    "sourceUrl": "https://example.com/sample-ai-motion"
+    "sourceUrl": "https://example.com/sample-ai-motion",
+    "oldId": "CB00035"
   },
   {
     "datetime": "2026-05-19 13:10",
-    "category": "FA",
+    "category": "FAS",
     "categoryLabel": "ファッション",
     "categoryLabelEn": "Fashion",
-    "id": "FA00036",
+    "id": "FAS00036",
     "title": "白×水色の初夏コーデ傾向",
     "titleEn": "White × Pale Blue Early-Summer Outfit Trend",
     "summary": "白をベースに、水色や淡いグレーを差し色として入れるコーデは、初夏らしい清潔感と軽さを出しやすい組み合わせです。背景に青空やカフェを置くとSNS向けにまとまりやすくなります。",
@@ -6657,14 +6694,15 @@
       "Do not add too many accessories.",
       "A small amount of lavender creates a softer impression."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "FA00036"
   },
   {
     "datetime": "2026-05-19 15:20",
-    "category": "EV",
-    "categoryLabel": "季節・イベント",
-    "categoryLabelEn": "Seasonal Events",
-    "id": "EV00037",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00037",
     "title": "屋外フェス・グルメイベント背景",
     "titleEn": "Outdoor Festival and Food Event Backgrounds",
     "summary": "春から初夏にかけて、屋外フェスやグルメイベントを背景にした投稿と相性が良い時期です。屋台、提灯、夕方の空、人混みを入れるとイベント感が出ます。",
@@ -6703,14 +6741,15 @@
       "Placing food near the hands makes the idea clear.",
       "Evening light enhances the event atmosphere."
     ],
-    "sourceUrl": ""
+    "sourceUrl": "",
+    "oldId": "EV00037"
   },
   {
     "datetime": "2026-05-19 18:00",
-    "category": "CB",
-    "categoryLabel": "構図・背景",
-    "categoryLabelEn": "Composition & Background",
-    "id": "CB00038",
+    "category": "VIS",
+    "categoryLabel": "ビジュアル演出",
+    "categoryLabelEn": "Visual Direction",
+    "id": "VIS00038",
     "title": "2Dアニメ寄せのエフェクト調整",
     "titleEn": "Effect Adjustment for a 2D Anime Look",
     "summary": "リアルな発光や粒子を強くしすぎるとゲームCG寄りに見えるため、線画、セル影、平面的な色面、アニメ撮影処理を意識した調整が有効です。",
@@ -6749,6 +6788,7 @@
       "Organize effects into clear graphic shapes.",
       "Harder shadows create a stronger anime feel."
     ],
-    "sourceUrl": "https://example.com/sample-cel-effect"
+    "sourceUrl": "https://example.com/sample-cel-effect",
+    "oldId": "CB00038"
   }
 ]
