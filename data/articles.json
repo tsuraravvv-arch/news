@@ -1,5 +1,111 @@
 [
   {
+    "datetime": "2026-07-19 09:03",
+    "publishedAt": "2026-07-19 09:03",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00340",
+    "title": "富士山 夏山登山シーズン",
+    "titleEn": "Mount Fuji Summer Climbing Season",
+    "summary": "富士山は夏山登山シーズンの最盛期です。夏休みの始まりに合わせて登山者も増え、ご来光や雲海を目当てに多くの人が訪れています。",
+    "summaryEn": "Mount Fuji is at the peak of its summer climbing season. With the start of summer vacation, more hikers visit to see the sunrise from the summit and the sea of clouds.",
+    "trendElements": [
+      "富士山",
+      "登山",
+      "ご来光",
+      "雲海",
+      "アウトドア"
+    ],
+    "trendElementsEn": [
+      "Mount Fuji",
+      "Mountain climbing",
+      "Sunrise",
+      "Sea of clouds",
+      "Outdoor activities"
+    ],
+    "useCases": [
+      "旅行記事",
+      "アウトドア紹介",
+      "背景イラスト",
+      "SNS投稿"
+    ],
+    "useCasesEn": [
+      "Travel article",
+      "Outdoor feature",
+      "Background illustration",
+      "Social media post"
+    ],
+    "promptJa": "富士山山頂から昇る黄金色の朝日と一面に広がる雲海。静かに景色を眺める登山者が、日本の夏を象徴する絶景を楽しんでいる。",
+    "promptEn": "A golden sunrise illuminates the summit of Mount Fuji above a sea of clouds as hikers quietly admire one of Japan's most iconic summer landscapes.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "朝焼けを美しく描く",
+      "雲海で奥行きを演出する",
+      "登山者は小さなシルエットにする"
+    ],
+    "notesEn": [
+      "Depict the morning glow beautifully.",
+      "Use the sea of clouds to create depth.",
+      "Keep the hikers as small silhouettes."
+    ],
+    "sourceUrl": "https://www.japan-guide.com/event/?aMONTH=7&aYEAR=2026"
+  },
+  {
+    "datetime": "2026-07-19 09:03",
+    "publishedAt": "2026-07-19 09:03",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00336",
+    "title": "7月26日は「土用の丑の日」です。",
+    "titleEn": "July 26 is Doyo no Ushi no Hi, the Day of the Ox.",
+    "summary": "7月26日は「土用の丑の日」です。2026年の夏の「土用の丑の日」は7月26日で、うなぎを食べて暑い夏を乗り切る風習として全国的に親しまれています。スーパーや飲食店でも関連商品やフェアが数多く開催される、夏の季節感を伝えやすい食文化の話題です。",
+    "summaryEn": "July 26 is Doyo no Ushi no Hi, the Day of the Ox during Japan’s summer doyo period. In 2026, this seasonal day falls on July 26 and is widely associated with eating eel to build stamina for the hot summer. Supermarkets and restaurants often feature eel-related products and fairs, making it a useful seasonal food-culture theme.",
+    "trendElements": [
+      "土用の丑の日",
+      "うなぎ",
+      "夏の風物詩",
+      "季節の食文化",
+      "スタミナ料理"
+    ],
+    "trendElementsEn": [
+      "Doyo no Ushi no Hi",
+      "Eel",
+      "Summer seasonal tradition",
+      "Seasonal food culture",
+      "Stamina food"
+    ],
+    "useCases": [
+      "季節の話題",
+      "グルメ記事",
+      "SNS投稿",
+      "イラスト制作"
+    ],
+    "useCasesEn": [
+      "Seasonal topic",
+      "Food article",
+      "Social media post",
+      "Illustration creation"
+    ],
+    "promptJa": "漆塗りの重箱に盛り付けられた香ばしいうな重。湯気が立ち上り、夏らしい和の食卓と涼しげな背景で、日本の季節の食文化を表現する。",
+    "promptEn": "A beautifully grilled eel served over rice in a traditional lacquered box, with rising steam and a refreshing summer Japanese dining atmosphere celebrating the Day of the Ox.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "照りのあるうなぎを美味しそうに描く",
+      "和食器を取り入れる",
+      "夏らしい爽やかな色合いにする"
+    ],
+    "notesEn": [
+      "Make the glossy grilled eel look appetizing.",
+      "Include Japanese tableware.",
+      "Use a fresh summer color palette."
+    ],
+    "sourceUrl": "https://www.japan-guide.com/event/?aMONTH=7&aYEAR=2026"
+  },
+  {
     "datetime": "2026-07-19 03:24",
     "publishedAt": "2026-07-19 03:24",
     "category": "JOB",
