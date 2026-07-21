@@ -1,5 +1,72 @@
 [
   {
+    "datetime": "2026-07-21 09:00",
+    "publishedAt": "2026-07-21 09:00",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00341",
+    "title": "7月22日は「ナッツの日」です。",
+    "titleEn": "July 22 is Nuts Day.",
+    "summary": "7月22日は「ナッツの日」です。ナッツを日常的な健康食品として楽しみ、その栄養価を見直す日です。日本ナッツ協会が「7（ナ）・22（ッツ）」の語呂合わせから制定しました。アーモンド、ピスタチオ、クルミ、カシューナッツなどを夏バテ対策や健康的な間食として取り入れるきっかけになり、関連キャンペーンや試食企画の話題にもつなげやすい記念日です。特定の服装や地域の風習はありません。",
+    "summaryEn": "July 22 is Nuts Day in Japan. It is a day to enjoy nuts as everyday healthy snacks and reconsider their nutritional value. The date was established by the Japan Nut Association from a Japanese wordplay on 7 and 22. It is a useful seasonal theme for almonds, pistachios, walnuts, cashews, summer fatigue prevention, healthy snacking, and related campaigns or tasting events. There are no specific clothing customs or regional traditions associated with the day.",
+    "trendElements": [
+      "ナッツの日",
+      "ナッツ",
+      "健康食品",
+      "夏バテ対策",
+      "健康的な間食",
+      "日常系イラスト"
+    ],
+    "trendElementsEn": [
+      "Nuts Day",
+      "Nuts",
+      "Healthy food",
+      "Summer fatigue prevention",
+      "Healthy snack",
+      "Everyday-life illustration"
+    ],
+    "useCases": [
+      "記念日投稿",
+      "季節の話題",
+      "健康食品紹介",
+      "日常系イラスト",
+      "キャラクターイラスト",
+      "SNS投稿"
+    ],
+    "useCasesEn": [
+      "Anniversary-day post",
+      "Seasonal topic",
+      "Healthy food feature",
+      "Everyday-life illustration",
+      "Character illustration",
+      "Social media post"
+    ],
+    "promptJa": "添付されたキャラクター画像を主参照として使用し、そのキャラクター本人の顔立ち、髪型、髪色、瞳、体型、年齢感、雰囲気、特徴的な装飾をできる限り維持してください。\n\n明るく清潔感のある室内で、キャラクターが木製またはシンプルな椅子にリラックスして座っている日常イラストにしてください。服装は、そのキャラクターが自宅で自然に着ていそうなカジュアルな普段着とし、過度に着飾らない、柔らかく動きやすいコーディネートにしてください。\n\nキャラクターは椅子へ深く腰掛けるか、少し斜めに座り、片脚を軽く組む、片膝を上げる、両脚を自然に揃えるなど、くつろいだ座り姿にしてください。座面、背もたれ、脚の位置関係を自然にし、身体が椅子から浮いたり、椅子へ不自然に埋まったりしないようにしてください。\n\n片手には少量のナッツ、またはナッツを入れた小さな器を持たせてください。もう片方の手でアーモンド、カシューナッツ、ピスタチオ、クルミなどのうち1粒だけを上方向へ軽く放り投げ、そのナッツを口で受け止めようとしている瞬間を描いてください。\n\n顔は投げたナッツの方向へ向け、顎を少し上げ、口を自然に軽く開いてください。視線は空中のナッツを追い、楽しそうで無邪気な表情、または少し得意げな笑顔にしてください。ナッツは口の真上または斜め上に1粒だけ配置し、投げた手から口までの軌道が自然に読み取れる構図にしてください。\n\n空中に描く主役のナッツは1粒とし、複数のナッツが大量に宙を舞う演出にはしないでください。投げているナッツ以外は、小皿、木製ボウル、透明な器などへ現実的な量で盛り付けてください。器は一般的なおやつ用サイズとし、人物に対して巨大にならないようにしてください。\n\nテーブルには、アーモンド、ピスタチオ、クルミ、カシューナッツなどが入った小さな器と、必要に応じて水または冷たい飲み物を置いてください。ナッツを健康的な日常のおやつとして楽しんでいる雰囲気を表現してください。\n\n背景は明るいリビング、窓辺、ナチュラルな室内など、生活感がありながら整理された空間にしてください。白、淡いベージュ、薄い木目、観葉植物などを使い、夏の日中らしい爽やかな自然光を取り入れてください。背景を豪華にしすぎず、キャラクターとナッツを主役にしてください。\n\nカメラは人物の斜め前方から捉え、頭部から椅子、脚、ナッツの器までが自然に画面へ収まる縦長構図にしてください。ナッツを投げた手、空中のナッツ、開いた口が一続きの動作として見えるように配置してください。極端な俯瞰、極端な煽り、広角による身体の歪みは避けてください。\n\n人体構造を自然に保ち、左右の腕は1本ずつ、手は1つずつ、指は親指を含めて片手5本にしてください。ナッツを投げる手は手のひらを上向きにし、指先を軽く開いた投げ終わりの形にしてください。器を持つ手は器の側面または底を自然に支え、指が器へ埋まったり貫通したりしないようにしてください。\n\nキャラクター本人の外見を維持しつつ、穏やかで親しみやすい日常系アニメイラストとして仕上げてください。過度な発光、派手なエフェクト、文字、ロゴ、記念日の説明文は画面内へ入れないでください。",
+    "promptEn": "Use the attached character image as the main reference and preserve the character's face, hairstyle, hair color, eyes, body type, apparent age, atmosphere, and distinctive decorations as much as possible.\n\nCreate a bright, clean everyday indoor illustration where the character is relaxing on a wooden or simple chair. Dress the character in soft, comfortable casual homewear that feels natural for them, without making the outfit overly decorative.\n\nPose the character sitting deeply or slightly diagonally on the chair, in a relaxed seated posture such as lightly crossing one leg, raising one knee, or naturally keeping both legs together. Make the relationship between the seat, backrest, legs, and body natural, without the body floating above the chair or sinking into it unnaturally.\n\nIn one hand, have the character hold a small amount of nuts or a small bowl of nuts. With the other hand, show the character lightly tossing exactly one nut upward, such as an almond, cashew, pistachio, or walnut, and trying to catch it in their mouth.\n\nTurn the face toward the tossed nut, lift the chin slightly, and open the mouth naturally. The gaze should follow the nut in the air, with a cheerful, innocent expression or a slightly proud smile. Place only one main nut above or diagonally above the mouth, and make the motion path from the tossing hand to the mouth easy to read.\n\nThe main airborne nut must be a single nut. Do not show a large number of nuts flying through the air. All other nuts should be realistically arranged in a small plate, wooden bowl, or clear dish. Keep the dish snack-sized and not oversized compared with the character.\n\nOn the table, place a small dish containing almonds, pistachios, walnuts, cashews, and optionally water or a cold drink. Express the feeling of enjoying nuts as a healthy everyday snack.\n\nUse a bright living room, window-side area, or natural indoor background with a tidy sense of daily life. Include white, pale beige, light wood tones, houseplants, and refreshing natural daytime summer light. Do not make the background too luxurious; keep the character and nuts as the main subjects.\n\nUse a vertical composition from a slightly front-diagonal camera angle, naturally including the head, chair, legs, and nut bowl. Arrange the tossing hand, airborne nut, and open mouth as one continuous action. Avoid extreme top-down angles, extreme low angles, and wide-angle body distortion.\n\nKeep the anatomy natural. The character should have one left arm and one right arm, one hand on each arm, and five fingers on each hand including the thumb. The tossing hand should face palm-up with the fingers lightly open after releasing the nut. The hand holding the bowl should naturally support the side or bottom of the bowl without fingers sinking into or passing through it.\n\nMaintain the character's identity while finishing the image as a calm, friendly everyday anime illustration. Do not include excessive glow, flashy effects, text, logos, or anniversary explanations inside the image.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "空中の主役ナッツは1粒だけにする",
+      "ナッツを健康的な日常のおやつとして楽しむ雰囲気にする",
+      "アーモンド、ピスタチオ、クルミ、カシューナッツなどを器に現実的な量で入れる",
+      "椅子と身体の接地感を自然に見せる",
+      "投げた手、空中のナッツ、開いた口が一続きの動作に見えるようにする",
+      "特定の服装や地域行事ではなく、明るい日常シーンとして表現する",
+      "文字や記念日の説明文は画像内に入れない"
+    ],
+    "notesEn": [
+      "Show only one main nut in the air.",
+      "Make the scene feel like the character is enjoying nuts as a healthy everyday snack.",
+      "Place almonds, pistachios, walnuts, cashews, or similar nuts in a dish in a realistic amount.",
+      "Make the character’s contact with the chair feel natural.",
+      "Make the tossing hand, airborne nut, and open mouth read as one continuous action.",
+      "Depict it as a bright everyday scene, not as a specific costume or regional event.",
+      "Do not include text or anniversary explanations inside the image."
+    ],
+    "sourceUrl": "https://www.kinenbi.gr.jp/"
+  },
+  {
     "datetime": "2026-07-19 09:03",
     "publishedAt": "2026-07-19 09:03",
     "category": "SSN",
