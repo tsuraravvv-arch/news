@@ -109,7 +109,7 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName() {
-  return `${state.sourceName}-reveal-checker50.png`;
+  return `${state.sourceName}-reveal-checker50-png8.png`;
 }
 
 function showToast(message) {
@@ -652,15 +652,310 @@ function applyWholeMask(type) {
   renderEditor();
 }
 
+function createColorPoint(key, count, rSum, gSum, bSum) {
+  return {
+    key,
+    count,
+    r: Math.round(rSum / count),
+    g: Math.round(gSum / count),
+    b: Math.round(bSum / count)
+  };
+}
+
+function getColorBoxStats(indices, points) {
+  let rMin = 255;
+  let rMax = 0;
+  let gMin = 255;
+  let gMax = 0;
+  let bMin = 255;
+  let bMax = 0;
+  let count = 0;
+
+  for (const pointIndex of indices) {
+    const point = points[pointIndex];
+    rMin = Math.min(rMin, point.r);
+    rMax = Math.max(rMax, point.r);
+    gMin = Math.min(gMin, point.g);
+    gMax = Math.max(gMax, point.g);
+    bMin = Math.min(bMin, point.b);
+    bMax = Math.max(bMax, point.b);
+    count += point.count;
+  }
+
+  return { indices, rMin, rMax, gMin, gMax, bMin, bMax, count };
+}
+
+function splitColorBox(box, points) {
+  if (box.indices.length < 2) return null;
+
+  const ranges = [
+    box.rMax - box.rMin,
+    box.gMax - box.gMin,
+    box.bMax - box.bMin
+  ];
+  const channel = ranges.indexOf(Math.max(...ranges));
+  const channelName = ['r', 'g', 'b'][channel];
+  const sorted = [...box.indices].sort((left, right) => points[left][channelName] - points[right][channelName]);
+  const target = box.count / 2;
+  let cumulative = 0;
+  let splitAt = 1;
+
+  for (let index = 0; index < sorted.length - 1; index += 1) {
+    cumulative += points[sorted[index]].count;
+    if (cumulative >= target) {
+      splitAt = index + 1;
+      break;
+    }
+  }
+
+  if (splitAt <= 0 || splitAt >= sorted.length) return null;
+  return [
+    getColorBoxStats(sorted.slice(0, splitAt), points),
+    getColorBoxStats(sorted.slice(splitAt), points)
+  ];
+}
+
+function buildAdaptivePalette(imageData, maxOpaqueColors = 255) {
+  const binCount = 32 * 32 * 32;
+  const counts = new Uint32Array(binCount);
+  const rSums = new Uint32Array(binCount);
+  const gSums = new Uint32Array(binCount);
+  const bSums = new Uint32Array(binCount);
+  const pixels = imageData.data;
+
+  for (let index = 0; index < pixels.length; index += 4) {
+    if (pixels[index + 3] < 128) continue;
+    const r = pixels[index];
+    const g = pixels[index + 1];
+    const b = pixels[index + 2];
+    const key = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
+    counts[key] += 1;
+    rSums[key] += r;
+    gSums[key] += g;
+    bSums[key] += b;
+  }
+
+  const points = [];
+  for (let key = 0; key < binCount; key += 1) {
+    if (!counts[key]) continue;
+    points.push(createColorPoint(key, counts[key], rSums[key], gSums[key], bSums[key]));
+  }
+
+  if (!points.length) {
+    return {
+      palette: [{ r: 0, g: 0, b: 0 }],
+      binToPaletteIndex: new Uint16Array(binCount)
+    };
+  }
+
+  let boxes = [getColorBoxStats(points.map((_, index) => index), points)];
+  while (boxes.length < maxOpaqueColors) {
+    let selectedIndex = -1;
+    let selectedScore = -1;
+
+    for (let index = 0; index < boxes.length; index += 1) {
+      const box = boxes[index];
+      if (box.indices.length < 2) continue;
+      const maxRange = Math.max(box.rMax - box.rMin, box.gMax - box.gMin, box.bMax - box.bMin);
+      const score = maxRange * Math.sqrt(box.count);
+      if (score > selectedScore) {
+        selectedScore = score;
+        selectedIndex = index;
+      }
+    }
+
+    if (selectedIndex < 0) break;
+    const split = splitColorBox(boxes[selectedIndex], points);
+    if (!split) break;
+    boxes.splice(selectedIndex, 1, split[0], split[1]);
+  }
+
+  const palette = [{ r: 0, g: 0, b: 0 }];
+  const binToPaletteIndex = new Uint16Array(binCount);
+
+  for (const box of boxes) {
+    let total = 0;
+    let rTotal = 0;
+    let gTotal = 0;
+    let bTotal = 0;
+    for (const pointIndex of box.indices) {
+      const point = points[pointIndex];
+      total += point.count;
+      rTotal += point.r * point.count;
+      gTotal += point.g * point.count;
+      bTotal += point.b * point.count;
+    }
+    const paletteIndex = palette.length;
+    palette.push({
+      r: Math.round(rTotal / total),
+      g: Math.round(gTotal / total),
+      b: Math.round(bTotal / total)
+    });
+    for (const pointIndex of box.indices) {
+      binToPaletteIndex[points[pointIndex].key] = paletteIndex;
+    }
+  }
+
+  return { palette, binToPaletteIndex };
+}
+
+function writeUint32BigEndian(target, offset, value) {
+  target[offset] = (value >>> 24) & 255;
+  target[offset + 1] = (value >>> 16) & 255;
+  target[offset + 2] = (value >>> 8) & 255;
+  target[offset + 3] = value & 255;
+}
+
+const CRC_TABLE = (() => {
+  const table = new Uint32Array(256);
+  for (let index = 0; index < 256; index += 1) {
+    let value = index;
+    for (let bit = 0; bit < 8; bit += 1) {
+      value = (value & 1) ? (0xedb88320 ^ (value >>> 1)) : (value >>> 1);
+    }
+    table[index] = value >>> 0;
+  }
+  return table;
+})();
+
+function crc32(bytes) {
+  let crc = 0xffffffff;
+  for (const byte of bytes) {
+    crc = CRC_TABLE[(crc ^ byte) & 255] ^ (crc >>> 8);
+  }
+  return (crc ^ 0xffffffff) >>> 0;
+}
+
+function makePngChunk(type, data) {
+  const typeBytes = Uint8Array.from(type, (character) => character.charCodeAt(0));
+  const chunk = new Uint8Array(12 + data.length);
+  writeUint32BigEndian(chunk, 0, data.length);
+  chunk.set(typeBytes, 4);
+  chunk.set(data, 8);
+  const crcInput = new Uint8Array(typeBytes.length + data.length);
+  crcInput.set(typeBytes, 0);
+  crcInput.set(data, typeBytes.length);
+  writeUint32BigEndian(chunk, 8 + data.length, crc32(crcInput));
+  return chunk;
+}
+
+function adler32(bytes) {
+  let a = 1;
+  let b = 0;
+  const modulus = 65521;
+  for (const byte of bytes) {
+    a = (a + byte) % modulus;
+    b = (b + a) % modulus;
+  }
+  return ((b << 16) | a) >>> 0;
+}
+
+function createStoredZlibStream(bytes) {
+  const blockCount = Math.ceil(bytes.length / 65535);
+  const output = new Uint8Array(2 + blockCount * 5 + bytes.length + 4);
+  let outputOffset = 0;
+  output[outputOffset++] = 0x78;
+  output[outputOffset++] = 0x01;
+  let inputOffset = 0;
+
+  while (inputOffset < bytes.length) {
+    const length = Math.min(65535, bytes.length - inputOffset);
+    const isFinal = inputOffset + length >= bytes.length;
+    output[outputOffset++] = isFinal ? 0x01 : 0x00;
+    output[outputOffset++] = length & 255;
+    output[outputOffset++] = (length >>> 8) & 255;
+    const inverse = (~length) & 0xffff;
+    output[outputOffset++] = inverse & 255;
+    output[outputOffset++] = (inverse >>> 8) & 255;
+    output.set(bytes.subarray(inputOffset, inputOffset + length), outputOffset);
+    outputOffset += length;
+    inputOffset += length;
+  }
+
+  writeUint32BigEndian(output, outputOffset, adler32(bytes));
+  return output;
+}
+
+async function compressZlib(bytes) {
+  if (typeof CompressionStream === 'function') {
+    try {
+      const compressedStream = new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate'));
+      return new Uint8Array(await new Response(compressedStream).arrayBuffer());
+    } catch (error) {
+      console.warn('CompressionStream failed; using uncompressed DEFLATE blocks.', error);
+    }
+  }
+  return createStoredZlibStream(bytes);
+}
+
+function concatenateUint8Arrays(arrays) {
+  const totalLength = arrays.reduce((sum, array) => sum + array.length, 0);
+  const output = new Uint8Array(totalLength);
+  let offset = 0;
+  for (const array of arrays) {
+    output.set(array, offset);
+    offset += array.length;
+  }
+  return output;
+}
+
+async function encodeIndexedPng(imageData) {
+  const { width, height, data } = imageData;
+  const { palette, binToPaletteIndex } = buildAdaptivePalette(imageData, 255);
+  const paletteBytes = new Uint8Array(palette.length * 3);
+  for (let index = 0; index < palette.length; index += 1) {
+    paletteBytes[index * 3] = palette[index].r;
+    paletteBytes[index * 3 + 1] = palette[index].g;
+    paletteBytes[index * 3 + 2] = palette[index].b;
+  }
+
+  const scanlines = new Uint8Array((width + 1) * height);
+  for (let y = 0; y < height; y += 1) {
+    const rowOffset = y * (width + 1);
+    scanlines[rowOffset] = 0;
+    for (let x = 0; x < width; x += 1) {
+      const sourceIndex = (y * width + x) * 4;
+      if (data[sourceIndex + 3] < 128) {
+        scanlines[rowOffset + x + 1] = 0;
+        continue;
+      }
+      const key = ((data[sourceIndex] >> 3) << 10)
+        | ((data[sourceIndex + 1] >> 3) << 5)
+        | (data[sourceIndex + 2] >> 3);
+      scanlines[rowOffset + x + 1] = binToPaletteIndex[key];
+    }
+  }
+
+  const ihdr = new Uint8Array(13);
+  writeUint32BigEndian(ihdr, 0, width);
+  writeUint32BigEndian(ihdr, 4, height);
+  ihdr[8] = 8;
+  ihdr[9] = 3;
+  ihdr[10] = 0;
+  ihdr[11] = 0;
+  ihdr[12] = 0;
+
+  const signature = Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10]);
+  const compressed = await compressZlib(scanlines);
+  const pngBytes = concatenateUint8Arrays([
+    signature,
+    makePngChunk('IHDR', ihdr),
+    makePngChunk('PLTE', paletteBytes),
+    makePngChunk('tRNS', Uint8Array.of(0)),
+    makePngChunk('IDAT', compressed),
+    makePngChunk('IEND', new Uint8Array(0))
+  ]);
+  return new Blob([pngBytes], { type: 'image/png' });
+}
+
 async function saveOutput() {
   if (!state.imageLoaded) return;
   saveButton.disabled = true;
-  saveButton.textContent = 'PNGを作成中…';
+  saveButton.textContent = 'PNG-8を作成中…';
   try {
-    const output = createOutputImage();
-    const blob = await new Promise((resolve, reject) => {
-      output.toBlob((result) => result ? resolve(result) : reject(new Error('PNGを作成できませんでした。')), 'image/png');
-    });
+    createOutputImage();
+    const imageData = outputContext.getImageData(0, 0, state.imageWidth, state.imageHeight);
+    const blob = await encodeIndexedPng(imageData);
     const name = outputFileName();
     outputFileNameNode.textContent = name;
     outputFileSizeNode.textContent = formatBytes(blob.size);
@@ -678,13 +973,13 @@ async function saveOutput() {
     anchor.click();
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showToast('PNGを保存しました。');
+    showToast('PNG-8を保存しました。');
   } catch (error) {
     console.error(error);
-    showToast(error.message || 'PNGの保存に失敗しました。');
+    showToast(error.message || 'PNG-8の保存に失敗しました。');
   } finally {
     saveButton.disabled = false;
-    saveButton.textContent = 'PNGを保存';
+    saveButton.textContent = 'PNG-8を保存';
   }
 }
 
