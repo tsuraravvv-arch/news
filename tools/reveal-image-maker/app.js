@@ -60,13 +60,18 @@ const overlayContext = overlayCanvas.getContext('2d');
 const outputCanvas = document.createElement('canvas');
 const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
 
-const BAYER_4X4 = [
-  [0, 8, 2, 10],
-  [12, 4, 14, 6],
-  [3, 11, 1, 9],
-  [15, 7, 13, 5]
+const BAYER_8X8 = [
+  [0, 32, 8, 40, 2, 34, 10, 42],
+  [48, 16, 56, 24, 50, 18, 58, 26],
+  [12, 44, 4, 36, 14, 46, 6, 38],
+  [60, 28, 52, 20, 62, 30, 54, 22],
+  [3, 35, 11, 43, 1, 33, 9, 41],
+  [51, 19, 59, 27, 49, 17, 57, 25],
+  [15, 47, 7, 39, 13, 45, 5, 37],
+  [63, 31, 55, 23, 61, 29, 53, 21]
 ];
-const TRANSPARENT_COUNTS = { 1: 4, 2: 6, 3: 8, 4: 10, 5: 12 };
+// 8x8（64画素）中の透明画素数。約40 / 45 / 50 / 55 / 60％。
+const TRANSPARENT_COUNTS = { 1: 26, 2: 29, 3: 32, 4: 35, 5: 38 };
 
 const state = {
   imageLoaded: false,
@@ -348,23 +353,17 @@ function createOutputImage() {
   const outputData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
   const maskData = maskContext.getImageData(0, 0, state.imageWidth, state.imageHeight).data;
   const transparentCount = TRANSPARENT_COUNTS[state.strength];
-  const keepFraction = (16 - transparentCount) / 16;
   const pixels = outputData.data;
 
   for (let y = 0; y < state.imageHeight; y += 1) {
     for (let x = 0; x < state.imageWidth; x += 1) {
       const index = (y * state.imageWidth + x) * 4;
       if (pixels[index + 3] < 16) continue;
-      if (maskData[index + 3] > 32) {
-        if (BAYER_4X4[y & 3][x & 3] < transparentCount) {
-          pixels[index + 3] = 0;
-        } else {
-          // 黒背景上で残存画素と透明画素が平均化された際に、元の色へ近づくよう補正。
-          pixels[index] = Math.min(255, Math.round(pixels[index] / keepFraction));
-          pixels[index + 1] = Math.min(255, Math.round(pixels[index + 1] / keepFraction));
-          pixels[index + 2] = Math.min(255, Math.round(pixels[index + 2] / keepFraction));
-        }
+      if (maskData[index + 3] > 32 && BAYER_8X8[y & 7][x & 7] < transparentCount) {
+        pixels[index + 3] = 0;
       }
+      // 残す画素のRGBは元画像の値を維持する。
+      // 以前の残存率による逆数補正は、淡色が白飛びして黒背景で灰色化するため行わない。
     }
   }
 
