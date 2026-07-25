@@ -4,10 +4,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow,noarchive">
-  <meta name="tool-version" content="20260725-png8-2">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=20260725-png8-3">
+  <link rel="stylesheet" href="style.css?v=checker50-1">
 </head>
 <body>
   <header class="tool-header">
@@ -15,7 +14,7 @@
       <div>
         <div class="eyebrow-row">
           <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">PNG-8 基準調整版</span>
+          <span class="status-badge">1px市松50% 基準版</span>
         </div>
         <h1>Reveal Image Maker</h1>
         <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -28,7 +27,7 @@
     <section class="notice-strip" aria-label="重要な案内">
       <p><strong>画像はブラウザ内だけで処理され、外部へ送信されません。</strong></p>
       <p>X上での表示結果は保証されません。</p>
-      <p>タイムライン想定プレビューは目安です。Xによる実際の画像処理は再現できないため、最終的な見え方はテスト投稿で確認してください。</p>
+      <p>現在の試作版は、選択範囲を<strong>1ピクセル市松50%</strong>で処理する基準テスト版です。タイムライン想定プレビューは目安であり、最終的な見え方はテスト投稿で確認してください。</p>
     </section>
 
     <section class="card upload-card" aria-labelledby="uploadTitle">
@@ -108,16 +107,10 @@
           <p class="control-help">マウスホイールでも拡大・縮小できます。スマートフォンでは2本指で移動・拡大縮小します。</p>
         </fieldset>
 
-        <fieldset class="control-group strength-group" id="strengthControls" disabled>
-          <legend>隠す強度</legend>
-          <div class="strength-scale" id="strengthScale">
-            <label><input type="radio" name="strength" value="1"><span>1</span><small>最弱</small></label>
-            <label><input type="radio" name="strength" value="2"><span>2</span><small>弱</small></label>
-            <label><input type="radio" name="strength" value="3" checked><span>3</span><small>標準</small></label>
-            <label><input type="radio" name="strength" value="4"><span>4</span><small>強</small></label>
-            <label><input type="radio" name="strength" value="5"><span>5</span><small>最強</small></label>
-          </div>
-          <p class="control-help">透明率は約40％・45％・50％・55％・60％です。強くするほど画像を開いたときの見え方は暗くなります。</p>
+        <fieldset class="control-group mode-group" id="strengthControls" disabled>
+          <legend>現在の処理モード</legend>
+          <div class="mode-pill">1ピクセル市松50%</div>
+          <p class="control-help">選択した範囲は、1ピクセルおきに元画像の色を残し、残りの画素を完全透明にします。まずは基準版としてこの固定処理で確認します。</p>
         </fieldset>
       </aside>
 
@@ -156,7 +149,7 @@
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="timeline">タイムライン想定</button>
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="reveal">画像を開いた状態</button>
         </div>
-        <p class="fixed-preview-note">タイムライン想定＝白背景 / 画像を開いた状態＝黒背景</p>
+        <p class="preview-mode-note">タイムライン想定＝白背景 / 画像を開いた状態＝黒背景</p>
       </div>
 
       <div class="preview-stage background-white" id="previewStage">
@@ -170,21 +163,21 @@
       <div class="section-heading">
         <div>
           <span class="step-label">STEP 4</span>
-          <h2 id="exportTitle">PNG-8を書き出す</h2>
+          <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8（インデックスカラー） / 元サイズ</p>
+        <p>PNG / 元サイズ / 1px市松50%</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>PNG-8固定（透明パレットあり）</dd></div>
+            <div><dt>出力方式</dt><dd>選択範囲のみ 1ピクセル市松50%</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
         </div>
-        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNG-8を保存</button>
+        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNGを保存</button>
       </div>
     </section>
 
@@ -205,7 +198,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>出力は8bitインデックスカラーのPNG-8に固定しています。隠す範囲は透明画素と元画像の色を残した画素で構成し、明るさの自動補正は行いません。元画像と同じ縦横サイズを維持します。</p>
+          <p>現在は基準版として、選択範囲に1ピクセル市松50%の透過処理を適用します。プレビューは白背景と黒背景へ合成した見え方の目安です。</p>
         </section>
       </div>
     </details>
@@ -223,6 +216,6 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=20260725-png8-3"></script>
+  <script src="app.js?v=checker50-1"></script>
 </body>
 </html>
