@@ -116,10 +116,10 @@
         <fieldset class="control-group" id="boostControls" disabled>
           <legend>タップ後の見え方補正</legend>
           <div class="range-row">
-            <input id="revealBoost" type="range" min="100" max="180" value="135" step="5">
-            <output id="revealBoostValue" for="revealBoost">x1.35</output>
+            <input id="revealBoost" type="range" min="100" max="220" value="140" step="5">
+            <output id="revealBoostValue" for="revealBoost">x1.40</output>
           </div>
-          <p class="control-help">隠し範囲で色を残す画素だけに明度ブーストを適用します。X上でタップ後の絵が暗く見えやすい分を少し持ち上げます。</p>
+          <p class="control-help">隠し範囲で色を残す画素だけを明るくしつつ、暗い粒や黒っぽい線が残りすぎないよう少し白寄せします。X上でタップ後の絵が暗く見えやすい分を持ち上げる補正です。</p>
         </fieldset>
       </aside>
 
@@ -174,7 +174,7 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 元サイズ / 1px市松50% / 明度補正あり</p>
+        <p>PNG-8 / 元サイズ / 1px市松50% / 明度・暗部補正あり</p>
       </div>
 
       <div class="export-grid">
