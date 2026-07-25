@@ -63,6 +63,10 @@ const outputCanvas = document.createElement('canvas');
 const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
 const timelineCanvas = document.createElement('canvas');
 const timelineContext = timelineCanvas.getContext('2d', { willReadFrequently: true });
+const timelineResampleCanvas = document.createElement('canvas');
+const timelineResampleContext = timelineResampleCanvas.getContext('2d', { willReadFrequently: true });
+const timelineBinaryCanvas = document.createElement('canvas');
+const timelineBinaryContext = timelineBinaryCanvas.getContext('2d', { willReadFrequently: true });
 const revealCanvas = document.createElement('canvas');
 const revealContext = revealCanvas.getContext('2d', { willReadFrequently: true });
 
@@ -477,19 +481,65 @@ function createOutputImage() {
   return outputCanvas;
 }
 
+function getXTimelineSize(width, height) {
+  const maxLongEdge = 900;
+  const ratio = Math.min(1, maxLongEdge / Math.max(width, height));
+  return {
+    width: Math.max(1, Math.round(width * ratio)),
+    height: Math.max(1, Math.round(height * ratio))
+  };
+}
+
+function applyXTimelineAlphaApproximation(imageData) {
+  const pixels = imageData.data;
+  for (let index = 0; index < pixels.length; index += 4) {
+    const alpha = pixels[index + 3];
+    const red = pixels[index];
+    const green = pixels[index + 1];
+    const blue = pixels[index + 2];
+    const luminance = 0.299 * red + 0.587 * green + 0.114 * blue;
+
+    // Xの900px派生PNGを比較した結果、半透明は保持されず、
+    // ほぼ「透明 / 不透明」の2値へ戻されていました。
+    let keepOpaque = alpha >= 130;
+
+    // 128付近では淡い輪郭色の一部だけが残る傾向があったため、
+    // 測定結果に基づく小さな残存条件を加えます。
+    if (!keepOpaque && alpha >= 128 && red > 190 && luminance <= 213) {
+      keepOpaque = true;
+    }
+
+    pixels[index + 3] = keepOpaque ? 255 : 0;
+  }
+  return imageData;
+}
+
 function createTimelineApproximation(imageSource = null) {
   const output = imageSource || createOutputImage();
   if (!output) return null;
-  const maxLongEdge = 720;
-  const ratio = Math.min(1, maxLongEdge / Math.max(output.width, output.height));
-  timelineCanvas.width = Math.max(1, Math.round(output.width * ratio));
-  timelineCanvas.height = Math.max(1, Math.round(output.height * ratio));
-  timelineContext.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
+
+  const target = getXTimelineSize(output.width, output.height);
+  timelineResampleCanvas.width = target.width;
+  timelineResampleCanvas.height = target.height;
+  timelineResampleContext.clearRect(0, 0, target.width, target.height);
+  timelineResampleContext.imageSmoothingEnabled = true;
+  timelineResampleContext.imageSmoothingQuality = 'high';
+  timelineResampleContext.drawImage(output, 0, 0, target.width, target.height);
+
+  const resizedImageData = timelineResampleContext.getImageData(0, 0, target.width, target.height);
+  const binaryImageData = applyXTimelineAlphaApproximation(resizedImageData);
+
+  timelineBinaryCanvas.width = target.width;
+  timelineBinaryCanvas.height = target.height;
+  timelineBinaryContext.clearRect(0, 0, target.width, target.height);
+  timelineBinaryContext.putImageData(binaryImageData, 0, 0);
+
+  timelineCanvas.width = target.width;
+  timelineCanvas.height = target.height;
+  timelineContext.clearRect(0, 0, target.width, target.height);
   timelineContext.fillStyle = '#ffffff';
-  timelineContext.fillRect(0, 0, timelineCanvas.width, timelineCanvas.height);
-  timelineContext.imageSmoothingEnabled = true;
-  timelineContext.imageSmoothingQuality = 'high';
-  timelineContext.drawImage(output, 0, 0, timelineCanvas.width, timelineCanvas.height);
+  timelineContext.fillRect(0, 0, target.width, target.height);
+  timelineContext.drawImage(timelineBinaryCanvas, 0, 0);
   return timelineCanvas;
 }
 
@@ -595,7 +645,7 @@ function updatePreviewNote() {
     previewNote.textContent = '元画像を表示します。';
   } else if (state.previewMode === 'timeline') {
     previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
-      ? '保存予定PNG-8を白背景へ合成し、縮小して見せる目安です。X実機との差を減らすため、保存形式を優先して表示しています。'
+      ? '保存予定PNG-8を長辺900pxへ先に縮小し、透明度を2値化したあと白背景へ合成しています。取得したXの900x900派生PNGを基にした近似表示です。'
       : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
   } else {
     previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
