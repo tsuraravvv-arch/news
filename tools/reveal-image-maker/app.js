@@ -141,11 +141,49 @@ function clampByte(value) {
   return Math.max(0, Math.min(255, Math.round(value)));
 }
 
-function applyRevealBoostToChannel(value, boost) {
-  if (boost <= 1) return value;
-  const normalized = value / 255;
-  const lifted = Math.pow(normalized, 0.9);
-  return clampByte(255 * Math.min(1, lifted * boost));
+function clamp01(value) {
+  return Math.max(0, Math.min(1, value));
+}
+
+function mixChannel(value, target, amount) {
+  return clampByte(value * (1 - amount) + target * amount);
+}
+
+function applyRevealBoostToPixel(r, g, b, boost) {
+  if (boost <= 1) return { r, g, b };
+
+  const boostAmount = boost - 1;
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  const gamma = Math.max(0.62, 0.90 - boostAmount * 0.42);
+
+  let rr = clampByte(255 * Math.pow(r / 255, gamma));
+  let gg = clampByte(255 * Math.pow(g / 255, gamma));
+  let bb = clampByte(255 * Math.pow(b / 255, gamma));
+
+  const darkFactor = clamp01((0.62 - luminance) / 0.62);
+  const baseWhiteMix = 0.06 + boostAmount * 0.16;
+  const extraWhiteMix = darkFactor * (0.18 + boostAmount * 0.34);
+  const whiteMix = Math.min(0.78, baseWhiteMix + extraWhiteMix);
+
+  rr = mixChannel(rr, 255, whiteMix);
+  gg = mixChannel(gg, 255, whiteMix);
+  bb = mixChannel(bb, 255, whiteMix);
+
+  const mean = (rr + gg + bb) / 3;
+  const neutralize = Math.min(0.38, darkFactor * (0.10 + boostAmount * 0.22));
+  rr = mixChannel(rr, mean, neutralize);
+  gg = mixChannel(gg, mean, neutralize);
+  bb = mixChannel(bb, mean, neutralize);
+
+  const floorLift = clampByte(140 + boostAmount * 90);
+  if (luminance < 0.24) {
+    const floorMix = Math.min(0.48, (0.24 - luminance) * 1.2 + boostAmount * 0.12);
+    rr = mixChannel(rr, floorLift, floorMix);
+    gg = mixChannel(gg, floorLift, floorMix);
+    bb = mixChannel(bb, floorLift, floorMix);
+  }
+
+  return { r: rr, g: gg, b: bb };
 }
 
 function getSelectionMaskData() {
@@ -420,9 +458,15 @@ function createOutputImage() {
         pixels[index + 3] = 0;
         continue;
       }
-      pixels[index] = applyRevealBoostToChannel(pixels[index], boost);
-      pixels[index + 1] = applyRevealBoostToChannel(pixels[index + 1], boost);
-      pixels[index + 2] = applyRevealBoostToChannel(pixels[index + 2], boost);
+      const boosted = applyRevealBoostToPixel(
+        pixels[index],
+        pixels[index + 1],
+        pixels[index + 2],
+        boost
+      );
+      pixels[index] = boosted.r;
+      pixels[index + 1] = boosted.g;
+      pixels[index + 2] = boosted.b;
     }
   }
 
@@ -862,7 +906,7 @@ function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColo
     const g = pixels[index + 1];
     const b = pixels[index + 2];
     const key = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
-    const weight = selectionMaskData && selectionMaskData[index + 3] > 32 ? 3 : 1;
+    const weight = selectionMaskData && selectionMaskData[index + 3] > 32 ? 6 : 1;
     counts[key] += weight;
     rSums[key] += r * weight;
     gSums[key] += g * weight;
