@@ -42,7 +42,6 @@ const toast = document.getElementById('toast');
 
 const toolButtons = [...document.querySelectorAll('[data-tool]')];
 const previewTabs = [...document.querySelectorAll('[data-preview]')];
-const strengthInputs = [...document.querySelectorAll('input[name="strength"]')];
 const disabledGroups = [
   document.getElementById('toolSelector'),
   document.getElementById('brushControls'),
@@ -59,19 +58,10 @@ const overlayCanvas = document.createElement('canvas');
 const overlayContext = overlayCanvas.getContext('2d');
 const outputCanvas = document.createElement('canvas');
 const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
-
-const BAYER_8X8 = [
-  [0, 32, 8, 40, 2, 34, 10, 42],
-  [48, 16, 56, 24, 50, 18, 58, 26],
-  [12, 44, 4, 36, 14, 46, 6, 38],
-  [60, 28, 52, 20, 62, 30, 54, 22],
-  [3, 35, 11, 43, 1, 33, 9, 41],
-  [51, 19, 59, 27, 49, 17, 57, 25],
-  [15, 47, 7, 39, 13, 45, 5, 37],
-  [63, 31, 55, 23, 61, 29, 53, 21]
-];
-// 8x8（64画素）中の透明画素数。約40 / 45 / 50 / 55 / 60％。
-const TRANSPARENT_COUNTS = { 1: 26, 2: 29, 3: 32, 4: 35, 5: 38 };
+const timelineCanvas = document.createElement('canvas');
+const timelineContext = timelineCanvas.getContext('2d', { willReadFrequently: true });
+const revealCanvas = document.createElement('canvas');
+const revealContext = revealCanvas.getContext('2d', { willReadFrequently: true });
 
 const state = {
   imageLoaded: false,
@@ -83,7 +73,6 @@ const state = {
   tool: 'hide',
   brushSize: Number(brushSizeInput.value),
   showMask: true,
-  strength: 3,
   previewMode: 'original',
   scale: 1,
   minScale: 0.05,
@@ -98,7 +87,6 @@ const state = {
   panSession: null,
   outputVersion: 0,
   renderedOutputVersion: -1,
-  renderedStrength: null,
   toastTimer: null
 };
 
@@ -121,7 +109,7 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName() {
-  return `${state.sourceName}-reveal-s${state.strength}-png8.png`;
+  return `${state.sourceName}-reveal-checker50.png`;
 }
 
 function showToast(message) {
@@ -132,7 +120,9 @@ function showToast(message) {
 }
 
 function setControlsEnabled(enabled) {
-  disabledGroups.forEach((group) => { group.disabled = !enabled; });
+  disabledGroups.forEach((group) => {
+    if (group) group.disabled = !enabled;
+  });
   saveButton.disabled = !enabled;
   expandPreviewButton.disabled = !enabled;
 }
@@ -345,33 +335,70 @@ function renderEditor() {
 
 function createOutputImage() {
   if (!state.imageLoaded) return null;
-  if (state.renderedOutputVersion === state.outputVersion && state.renderedStrength === state.strength) return outputCanvas;
+  if (state.renderedOutputVersion === state.outputVersion) return outputCanvas;
 
   outputCanvas.width = state.imageWidth;
   outputCanvas.height = state.imageHeight;
   const sourceData = state.sourceImageData;
   const outputData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
   const maskData = maskContext.getImageData(0, 0, state.imageWidth, state.imageHeight).data;
-  const transparentCount = TRANSPARENT_COUNTS[state.strength];
   const pixels = outputData.data;
 
   for (let y = 0; y < state.imageHeight; y += 1) {
     for (let x = 0; x < state.imageWidth; x += 1) {
       const index = (y * state.imageWidth + x) * 4;
-      if (pixels[index + 3] < 16) continue;
-      if (maskData[index + 3] > 32 && BAYER_8X8[y & 7][x & 7] < transparentCount) {
+      if (maskData[index + 3] > 32 && ((x + y) & 1) === 1) {
         pixels[index + 3] = 0;
       }
-      // 残す画素のRGBは元画像の値を維持する。
-      // 以前の残存率による逆数補正は、淡色が白飛びして黒背景で灰色化するため行わない。
     }
   }
 
   outputContext.clearRect(0, 0, state.imageWidth, state.imageHeight);
   outputContext.putImageData(outputData, 0, 0);
   state.renderedOutputVersion = state.outputVersion;
-  state.renderedStrength = state.strength;
   return outputCanvas;
+}
+
+function createTimelineApproximation() {
+  const output = createOutputImage();
+  if (!output) return null;
+  const maxLongEdge = 720;
+  const ratio = Math.min(1, maxLongEdge / Math.max(state.imageWidth, state.imageHeight));
+  timelineCanvas.width = Math.max(1, Math.round(state.imageWidth * ratio));
+  timelineCanvas.height = Math.max(1, Math.round(state.imageHeight * ratio));
+  timelineContext.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
+  timelineContext.fillStyle = '#ffffff';
+  timelineContext.fillRect(0, 0, timelineCanvas.width, timelineCanvas.height);
+  timelineContext.imageSmoothingEnabled = true;
+  timelineContext.imageSmoothingQuality = 'high';
+  timelineContext.drawImage(output, 0, 0, timelineCanvas.width, timelineCanvas.height);
+  return timelineCanvas;
+}
+
+function createRevealPreview() {
+  const output = createOutputImage();
+  if (!output) return null;
+  revealCanvas.width = state.imageWidth;
+  revealCanvas.height = state.imageHeight;
+  revealContext.clearRect(0, 0, state.imageWidth, state.imageHeight);
+  revealContext.fillStyle = '#000000';
+  revealContext.fillRect(0, 0, state.imageWidth, state.imageHeight);
+  revealContext.drawImage(output, 0, 0);
+  return revealCanvas;
+}
+
+function getPreviewSource() {
+  if (state.previewMode === 'original') return sourceCanvas;
+  if (state.previewMode === 'timeline') return createTimelineApproximation();
+  return createRevealPreview();
+}
+
+function getPreviewBackground() {
+  return state.previewMode === 'reveal' ? '#000000' : '#ffffff';
+}
+
+function getPreviewStageClass() {
+  return state.previewMode === 'reveal' ? 'background-black' : 'background-white';
 }
 
 function renderCanvasFit(context, canvas, container, source, backgroundColor) {
@@ -397,308 +424,31 @@ function renderCanvasFit(context, canvas, container, source, backgroundColor) {
 
 function updatePreviewNote() {
   if (state.previewMode === 'original') {
-    previewNote.textContent = '加工前の元画像を白背景で表示します。';
+    previewNote.textContent = '加工前の元画像を表示します。';
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存予定画像を白背景に合成した目安です。Xの実際の縮小・変換処理を完全には再現できません。';
+    previewNote.textContent = '保存予定画像を白背景へ合成し、縮小して見せる目安です。Xの実際の表示を完全には再現できません。';
   } else {
-    previewNote.textContent = `強度${state.strength}の保存予定画像を、画像ビューアーを想定した黒背景に合成しています。`;
+    previewNote.textContent = '保存予定画像を黒背景へ合成した目安です。選択範囲は1ピクセル市松50%で暗いカラー画像として現れます。';
   }
-}
-
-function currentPreviewBackground() {
-  return state.previewMode === 'reveal' ? '#000000' : '#ffffff';
-}
-
-function getPreviewSource() {
-  return state.previewMode === 'original' ? sourceCanvas : createOutputImage();
 }
 
 function renderPreview() {
-  const backgroundColor = currentPreviewBackground();
-  previewStage.className = `preview-stage ${state.previewMode === 'reveal' ? 'background-black' : 'background-white'}`;
+  previewStage.className = `preview-stage ${getPreviewStageClass()} ${state.imageLoaded ? 'has-image' : ''}`;
   if (!state.imageLoaded) {
     resizeDisplayCanvas(previewCanvas, previewContext, previewStage);
     previewContext.clearRect(0, 0, previewStage.clientWidth, previewStage.clientHeight);
+    updatePreviewNote();
     return;
   }
-  previewStage.classList.add('has-image');
-  renderCanvasFit(previewContext, previewCanvas, previewStage, getPreviewSource(), backgroundColor);
+  const source = getPreviewSource();
+  renderCanvasFit(previewContext, previewCanvas, previewStage, source, getPreviewBackground());
   updatePreviewNote();
 }
 
 function renderModalPreview() {
   if (!state.imageLoaded) return;
-  renderCanvasFit(modalContext, modalCanvas, modalCanvasWrap, getPreviewSource(), currentPreviewBackground());
-}
-
-function makeHistogramEntries(imageData) {
-  const counts = new Uint32Array(32768);
-  const sumsR = new Uint32Array(32768);
-  const sumsG = new Uint32Array(32768);
-  const sumsB = new Uint32Array(32768);
-  const pixels = imageData.data;
-
-  for (let index = 0; index < pixels.length; index += 4) {
-    if (pixels[index + 3] < 128) continue;
-    const key = ((pixels[index] >> 3) << 10) | ((pixels[index + 1] >> 3) << 5) | (pixels[index + 2] >> 3);
-    counts[key] += 1;
-    sumsR[key] += pixels[index];
-    sumsG[key] += pixels[index + 1];
-    sumsB[key] += pixels[index + 2];
-  }
-
-  const entries = [];
-  for (let key = 0; key < 32768; key += 1) {
-    if (!counts[key]) continue;
-    entries.push({
-      key,
-      r5: (key >> 10) & 31,
-      g5: (key >> 5) & 31,
-      b5: key & 31,
-      count: counts[key],
-      sumR: sumsR[key],
-      sumG: sumsG[key],
-      sumB: sumsB[key]
-    });
-  }
-  return entries;
-}
-
-function describeColorBox(items) {
-  let count = 0;
-  let minR = 31, minG = 31, minB = 31;
-  let maxR = 0, maxG = 0, maxB = 0;
-  for (const item of items) {
-    count += item.count;
-    minR = Math.min(minR, item.r5); maxR = Math.max(maxR, item.r5);
-    minG = Math.min(minG, item.g5); maxG = Math.max(maxG, item.g5);
-    minB = Math.min(minB, item.b5); maxB = Math.max(maxB, item.b5);
-  }
-  return { items, count, minR, maxR, minG, maxG, minB, maxB };
-}
-
-function splitColorBox(box) {
-  if (box.items.length < 2) return null;
-  const ranges = [box.maxR - box.minR, box.maxG - box.minG, box.maxB - box.minB];
-  const channel = ranges.indexOf(Math.max(...ranges));
-  const channelName = channel === 0 ? 'r5' : channel === 1 ? 'g5' : 'b5';
-  const sorted = [...box.items].sort((a, b) => a[channelName] - b[channelName]);
-  const midpoint = box.count / 2;
-  let cumulative = 0;
-  let splitIndex = 1;
-  for (let index = 0; index < sorted.length - 1; index += 1) {
-    cumulative += sorted[index].count;
-    if (cumulative >= midpoint) {
-      splitIndex = index + 1;
-      break;
-    }
-  }
-  return [describeColorBox(sorted.slice(0, splitIndex)), describeColorBox(sorted.slice(splitIndex))];
-}
-
-function buildAdaptivePalette(entries, maximumColors = 255) {
-  if (!entries.length) return [[0, 0, 0]];
-  let boxes = [describeColorBox(entries)];
-  while (boxes.length < maximumColors) {
-    let selectedIndex = -1;
-    let selectedScore = -1;
-    boxes.forEach((box, index) => {
-      if (box.items.length < 2) return;
-      const range = Math.max(box.maxR - box.minR, box.maxG - box.minG, box.maxB - box.minB);
-      const score = range * Math.log2(box.count + 1);
-      if (score > selectedScore) {
-        selectedScore = score;
-        selectedIndex = index;
-      }
-    });
-    if (selectedIndex < 0) break;
-    const split = splitColorBox(boxes[selectedIndex]);
-    if (!split) break;
-    boxes.splice(selectedIndex, 1, ...split);
-  }
-
-  return boxes.map((box) => {
-    let count = 0, sumR = 0, sumG = 0, sumB = 0;
-    for (const item of box.items) {
-      count += item.count;
-      sumR += item.sumR;
-      sumG += item.sumG;
-      sumB += item.sumB;
-    }
-    return [Math.round(sumR / count), Math.round(sumG / count), Math.round(sumB / count)];
-  });
-}
-
-function createPaletteLookup(entries, palette) {
-  const lookup = new Int16Array(32768);
-  lookup.fill(-1);
-  for (const entry of entries) {
-    const r = entry.sumR / entry.count;
-    const g = entry.sumG / entry.count;
-    const b = entry.sumB / entry.count;
-    let bestIndex = 0;
-    let bestDistance = Number.POSITIVE_INFINITY;
-    for (let index = 0; index < palette.length; index += 1) {
-      const color = palette[index];
-      const dr = r - color[0];
-      const dg = g - color[1];
-      const db = b - color[2];
-      const distance = dr * dr * 0.30 + dg * dg * 0.59 + db * db * 0.11;
-      if (distance < bestDistance) {
-        bestDistance = distance;
-        bestIndex = index;
-      }
-    }
-    lookup[entry.key] = bestIndex;
-  }
-  return lookup;
-}
-
-function makeIndexedImage(imageData, width, height) {
-  const entries = makeHistogramEntries(imageData);
-  const palette = buildAdaptivePalette(entries, 255);
-  const lookup = createPaletteLookup(entries, palette);
-  const transparentIndex = palette.length;
-  const indices = new Uint8Array(width * height);
-  const pixels = imageData.data;
-
-  for (let pixelIndex = 0, dataIndex = 0; pixelIndex < indices.length; pixelIndex += 1, dataIndex += 4) {
-    if (pixels[dataIndex + 3] < 128) {
-      indices[pixelIndex] = transparentIndex;
-    } else {
-      const key = ((pixels[dataIndex] >> 3) << 10) | ((pixels[dataIndex + 1] >> 3) << 5) | (pixels[dataIndex + 2] >> 3);
-      const mapped = lookup[key];
-      indices[pixelIndex] = mapped >= 0 ? mapped : 0;
-    }
-  }
-  return { palette, transparentIndex, indices };
-}
-
-const CRC_TABLE = (() => {
-  const table = new Uint32Array(256);
-  for (let number = 0; number < 256; number += 1) {
-    let value = number;
-    for (let bit = 0; bit < 8; bit += 1) value = (value & 1) ? (0xedb88320 ^ (value >>> 1)) : (value >>> 1);
-    table[number] = value >>> 0;
-  }
-  return table;
-})();
-
-function crc32(bytes) {
-  let crc = 0xffffffff;
-  for (const byte of bytes) crc = CRC_TABLE[(crc ^ byte) & 0xff] ^ (crc >>> 8);
-  return (crc ^ 0xffffffff) >>> 0;
-}
-
-function adler32(bytes) {
-  let a = 1, b = 0;
-  const modulus = 65521;
-  for (let index = 0; index < bytes.length; index += 1) {
-    a = (a + bytes[index]) % modulus;
-    b = (b + a) % modulus;
-  }
-  return ((b << 16) | a) >>> 0;
-}
-
-function zlibStore(bytes) {
-  const blockCount = Math.ceil(bytes.length / 65535);
-  const output = new Uint8Array(2 + bytes.length + blockCount * 5 + 4);
-  let offset = 0;
-  output[offset++] = 0x78;
-  output[offset++] = 0x01;
-  let sourceOffset = 0;
-  while (sourceOffset < bytes.length) {
-    const length = Math.min(65535, bytes.length - sourceOffset);
-    const final = sourceOffset + length >= bytes.length;
-    output[offset++] = final ? 1 : 0;
-    output[offset++] = length & 0xff;
-    output[offset++] = (length >>> 8) & 0xff;
-    const inverse = (~length) & 0xffff;
-    output[offset++] = inverse & 0xff;
-    output[offset++] = (inverse >>> 8) & 0xff;
-    output.set(bytes.subarray(sourceOffset, sourceOffset + length), offset);
-    offset += length;
-    sourceOffset += length;
-  }
-  const checksum = adler32(bytes);
-  output[offset++] = (checksum >>> 24) & 0xff;
-  output[offset++] = (checksum >>> 16) & 0xff;
-  output[offset++] = (checksum >>> 8) & 0xff;
-  output[offset++] = checksum & 0xff;
-  return output;
-}
-
-function pngChunk(type, data) {
-  const typeBytes = new TextEncoder().encode(type);
-  const chunk = new Uint8Array(12 + data.length);
-  const view = new DataView(chunk.buffer);
-  view.setUint32(0, data.length, false);
-  chunk.set(typeBytes, 4);
-  chunk.set(data, 8);
-  const crcInput = new Uint8Array(typeBytes.length + data.length);
-  crcInput.set(typeBytes, 0);
-  crcInput.set(data, typeBytes.length);
-  view.setUint32(8 + data.length, crc32(crcInput), false);
-  return chunk;
-}
-
-function concatenateBytes(parts) {
-  const length = parts.reduce((total, part) => total + part.length, 0);
-  const output = new Uint8Array(length);
-  let offset = 0;
-  for (const part of parts) {
-    output.set(part, offset);
-    offset += part.length;
-  }
-  return output;
-}
-
-function encodePng8(imageData, width, height) {
-  const { palette, transparentIndex, indices } = makeIndexedImage(imageData, width, height);
-  const completePalette = [...palette, [0, 0, 0]];
-  const paletteBytes = new Uint8Array(completePalette.length * 3);
-  completePalette.forEach((color, index) => {
-    paletteBytes[index * 3] = color[0];
-    paletteBytes[index * 3 + 1] = color[1];
-    paletteBytes[index * 3 + 2] = color[2];
-  });
-  const transparency = new Uint8Array(completePalette.length);
-  transparency.fill(255);
-  transparency[transparentIndex] = 0;
-
-  const scanlines = new Uint8Array((width + 1) * height);
-  for (let y = 0; y < height; y += 1) {
-    const rowOffset = y * (width + 1);
-    scanlines[rowOffset] = 0;
-    scanlines.set(indices.subarray(y * width, (y + 1) * width), rowOffset + 1);
-  }
-
-  const ihdr = new Uint8Array(13);
-  const ihdrView = new DataView(ihdr.buffer);
-  ihdrView.setUint32(0, width, false);
-  ihdrView.setUint32(4, height, false);
-  ihdr[8] = 8;
-  ihdr[9] = 3;
-  ihdr[10] = 0;
-  ihdr[11] = 0;
-  ihdr[12] = 0;
-
-  const signature = new Uint8Array([137, 80, 78, 71, 13, 10, 26, 10]);
-  return concatenateBytes([
-    signature,
-    pngChunk('IHDR', ihdr),
-    pngChunk('PLTE', paletteBytes),
-    pngChunk('tRNS', transparency),
-    pngChunk('IDAT', zlibStore(scanlines)),
-    pngChunk('IEND', new Uint8Array(0))
-  ]);
-}
-
-function createPng8Blob() {
-  const output = createOutputImage();
-  const imageData = outputContext.getImageData(0, 0, output.width, output.height);
-  const bytes = encodePng8(imageData, output.width, output.height);
-  return new Blob([bytes], { type: 'image/png' });
+  const source = getPreviewSource();
+  renderCanvasFit(modalContext, modalCanvas, modalCanvasWrap, source, getPreviewBackground());
 }
 
 function setTool(tool) {
@@ -728,24 +478,11 @@ function beginStroke(event) {
 function extendStroke(event) {
   if (!state.currentStroke || state.currentStroke.pointerId !== event.pointerId) return;
   const point = canvasPointToImage(event.clientX, event.clientY);
-  const points = state.currentStroke.operation.points;
-  const previous = points[points.length - 1];
-  const distance = Math.hypot(point.x - previous.x, point.y - previous.y);
-  const minDistance = Math.max(0.7, state.currentStroke.operation.radius * .12);
-  if (distance < minDistance) return;
-  points.push(point);
+  state.currentStroke.operation.points.push(point);
   drawMaskStroke(maskContext, {
     ...state.currentStroke.operation,
-    points: [previous, point]
+    points: state.currentStroke.operation.points.slice(-2)
   });
-  renderEditor();
-}
-
-function cancelCurrentStroke() {
-  if (!state.currentStroke) return;
-  state.currentStroke = null;
-  maskContext.clearRect(0, 0, state.imageWidth, state.imageHeight);
-  state.operations.forEach(applyOperation);
   renderEditor();
 }
 
@@ -759,18 +496,18 @@ function finishStroke(event) {
 function beginPan(event) {
   state.panSession = {
     pointerId: event.pointerId,
-    startX: event.clientX,
-    startY: event.clientY,
-    offsetX: state.offsetX,
-    offsetY: state.offsetY
+    clientX: event.clientX,
+    clientY: event.clientY,
+    originX: state.offsetX,
+    originY: state.offsetY
   };
   editorViewport.classList.add('is-panning');
 }
 
 function updatePan(event) {
   if (!state.panSession || state.panSession.pointerId !== event.pointerId) return;
-  state.offsetX = state.panSession.offsetX + (event.clientX - state.panSession.startX);
-  state.offsetY = state.panSession.offsetY + (event.clientY - state.panSession.startY);
+  state.offsetX = state.panSession.originX + (event.clientX - state.panSession.clientX);
+  state.offsetY = state.panSession.originY + (event.clientY - state.panSession.clientY);
   renderEditor();
 }
 
@@ -780,22 +517,22 @@ function finishPan(event) {
   editorViewport.classList.remove('is-panning');
 }
 
-function pointerCenter(points) {
-  const values = [...points.values()];
-  return {
-    x: (values[0].clientX + values[1].clientX) / 2,
-    y: (values[0].clientY + values[1].clientY) / 2
-  };
+function pointerDistance(pointers) {
+  const events = [...pointers.values()];
+  if (events.length < 2) return 1;
+  const [a, b] = events;
+  return Math.hypot(b.clientX - a.clientX, b.clientY - a.clientY);
 }
 
-function pointerDistance(points) {
-  const values = [...points.values()];
-  return Math.hypot(values[1].clientX - values[0].clientX, values[1].clientY - values[0].clientY);
+function pointerCenter(pointers) {
+  const events = [...pointers.values()];
+  if (!events.length) return { x: 0, y: 0 };
+  const x = events.reduce((sum, event) => sum + event.clientX, 0) / events.length;
+  const y = events.reduce((sum, event) => sum + event.clientY, 0) / events.length;
+  return { x, y };
 }
 
 function beginGesture() {
-  if (state.pointers.size < 2) return;
-  cancelCurrentStroke();
   const center = pointerCenter(state.pointers);
   const rect = editorCanvas.getBoundingClientRect();
   const canvasCenter = { x: center.x - rect.left, y: center.y - rect.top };
@@ -875,7 +612,6 @@ async function loadFile(file) {
     state.redoOperations = [];
     state.outputVersion = 1;
     state.renderedOutputVersion = -1;
-    state.renderedStrength = null;
 
     sourceCanvas.width = width;
     sourceCanvas.height = height;
@@ -919,10 +655,12 @@ function applyWholeMask(type) {
 async function saveOutput() {
   if (!state.imageLoaded) return;
   saveButton.disabled = true;
-  saveButton.textContent = 'PNG-8を作成中…';
+  saveButton.textContent = 'PNGを作成中…';
   try {
-    await new Promise((resolve) => requestAnimationFrame(resolve));
-    const blob = createPng8Blob();
+    const output = createOutputImage();
+    const blob = await new Promise((resolve, reject) => {
+      output.toBlob((result) => result ? resolve(result) : reject(new Error('PNGを作成できませんでした。')), 'image/png');
+    });
     const name = outputFileName();
     outputFileNameNode.textContent = name;
     outputFileSizeNode.textContent = formatBytes(blob.size);
@@ -940,13 +678,13 @@ async function saveOutput() {
     anchor.click();
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showToast('PNG-8を保存しました。');
+    showToast('PNGを保存しました。');
   } catch (error) {
     console.error(error);
-    showToast(error.message || 'PNG-8の保存に失敗しました。');
+    showToast(error.message || 'PNGの保存に失敗しました。');
   } finally {
     saveButton.disabled = false;
-    saveButton.textContent = 'PNG-8を保存';
+    saveButton.textContent = 'PNGを保存';
   }
 }
 
@@ -998,12 +736,6 @@ zoomOutButton.addEventListener('click', () => {
   zoomAt(rect.left + rect.width / 2, rect.top + rect.height / 2, .8);
 });
 
-strengthInputs.forEach((input) => input.addEventListener('change', () => {
-  if (!input.checked) return;
-  state.strength = Number(input.value);
-  outputFileNameNode.textContent = outputFileName();
-  markOutputDirty();
-}));
 previewTabs.forEach((tab) => tab.addEventListener('click', () => {
   state.previewMode = tab.dataset.preview;
   previewTabs.forEach((item) => {
