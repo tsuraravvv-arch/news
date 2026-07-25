@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=checker50-png8-4-visible-brush">
+  <link rel="stylesheet" href="style.css?v=checker50-png8-5-toolbar-balanced">
 </head>
 <body>
   <header class="tool-header">
@@ -14,7 +14,7 @@
       <div>
         <div class="eyebrow-row">
           <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">PNG-8 / 見せるブラシ補正版</span>
+          <span class="status-badge">PNG-8 / ツールパレット・バランス補正版</span>
         </div>
         <h1>Reveal Image Maker</h1>
         <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -27,7 +27,7 @@
     <section class="notice-strip" aria-label="重要な案内">
       <p><strong>画像はブラウザ内だけで処理され、外部へ送信されません。</strong></p>
       <p>X上での表示結果は保証されません。</p>
-      <p>現在の試作版では、ブラシで塗った範囲を<strong>タップ前にも見せる部分</strong>として残し、塗っていない範囲を<strong>1ピクセル市松50%</strong>で隠します。保存形式は<strong>PNG-8（インデックスカラー）</strong>です。最終的な見え方はテスト投稿で確認してください。</p>
+      <p>現在の試作版では、ツールパレットで塗った範囲を<strong>タップ前にも見せる部分</strong>として残し、塗っていない範囲を<strong>1ピクセル市松50%</strong>で隠します。補正範囲は1.00〜1.40に絞り、保存形式は<strong>PNG-8（インデックスカラー）</strong>です。最終的な見え方はテスト投稿で確認してください。</p>
     </section>
 
     <section class="card upload-card" aria-labelledby="uploadTitle">
@@ -62,18 +62,9 @@
         <div class="section-heading compact">
           <div>
             <span class="step-label">STEP 2</span>
-            <h2 id="controlsTitle">タップ前に見せる範囲を指定</h2>
+            <h2 id="controlsTitle">範囲と表示の調整</h2>
           </div>
         </div>
-
-        <fieldset class="control-group tool-selector" id="toolSelector" disabled>
-          <legend>編集ツール</legend>
-          <div class="segmented-control three">
-            <button class="segment-button is-active" type="button" data-tool="hide" aria-pressed="true">見せるブラシ</button>
-            <button class="segment-button" type="button" data-tool="erase" aria-pressed="false">消しゴム</button>
-            <button class="segment-button" type="button" data-tool="pan" aria-pressed="false">移動</button>
-          </div>
-        </fieldset>
 
         <fieldset class="control-group" id="brushControls" disabled>
           <legend>ブラシサイズ</legend>
@@ -106,21 +97,6 @@
           </div>
           <p class="control-help">マウスホイールでも拡大・縮小できます。スマートフォンでは2本指で移動・拡大縮小します。</p>
         </fieldset>
-
-        <fieldset class="control-group mode-group" id="strengthControls" disabled>
-          <legend>現在の処理モード</legend>
-          <div class="mode-pill">PNG-8 × 1ピクセル市松50%</div>
-          <p class="control-help">塗った範囲はタップ前にも通常表示されます。塗っていない範囲だけを1ピクセル市松50%で隠し、タップ後に現れるよう処理します。</p>
-        </fieldset>
-
-        <fieldset class="control-group" id="boostControls" disabled>
-          <legend>タップ後の見え方補正</legend>
-          <div class="range-row">
-            <input id="revealBoost" type="range" min="100" max="220" value="140" step="5">
-            <output id="revealBoostValue" for="revealBoost">x1.40</output>
-          </div>
-          <p class="control-help">塗っていない隠し範囲の画素だけを明るくし、暗い粒や黒っぽい線が残りすぎないよう少し白寄せします。</p>
-        </fieldset>
       </aside>
 
       <section class="card editor-card" aria-labelledby="editorTitle">
@@ -132,6 +108,25 @@
           <span class="zoom-indicator" id="zoomIndicator">—</span>
         </div>
 
+        <fieldset class="editor-tool-palette" id="toolSelector" disabled>
+          <legend>編集ツール</legend>
+          <div class="tool-palette" role="toolbar" aria-label="画像編集ツール">
+            <button class="tool-button is-active" type="button" data-tool="hide" aria-pressed="true">
+              <span class="tool-symbol" aria-hidden="true">筆</span>
+              <span>見せるブラシ</span>
+            </button>
+            <button class="tool-button" type="button" data-tool="erase" aria-pressed="false">
+              <span class="tool-symbol" aria-hidden="true">消</span>
+              <span>消しゴム</span>
+            </button>
+            <button class="tool-button" type="button" data-tool="pan" aria-pressed="false">
+              <span class="tool-symbol" aria-hidden="true">移</span>
+              <span>移動</span>
+            </button>
+          </div>
+          <p class="tool-palette-note">今後、投げ縄・四角形選択・色域指定などを同じパレットへ追加できる配置です。</p>
+        </fieldset>
+
         <div class="editor-viewport is-empty" id="editorViewport">
           <canvas id="editorCanvas" aria-label="タップ前に見せる範囲の編集キャンバス"></canvas>
           <div class="empty-canvas-message" id="emptyCanvasMessage">
@@ -140,6 +135,28 @@
           </div>
         </div>
         <p class="editor-tip">半透明の赤紫色が、タップ前にも見せる範囲です。塗っていない部分が特殊な透過処理の対象になります。</p>
+
+        <div class="editor-options-grid">
+          <fieldset class="editor-option-card mode-group" id="strengthControls" disabled>
+            <legend>現在の処理モード</legend>
+            <div class="mode-pill">PNG-8 × 1ピクセル市松50%</div>
+            <p class="control-help">塗った範囲はタップ前にも通常表示されます。塗っていない範囲だけを1ピクセル市松50%で隠します。</p>
+          </fieldset>
+
+          <fieldset class="editor-option-card" id="boostControls" disabled>
+            <legend>隠れ方の調整</legend>
+            <div class="range-row">
+              <input id="revealBoost" type="range" min="100" max="140" value="120" step="5">
+              <output id="revealBoostValue" for="revealBoost">x1.20</output>
+            </div>
+            <div class="boost-scale" aria-hidden="true">
+              <span>1.00<br><small>開いた後を優先</small></span>
+              <span>1.20<br><small>バランス</small></span>
+              <span>1.40<br><small>白さを優先</small></span>
+            </div>
+            <p class="control-help">数値を上げるほどタップ前は白く隠れやすくなりますが、開いた後の階調は少なくなります。</p>
+          </fieldset>
+        </div>
       </section>
     </section>
 
@@ -154,8 +171,7 @@
 
       <div class="preview-toolbar">
         <div class="tab-list" role="tablist" aria-label="プレビューの種類">
-          <button class="preview-tab is-active" type="button" role="tab" aria-selected="true" data-preview="original">元画像</button>
-          <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="timeline">タイムライン想定</button>
+          <button class="preview-tab is-active" type="button" role="tab" aria-selected="true" data-preview="timeline">タイムライン想定</button>
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="reveal">画像を開いた状態</button>
         </div>
         <p class="preview-mode-note">タイムライン想定＝白背景 / 画像を開いた状態＝黒背景（どちらも保存予定PNG-8を優先して表示）</p>
@@ -165,7 +181,7 @@
         <canvas id="previewCanvas" aria-label="画像プレビュー"></canvas>
         <div class="empty-preview-message" id="emptyPreviewMessage">画像を読み込むと、ここにプレビューが表示されます。</div>
       </div>
-      <p class="preview-note" id="previewNote">加工前の元画像を表示します。</p>
+      <p class="preview-note" id="previewNote">保存予定PNG-8を白背景へ合成したタイムライン想定を表示します。</p>
     </section>
 
     <section class="card export-card" aria-labelledby="exportTitle">
@@ -174,14 +190,14 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 元サイズ / 1px市松50% / 明度・暗部補正あり</p>
+        <p>PNG-8 / 元サイズ / 1px市松50% / バランス補正</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>PNG-8＋見せる範囲保持＋1px市松50%＋明度補正</dd></div>
+            <div><dt>出力方式</dt><dd>PNG-8＋見せる範囲保持＋1px市松50%＋バランス補正</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
@@ -207,7 +223,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>現在は、ブラシで塗った範囲を通常表示のまま残し、塗っていない範囲に1ピクセル市松50%の透過処理と明度補正を適用して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
+          <p>現在は、ブラシで塗った範囲を通常表示のまま残し、塗っていない範囲に1ピクセル市松50%の透過処理と穏やかなバランス補正を適用して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
         </section>
       </div>
     </details>
@@ -225,6 +241,6 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=checker50-png8-4-visible-brush"></script>
+  <script src="app.js?v=checker50-png8-5-toolbar-balanced"></script>
 </body>
 </html>
