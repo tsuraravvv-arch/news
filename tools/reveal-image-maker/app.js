@@ -77,7 +77,7 @@ const state = {
   brushSize: Number(brushSizeInput.value),
   revealBoost: Number(revealBoostInput.value) / 100,
   showMask: true,
-  previewMode: 'original',
+  previewMode: 'timeline',
   scale: 1,
   minScale: 0.05,
   maxScale: 12,
@@ -117,7 +117,7 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName() {
-  return `${state.sourceName}-reveal-visible-brush-png8.png`;
+  return `${state.sourceName}-reveal-visible-brush-balanced-png8.png`;
 }
 
 
@@ -152,35 +152,36 @@ function mixChannel(value, target, amount) {
 function applyRevealBoostToPixel(r, g, b, boost) {
   if (boost <= 1) return { r, g, b };
 
-  const boostAmount = boost - 1;
+  const boostAmount = Math.min(0.4, boost - 1);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  const gamma = Math.max(0.62, 0.90 - boostAmount * 0.42);
 
+  // 強い白飛びを避けながら、暗部だけを穏やかに持ち上げる。
+  const gamma = Math.max(0.86, 0.96 - boostAmount * 0.25);
   let rr = clampByte(255 * Math.pow(r / 255, gamma));
   let gg = clampByte(255 * Math.pow(g / 255, gamma));
   let bb = clampByte(255 * Math.pow(b / 255, gamma));
 
-  const darkFactor = clamp01((0.62 - luminance) / 0.62);
-  const baseWhiteMix = 0.06 + boostAmount * 0.16;
-  const extraWhiteMix = darkFactor * (0.18 + boostAmount * 0.34);
-  const whiteMix = Math.min(0.78, baseWhiteMix + extraWhiteMix);
-
+  const darkFactor = clamp01((0.48 - luminance) / 0.48);
+  const whiteMix = Math.min(
+    0.18,
+    0.01 + boostAmount * 0.08 + darkFactor * (0.025 + boostAmount * 0.18)
+  );
   rr = mixChannel(rr, 255, whiteMix);
   gg = mixChannel(gg, 255, whiteMix);
   bb = mixChannel(bb, 255, whiteMix);
 
+  // 黒い粒が極端に残る部分だけを、色を壊さない範囲で少し均す。
   const mean = (rr + gg + bb) / 3;
-  const neutralize = Math.min(0.38, darkFactor * (0.10 + boostAmount * 0.22));
+  const neutralize = Math.min(0.10, darkFactor * (0.02 + boostAmount * 0.14));
   rr = mixChannel(rr, mean, neutralize);
   gg = mixChannel(gg, mean, neutralize);
   bb = mixChannel(bb, mean, neutralize);
 
-  const floorLift = clampByte(140 + boostAmount * 90);
-  if (luminance < 0.24) {
-    const floorMix = Math.min(0.48, (0.24 - luminance) * 1.2 + boostAmount * 0.12);
-    rr = mixChannel(rr, floorLift, floorMix);
-    gg = mixChannel(gg, floorLift, floorMix);
-    bb = mixChannel(bb, floorLift, floorMix);
+  if (luminance < 0.12) {
+    const floorMix = Math.min(0.10, (0.12 - luminance) * 0.45 + boostAmount * 0.04);
+    rr = mixChannel(rr, 118, floorMix);
+    gg = mixChannel(gg, 118, floorMix);
+    bb = mixChannel(bb, 118, floorMix);
   }
 
   return { r: rr, g: gg, b: bb };
@@ -588,8 +589,10 @@ function renderCanvasFit(context, canvas, container, source, backgroundColor) {
 }
 
 function updatePreviewNote() {
-  if (state.previewMode === 'original') {
-    previewNote.textContent = '加工前の元画像を表示します。';
+  if (!state.imageLoaded) {
+    previewNote.textContent = '画像を読み込むと、タイムライン想定を表示します。';
+  } else if (state.previewMode === 'original') {
+    previewNote.textContent = '元画像を表示します。';
   } else if (state.previewMode === 'timeline') {
     previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
       ? '保存予定PNG-8を白背景へ合成し、縮小して見せる目安です。X実機との差を減らすため、保存形式を優先して表示しています。'
