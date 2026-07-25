@@ -4,9 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="tool-version" content="20260725-png8-2">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260725-png8-2">
 </head>
 <body>
   <header class="tool-header">
@@ -14,7 +15,7 @@
       <div>
         <div class="eyebrow-row">
           <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">試作版</span>
+          <span class="status-badge">PNG-8固定版</span>
         </div>
         <h1>Reveal Image Maker</h1>
         <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -155,14 +156,7 @@
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="timeline">タイムライン想定</button>
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="reveal">画像を開いた状態</button>
         </div>
-
-        <fieldset class="background-selector" id="backgroundSelector" disabled>
-          <legend>背景</legend>
-          <label><input type="radio" name="previewBackground" value="white" checked><span>白</span></label>
-          <label><input type="radio" name="previewBackground" value="black"><span>黒</span></label>
-          <label><input type="radio" name="previewBackground" value="x-light"><span>Xライト風</span></label>
-          <label><input type="radio" name="previewBackground" value="x-dark"><span>Xダーク風</span></label>
-        </fieldset>
+        <p class="fixed-preview-note">タイムライン想定＝白背景 / 画像を開いた状態＝黒背景</p>
       </div>
 
       <div class="preview-stage background-white" id="previewStage">
@@ -176,21 +170,21 @@
       <div class="section-heading">
         <div>
           <span class="step-label">STEP 4</span>
-          <h2 id="exportTitle">PNGを書き出す</h2>
+          <h2 id="exportTitle">PNG-8を書き出す</h2>
         </div>
-        <p>通常RGBA PNG / 元サイズ</p>
+        <p>PNG-8（インデックスカラー） / 元サイズ</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>通常PNG（実験版）</dd></div>
+            <div><dt>出力方式</dt><dd>PNG-8固定（透明パレットあり）</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
         </div>
-        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNGを保存</button>
+        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNG-8を保存</button>
       </div>
     </section>
 
@@ -211,7 +205,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>初期版は通常のRGBA PNGを書き出します。PNG-8など別の出力方式は、X上での検証結果を確認してから追加を検討します。</p>
+          <p>出力は8bitインデックスカラーのPNG-8に固定しています。透明画素を含むパレット形式で保存し、元画像と同じ縦横サイズを維持します。</p>
         </section>
       </div>
     </details>
@@ -229,6 +223,6 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260725-png8-2"></script>
 </body>
 </html>
