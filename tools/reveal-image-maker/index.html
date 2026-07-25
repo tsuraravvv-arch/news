@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=checker50-png8-2">
+  <link rel="stylesheet" href="style.css?v=checker50-png8-4-visible-brush">
 </head>
 <body>
   <header class="tool-header">
@@ -14,7 +14,7 @@
       <div>
         <div class="eyebrow-row">
           <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">PNG-8 / 1px市松50% + 補正版</span>
+          <span class="status-badge">PNG-8 / 見せるブラシ補正版</span>
         </div>
         <h1>Reveal Image Maker</h1>
         <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -27,7 +27,7 @@
     <section class="notice-strip" aria-label="重要な案内">
       <p><strong>画像はブラウザ内だけで処理され、外部へ送信されません。</strong></p>
       <p>X上での表示結果は保証されません。</p>
-      <p>現在の試作版は、選択範囲を<strong>1ピクセル市松50%</strong>で処理し、<strong>PNG-8（インデックスカラー）</strong>として保存します。さらに、隠し範囲の<strong>タップ後の明度補正</strong>と、保存予定PNG-8を使った<strong>実機寄りプレビュー</strong>を追加しています。最終的な見え方はテスト投稿で確認してください。</p>
+      <p>現在の試作版では、ブラシで塗った範囲を<strong>タップ前にも見せる部分</strong>として残し、塗っていない範囲を<strong>1ピクセル市松50%</strong>で隠します。保存形式は<strong>PNG-8（インデックスカラー）</strong>です。最終的な見え方はテスト投稿で確認してください。</p>
     </section>
 
     <section class="card upload-card" aria-labelledby="uploadTitle">
@@ -62,14 +62,14 @@
         <div class="section-heading compact">
           <div>
             <span class="step-label">STEP 2</span>
-            <h2 id="controlsTitle">隠す範囲を指定</h2>
+            <h2 id="controlsTitle">タップ前に見せる範囲を指定</h2>
           </div>
         </div>
 
         <fieldset class="control-group tool-selector" id="toolSelector" disabled>
           <legend>編集ツール</legend>
           <div class="segmented-control three">
-            <button class="segment-button is-active" type="button" data-tool="hide" aria-pressed="true">隠すブラシ</button>
+            <button class="segment-button is-active" type="button" data-tool="hide" aria-pressed="true">見せるブラシ</button>
             <button class="segment-button" type="button" data-tool="erase" aria-pressed="false">消しゴム</button>
             <button class="segment-button" type="button" data-tool="pan" aria-pressed="false">移動</button>
           </div>
@@ -86,14 +86,14 @@
         <fieldset class="control-group" id="maskActions" disabled>
           <legend>範囲操作</legend>
           <div class="button-grid two">
-            <button id="maskAllButton" type="button" class="secondary-button">全体を隠す</button>
-            <button id="clearMaskButton" type="button" class="secondary-button">すべて解除</button>
+            <button id="maskAllButton" type="button" class="secondary-button">全体を見せる</button>
+            <button id="clearMaskButton" type="button" class="secondary-button">全体を隠す</button>
             <button id="undoButton" type="button" class="secondary-button" disabled>元に戻す</button>
             <button id="redoButton" type="button" class="secondary-button" disabled>やり直す</button>
           </div>
           <label class="toggle-row">
             <input id="showMaskToggle" type="checkbox" checked>
-            <span>マスクを表示する</span>
+            <span>見せる範囲を表示する</span>
           </label>
         </fieldset>
 
@@ -110,7 +110,7 @@
         <fieldset class="control-group mode-group" id="strengthControls" disabled>
           <legend>現在の処理モード</legend>
           <div class="mode-pill">PNG-8 × 1ピクセル市松50%</div>
-          <p class="control-help">選択範囲は1ピクセルおきに元画像の色を残し、残りを完全透明にします。保存時は透明色1色＋最大255色の適応パレットを持つPNG-8へ変換します。</p>
+          <p class="control-help">塗った範囲はタップ前にも通常表示されます。塗っていない範囲だけを1ピクセル市松50%で隠し、タップ後に現れるよう処理します。</p>
         </fieldset>
 
         <fieldset class="control-group" id="boostControls" disabled>
@@ -119,7 +119,7 @@
             <input id="revealBoost" type="range" min="100" max="220" value="140" step="5">
             <output id="revealBoostValue" for="revealBoost">x1.40</output>
           </div>
-          <p class="control-help">隠し範囲で色を残す画素だけを明るくしつつ、暗い粒や黒っぽい線が残りすぎないよう少し白寄せします。X上でタップ後の絵が暗く見えやすい分を持ち上げる補正です。</p>
+          <p class="control-help">塗っていない隠し範囲の画素だけを明るくし、暗い粒や黒っぽい線が残りすぎないよう少し白寄せします。</p>
         </fieldset>
       </aside>
 
@@ -133,13 +133,13 @@
         </div>
 
         <div class="editor-viewport is-empty" id="editorViewport">
-          <canvas id="editorCanvas" aria-label="隠す範囲の編集キャンバス"></canvas>
+          <canvas id="editorCanvas" aria-label="タップ前に見せる範囲の編集キャンバス"></canvas>
           <div class="empty-canvas-message" id="emptyCanvasMessage">
             <strong>画像を読み込んでください</strong>
-            <span>読み込み後、隠したい部分をブラシで塗ります。</span>
+            <span>読み込み後、タップ前にも見せたい部分をブラシで塗ります。</span>
           </div>
         </div>
-        <p class="editor-tip">半透明の赤紫色が、特殊な透過処理を行う範囲です。</p>
+        <p class="editor-tip">半透明の赤紫色が、タップ前にも見せる範囲です。塗っていない部分が特殊な透過処理の対象になります。</p>
       </section>
     </section>
 
@@ -181,7 +181,7 @@
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>PNG-8（インデックスカラー）＋1px市松50%＋明度補正</dd></div>
+            <div><dt>出力方式</dt><dd>PNG-8＋見せる範囲保持＋1px市松50%＋明度補正</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
@@ -207,7 +207,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>現在は補正版として、選択範囲に1ピクセル市松50%の透過処理を適用し、隠し範囲の色を少し明るく補正してから、透明パレットを含むPNG-8（カラータイプ3）として保存します。プレビューは保存予定PNG-8を優先して白背景と黒背景へ合成した見え方を表示します。</p>
+          <p>現在は、ブラシで塗った範囲を通常表示のまま残し、塗っていない範囲に1ピクセル市松50%の透過処理と明度補正を適用して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
         </section>
       </div>
     </details>
@@ -225,6 +225,6 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=checker50-png8-2"></script>
+  <script src="app.js?v=checker50-png8-4-visible-brush"></script>
 </body>
 </html>
