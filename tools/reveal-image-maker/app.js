@@ -29,6 +29,8 @@ const modalContext = modalCanvas.getContext('2d', { alpha: true });
 
 const brushSizeInput = document.getElementById('brushSize');
 const brushSizeValue = document.getElementById('brushSizeValue');
+const revealBoostInput = document.getElementById('revealBoost');
+const revealBoostValue = document.getElementById('revealBoostValue');
 const showMaskToggle = document.getElementById('showMaskToggle');
 const maskAllButton = document.getElementById('maskAllButton');
 const clearMaskButton = document.getElementById('clearMaskButton');
@@ -47,7 +49,8 @@ const disabledGroups = [
   document.getElementById('brushControls'),
   document.getElementById('maskActions'),
   document.getElementById('viewControls'),
-  document.getElementById('strengthControls')
+  document.getElementById('strengthControls'),
+  document.getElementById('boostControls')
 ];
 
 const sourceCanvas = document.createElement('canvas');
@@ -72,6 +75,7 @@ const state = {
   sourceImageData: null,
   tool: 'hide',
   brushSize: Number(brushSizeInput.value),
+  revealBoost: Number(revealBoostInput.value) / 100,
   showMask: true,
   previewMode: 'original',
   scale: 1,
@@ -87,6 +91,10 @@ const state = {
   panSession: null,
   outputVersion: 0,
   renderedOutputVersion: -1,
+  encodedPreviewImage: null,
+  encodedPreviewVersion: -1,
+  encodedPreviewPromise: null,
+  previewRefreshToken: 0,
   toastTimer: null
 };
 
@@ -109,7 +117,63 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName() {
-  return `${state.sourceName}-reveal-checker50-png8.png`;
+  return `${state.sourceName}-reveal-checker50-png8-boost.png`;
+}
+
+
+function formatBoostLabel(value) {
+  return `x${value.toFixed(2)}`;
+}
+
+function closeRenderableImage(image) {
+  if (image && typeof image.close === 'function') image.close();
+}
+
+function invalidateEncodedPreview() {
+  closeRenderableImage(state.encodedPreviewImage);
+  state.encodedPreviewImage = null;
+  state.encodedPreviewVersion = -1;
+  state.encodedPreviewPromise = null;
+  state.previewRefreshToken += 1;
+}
+
+function clampByte(value) {
+  return Math.max(0, Math.min(255, Math.round(value)));
+}
+
+function applyRevealBoostToChannel(value, boost) {
+  if (boost <= 1) return value;
+  const normalized = value / 255;
+  const lifted = Math.pow(normalized, 0.9);
+  return clampByte(255 * Math.min(1, lifted * boost));
+}
+
+function getSelectionMaskData() {
+  if (!state.imageLoaded) return null;
+  return maskContext.getImageData(0, 0, state.imageWidth, state.imageHeight).data;
+}
+
+async function createRenderableImageFromBlob(blob) {
+  if ('createImageBitmap' in window) {
+    try {
+      return await createImageBitmap(blob);
+    } catch (error) {
+      console.warn('createImageBitmap for preview failed; falling back to Image.', error);
+    }
+  }
+  return await new Promise((resolve, reject) => {
+    const image = new Image();
+    const url = URL.createObjectURL(blob);
+    image.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(image);
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('プレビュー画像を作成できませんでした。'));
+    };
+    image.src = url;
+  });
 }
 
 function showToast(message) {
@@ -134,9 +198,12 @@ function updateHistoryButtons() {
 
 function markOutputDirty() {
   state.outputVersion += 1;
+  state.renderedOutputVersion = -1;
+  invalidateEncodedPreview();
   outputFileSizeNode.textContent = '保存時に計測';
   exportWarning.hidden = true;
-  if (state.previewMode !== 'original') renderPreview();
+  renderPreview();
+  requestEncodedPreviewRefresh();
 }
 
 function updateSizeStatus() {
@@ -341,15 +408,21 @@ function createOutputImage() {
   outputCanvas.height = state.imageHeight;
   const sourceData = state.sourceImageData;
   const outputData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
-  const maskData = maskContext.getImageData(0, 0, state.imageWidth, state.imageHeight).data;
+  const maskData = getSelectionMaskData();
   const pixels = outputData.data;
+  const boost = state.revealBoost;
 
   for (let y = 0; y < state.imageHeight; y += 1) {
     for (let x = 0; x < state.imageWidth; x += 1) {
       const index = (y * state.imageWidth + x) * 4;
-      if (maskData[index + 3] > 32 && ((x + y) & 1) === 1) {
+      if (maskData[index + 3] <= 32) continue;
+      if (((x + y) & 1) === 1) {
         pixels[index + 3] = 0;
+        continue;
       }
+      pixels[index] = applyRevealBoostToChannel(pixels[index], boost);
+      pixels[index + 1] = applyRevealBoostToChannel(pixels[index + 1], boost);
+      pixels[index + 2] = applyRevealBoostToChannel(pixels[index + 2], boost);
     }
   }
 
@@ -359,13 +432,13 @@ function createOutputImage() {
   return outputCanvas;
 }
 
-function createTimelineApproximation() {
-  const output = createOutputImage();
+function createTimelineApproximation(imageSource = null) {
+  const output = imageSource || createOutputImage();
   if (!output) return null;
   const maxLongEdge = 720;
-  const ratio = Math.min(1, maxLongEdge / Math.max(state.imageWidth, state.imageHeight));
-  timelineCanvas.width = Math.max(1, Math.round(state.imageWidth * ratio));
-  timelineCanvas.height = Math.max(1, Math.round(state.imageHeight * ratio));
+  const ratio = Math.min(1, maxLongEdge / Math.max(output.width, output.height));
+  timelineCanvas.width = Math.max(1, Math.round(output.width * ratio));
+  timelineCanvas.height = Math.max(1, Math.round(output.height * ratio));
   timelineContext.clearRect(0, 0, timelineCanvas.width, timelineCanvas.height);
   timelineContext.fillStyle = '#ffffff';
   timelineContext.fillRect(0, 0, timelineCanvas.width, timelineCanvas.height);
@@ -375,22 +448,70 @@ function createTimelineApproximation() {
   return timelineCanvas;
 }
 
-function createRevealPreview() {
-  const output = createOutputImage();
+function createRevealPreview(imageSource = null) {
+  const output = imageSource || createOutputImage();
   if (!output) return null;
-  revealCanvas.width = state.imageWidth;
-  revealCanvas.height = state.imageHeight;
-  revealContext.clearRect(0, 0, state.imageWidth, state.imageHeight);
+  revealCanvas.width = output.width;
+  revealCanvas.height = output.height;
+  revealContext.clearRect(0, 0, revealCanvas.width, revealCanvas.height);
   revealContext.fillStyle = '#000000';
-  revealContext.fillRect(0, 0, state.imageWidth, state.imageHeight);
+  revealContext.fillRect(0, 0, revealCanvas.width, revealCanvas.height);
   revealContext.drawImage(output, 0, 0);
   return revealCanvas;
 }
 
-function getPreviewSource() {
+function getFallbackPreviewSource() {
   if (state.previewMode === 'original') return sourceCanvas;
   if (state.previewMode === 'timeline') return createTimelineApproximation();
   return createRevealPreview();
+}
+
+function getDisplaySourceForMode(baseSource) {
+  if (state.previewMode === 'original') return sourceCanvas;
+  if (state.previewMode === 'timeline') return createTimelineApproximation(baseSource);
+  return createRevealPreview(baseSource);
+}
+
+
+async function ensureEncodedPreviewImage() {
+  if (!state.imageLoaded || state.previewMode === 'original') return null;
+  if (state.encodedPreviewImage && state.encodedPreviewVersion === state.outputVersion) return state.encodedPreviewImage;
+  if (state.encodedPreviewPromise) return state.encodedPreviewPromise;
+
+  const version = state.outputVersion;
+  state.encodedPreviewPromise = (async () => {
+    createOutputImage();
+    const imageData = outputContext.getImageData(0, 0, state.imageWidth, state.imageHeight);
+    const blob = await encodeIndexedPng(imageData, getSelectionMaskData());
+    const renderable = await createRenderableImageFromBlob(blob);
+    if (version !== state.outputVersion) {
+      closeRenderableImage(renderable);
+      return null;
+    }
+    closeRenderableImage(state.encodedPreviewImage);
+    state.encodedPreviewImage = renderable;
+    state.encodedPreviewVersion = version;
+    return renderable;
+  })();
+
+  try {
+    return await state.encodedPreviewPromise;
+  } finally {
+    if (version === state.outputVersion) state.encodedPreviewPromise = null;
+  }
+}
+
+function requestEncodedPreviewRefresh() {
+  if (!state.imageLoaded || state.previewMode === 'original') return;
+  if (state.encodedPreviewVersion === state.outputVersion || state.encodedPreviewPromise) return;
+  const token = ++state.previewRefreshToken;
+  ensureEncodedPreviewImage().then((result) => {
+    if (!result || token !== state.previewRefreshToken) return;
+    renderPreview();
+    if (previewModal.classList.contains('is-open')) renderModalPreview();
+  }).catch((error) => {
+    console.warn('Encoded preview refresh failed.', error);
+  });
 }
 
 function getPreviewBackground() {
@@ -426,9 +547,13 @@ function updatePreviewNote() {
   if (state.previewMode === 'original') {
     previewNote.textContent = '加工前の元画像を表示します。';
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存予定画像を白背景へ合成し、縮小して見せる目安です。Xの実際の表示を完全には再現できません。';
+    previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
+      ? '保存予定PNG-8を白背景へ合成し、縮小して見せる目安です。X実機との差を減らすため、保存形式を優先して表示しています。'
+      : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
   } else {
-    previewNote.textContent = '保存予定画像を黒背景へ合成した目安です。選択範囲は1ピクセル市松50%で暗いカラー画像として現れます。';
+    previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
+      ? '保存予定PNG-8を黒背景へ合成した目安です。隠し範囲は1ピクセル市松50%＋明度補正で表示します。'
+      : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
   }
 }
 
@@ -440,14 +565,21 @@ function renderPreview() {
     updatePreviewNote();
     return;
   }
-  const source = getPreviewSource();
+  const baseSource = state.previewMode === 'original'
+    ? sourceCanvas
+    : ((state.encodedPreviewVersion === state.outputVersion && state.encodedPreviewImage) ? state.encodedPreviewImage : createOutputImage());
+  const source = getDisplaySourceForMode(baseSource) || getFallbackPreviewSource();
   renderCanvasFit(previewContext, previewCanvas, previewStage, source, getPreviewBackground());
   updatePreviewNote();
+  if (state.previewMode !== 'original' && state.encodedPreviewVersion !== state.outputVersion) requestEncodedPreviewRefresh();
 }
 
 function renderModalPreview() {
   if (!state.imageLoaded) return;
-  const source = getPreviewSource();
+  const baseSource = state.previewMode === 'original'
+    ? sourceCanvas
+    : ((state.encodedPreviewVersion === state.outputVersion && state.encodedPreviewImage) ? state.encodedPreviewImage : createOutputImage());
+  const source = getDisplaySourceForMode(baseSource) || getFallbackPreviewSource();
   renderCanvasFit(modalContext, modalCanvas, modalCanvasWrap, source, getPreviewBackground());
 }
 
@@ -612,6 +744,7 @@ async function loadFile(file) {
     state.redoOperations = [];
     state.outputVersion = 1;
     state.renderedOutputVersion = -1;
+    invalidateEncodedPreview();
 
     sourceCanvas.width = width;
     sourceCanvas.height = height;
@@ -715,7 +848,7 @@ function splitColorBox(box, points) {
   ];
 }
 
-function buildAdaptivePalette(imageData, maxOpaqueColors = 255) {
+function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColors = 255) {
   const binCount = 32 * 32 * 32;
   const counts = new Uint32Array(binCount);
   const rSums = new Uint32Array(binCount);
@@ -729,10 +862,11 @@ function buildAdaptivePalette(imageData, maxOpaqueColors = 255) {
     const g = pixels[index + 1];
     const b = pixels[index + 2];
     const key = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
-    counts[key] += 1;
-    rSums[key] += r;
-    gSums[key] += g;
-    bSums[key] += b;
+    const weight = selectionMaskData && selectionMaskData[index + 3] > 32 ? 3 : 1;
+    counts[key] += weight;
+    rSums[key] += r * weight;
+    gSums[key] += g * weight;
+    bSums[key] += b * weight;
   }
 
   const points = [];
@@ -899,9 +1033,9 @@ function concatenateUint8Arrays(arrays) {
   return output;
 }
 
-async function encodeIndexedPng(imageData) {
+async function encodeIndexedPng(imageData, selectionMaskData = null) {
   const { width, height, data } = imageData;
-  const { palette, binToPaletteIndex } = buildAdaptivePalette(imageData, 255);
+  const { palette, binToPaletteIndex } = buildAdaptivePalette(imageData, selectionMaskData, 255);
   const paletteBytes = new Uint8Array(palette.length * 3);
   for (let index = 0; index < palette.length; index += 1) {
     paletteBytes[index * 3] = palette[index].r;
@@ -955,7 +1089,7 @@ async function saveOutput() {
   try {
     createOutputImage();
     const imageData = outputContext.getImageData(0, 0, state.imageWidth, state.imageHeight);
-    const blob = await encodeIndexedPng(imageData);
+    const blob = await encodeIndexedPng(imageData, getSelectionMaskData());
     const name = outputFileName();
     outputFileNameNode.textContent = name;
     outputFileSizeNode.textContent = formatBytes(blob.size);
@@ -1002,6 +1136,11 @@ toolButtons.forEach((button) => button.addEventListener('click', () => setTool(b
 brushSizeInput.addEventListener('input', () => {
   state.brushSize = Number(brushSizeInput.value);
   brushSizeValue.textContent = `${state.brushSize}px`;
+});
+revealBoostInput.addEventListener('input', () => {
+  state.revealBoost = Number(revealBoostInput.value) / 100;
+  revealBoostValue.textContent = formatBoostLabel(state.revealBoost);
+  markOutputDirty();
 });
 showMaskToggle.addEventListener('change', () => {
   state.showMask = showMaskToggle.checked;
@@ -1110,6 +1249,7 @@ resizeObserver.observe(editorViewport);
 resizeObserver.observe(previewStage);
 resizeObserver.observe(modalCanvasWrap);
 
+revealBoostValue.textContent = formatBoostLabel(state.revealBoost);
 setTool('hide');
 setControlsEnabled(false);
 renderEditor();
