@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=checker50-png8-5-toolbar-balanced">
+  <link rel="stylesheet" href="style.css?v=checker50-png8-6-x900-preview">
 </head>
 <body>
   <header class="tool-header">
@@ -14,7 +14,7 @@
       <div>
         <div class="eyebrow-row">
           <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">PNG-8 / ツールパレット・バランス補正版</span>
+          <span class="status-badge">PNG-8 / X 900px近似プレビュー版</span>
         </div>
         <h1>Reveal Image Maker</h1>
         <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -174,14 +174,14 @@
           <button class="preview-tab is-active" type="button" role="tab" aria-selected="true" data-preview="timeline">タイムライン想定</button>
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="reveal">画像を開いた状態</button>
         </div>
-        <p class="preview-mode-note">タイムライン想定＝白背景 / 画像を開いた状態＝黒背景（どちらも保存予定PNG-8を優先して表示）</p>
+        <p class="preview-mode-note">タイムライン想定＝Xの900x900派生PNGを近似 / 画像を開いた状態＝黒背景</p>
       </div>
 
       <div class="preview-stage background-white" id="previewStage">
         <canvas id="previewCanvas" aria-label="画像プレビュー"></canvas>
         <div class="empty-preview-message" id="emptyPreviewMessage">画像を読み込むと、ここにプレビューが表示されます。</div>
       </div>
-      <p class="preview-note" id="previewNote">保存予定PNG-8を白背景へ合成したタイムライン想定を表示します。</p>
+      <p class="preview-note" id="previewNote">保存予定PNG-8を長辺900pxへ縮小・透明度2値化したあと、白背景へ合成するX近似プレビューを表示します。</p>
     </section>
 
     <section class="card export-card" aria-labelledby="exportTitle">
@@ -241,6 +241,6 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="app.js?v=checker50-png8-5-toolbar-balanced"></script>
+  <script src="app.js?v=checker50-png8-6-x900-preview"></script>
 </body>
 </html>
