@@ -1,5 +1,72 @@
 [
   {
+    "datetime": "2026-07-24 09:00",
+    "publishedAt": "2026-07-24 09:00",
+    "category": "SSN",
+    "categoryLabel": "季節",
+    "categoryLabelEn": "Seasonal",
+    "id": "SSN00342",
+    "title": "7月25日は『第49回隅田川花火大会』の日です",
+    "titleEn": "July 25 is the 49th Sumida River Fireworks Festival.",
+    "summary": "7月25日は『第49回隅田川花火大会』の日です。令和8年（2026年）の隅田川花火大会は7月25日（土）午後7時から午後8時30分まで開催予定で、第一会場は桜橋下流から言問橋上流、第二会場は駒形橋下流から厩橋上流が舞台になります。浅草・向島周辺の都市夜景、隅田川、東京スカイツリー、橋、水面に映る花火を組み合わせた記念写真風イラストに使いやすい夏イベントです。",
+    "summaryEn": "July 25 is the 49th Sumida River Fireworks Festival. The 2026 festival is scheduled for Saturday, July 25, from 7:00 p.m. to 8:30 p.m. The first venue is planned between downstream of Sakura Bridge and upstream of Kototoi Bridge, while the second venue is between downstream of Komagata Bridge and upstream of Umaya Bridge. It is a useful summer event theme for commemorative photo-style illustrations featuring the Sumida River, Tokyo Skytree, bridges, fireworks, river reflections, and the Asakusa-Mukojima urban nightscape.",
+    "trendElements": [
+      "第49回隅田川花火大会",
+      "隅田川",
+      "東京スカイツリー",
+      "浅草・向島",
+      "浴衣",
+      "都市型花火大会",
+      "記念写真風イラスト"
+    ],
+    "trendElementsEn": [
+      "49th Sumida River Fireworks Festival",
+      "Sumida River",
+      "Tokyo Skytree",
+      "Asakusa and Mukojima",
+      "Yukata",
+      "Urban fireworks festival",
+      "Commemorative photo-style illustration"
+    ],
+    "useCases": [
+      "季節イベント記事",
+      "花火大会紹介",
+      "観光フォトカード",
+      "背景イラスト",
+      "キャラクターイラスト",
+      "SNS投稿"
+    ],
+    "useCasesEn": [
+      "Seasonal event article",
+      "Fireworks festival feature",
+      "Tourism photo card",
+      "Background illustration",
+      "Character illustration",
+      "Social media post"
+    ],
+    "promptJa": "添付画像のキャラクターを参照し、隅田川花火大会に限定した、リアルな花火大会の記念写真風イラストを作成してください。\n\n【花火大会名】\n花火大会名：第49回隅田川花火大会\n地名：東京都台東区・墨田区／隅田川沿い\n\n【実在イベントとしての背景指定】\nこの花火大会は実在する「隅田川花火大会」として扱ってください。\n架空の会場、架空の河川敷、架空の地方花火大会には置き換えないでください。\n\n背景には、隅田川花火大会らしい実際の地理的特徴を必ず反映してください。\n\n優先して入れる景観要素：\n・隅田川\n・浅草〜向島周辺の都市夜景\n・東京スカイツリー\n・隅田川に架かる橋\n・川沿いの観覧客\n・川面に映る花火や街灯の反射\n・ビル群、屋形船、橋の灯りなど、東京の川沿いらしい夜景\n\n第一会場の雰囲気を使う場合：\n桜橋下流〜言問橋上流付近を想定し、浅草・向島方面、東京スカイツリー、隅田川、橋、川沿いの観覧風景を背景にしてください。\n\n第二会場の雰囲気を使う場合：\n駒形橋下流〜厩橋上流付近を想定し、駒形橋・厩橋周辺の隅田川、都市夜景、川沿いの観覧客、屋形船の灯りなどを背景にしてください。\n\n【基本設定】\n画像比率は16:9。\n夜の隅田川花火大会で、打ち上げ花火を背景に記念写真を撮影している場面。\nfestival snapshot：本当に現地の花火大会で撮影した記念写真感を重視してください。\n完璧なCGではなく、実際のスマホ・カメラ撮影らしい自然さを優先してください。\n\n【写真演出】\nflash photography / night flash：夜のフラッシュ撮影感。\nfireworks illuminating faces：花火の色光がキャラクターの顔、髪、浴衣に乗る演出。\nhumid summer night：東京の夏の夜の湿度感、熱気、混雑感、川沿いの空気感。\nslight blur / slight overexposure：軽い手ブレ、少し甘いピント、花火や街灯の軽い白飛び、少し露出オーバー気味の発光。\n\nただし、キャラクターの顔や重要部分が崩れたり見えなくなるほど強くしないでください。\n\n【登場キャラクターの扱い】\n登場キャラクターは添付画像を参照してください。\n指定がない限り、画像1、または添付画像内で最も大きく目立つキャラクターをメインキャラクターとします。\n\nキャラクターの顔、髪型、髪色、瞳、体型、雰囲気、印象はできるだけ維持してください。\n\nキャラクターが1人の場合：\nメインキャラクターを中心に、隅田川、東京スカイツリー、橋、花火と一緒に映える記念写真風の構図にしてください。\n\nキャラクターが2人の場合：\nメインキャラクターを少し前または中央寄りに配置し、もう1人を自然に寄り添わせてください。\n前後差、身長差、顔の見え方を調整し、仲良く見える距離感にしてください。\n片方だけが不自然に隠れたり、顔が崩れたりしないようにしてください。\n\nキャラクターが3人以上の場合：\nメインキャラクターを中央または少し前に配置し、他のキャラクターを左右にバランスよく配置してください。\n全員の顔が見えるようにし、花火・隅田川・橋・東京スカイツリー・観客との重なりを整理してください。\n\n【背景・花火】\n背景には、隅田川上空に広がる大きな打ち上げ花火、スターマイン、連続花火、金色のしだれ花火などを入れてください。\n第一会場・第二会場合わせて行われる都市型花火大会らしい、迫力ある都会の花火演出にしてください。\n\n花火は明るく美しく輝き、東京の夜空に鮮やかに広がっていること。\n隅田川の水面に花火と街灯の光が反射していること。\n東京スカイツリーや橋のシルエット、都市の明かりが背景に自然に見えること。\n\nキャラクターと花火の両方にピントが合って見えるようにし、それ以外の遠景、観客、屋形船、街灯、橋、ビル群などはややぼかしてください。\n\nblurred festival crowd：背景に少しぼけた観覧客や人混みを入れ、現地感を出してください。\nただし、背景の屋台は描かないでください。\n食べ物の屋台、露店、飲食物の看板、焼きそば・たこ焼きなどの屋台表現は入れないでください。\n\nリアルな夜景写真らしい光、反射、軽いレンズフレア、花火の煙を加えてください。\n\n【キャラクター衣装】\n男性キャラクターは着物または甚平。\n女性キャラクターは浴衣。\n\n衣装の色や柄は、それぞれのキャラクターの髪色、瞳、性格、雰囲気に合わせて自然にデザインしてください。\n隅田川花火大会に合う、上品で都会的な夏祭りの浴衣にしてください。\n\n【ポーズ・小物】\n花火大会らしい小物を必要に応じて持たせてください。\nただし、このバージョンでは食べ物は持たせないでください。\n\n使用してよい小物：\n・巾着袋\n・小さな手提げ袋\n・金魚すくいの袋\n・ラムネ瓶\n・浴衣用の小物\n・髪飾り\n・透明感のある夏らしいアクセサリー\n\n使用しない小物：\n・りんご飴\n・かき氷\n・綿あめ\n・焼きそば\n・たこ焼き\n・屋台の食べ物\n・その他、食べ物全般\n\nうちわを持たせる場合は、実際に存在していそうな自然な祭り用うちわのデザインにしてください。\nただし、フォトフレーム部分にはうちわを描かないでください。\n\n小物は片手で自然に持てるものを優先し、両手を複雑に使わせすぎないでください。\n\n手や指の本数が増える、腕が増える、指が融合する、不自然に重なるなどを避けてください。\n指、腕、手首は自然な人体構造にしてください。\n\nポーズは固定化せず、キャラクターの性格、雰囲気、衣装、小物、人数、背景に合わせて自然に選択してください。\n毎回異なる記念写真らしいポーズや構図になるようにしてください。\n\n例：\n・隅田川を背にしてカメラへ軽く振り返る\n・東京スカイツリーと花火が入る位置で並んで立つ\n・川沿いの手すり付近で自然に寄り添う\n・橋と花火を背景に、控えめなピースや手振りをする\n・混雑した観覧エリアで、少し近い距離感の記念写真にする\n\n【文字入れ】\n画像内に、開催地名と花火大会名を読みやすく記載してください。\n\n必ず入れる文字：\n・隅田川花火大会\n・東京都台東区・墨田区／隅田川\n\n必要に応じて入れてよい文字：\n・浅草\n・向島\n・隅田川\n・東京スカイツリー\n・第一会場\n・第二会場\n\n文字は記念写真、観光ポスター、フォトカード風に自然に配置してください。\nキャラクターの顔、手、重要な花火、東京スカイツリーを隠さないようにしてください。\n\n【フォトフレーム】\n画像全体を、commemorative photo frame：観光フォトカード風・記念写真風の装飾フレームにしてください。\n\nフレーム装飾は隅田川花火大会とキャラクターのイメージに合わせ、涼しげ、和風、東京夜景、隅田川の水面、花火柄、星、リボン、和紙、金箔、水面のきらめき、橋のシルエット、スカイツリー風の細い光モチーフなどを使ってください。\n\nただし、フレームにはうちわを描かないでください。\nフレームには食べ物や屋台モチーフも入れないでください。\n\nフレーム部分は写真本体よりも手前に重なった立体的な装飾パーツとして表現してください。\n枠、リボン、金箔、宝石、花火飾り、和紙装飾、水面モチーフなどに、奥行き、厚み、落ち影、ハイライト、わずかな浮遊感を加えてください。\n\n立体カード加工、スクラップブック加工、アクリルフォトフレーム加工のように、写真の上に装飾が貼り付けられている表現にしてください。\n\nキャラクターの顔、手、重要な花火、開催地名、花火大会名、東京スカイツリーを隠さないように配置してください。\n\n【仕上げ】\nリアルな隅田川花火大会の記念写真として、東京の夏らしさ、浴衣の質感、隅田川の水面反射、花火の輝き、都市夜景、記念写真らしい特別感を重視してください。",
+    "promptEn": "Use the attached character image as a reference and create a realistic commemorative festival snapshot illustration specifically for the 49th Sumida River Fireworks Festival.\n\nTreat this as the real Sumida River Fireworks Festival, not a fictional venue, generic riverbank, or unrelated local fireworks event. Reflect the real geographic atmosphere of the festival: the Sumida River, the Asakusa to Mukojima urban nightscape, Tokyo Skytree, bridges over the Sumida River, riverside spectators, reflections of fireworks and streetlights on the water, city buildings, yakatabune boats, and bridge lights.\n\nIf using the atmosphere of the first venue, imagine the area from downstream of Sakura Bridge to upstream of Kototoi Bridge, with Asakusa, Mukojima, Tokyo Skytree, the Sumida River, bridges, and riverside viewing scenes in the background. If using the atmosphere of the second venue, imagine the area from downstream of Komagata Bridge to upstream of Umaya Bridge, including Komagata Bridge, Umaya Bridge, the Sumida River, city night views, riverside spectators, and lights from yakatabune boats.\n\nUse a 16:9 image ratio. The scene should feel like a real commemorative photo taken at night during the Sumida River Fireworks Festival, with fireworks in the background. Prioritize the natural look of a smartphone or camera snapshot rather than a perfect CG image.\n\nUse night flash photography, fireworks illuminating the characters' faces, hair, and yukata, a humid Tokyo summer night atmosphere, mild crowd heat, and the riverside air. Add slight blur, slightly soft focus, mild overexposure on fireworks and city lights, and natural flash brightness, but do not make the character's face or important details unreadable.\n\nUse the attached image for the character reference. Unless otherwise specified, the largest or most prominent character in image 1 should be the main character. Preserve the character's face, hairstyle, hair color, eyes, body type, atmosphere, and impression as much as possible.\n\nFor one character, center the main character in a commemorative photo composition with the Sumida River, Tokyo Skytree, a bridge, and fireworks. For two characters, place the main character slightly forward or near the center and let the other character stand close naturally, with balanced height, visibility, and friendly distance. For three or more characters, place the main character in the center or slightly forward and balance the others on both sides so every face is visible.\n\nIn the background, include large fireworks over the Sumida River, starmines, continuous fireworks, golden weeping fireworks, and an impressive urban fireworks display. The fireworks should shine brightly in the Tokyo night sky. Reflections of fireworks and city lights should appear on the river surface. Tokyo Skytree, bridge silhouettes, and city lights should be visible naturally. Keep the characters and fireworks reasonably clear while slightly blurring distant spectators, yakatabune boats, streetlights, bridges, and buildings.\n\nAdd a slightly blurred festival crowd for a real on-site feeling. Do not include food stalls, vendor stands, food signs, yakisoba, takoyaki, or any festival food imagery. Add realistic night-photo lighting, reflections, slight lens flare, and fireworks smoke.\n\nMale characters should wear kimono or jinbei. Female characters should wear yukata. Design the colors and patterns naturally according to each character's hair color, eyes, personality, and atmosphere, using an elegant urban summer-festival look appropriate for the Sumida River Fireworks Festival.\n\nLet the characters hold suitable festival accessories if needed, but do not let them hold food. Allowed items include drawstring bags, small handbags, goldfish-scooping bags, ramune bottles, yukata accessories, hair ornaments, and transparent summer accessories. Do not use candy apples, shaved ice, cotton candy, yakisoba, takoyaki, festival food, or food items in general. If using a fan, make it a natural festival fan, but do not draw fans in the photo-frame decoration.\n\nPrefer simple props that can be held naturally in one hand. Avoid overly complex hand poses. Prevent extra fingers, extra arms, fused fingers, and unnatural overlaps. Fingers, arms, and wrists should follow natural human anatomy.\n\nDo not fix the pose. Choose natural commemorative-photo poses and compositions based on the character's personality, outfit, props, number of people, and background. Examples include gently looking back at the camera with the Sumida River behind them, standing where Tokyo Skytree and fireworks are visible, standing near riverside railings, making a modest peace sign or waving with the bridge and fireworks behind them, or taking a close snapshot in a crowded viewing area.\n\nInclude readable text in the image with the festival name and location. Required text: \"隅田川花火大会\" and \"東京都台東区・墨田区／隅田川\". Optional text includes \"浅草\", \"向島\", \"隅田川\", \"東京スカイツリー\", \"第一会場\", and \"第二会場\". Place the text naturally like a commemorative photo, tourism poster, or photo card, without covering faces, hands, important fireworks, or Tokyo Skytree.\n\nFrame the entire image as a commemorative tourist photo-card style decorative frame. Use cool, Japanese-style, Tokyo-nightscape, Sumida River, water-reflection, fireworks, stars, ribbons, washi paper, gold foil, bridge silhouettes, and slender Skytree-like light motifs that match the festival and character. Do not include fans, food, or stall motifs in the frame. Make the frame decorations appear as dimensional pieces layered over the photo, with depth, thickness, cast shadows, highlights, and a slight floating effect like a scrapbook, acrylic photo frame, or layered commemorative card.\n\nFinish the image as a realistic commemorative photo of the Sumida River Fireworks Festival, emphasizing Tokyo summer, yukata textures, Sumida River reflections, bright fireworks, urban night scenery, and a special memory-like feeling.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "隅田川・東京スカイツリー・橋・都市夜景を背景に入れる",
+      "第一会場は桜橋下流〜言問橋上流、第二会場は駒形橋下流〜厩橋上流の雰囲気を想定する",
+      "浴衣や甚平で、夜のフラッシュ撮影らしい記念写真感を出す",
+      "屋台や食べ物の表現は入れない",
+      "フォトフレームにはうちわ・食べ物・屋台モチーフを入れない",
+      "キャラクターの顔、東京スカイツリー、花火、開催地名を装飾で隠さない"
+    ],
+    "notesEn": [
+      "Include the Sumida River, Tokyo Skytree, bridges, and the Tokyo urban nightscape.",
+      "Use the atmosphere of the first venue from downstream of Sakura Bridge to upstream of Kototoi Bridge, or the second venue from downstream of Komagata Bridge to upstream of Umaya Bridge.",
+      "Use yukata or jinbei and create a night-flash commemorative snapshot feeling.",
+      "Do not include food stalls or food imagery.",
+      "Do not include fans, food, or stall motifs in the photo-frame decoration.",
+      "Do not cover the characters faces, Tokyo Skytree, fireworks, or location text with decorations."
+    ],
+    "sourceUrl": "https://www2.sumidagawa-hanabi.com/about/index.html"
+  },
+  {
     "datetime": "2026-07-21 09:00",
     "publishedAt": "2026-07-21 09:00",
     "category": "SSN",
