@@ -117,7 +117,7 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName() {
-  return `${state.sourceName}-reveal-checker50-png8-boost.png`;
+  return `${state.sourceName}-reveal-visible-brush-png8.png`;
 }
 
 
@@ -453,7 +453,7 @@ function createOutputImage() {
   for (let y = 0; y < state.imageHeight; y += 1) {
     for (let x = 0; x < state.imageWidth; x += 1) {
       const index = (y * state.imageWidth + x) * 4;
-      if (maskData[index + 3] <= 32) continue;
+      if (maskData[index + 3] > 32) continue;
       if (((x + y) & 1) === 1) {
         pixels[index + 3] = 0;
         continue;
@@ -596,7 +596,7 @@ function updatePreviewNote() {
       : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
   } else {
     previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
-      ? '保存予定PNG-8を黒背景へ合成した目安です。隠し範囲は1ピクセル市松50%＋明度補正で表示します。'
+      ? '保存予定PNG-8を黒背景へ合成した目安です。塗っていない範囲が1ピクセル市松50%＋明度補正で現れます。'
       : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
   }
 }
@@ -906,7 +906,7 @@ function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColo
     const g = pixels[index + 1];
     const b = pixels[index + 2];
     const key = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
-    const weight = selectionMaskData && selectionMaskData[index + 3] > 32 ? 6 : 1;
+    const weight = selectionMaskData && selectionMaskData[index + 3] <= 32 ? 6 : 1;
     counts[key] += weight;
     rSums[key] += r * weight;
     gSums[key] += g * weight;
