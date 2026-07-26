@@ -496,3 +496,34 @@ dd { margin: 0; color: var(--ink); font-weight: 800; overflow-wrap: anywhere; }
   .editor-options-grid { gap: 9px; }
   .editor-option-card { padding: 12px; }
 }
+
+
+.export-progress {
+  margin-top: 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line, #d8e3ef);
+  border-radius: 16px;
+  background: rgba(246, 249, 255, .92);
+}
+
+.export-progress-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 9px;
+  color: #465a75;
+  font-size: .86rem;
+  font-weight: 700;
+}
+
+.export-progress-heading span:last-child {
+  color: #8290a5;
+  font-weight: 500;
+}
+
+.export-progress progress {
+  display: block;
+  width: 100%;
+  height: 12px;
+  accent-color: #8273df;
+}
