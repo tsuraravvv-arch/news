@@ -10,6 +10,9 @@ const sizeStatusNode = document.getElementById('sizeStatus');
 const outputFileNameNode = document.getElementById('outputFileName');
 const outputFileSizeNode = document.getElementById('outputFileSize');
 const exportWarning = document.getElementById('exportWarning');
+const exportProgress = document.getElementById('exportProgress');
+const exportProgressBar = document.getElementById('exportProgressBar');
+const exportProgressText = document.getElementById('exportProgressText');
 
 const editorViewport = document.getElementById('editorViewport');
 const editorCanvas = document.getElementById('editorCanvas');
@@ -80,7 +83,7 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   output: {
-    fileSuffix: 'reveal-x900-preview-png8'
+    fileSuffix: 'reveal-nondestructive-png8'
   },
   editor: {
     defaultTool: 'hide',
@@ -94,11 +97,20 @@ const DEFAULT_CONFIG = {
     topHiddenPercent: 40
   },
   export: {
-    rebuildFromOriginalOnSave: true
+    rebuildFromOriginalOnSave: true,
+    palette: {
+      visibleColors: 210,
+      hiddenColors: 45
+    }
   },
   preview: {
     defaultMode: 'timeline',
     expandModalEnabled: true,
+    nonDestructive: {
+      timelineHiddenOpacity: 0.025,
+      revealHiddenOpacity: 0.50,
+      revealVisibleBrightness: 1.04
+    },
     timelineApproximation: {
       maxLongEdge: 900,
       alphaThreshold: 130,
@@ -117,7 +129,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '保存予定PNG-8を長辺900pxへ縮小・透明度2値化したあと、白背景へ合成するX近似プレビューを表示します。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。'
   }
 };
 
@@ -148,6 +160,10 @@ const timelineBinaryCanvas = document.createElement('canvas');
 const timelineBinaryContext = timelineBinaryCanvas.getContext('2d', { willReadFrequently: true });
 const revealCanvas = document.createElement('canvas');
 const revealContext = revealCanvas.getContext('2d', { willReadFrequently: true });
+const cleanPreviewCanvas = document.createElement('canvas');
+const cleanPreviewContext = cleanPreviewCanvas.getContext('2d', { willReadFrequently: true });
+const cleanPreviewVisibleCanvas = document.createElement('canvas');
+const cleanPreviewVisibleContext = cleanPreviewVisibleCanvas.getContext('2d', { willReadFrequently: true });
 
 const state = {
   imageLoaded: false,
@@ -321,11 +337,10 @@ function updateHistoryButtons() {
 function markOutputDirty() {
   state.outputVersion += 1;
   state.renderedOutputVersion = -1;
-  invalidateEncodedPreview();
   outputFileSizeNode.textContent = '保存時に計測';
   exportWarning.hidden = true;
   renderPreview();
-  requestEncodedPreviewRefresh();
+  if (previewModal.classList.contains('is-open')) renderModalPreview();
 }
 
 function updateSizeStatus() {
@@ -607,99 +622,61 @@ function applyXTimelineAlphaApproximation(imageData) {
   return imageData;
 }
 
-function createTimelineApproximation(imageSource = null) {
-  const output = imageSource || createOutputImage();
-  if (!output) return null;
-
-  const target = getXTimelineSize(output.width, output.height);
-  timelineResampleCanvas.width = target.width;
-  timelineResampleCanvas.height = target.height;
-  timelineResampleContext.clearRect(0, 0, target.width, target.height);
-  timelineResampleContext.imageSmoothingEnabled = true;
-  timelineResampleContext.imageSmoothingQuality = 'high';
-  timelineResampleContext.drawImage(output, 0, 0, target.width, target.height);
-
-  const resizedImageData = timelineResampleContext.getImageData(0, 0, target.width, target.height);
-  const binaryImageData = applyXTimelineAlphaApproximation(resizedImageData);
-
-  timelineBinaryCanvas.width = target.width;
-  timelineBinaryCanvas.height = target.height;
-  timelineBinaryContext.clearRect(0, 0, target.width, target.height);
-  timelineBinaryContext.putImageData(binaryImageData, 0, 0);
-
-  timelineCanvas.width = target.width;
-  timelineCanvas.height = target.height;
-  timelineContext.clearRect(0, 0, target.width, target.height);
-  timelineContext.fillStyle = '#ffffff';
-  timelineContext.fillRect(0, 0, target.width, target.height);
-  timelineContext.drawImage(timelineBinaryCanvas, 0, 0);
-  return timelineCanvas;
+function createVisibleLayerAtSize(width, height) {
+  cleanPreviewVisibleCanvas.width = width;
+  cleanPreviewVisibleCanvas.height = height;
+  cleanPreviewVisibleContext.clearRect(0, 0, width, height);
+  cleanPreviewVisibleContext.imageSmoothingEnabled = true;
+  cleanPreviewVisibleContext.imageSmoothingQuality = 'high';
+  cleanPreviewVisibleContext.drawImage(sourceCanvas, 0, 0, width, height);
+  cleanPreviewVisibleContext.globalCompositeOperation = 'destination-in';
+  cleanPreviewVisibleContext.drawImage(maskCanvas, 0, 0, width, height);
+  cleanPreviewVisibleContext.globalCompositeOperation = 'source-over';
+  return cleanPreviewVisibleCanvas;
 }
 
-function createRevealPreview(imageSource = null) {
-  const output = imageSource || createOutputImage();
-  if (!output) return null;
-  revealCanvas.width = output.width;
-  revealCanvas.height = output.height;
-  revealContext.clearRect(0, 0, revealCanvas.width, revealCanvas.height);
-  revealContext.fillStyle = '#000000';
-  revealContext.fillRect(0, 0, revealCanvas.width, revealCanvas.height);
-  revealContext.drawImage(output, 0, 0);
-  return revealCanvas;
-}
+function createNonDestructivePreview(mode = state.previewMode) {
+  if (!state.imageLoaded) return null;
+  const target = getXTimelineSize(state.imageWidth, state.imageHeight);
+  const width = mode === 'timeline' ? target.width : state.imageWidth;
+  const height = mode === 'timeline' ? target.height : state.imageHeight;
 
-function getFallbackPreviewSource() {
-  if (state.previewMode === 'original') return sourceCanvas;
-  if (state.previewMode === 'timeline') return createTimelineApproximation();
-  return createRevealPreview();
-}
+  cleanPreviewCanvas.width = width;
+  cleanPreviewCanvas.height = height;
+  cleanPreviewContext.clearRect(0, 0, width, height);
+  cleanPreviewContext.imageSmoothingEnabled = true;
+  cleanPreviewContext.imageSmoothingQuality = 'high';
 
-function getDisplaySourceForMode(baseSource) {
-  if (state.previewMode === 'original') return sourceCanvas;
-  if (state.previewMode === 'timeline') return createTimelineApproximation(baseSource);
-  return createRevealPreview(baseSource);
-}
+  const isReveal = mode === 'reveal';
+  cleanPreviewContext.fillStyle = isReveal
+    ? CONFIG.preview.timelineApproximation.revealBackground
+    : CONFIG.preview.timelineApproximation.whiteBackground;
+  cleanPreviewContext.fillRect(0, 0, width, height);
 
+  // 編集中は保存用PNG-8を作らず、元画像を背景へ薄く合成するだけにします。
+  // これにより、選択範囲を広げても256色パレットの再配分による色劣化が起きません。
+  const baseHiddenOpacity = isReveal
+    ? CONFIG.preview.nonDestructive.revealHiddenOpacity
+    : CONFIG.preview.nonDestructive.timelineHiddenOpacity;
+  const hiddenOpacity = isReveal
+    ? Math.max(0.18, baseHiddenOpacity / Math.max(1, state.revealBoost))
+    : baseHiddenOpacity;
 
-async function ensureEncodedPreviewImage() {
-  if (!state.imageLoaded || state.previewMode === 'original') return null;
-  if (state.encodedPreviewImage && state.encodedPreviewVersion === state.outputVersion) return state.encodedPreviewImage;
-  if (state.encodedPreviewPromise) return state.encodedPreviewPromise;
+  cleanPreviewContext.save();
+  cleanPreviewContext.globalAlpha = hiddenOpacity;
+  cleanPreviewContext.drawImage(sourceCanvas, 0, 0, width, height);
+  cleanPreviewContext.restore();
 
-  const version = state.outputVersion;
-  state.encodedPreviewPromise = (async () => {
-    createOutputImage();
-    const imageData = outputContext.getImageData(0, 0, state.imageWidth, state.imageHeight);
-    const blob = await encodeIndexedPng(imageData, getSelectionMaskData());
-    const renderable = await createRenderableImageFromBlob(blob);
-    if (version !== state.outputVersion) {
-      closeRenderableImage(renderable);
-      return null;
-    }
-    closeRenderableImage(state.encodedPreviewImage);
-    state.encodedPreviewImage = renderable;
-    state.encodedPreviewVersion = version;
-    return renderable;
-  })();
-
-  try {
-    return await state.encodedPreviewPromise;
-  } finally {
-    if (version === state.outputVersion) state.encodedPreviewPromise = null;
+  const visibleLayer = createVisibleLayerAtSize(width, height);
+  cleanPreviewContext.save();
+  if (isReveal && 'filter' in cleanPreviewContext) {
+    cleanPreviewContext.filter = `brightness(${CONFIG.preview.nonDestructive.revealVisibleBrightness})`;
   }
-}
+  cleanPreviewContext.drawImage(visibleLayer, 0, 0);
+  cleanPreviewContext.restore();
+  cleanPreviewContext.filter = 'none';
 
-function requestEncodedPreviewRefresh() {
-  if (!state.imageLoaded || state.previewMode === 'original') return;
-  if (state.encodedPreviewVersion === state.outputVersion || state.encodedPreviewPromise) return;
-  const token = ++state.previewRefreshToken;
-  ensureEncodedPreviewImage().then((result) => {
-    if (!result || token !== state.previewRefreshToken) return;
-    renderPreview();
-    if (previewModal.classList.contains('is-open')) renderModalPreview();
-  }).catch((error) => {
-    console.warn('Encoded preview refresh failed.', error);
-  });
+  return cleanPreviewCanvas;
 }
 
 function getPreviewBackground() {
@@ -736,16 +713,10 @@ function renderCanvasFit(context, canvas, container, source, backgroundColor) {
 function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
-  } else if (state.previewMode === 'original') {
-    previewNote.textContent = '元画像を表示します。';
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
-      ? `保存予定PNG-8を長辺${CONFIG.preview.timelineApproximation.maxLongEdge}pxへ先に縮小し、透明度を2値化したあと白背景へ合成しています。取得したXの900px派生PNGを基にした近似表示です。`
-      : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
+    previewNote.textContent = '元画像と範囲マスクだけで作る非破壊プレビューです。見せる範囲はフルカラーのまま表示し、PNG-8への減色と市松透過は保存時にだけ実行します。';
   } else {
-    previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
-      ? '保存予定PNG-8を黒背景へ合成した目安です。塗っていない範囲が1ピクセル市松50%＋明度補正で現れます。'
-      : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
+    previewNote.textContent = '黒背景へ元画像を薄く合成し、見せる範囲だけを元の色で重ねた近似表示です。最終PNG-8の粒状感や減色結果は保存後に確認してください。';
   }
 }
 
@@ -757,21 +728,14 @@ function renderPreview() {
     updatePreviewNote();
     return;
   }
-  const baseSource = state.previewMode === 'original'
-    ? sourceCanvas
-    : ((state.encodedPreviewVersion === state.outputVersion && state.encodedPreviewImage) ? state.encodedPreviewImage : createOutputImage());
-  const source = getDisplaySourceForMode(baseSource) || getFallbackPreviewSource();
+  const source = createNonDestructivePreview(state.previewMode);
   renderCanvasFit(previewContext, previewCanvas, previewStage, source, getPreviewBackground());
   updatePreviewNote();
-  if (state.previewMode !== 'original' && state.encodedPreviewVersion !== state.outputVersion) requestEncodedPreviewRefresh();
 }
 
 function renderModalPreview() {
   if (!state.imageLoaded) return;
-  const baseSource = state.previewMode === 'original'
-    ? sourceCanvas
-    : ((state.encodedPreviewVersion === state.outputVersion && state.encodedPreviewImage) ? state.encodedPreviewImage : createOutputImage());
-  const source = getDisplaySourceForMode(baseSource) || getFallbackPreviewSource();
+  const source = createNonDestructivePreview(state.previewMode);
   renderCanvasFit(modalContext, modalCanvas, modalCanvasWrap, source, getPreviewBackground());
 }
 
@@ -936,7 +900,6 @@ async function loadFile(file) {
     state.redoOperations = [];
     state.outputVersion = 1;
     state.renderedOutputVersion = -1;
-    invalidateEncodedPreview();
 
     sourceCanvas.width = width;
     sourceCanvas.height = height;
@@ -1050,7 +1013,7 @@ function splitColorBox(box, points) {
   ];
 }
 
-function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColors = 255) {
+function buildRegionPalette(imageData, selectionMaskData, region, maxColors) {
   const binCount = 32 * 32 * 32;
   const counts = new Uint32Array(binCount);
   const rSums = new Uint32Array(binCount);
@@ -1060,15 +1023,17 @@ function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColo
 
   for (let index = 0; index < pixels.length; index += 4) {
     if (pixels[index + 3] < 128) continue;
+    const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
+    if (region === 'visible' ? !isVisible : isVisible) continue;
+
     const r = pixels[index];
     const g = pixels[index + 1];
     const b = pixels[index + 2];
     const key = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
-    const weight = selectionMaskData && selectionMaskData[index + 3] <= 32 ? 6 : 1;
-    counts[key] += weight;
-    rSums[key] += r * weight;
-    gSums[key] += g * weight;
-    bSums[key] += b * weight;
+    counts[key] += 1;
+    rSums[key] += r;
+    gSums[key] += g;
+    bSums[key] += b;
   }
 
   const points = [];
@@ -1077,18 +1042,14 @@ function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColo
     points.push(createColorPoint(key, counts[key], rSums[key], gSums[key], bSums[key]));
   }
 
-  if (!points.length) {
-    return {
-      palette: [{ r: 0, g: 0, b: 0 }],
-      binToPaletteIndex: new Uint16Array(binCount)
-    };
+  if (!points.length || maxColors <= 0) {
+    return { palette: [], binToPaletteIndex: new Uint16Array(binCount) };
   }
 
   let boxes = [getColorBoxStats(points.map((_, index) => index), points)];
-  while (boxes.length < maxOpaqueColors) {
+  while (boxes.length < maxColors) {
     let selectedIndex = -1;
     let selectedScore = -1;
-
     for (let index = 0; index < boxes.length; index += 1) {
       const box = boxes[index];
       if (box.indices.length < 2) continue;
@@ -1099,16 +1060,14 @@ function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColo
         selectedIndex = index;
       }
     }
-
     if (selectedIndex < 0) break;
     const split = splitColorBox(boxes[selectedIndex], points);
     if (!split) break;
     boxes.splice(selectedIndex, 1, split[0], split[1]);
   }
 
-  const palette = [{ r: 0, g: 0, b: 0 }];
+  const palette = [];
   const binToPaletteIndex = new Uint16Array(binCount);
-
   for (const box of boxes) {
     let total = 0;
     let rTotal = 0;
@@ -1131,8 +1090,18 @@ function buildAdaptivePalette(imageData, selectionMaskData = null, maxOpaqueColo
       binToPaletteIndex[points[pointIndex].key] = paletteIndex;
     }
   }
-
   return { palette, binToPaletteIndex };
+}
+
+function buildPartitionedPalette(imageData, selectionMaskData, visibleLimit, hiddenLimit) {
+  const visible = buildRegionPalette(imageData, selectionMaskData, 'visible', visibleLimit);
+  const hidden = buildRegionPalette(imageData, selectionMaskData, 'hidden', hiddenLimit);
+  return {
+    palette: [{ r: 0, g: 0, b: 0 }, ...visible.palette, ...hidden.palette],
+    visiblePaletteLength: visible.palette.length,
+    visibleMap: visible.binToPaletteIndex,
+    hiddenMap: hidden.binToPaletteIndex
+  };
 }
 
 function writeUint32BigEndian(target, offset, value) {
@@ -1235,9 +1204,34 @@ function concatenateUint8Arrays(arrays) {
   return output;
 }
 
-async function encodeIndexedPng(imageData, selectionMaskData = null) {
+function setExportProgress(value, message, visible = true) {
+  if (!exportProgress || !exportProgressBar || !exportProgressText) return;
+  exportProgress.hidden = !visible;
+  exportProgressBar.value = Math.max(0, Math.min(100, value));
+  exportProgressText.textContent = message;
+}
+
+function yieldForPaint() {
+  return new Promise((resolve) => requestAnimationFrame(() => resolve()));
+}
+
+async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress = null) {
   const { width, height, data } = imageData;
-  const { palette, binToPaletteIndex } = buildAdaptivePalette(imageData, selectionMaskData, 255);
+  const visibleLimit = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors));
+  const hiddenLimit = Math.max(1, Math.min(254 - visibleLimit + 1, CONFIG.export.palette.hiddenColors));
+
+  onProgress?.(32, '見せる範囲の色を解析しています…');
+  await yieldForPaint();
+  const visible = buildRegionPalette(imageData, selectionMaskData, 'visible', visibleLimit);
+
+  onProgress?.(52, '隠す範囲の色を解析しています…');
+  await yieldForPaint();
+  const remaining = Math.max(1, 255 - visible.palette.length);
+  const hidden = buildRegionPalette(imageData, selectionMaskData, 'hidden', Math.min(hiddenLimit, remaining));
+
+  const palette = [{ r: 0, g: 0, b: 0 }, ...visible.palette, ...hidden.palette];
+  const visibleOffset = 1;
+  const hiddenOffset = 1 + visible.palette.length;
   const paletteBytes = new Uint8Array(palette.length * 3);
   for (let index = 0; index < palette.length; index += 1) {
     paletteBytes[index * 3] = palette[index].r;
@@ -1245,6 +1239,8 @@ async function encodeIndexedPng(imageData, selectionMaskData = null) {
     paletteBytes[index * 3 + 2] = palette[index].b;
   }
 
+  onProgress?.(68, '画素を専用パレットへ割り当てています…');
+  await yieldForPaint();
   const scanlines = new Uint8Array((width + 1) * height);
   for (let y = 0; y < height; y += 1) {
     const rowOffset = y * (width + 1);
@@ -1258,7 +1254,10 @@ async function encodeIndexedPng(imageData, selectionMaskData = null) {
       const key = ((data[sourceIndex] >> 3) << 10)
         | ((data[sourceIndex + 1] >> 3) << 5)
         | (data[sourceIndex + 2] >> 3);
-      scanlines[rowOffset + x + 1] = binToPaletteIndex[key];
+      const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 32;
+      scanlines[rowOffset + x + 1] = isVisible
+        ? visibleOffset + visible.binToPaletteIndex[key]
+        : hiddenOffset + hidden.binToPaletteIndex[key];
     }
   }
 
@@ -1271,6 +1270,8 @@ async function encodeIndexedPng(imageData, selectionMaskData = null) {
   ihdr[11] = 0;
   ihdr[12] = 0;
 
+  onProgress?.(84, 'PNG-8を圧縮しています…');
+  await yieldForPaint();
   const signature = Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10]);
   const compressed = await compressZlib(scanlines);
   const pngBytes = concatenateUint8Arrays([
@@ -1281,17 +1282,27 @@ async function encodeIndexedPng(imageData, selectionMaskData = null) {
     makePngChunk('IDAT', compressed),
     makePngChunk('IEND', new Uint8Array(0))
   ]);
+  onProgress?.(96, 'ダウンロードファイルを準備しています…');
   return new Blob([pngBytes], { type: 'image/png' });
 }
 
 async function saveOutput() {
   if (!state.imageLoaded) return;
   saveButton.disabled = true;
-  saveButton.textContent = '元画像から再構築中…';
+  saveButton.textContent = '保存画像を作成中…';
+  setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
   try {
-    createOutputImage(Boolean(CONFIG.export.rebuildFromOriginalOnSave));
+    await yieldForPaint();
+    createOutputImage(true);
+    setExportProgress(18, '確定した範囲へ市松透過と補正を適用しています…');
+    await yieldForPaint();
+
     const imageData = outputContext.getImageData(0, 0, state.imageWidth, state.imageHeight);
-    const blob = await encodeIndexedPng(imageData, getSelectionMaskData());
+    const selectionMaskData = getSelectionMaskData();
+    const blob = await encodeIndexedPng(imageData, selectionMaskData, (value, message) => {
+      setExportProgress(value, message);
+    });
+
     const name = outputFileName();
     outputFileNameNode.textContent = name;
     outputFileSizeNode.textContent = formatBytes(blob.size);
@@ -1301,6 +1312,7 @@ async function saveOutput() {
     } else {
       exportWarning.hidden = true;
     }
+
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement('a');
     anchor.href = url;
@@ -1309,13 +1321,16 @@ async function saveOutput() {
     anchor.click();
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
-    showToast('PNG-8を保存しました。');
+    setExportProgress(100, '保存画像を作成しました。');
+    showToast('元画像からPNG-8を作成して保存しました。');
   } catch (error) {
     console.error(error);
+    setExportProgress(0, '保存処理に失敗しました。');
     showToast(error.message || 'PNG-8の保存に失敗しました。');
   } finally {
     saveButton.disabled = false;
     saveButton.textContent = 'PNG-8を保存';
+    setTimeout(() => setExportProgress(0, '', false), 1800);
   }
 }
 
