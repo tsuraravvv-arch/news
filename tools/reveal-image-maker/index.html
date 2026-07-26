@@ -14,7 +14,7 @@
       <div>
         <div class="eyebrow-row">
           <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">PNG-8 / 上40%プリセット / X 900px近似</span>
+          <span class="status-badge">PNG-8 / 上40%プリセット / 半透明パレット試験</span>
         </div>
         <h1>Reveal Image Maker</h1>
         <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -27,7 +27,7 @@
     <section class="notice-strip" aria-label="重要な案内">
       <p><strong>画像はブラウザ内だけで処理され、外部へ送信されません。</strong></p>
       <p>X上での表示結果は保証されません。</p>
-      <p>編集画面では元画像と範囲マスクだけを扱い、色数を落とさない<strong>非破壊プレビュー</strong>を表示します。<strong>PNG-8への減色・1ピクセル市松50%・補正処理は保存ボタンを押したときだけ</strong>、元画像から一度だけ実行します。</p>
+      <p>編集画面では元画像と範囲マスクだけを扱い、色数を落とさない<strong>非破壊プレビュー</strong>を表示します。<strong>PNG-8への減色・半透明パレット化・補正処理は保存ボタンを押したときだけ</strong>、元画像から一度だけ実行します。</p>
     </section>
 
     <section class="card upload-card" aria-labelledby="uploadTitle">
@@ -141,8 +141,8 @@
         <div class="editor-options-grid">
           <fieldset class="editor-option-card mode-group" id="strengthControls" disabled>
             <legend>現在の処理モード</legend>
-            <div class="mode-pill">PNG-8 × 1ピクセル市松50%</div>
-            <p class="control-help">塗った範囲はタップ前にも通常表示されます。塗っていない範囲だけを1ピクセル市松50%で隠します。</p>
+            <div class="mode-pill">PNG-8 × 半透明パレット</div>
+            <p class="control-help">塗った範囲はタップ前にも通常表示されます。塗っていない範囲だけを明るく補正した半透明パレットとして保存します。</p>
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
@@ -183,7 +183,7 @@
         <canvas id="previewCanvas" aria-label="画像プレビュー"></canvas>
         <div class="empty-preview-message" id="emptyPreviewMessage">画像を読み込むと、ここにプレビューが表示されます。</div>
       </div>
-      <p class="preview-note" id="previewNote">元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への加工は保存時にだけ行います。</p>
+      <p class="preview-note" id="previewNote">元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への半透明パレット化は保存時にだけ行います。</p>
     </section>
 
     <section class="card export-card" aria-labelledby="exportTitle">
@@ -192,14 +192,14 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 元サイズ / 見せる範囲を優先減色 / 保存時だけ元画像から生成</p>
+        <p>PNG-8 / 元サイズ / 見せる範囲を優先減色 / 半透明パレット / 保存時だけ元画像から生成</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>PNG-8＋範囲別パレット＋1px市松50%＋保存時のみ元画像から生成</dd></div>
+            <div><dt>出力方式</dt><dd>PNG-8＋範囲別パレット＋均一な半透明tRNS＋保存時のみ元画像から生成</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
