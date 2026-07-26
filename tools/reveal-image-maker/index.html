@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=checker50-png8-6-x900-preview">
+  <link rel="stylesheet" href="style.css?v=top40-fresh-export-1">
 </head>
 <body>
   <header class="tool-header">
@@ -14,7 +14,7 @@
       <div>
         <div class="eyebrow-row">
           <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">PNG-8 / X 900px近似プレビュー版</span>
+          <span class="status-badge">PNG-8 / 上40%プリセット / X 900px近似</span>
         </div>
         <h1>Reveal Image Maker</h1>
         <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -82,6 +82,8 @@
             <button id="undoButton" type="button" class="secondary-button" disabled>元に戻す</button>
             <button id="redoButton" type="button" class="secondary-button" disabled>やり直す</button>
           </div>
+          <button id="top40Button" type="button" class="secondary-button preset-button">上40%を隠す</button>
+          <p class="control-help">ブラシを使わず、画像上部40%を一括で特殊透過処理の対象にします。画質劣化の原因切り分けにも使えます。</p>
           <label class="toggle-row">
             <input id="showMaskToggle" type="checkbox" checked>
             <span>見せる範囲を表示する</span>
@@ -144,17 +146,17 @@
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
-            <legend>隠れ方の調整</legend>
+            <legend>補正値（実験用）</legend>
             <div class="range-row">
               <input id="revealBoost" type="range" min="100" max="140" value="120" step="5">
               <output id="revealBoostValue" for="revealBoost">x1.20</output>
             </div>
             <div class="boost-scale" aria-hidden="true">
-              <span>1.00<br><small>開いた後を優先</small></span>
-              <span>1.20<br><small>バランス</small></span>
-              <span>1.40<br><small>白さを優先</small></span>
+              <span>1.00<br><small>基準</small></span>
+              <span>1.20<br><small>中</small></span>
+              <span>1.40<br><small>強</small></span>
             </div>
-            <p class="control-help">数値を上げるほどタップ前は白く隠れやすくなりますが、開いた後の階調は少なくなります。</p>
+            <p class="control-help">補正値によって、X上の白さ・粒状ノイズ・開いた後の階調が変化します。数値と白さは単純比例しません。</p>
           </fieldset>
         </div>
       </section>
@@ -190,14 +192,14 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 元サイズ / 1px市松50% / バランス補正</p>
+        <p>PNG-8 / 元サイズ / 1px市松50% / 保存時に元画像から再構築</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>PNG-8＋見せる範囲保持＋1px市松50%＋バランス補正</dd></div>
+            <div><dt>出力方式</dt><dd>PNG-8＋見せる範囲保持＋1px市松50%＋元画像から再構築</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
@@ -223,7 +225,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>現在は、ブラシで塗った範囲を通常表示のまま残し、塗っていない範囲に1ピクセル市松50%の透過処理と穏やかなバランス補正を適用して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
+          <p>現在は、ブラシまたは上40%プリセットで指定した範囲を基に、保存時に元画像とマスクから出力データを再構築します。見せる範囲を通常表示のまま残し、それ以外へ1ピクセル市松50%の透過処理と補正を適用して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
         </section>
       </div>
     </details>
@@ -241,7 +243,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="settings.js?v=site-config-1"></script>
-  <script src="app.js?v=site-config-1"></script>
+  <script src="settings.js?v=top40-fresh-export-1"></script>
+  <script src="app.js?v=top40-fresh-export-1"></script>
 </body>
 </html>
