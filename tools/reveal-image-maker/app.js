@@ -99,21 +99,32 @@ const DEFAULT_CONFIG = {
   export: {
     rebuildFromOriginalOnSave: true,
     palette: {
-      visibleColors: 210,
-      hiddenColors: 45
+      visibleColors: 228,
+      hiddenColors: 20
     },
     hiddenAlpha: {
-      base: 48,
-      strong: 72
+      base: 86,
+      strong: 112
+    },
+    hiddenLook: {
+      preserveSaturationBase: 0.16,
+      preserveSaturationStrong: 0.10,
+      whiteMixBase: 0.82,
+      whiteMixStrong: 0.90,
+      tintColor: { r: 236, g: 231, b: 245 },
+      tintMixBase: 0.16,
+      tintMixStrong: 0.24,
+      neutralizeBase: 0.18,
+      neutralizeStrong: 0.30
     }
   },
   preview: {
     defaultMode: 'timeline',
     expandModalEnabled: true,
     nonDestructive: {
-      timelineHiddenOpacity: 0.025,
-      revealHiddenOpacity: 0.50,
-      revealVisibleBrightness: 1.04
+      timelineHiddenAlphaScale: 1.00,
+      revealHiddenAlphaScale: 0.96,
+      revealVisibleBrightness: 1.02
     },
     timelineApproximation: {
       maxLongEdge: 900,
@@ -133,7 +144,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。隠す範囲は白背景で見えにくく、黒背景では背景がうっすら透ける方向へ寄せています。'
   }
 };
 
@@ -168,6 +179,8 @@ const cleanPreviewCanvas = document.createElement('canvas');
 const cleanPreviewContext = cleanPreviewCanvas.getContext('2d', { willReadFrequently: true });
 const cleanPreviewVisibleCanvas = document.createElement('canvas');
 const cleanPreviewVisibleContext = cleanPreviewVisibleCanvas.getContext('2d', { willReadFrequently: true });
+const hiddenPreviewCanvas = document.createElement('canvas');
+const hiddenPreviewContext = hiddenPreviewCanvas.getContext('2d', { willReadFrequently: true });
 
 const state = {
   imageLoaded: false,
@@ -248,8 +261,16 @@ function clamp01(value) {
   return Math.max(0, Math.min(1, value));
 }
 
+function lerp(start, end, amount) {
+  return start + (end - start) * clamp01(amount);
+}
+
 function mixChannel(value, target, amount) {
   return clampByte(value * (1 - amount) + target * amount);
+}
+
+function getBoostNormalized(boost) {
+  return clamp01((boost - CONFIG.boost.min) / Math.max(0.0001, CONFIG.boost.max - CONFIG.boost.min));
 }
 
 function applyRevealBoostToPixel(r, g, b, boost) {
@@ -291,11 +312,63 @@ function applyRevealBoostToPixel(r, g, b, boost) {
 }
 
 function getHiddenRegionAlpha(boost) {
-  const base = CONFIG.export.hiddenAlpha?.base ?? 48;
-  const strong = CONFIG.export.hiddenAlpha?.strong ?? 72;
-  const range = Math.max(0, strong - base);
-  const normalized = clamp01((boost - CONFIG.boost.min) / Math.max(0.0001, CONFIG.boost.max - CONFIG.boost.min));
-  return clampByte(base + range * normalized);
+  const base = CONFIG.export.hiddenAlpha?.base ?? 86;
+  const strong = CONFIG.export.hiddenAlpha?.strong ?? 112;
+  return clampByte(lerp(base, strong, getBoostNormalized(boost)));
+}
+
+function applyHiddenStyleToPixel(r, g, b, boost) {
+  const boosted = applyRevealBoostToPixel(r, g, b, boost);
+  const luminance = 0.299 * boosted.r + 0.587 * boosted.g + 0.114 * boosted.b;
+  const normalized = getBoostNormalized(boost);
+  const hiddenLook = CONFIG.export.hiddenLook || {};
+  const preserveSaturation = lerp(
+    hiddenLook.preserveSaturationBase ?? 0.16,
+    hiddenLook.preserveSaturationStrong ?? 0.10,
+    normalized
+  );
+  const neutralize = lerp(
+    hiddenLook.neutralizeBase ?? 0.18,
+    hiddenLook.neutralizeStrong ?? 0.30,
+    normalized
+  );
+  const whiteMix = lerp(
+    hiddenLook.whiteMixBase ?? 0.82,
+    hiddenLook.whiteMixStrong ?? 0.90,
+    normalized
+  );
+  const tintMix = lerp(
+    hiddenLook.tintMixBase ?? 0.16,
+    hiddenLook.tintMixStrong ?? 0.24,
+    normalized
+  );
+  const tintColor = hiddenLook.tintColor || { r: 236, g: 231, b: 245 };
+
+  let rr = mixChannel(boosted.r, luminance, 1 - preserveSaturation);
+  let gg = mixChannel(boosted.g, luminance, 1 - preserveSaturation);
+  let bb = mixChannel(boosted.b, luminance, 1 - preserveSaturation);
+
+  const mean = (rr + gg + bb) / 3;
+  rr = mixChannel(rr, mean, neutralize);
+  gg = mixChannel(gg, mean, neutralize);
+  bb = mixChannel(bb, mean, neutralize);
+
+  rr = mixChannel(rr, 255, whiteMix);
+  gg = mixChannel(gg, 255, whiteMix);
+  bb = mixChannel(bb, 255, whiteMix);
+
+  rr = mixChannel(rr, tintColor.r, tintMix);
+  gg = mixChannel(gg, tintColor.g, tintMix);
+  bb = mixChannel(bb, tintColor.b, tintMix);
+
+  if (luminance < 52) {
+    const floorLift = clamp01((52 - luminance) / 52) * 0.10;
+    rr = mixChannel(rr, tintColor.r, floorLift);
+    gg = mixChannel(gg, tintColor.g, floorLift);
+    bb = mixChannel(bb, tintColor.b, floorLift);
+  }
+
+  return { r: rr, g: gg, b: bb };
 }
 
 function createExportImageData(selectionMaskData) {
@@ -307,10 +380,10 @@ function createExportImageData(selectionMaskData) {
     if (pixels[index + 3] < 1) continue;
     const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
     if (isVisible) continue;
-    const boosted = applyRevealBoostToPixel(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
-    pixels[index] = boosted.r;
-    pixels[index + 1] = boosted.g;
-    pixels[index + 2] = boosted.b;
+    const hiddenStyled = applyHiddenStyleToPixel(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
+    pixels[index] = hiddenStyled.r;
+    pixels[index + 1] = hiddenStyled.g;
+    pixels[index + 2] = hiddenStyled.b;
   }
 
   return exportData;
@@ -578,44 +651,6 @@ function renderEditor() {
   zoomIndicator.textContent = `${fitPercent}%`;
 }
 
-function createOutputImage(forceRebuild = false) {
-  if (!state.imageLoaded) return null;
-  if (!forceRebuild && state.renderedOutputVersion === state.outputVersion) return outputCanvas;
-
-  outputCanvas.width = state.imageWidth;
-  outputCanvas.height = state.imageHeight;
-  const sourceData = state.sourceImageData;
-  const outputData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
-  const maskData = getSelectionMaskData();
-  const pixels = outputData.data;
-  const boost = state.revealBoost;
-
-  for (let y = 0; y < state.imageHeight; y += 1) {
-    for (let x = 0; x < state.imageWidth; x += 1) {
-      const index = (y * state.imageWidth + x) * 4;
-      if (maskData[index + 3] > 32) continue;
-      if (((x + y) & 1) === 1) {
-        pixels[index + 3] = 0;
-        continue;
-      }
-      const boosted = applyRevealBoostToPixel(
-        pixels[index],
-        pixels[index + 1],
-        pixels[index + 2],
-        boost
-      );
-      pixels[index] = boosted.r;
-      pixels[index + 1] = boosted.g;
-      pixels[index + 2] = boosted.b;
-    }
-  }
-
-  outputContext.clearRect(0, 0, state.imageWidth, state.imageHeight);
-  outputContext.putImageData(outputData, 0, 0);
-  state.renderedOutputVersion = state.outputVersion;
-  return outputCanvas;
-}
-
 function getXTimelineSize(width, height) {
   const maxLongEdge = CONFIG.preview.timelineApproximation.maxLongEdge;
   const ratio = Math.min(1, maxLongEdge / Math.max(width, height));
@@ -665,6 +700,31 @@ function createVisibleLayerAtSize(width, height) {
   return cleanPreviewVisibleCanvas;
 }
 
+function createHiddenLayerAtSize(width, height) {
+  hiddenPreviewCanvas.width = width;
+  hiddenPreviewCanvas.height = height;
+  hiddenPreviewContext.clearRect(0, 0, width, height);
+  hiddenPreviewContext.imageSmoothingEnabled = true;
+  hiddenPreviewContext.imageSmoothingQuality = 'high';
+  hiddenPreviewContext.drawImage(sourceCanvas, 0, 0, width, height);
+
+  const hiddenImageData = hiddenPreviewContext.getImageData(0, 0, width, height);
+  const pixels = hiddenImageData.data;
+  for (let index = 0; index < pixels.length; index += 4) {
+    if (pixels[index + 3] < 1) continue;
+    const hiddenStyled = applyHiddenStyleToPixel(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
+    pixels[index] = hiddenStyled.r;
+    pixels[index + 1] = hiddenStyled.g;
+    pixels[index + 2] = hiddenStyled.b;
+    pixels[index + 3] = 255;
+  }
+  hiddenPreviewContext.putImageData(hiddenImageData, 0, 0);
+  hiddenPreviewContext.globalCompositeOperation = 'destination-out';
+  hiddenPreviewContext.drawImage(maskCanvas, 0, 0, width, height);
+  hiddenPreviewContext.globalCompositeOperation = 'source-over';
+  return hiddenPreviewCanvas;
+}
+
 function createNonDestructivePreview(mode = state.previewMode) {
   if (!state.imageLoaded) return null;
   const target = getXTimelineSize(state.imageWidth, state.imageHeight);
@@ -683,18 +743,18 @@ function createNonDestructivePreview(mode = state.previewMode) {
     : CONFIG.preview.timelineApproximation.whiteBackground;
   cleanPreviewContext.fillRect(0, 0, width, height);
 
-  // 編集中は保存用PNG-8を作らず、元画像を背景へ薄く合成するだけにします。
-  // これにより、選択範囲を広げても256色パレットの再配分による色劣化が起きません。
-  const baseHiddenOpacity = isReveal
-    ? CONFIG.preview.nonDestructive.revealHiddenOpacity
-    : CONFIG.preview.nonDestructive.timelineHiddenOpacity;
-  const hiddenOpacity = isReveal
-    ? Math.max(0.18, baseHiddenOpacity / Math.max(1, state.revealBoost))
-    : baseHiddenOpacity;
+  // 編集中も保存時に近い「淡色＋半透明」の隠しレイヤーを再計算します。
+  // ただしPNG-8化は行わず、白背景では見えにくく、黒背景ではうっすら残る方向へ近似表示します。
+  const exportHiddenAlpha = getHiddenRegionAlpha(state.revealBoost) / 255;
+  const hiddenOpacityScale = isReveal
+    ? (CONFIG.preview.nonDestructive.revealHiddenAlphaScale ?? 0.96)
+    : (CONFIG.preview.nonDestructive.timelineHiddenAlphaScale ?? 1.00);
+  const hiddenOpacity = clamp01(exportHiddenAlpha * hiddenOpacityScale);
+  const hiddenLayer = createHiddenLayerAtSize(width, height);
 
   cleanPreviewContext.save();
   cleanPreviewContext.globalAlpha = hiddenOpacity;
-  cleanPreviewContext.drawImage(sourceCanvas, 0, 0, width, height);
+  cleanPreviewContext.drawImage(hiddenLayer, 0, 0);
   cleanPreviewContext.restore();
 
   const visibleLayer = createVisibleLayerAtSize(width, height);
@@ -744,9 +804,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクだけで作る非破壊プレビューです。見せる範囲はフルカラーのまま表示し、PNG-8への減色と半透明パレット化は保存時にだけ実行します。';
+    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を淡色＋半透明で再計算した非破壊プレビューです。白背景では目立ちにくく、最終PNG-8への減色は保存時だけ実行します。';
   } else {
-    previewNote.textContent = '黒背景へ元画像を薄く合成し、見せる範囲だけを元の色で重ねた近似表示です。最終PNG-8の暗さや減色結果は保存後に確認してください。';
+    previewNote.textContent = '黒背景へ淡色＋半透明の隠しレイヤーを重ねた近似表示です。クリック後に背景がうっすら透ける方向へ寄せていますが、最終PNG-8の見え方は保存後に確認してください。';
   }
 }
 
@@ -1392,11 +1452,11 @@ brushSizeInput.addEventListener('input', () => {
 revealBoostInput.addEventListener('input', () => {
   state.revealBoost = Number(revealBoostInput.value) / 100;
   revealBoostValue.textContent = formatBoostLabel(state.revealBoost);
-previewTabs.forEach((item) => {
-  const active = item.dataset.preview === state.previewMode;
-  item.classList.toggle('is-active', active);
-  item.setAttribute('aria-selected', String(active));
-});
+  previewTabs.forEach((item) => {
+    const active = item.dataset.preview === state.previewMode;
+    item.classList.toggle('is-active', active);
+    item.setAttribute('aria-selected', String(active));
+  });
   markOutputDirty();
 });
 showMaskToggle.addEventListener('change', () => {
