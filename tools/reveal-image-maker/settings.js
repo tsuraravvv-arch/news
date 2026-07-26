@@ -26,6 +26,11 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     palette: {
       visibleColors: 210,
       hiddenColors: 45
+    },
+    // 隠す範囲は市松ではなく、均一な半透明パレットとして保存します。
+    hiddenAlpha: {
+      base: 48,
+      strong: 72
     }
   },
 
@@ -58,6 +63,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・半透明パレット化は保存時だけ行います。'
   }
 };
