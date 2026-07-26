@@ -187,6 +187,17 @@ dd { margin: 0; color: var(--ink); font-weight: 800; overflow-wrap: anywhere; }
 .secondary-button,
 .icon-button { min-height: 42px; padding: 8px 10px; }
 .icon-button { font-size: 1.2rem; }
+
+.preset-button {
+  width: 100%;
+  margin-top: 9px;
+  border-color: #b8cfe3;
+  background: linear-gradient(180deg, #ffffff, #f4f8fc);
+}
+.preset-button:hover:not(:disabled) {
+  border-color: #7da9cc;
+}
+
 .toggle-row { display: flex; align-items: center; gap: 10px; margin-top: 12px; color: var(--ink-soft); font-size: .88rem; font-weight: 750; }
 .toggle-row input { width: 18px; height: 18px; accent-color: var(--lavender); }
 .control-help { margin: 10px 0 0; color: var(--muted); font-size: .77rem; line-height: 1.65; }
