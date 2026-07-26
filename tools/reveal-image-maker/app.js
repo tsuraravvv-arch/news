@@ -34,6 +34,7 @@ const revealBoostValue = document.getElementById('revealBoostValue');
 const showMaskToggle = document.getElementById('showMaskToggle');
 const maskAllButton = document.getElementById('maskAllButton');
 const clearMaskButton = document.getElementById('clearMaskButton');
+const top40Button = document.getElementById('top40Button');
 const undoButton = document.getElementById('undoButton');
 const redoButton = document.getElementById('redoButton');
 const zoomOutButton = document.getElementById('zoomOutButton');
@@ -89,6 +90,12 @@ const DEFAULT_CONFIG = {
     brushStep: 2,
     showMaskByDefault: true
   },
+  presets: {
+    topHiddenPercent: 40
+  },
+  export: {
+    rebuildFromOriginalOnSave: true
+  },
   preview: {
     defaultMode: 'timeline',
     expandModalEnabled: true,
@@ -122,6 +129,10 @@ function applyConfigToInputs() {
   brushSizeInput.step = String(CONFIG.editor.brushStep);
   brushSizeInput.value = String(CONFIG.editor.defaultBrushSize);
   showMaskToggle.checked = Boolean(CONFIG.editor.showMaskByDefault);
+  if (top40Button) {
+    top40Button.textContent = `上${CONFIG.presets.topHiddenPercent}%を隠す`;
+    top40Button.title = `画像上部${CONFIG.presets.topHiddenPercent}%を特殊透過処理の対象にします`;
+  }
 
   revealBoostInput.min = String(Math.round(CONFIG.boost.min * 100));
   revealBoostInput.max = String(Math.round(CONFIG.boost.max * 100));
@@ -437,6 +448,17 @@ function applyOperation(operation) {
     maskContext.clearRect(0, 0, state.imageWidth, state.imageHeight);
     return;
   }
+  if (operation.type === 'preset-top-hide') {
+    const hiddenRatio = clamp01(Number(operation.percent) / 100);
+    const visibleStartY = Math.round(state.imageHeight * hiddenRatio);
+    maskContext.clearRect(0, 0, state.imageWidth, state.imageHeight);
+    maskContext.save();
+    maskContext.globalCompositeOperation = 'source-over';
+    maskContext.fillStyle = '#ffffff';
+    maskContext.fillRect(0, visibleStartY, state.imageWidth, state.imageHeight - visibleStartY);
+    maskContext.restore();
+    return;
+  }
   if (operation.type === 'stroke') drawMaskStroke(maskContext, operation);
 }
 
@@ -511,9 +533,9 @@ function renderEditor() {
   zoomIndicator.textContent = `${fitPercent}%`;
 }
 
-function createOutputImage() {
+function createOutputImage(forceRebuild = false) {
   if (!state.imageLoaded) return null;
-  if (state.renderedOutputVersion === state.outputVersion) return outputCanvas;
+  if (!forceRebuild && state.renderedOutputVersion === state.outputVersion) return outputCanvas;
 
   outputCanvas.width = state.imageWidth;
   outputCanvas.height = state.imageHeight;
@@ -955,6 +977,16 @@ function applyWholeMask(type) {
   renderEditor();
 }
 
+function applyTopHiddenPreset(percent = CONFIG.presets.topHiddenPercent) {
+  if (!state.imageLoaded) return;
+  const safePercent = Math.max(0, Math.min(100, Number(percent) || 0));
+  const operation = { type: 'preset-top-hide', percent: safePercent };
+  applyOperation(operation);
+  commitOperation(operation);
+  renderEditor();
+  showToast(`上${safePercent}%を隠す範囲に設定しました。`);
+}
+
 function createColorPoint(key, count, rSum, gSum, bSum) {
   return {
     key,
@@ -1255,9 +1287,9 @@ async function encodeIndexedPng(imageData, selectionMaskData = null) {
 async function saveOutput() {
   if (!state.imageLoaded) return;
   saveButton.disabled = true;
-  saveButton.textContent = 'PNG-8を作成中…';
+  saveButton.textContent = '元画像から再構築中…';
   try {
-    createOutputImage();
+    createOutputImage(Boolean(CONFIG.export.rebuildFromOriginalOnSave));
     const imageData = outputContext.getImageData(0, 0, state.imageWidth, state.imageHeight);
     const blob = await encodeIndexedPng(imageData, getSelectionMaskData());
     const name = outputFileName();
@@ -1323,6 +1355,7 @@ showMaskToggle.addEventListener('change', () => {
 });
 maskAllButton.addEventListener('click', () => applyWholeMask('fill'));
 clearMaskButton.addEventListener('click', () => applyWholeMask('clear'));
+top40Button.addEventListener('click', () => applyTopHiddenPreset());
 undoButton.addEventListener('click', () => {
   const operation = state.operations.pop();
   if (!operation) return;
