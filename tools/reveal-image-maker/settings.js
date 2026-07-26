@@ -1,11 +1,9 @@
 'use strict';
 
 // Reveal Image Maker 用サイト設定
-// 必要な項目だけを書き換えれば、そのまま GitHub Pages へ配置して使えます。
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   output: {
-    // 出力ファイル名: 元名-<fileSuffix>.png
-    fileSuffix: 'reveal-x900-preview-png8'
+    fileSuffix: 'reveal-nondestructive-png8'
   },
 
   editor: {
@@ -18,38 +16,40 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   presets: {
-    // ブラシなしで画像上部を自動的に隠す割合
     topHiddenPercent: 40
   },
 
   export: {
-    // 保存時はプレビュー画像ではなく、元画像＋現在のマスクから再構築します。
-    rebuildFromOriginalOnSave: true
+    rebuildFromOriginalOnSave: true,
+    // 透明色1色を除く255色を、見せる範囲と隠す範囲へ別々に配分します。
+    // 見せる範囲を多くするときも、こちらの色数が優先的に確保されます。
+    palette: {
+      visibleColors: 210,
+      hiddenColors: 45
+    }
   },
 
   preview: {
-    // timeline / reveal
     defaultMode: 'timeline',
     expandModalEnabled: true,
+    // 編集中はPNG-8化せず、元画像＋範囲マスクだけで表示します。
+    nonDestructive: {
+      timelineHiddenOpacity: 0.025,
+      revealHiddenOpacity: 0.50,
+      revealVisibleBrightness: 1.04
+    },
     timelineApproximation: {
-      // X のタイムライン派生画像に寄せるため、保存予定PNG-8をこの長辺へ縮小して近似します。
       maxLongEdge: 900,
-
-      // 半透明を白背景へ近づける際の2値化しきい値
       alphaThreshold: 130,
       edgeAlphaThreshold: 128,
-
-      // 輪郭の淡い色が一部だけ残る傾向に合わせた補助条件
       preserveMinRed: 190,
       preserveMaxLuminance: 213,
-
       whiteBackground: '#ffffff',
       revealBackground: '#000000'
     }
   },
 
   boost: {
-    // 初期値は 1.00 を採用。まずは開いた後の見え方を優先し、必要に応じて上げる想定です。
     default: 1.00,
     min: 1.00,
     max: 1.40,
@@ -58,6 +58,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '保存予定PNG-8を長辺900pxへ縮小・透明度2値化したあと、白背景へ合成するX近似プレビューを表示します。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。'
   }
 };
