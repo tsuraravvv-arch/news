@@ -62,6 +62,74 @@ const overlayContext = overlayCanvas.getContext('2d');
 const outputCanvas = document.createElement('canvas');
 const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
 const timelineCanvas = document.createElement('canvas');
+
+function mergeConfig(base, override) {
+  if (Array.isArray(base)) return Array.isArray(override) ? override.slice() : base.slice();
+  if (base && typeof base === 'object') {
+    const output = { ...base };
+    if (override && typeof override === 'object') {
+      for (const key of Object.keys(override)) {
+        output[key] = key in base ? mergeConfig(base[key], override[key]) : override[key];
+      }
+    }
+    return output;
+  }
+  return override === undefined ? base : override;
+}
+
+const DEFAULT_CONFIG = {
+  output: {
+    fileSuffix: 'reveal-x900-preview-png8'
+  },
+  editor: {
+    defaultTool: 'hide',
+    defaultBrushSize: 52,
+    minBrushSize: 8,
+    maxBrushSize: 180,
+    brushStep: 2,
+    showMaskByDefault: true
+  },
+  preview: {
+    defaultMode: 'timeline',
+    expandModalEnabled: true,
+    timelineApproximation: {
+      maxLongEdge: 900,
+      alphaThreshold: 130,
+      edgeAlphaThreshold: 128,
+      preserveMinRed: 190,
+      preserveMaxLuminance: 213,
+      whiteBackground: '#ffffff',
+      revealBackground: '#000000'
+    }
+  },
+  boost: {
+    default: 1.00,
+    min: 1.00,
+    max: 1.40,
+    step: 0.05,
+    labelPrecision: 2
+  },
+  notes: {
+    timelineApproximation: '保存予定PNG-8を長辺900pxへ縮小・透明度2値化したあと、白背景へ合成するX近似プレビューを表示します。'
+  }
+};
+
+const CONFIG = mergeConfig(DEFAULT_CONFIG, window.REVEAL_IMAGE_MAKER_CONFIG || {});
+
+function applyConfigToInputs() {
+  brushSizeInput.min = String(CONFIG.editor.minBrushSize);
+  brushSizeInput.max = String(CONFIG.editor.maxBrushSize);
+  brushSizeInput.step = String(CONFIG.editor.brushStep);
+  brushSizeInput.value = String(CONFIG.editor.defaultBrushSize);
+  showMaskToggle.checked = Boolean(CONFIG.editor.showMaskByDefault);
+
+  revealBoostInput.min = String(Math.round(CONFIG.boost.min * 100));
+  revealBoostInput.max = String(Math.round(CONFIG.boost.max * 100));
+  revealBoostInput.step = String(Math.round(CONFIG.boost.step * 100));
+  revealBoostInput.value = String(Math.round(CONFIG.boost.default * 100));
+}
+
+applyConfigToInputs();
 const timelineContext = timelineCanvas.getContext('2d', { willReadFrequently: true });
 const timelineResampleCanvas = document.createElement('canvas');
 const timelineResampleContext = timelineResampleCanvas.getContext('2d', { willReadFrequently: true });
@@ -77,11 +145,11 @@ const state = {
   imageWidth: 0,
   imageHeight: 0,
   sourceImageData: null,
-  tool: 'hide',
+  tool: CONFIG.editor.defaultTool,
   brushSize: Number(brushSizeInput.value),
   revealBoost: Number(revealBoostInput.value) / 100,
-  showMask: true,
-  previewMode: 'timeline',
+  showMask: Boolean(CONFIG.editor.showMaskByDefault),
+  previewMode: CONFIG.preview.defaultMode,
   scale: 1,
   minScale: 0.05,
   maxScale: 12,
@@ -121,12 +189,12 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName() {
-  return `${state.sourceName}-reveal-visible-brush-balanced-png8.png`;
+  return `${state.sourceName}-${CONFIG.output.fileSuffix}.png`;
 }
 
 
 function formatBoostLabel(value) {
-  return `x${value.toFixed(2)}`;
+  return `x${value.toFixed(CONFIG.boost.labelPrecision)}`;
 }
 
 function closeRenderableImage(image) {
@@ -482,7 +550,7 @@ function createOutputImage() {
 }
 
 function getXTimelineSize(width, height) {
-  const maxLongEdge = 900;
+  const maxLongEdge = CONFIG.preview.timelineApproximation.maxLongEdge;
   const ratio = Math.min(1, maxLongEdge / Math.max(width, height));
   return {
     width: Math.max(1, Math.round(width * ratio)),
@@ -501,11 +569,14 @@ function applyXTimelineAlphaApproximation(imageData) {
 
     // Xの900px派生PNGを比較した結果、半透明は保持されず、
     // ほぼ「透明 / 不透明」の2値へ戻されていました。
-    let keepOpaque = alpha >= 130;
+    let keepOpaque = alpha >= CONFIG.preview.timelineApproximation.alphaThreshold;
 
     // 128付近では淡い輪郭色の一部だけが残る傾向があったため、
     // 測定結果に基づく小さな残存条件を加えます。
-    if (!keepOpaque && alpha >= 128 && red > 190 && luminance <= 213) {
+    if (!keepOpaque
+      && alpha >= CONFIG.preview.timelineApproximation.edgeAlphaThreshold
+      && red > CONFIG.preview.timelineApproximation.preserveMinRed
+      && luminance <= CONFIG.preview.timelineApproximation.preserveMaxLuminance) {
       keepOpaque = true;
     }
 
@@ -610,7 +681,9 @@ function requestEncodedPreviewRefresh() {
 }
 
 function getPreviewBackground() {
-  return state.previewMode === 'reveal' ? '#000000' : '#ffffff';
+  return state.previewMode === 'reveal'
+    ? CONFIG.preview.timelineApproximation.revealBackground
+    : CONFIG.preview.timelineApproximation.whiteBackground;
 }
 
 function getPreviewStageClass() {
@@ -640,12 +713,12 @@ function renderCanvasFit(context, canvas, container, source, backgroundColor) {
 
 function updatePreviewNote() {
   if (!state.imageLoaded) {
-    previewNote.textContent = '画像を読み込むと、タイムライン想定を表示します。';
+    previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'original') {
     previewNote.textContent = '元画像を表示します。';
   } else if (state.previewMode === 'timeline') {
     previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
-      ? '保存予定PNG-8を長辺900pxへ先に縮小し、透明度を2値化したあと白背景へ合成しています。取得したXの900x900派生PNGを基にした近似表示です。'
+      ? `保存予定PNG-8を長辺${CONFIG.preview.timelineApproximation.maxLongEdge}pxへ先に縮小し、透明度を2値化したあと白背景へ合成しています。取得したXの900px派生PNGを基にした近似表示です。`
       : '保存予定PNG-8を生成中です。生成前は近似プレビューを表示します。';
   } else {
     previewNote.textContent = state.encodedPreviewVersion === state.outputVersion
@@ -1237,6 +1310,11 @@ brushSizeInput.addEventListener('input', () => {
 revealBoostInput.addEventListener('input', () => {
   state.revealBoost = Number(revealBoostInput.value) / 100;
   revealBoostValue.textContent = formatBoostLabel(state.revealBoost);
+previewTabs.forEach((item) => {
+  const active = item.dataset.preview === state.previewMode;
+  item.classList.toggle('is-active', active);
+  item.setAttribute('aria-selected', String(active));
+});
   markOutputDirty();
 });
 showMaskToggle.addEventListener('change', () => {
@@ -1347,7 +1425,12 @@ resizeObserver.observe(previewStage);
 resizeObserver.observe(modalCanvasWrap);
 
 revealBoostValue.textContent = formatBoostLabel(state.revealBoost);
-setTool('hide');
+previewTabs.forEach((item) => {
+  const active = item.dataset.preview === state.previewMode;
+  item.classList.toggle('is-active', active);
+  item.setAttribute('aria-selected', String(active));
+});
+setTool(CONFIG.editor.defaultTool);
 setControlsEnabled(false);
 renderEditor();
 renderPreview();
