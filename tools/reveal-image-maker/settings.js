@@ -17,6 +17,16 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     showMaskByDefault: true
   },
 
+  presets: {
+    // ブラシなしで画像上部を自動的に隠す割合
+    topHiddenPercent: 40
+  },
+
+  export: {
+    // 保存時はプレビュー画像ではなく、元画像＋現在のマスクから再構築します。
+    rebuildFromOriginalOnSave: true
+  },
+
   preview: {
     // timeline / reveal
     defaultMode: 'timeline',
