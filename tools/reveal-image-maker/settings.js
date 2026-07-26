@@ -24,13 +24,26 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     // 透明色1色を除く255色を、見せる範囲と隠す範囲へ別々に配分します。
     // 見せる範囲を多くするときも、こちらの色数が優先的に確保されます。
     palette: {
-      visibleColors: 210,
-      hiddenColors: 45
+      visibleColors: 228,
+      hiddenColors: 20
     },
     // 隠す範囲は市松ではなく、均一な半透明パレットとして保存します。
     hiddenAlpha: {
-      base: 48,
-      strong: 72
+      base: 86,
+      strong: 112
+    },
+    // 隠し領域は白背景で目立ちにくく、黒背景ではうっすら見えるよう、
+    // 元画像をかなり薄くしたうえで淡いラベンダー寄りに整えます。
+    hiddenLook: {
+      preserveSaturationBase: 0.16,
+      preserveSaturationStrong: 0.10,
+      whiteMixBase: 0.82,
+      whiteMixStrong: 0.90,
+      tintColor: { r: 236, g: 231, b: 245 },
+      tintMixBase: 0.16,
+      tintMixStrong: 0.24,
+      neutralizeBase: 0.18,
+      neutralizeStrong: 0.30
     }
   },
 
@@ -39,9 +52,9 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     expandModalEnabled: true,
     // 編集中はPNG-8化せず、元画像＋範囲マスクだけで表示します。
     nonDestructive: {
-      timelineHiddenOpacity: 0.025,
-      revealHiddenOpacity: 0.50,
-      revealVisibleBrightness: 1.04
+      timelineHiddenAlphaScale: 1.00,
+      revealHiddenAlphaScale: 0.96,
+      revealVisibleBrightness: 1.02
     },
     timelineApproximation: {
       maxLongEdge: 900,
@@ -63,6 +76,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・半透明パレット化は保存時だけ行います。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・半透明パレット化は保存時だけ行います。隠す範囲は白背景で極力目立たず、黒背景ではうっすら背景が透ける方向に調整しています。'
   }
 };
