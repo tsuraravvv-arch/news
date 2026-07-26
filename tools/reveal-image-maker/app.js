@@ -101,6 +101,10 @@ const DEFAULT_CONFIG = {
     palette: {
       visibleColors: 210,
       hiddenColors: 45
+    },
+    hiddenAlpha: {
+      base: 48,
+      strong: 72
     }
   },
   preview: {
@@ -284,6 +288,32 @@ function applyRevealBoostToPixel(r, g, b, boost) {
   }
 
   return { r: rr, g: gg, b: bb };
+}
+
+function getHiddenRegionAlpha(boost) {
+  const base = CONFIG.export.hiddenAlpha?.base ?? 48;
+  const strong = CONFIG.export.hiddenAlpha?.strong ?? 72;
+  const range = Math.max(0, strong - base);
+  const normalized = clamp01((boost - CONFIG.boost.min) / Math.max(0.0001, CONFIG.boost.max - CONFIG.boost.min));
+  return clampByte(base + range * normalized);
+}
+
+function createExportImageData(selectionMaskData) {
+  const sourceData = state.sourceImageData;
+  const exportData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
+  const pixels = exportData.data;
+
+  for (let index = 0; index < pixels.length; index += 4) {
+    if (pixels[index + 3] < 1) continue;
+    const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
+    if (isVisible) continue;
+    const boosted = applyRevealBoostToPixel(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
+    pixels[index] = boosted.r;
+    pixels[index + 1] = boosted.g;
+    pixels[index + 2] = boosted.b;
+  }
+
+  return exportData;
 }
 
 function getSelectionMaskData() {
@@ -714,9 +744,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクだけで作る非破壊プレビューです。見せる範囲はフルカラーのまま表示し、PNG-8への減色と市松透過は保存時にだけ実行します。';
+    previewNote.textContent = '元画像と範囲マスクだけで作る非破壊プレビューです。見せる範囲はフルカラーのまま表示し、PNG-8への減色と半透明パレット化は保存時にだけ実行します。';
   } else {
-    previewNote.textContent = '黒背景へ元画像を薄く合成し、見せる範囲だけを元の色で重ねた近似表示です。最終PNG-8の粒状感や減色結果は保存後に確認してください。';
+    previewNote.textContent = '黒背景へ元画像を薄く合成し、見せる範囲だけを元の色で重ねた近似表示です。最終PNG-8の暗さや減色結果は保存後に確認してください。';
   }
 }
 
@@ -1215,7 +1245,7 @@ function yieldForPaint() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
-async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress = null) {
+async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha = 48, onProgress = null) {
   const { width, height, data } = imageData;
   const visibleLimit = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors));
   const hiddenLimit = Math.max(1, Math.min(254 - visibleLimit + 1, CONFIG.export.palette.hiddenColors));
@@ -1238,6 +1268,11 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress 
     paletteBytes[index * 3 + 1] = palette[index].g;
     paletteBytes[index * 3 + 2] = palette[index].b;
   }
+
+  const alphaBytes = new Uint8Array(palette.length);
+  alphaBytes[0] = 0;
+  for (let index = 1; index < hiddenOffset; index += 1) alphaBytes[index] = 255;
+  for (let index = hiddenOffset; index < palette.length; index += 1) alphaBytes[index] = hiddenAlpha;
 
   onProgress?.(68, '画素を専用パレットへ割り当てています…');
   await yieldForPaint();
@@ -1278,7 +1313,7 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress 
     signature,
     makePngChunk('IHDR', ihdr),
     makePngChunk('PLTE', paletteBytes),
-    makePngChunk('tRNS', Uint8Array.of(0)),
+    makePngChunk('tRNS', alphaBytes),
     makePngChunk('IDAT', compressed),
     makePngChunk('IEND', new Uint8Array(0))
   ]);
@@ -1293,13 +1328,13 @@ async function saveOutput() {
   setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
   try {
     await yieldForPaint();
-    createOutputImage(true);
-    setExportProgress(18, '確定した範囲へ市松透過と補正を適用しています…');
+    const selectionMaskData = getSelectionMaskData();
+    setExportProgress(18, '確定した範囲へ半透明パレット用の補正を適用しています…');
     await yieldForPaint();
 
-    const imageData = outputContext.getImageData(0, 0, state.imageWidth, state.imageHeight);
-    const selectionMaskData = getSelectionMaskData();
-    const blob = await encodeIndexedPng(imageData, selectionMaskData, (value, message) => {
+    const imageData = createExportImageData(selectionMaskData);
+    const hiddenAlpha = getHiddenRegionAlpha(state.revealBoost);
+    const blob = await encodeIndexedPng(imageData, selectionMaskData, hiddenAlpha, (value, message) => {
       setExportProgress(value, message);
     });
 
@@ -1322,7 +1357,7 @@ async function saveOutput() {
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setExportProgress(100, '保存画像を作成しました。');
-    showToast('元画像からPNG-8を作成して保存しました。');
+    showToast('元画像から半透明パレットのPNG-8を作成して保存しました。');
   } catch (error) {
     console.error(error);
     setExportProgress(0, '保存処理に失敗しました。');
