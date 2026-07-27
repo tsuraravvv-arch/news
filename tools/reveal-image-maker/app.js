@@ -85,7 +85,7 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.7.0',
+    version: 'v0.8.0',
     updatedAt: ''
   },
   output: {
@@ -175,10 +175,13 @@ function applyConfigToInputs() {
 
   revealBoostInput.min = String(Math.round(CONFIG.boost.min * 100));
   revealBoostInput.max = String(Math.round(CONFIG.boost.max * 100));
-  revealBoostInput.step = String(Math.round(CONFIG.boost.step * 100));
+  revealBoostInput.step = String(Math.max(1, Math.round(CONFIG.boost.step * 100)));
   revealBoostInput.value = String(Math.round(CONFIG.boost.default * 100));
+  const isFixedBoost = Math.abs(CONFIG.boost.max - CONFIG.boost.min) < 0.0001;
+  revealBoostInput.disabled = isFixedBoost;
+  revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.7.0';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.8.0';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -1486,6 +1489,7 @@ brushSizeInput.addEventListener('input', () => {
   brushSizeValue.textContent = `${state.brushSize}px`;
 });
 revealBoostInput.addEventListener('input', () => {
+  if (revealBoostInput.disabled) return;
   state.revealBoost = Number(revealBoostInput.value) / 100;
   revealBoostValue.textContent = formatBoostLabel(state.revealBoost);
   previewTabs.forEach((item) => {
