@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.9.0',
+    version: 'v0.10.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-adaptive-alpha-v090'
+    fileSuffix: 'reveal-hidden-tone-v0100'
   },
   editor: {
     defaultTool: 'hide',
@@ -165,7 +165,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。隠す範囲は白背景で目立ちにくく、黒背景ではうっすら見える方向へ寄せています。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。現版は白背景での白さを維持しつつ、黒背景で顔や輪郭の見え方が少しでも自然になるよう、隠し領域の階調保持を強めています。'
   }
 };
 
