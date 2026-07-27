@@ -6,23 +6,26 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=0.4.0">
+  <link rel="stylesheet" href="style.css?v=v0-5-0-rgb-preserved-1">
 </head>
 <body>
   <header class="tool-header">
     <div class="tool-header-inner">
-      <div>
-        <div class="eyebrow-row">
-          <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-          <span class="status-badge">PNG-8 / 上40%プリセット / 半透明パレット試験</span>
+      <div class="header-main">
+        <div>
+          <div class="eyebrow-row">
+            <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
+            <span class="status-badge">PNG-8 / 上40%プリセット / 半透明パレット試験</span>
+          </div>
+          <h1>Reveal Image Maker</h1>
+          <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
         </div>
-        <h1>Reveal Image Maker</h1>
-        <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
+        <div class="header-meta">
+          <div class="version-badge" id="versionBadge">v0.5.0</div>
+          <div class="version-date" id="versionDate">2026-07-27 11:05 JST</div>
+        </div>
       </div>
-      <div class="header-actions">
-        <span class="version-badge" title="最終更新：2026-07-27 19:47 JST">v0.4.0<br><small>2026-07-27 19:47 JST</small></span>
-        <a class="back-link" href="../../">Labへ戻る</a>
-      </div>
+      <a class="back-link" href="../../">Labへ戻る</a>
     </div>
   </header>
 
@@ -235,7 +238,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>編集時は元画像と範囲マスクだけを保持し、減色処理は行いません。保存時に元画像から出力を一度だけ作り、見せる範囲へ多くのパレット色を優先配分し、隠す範囲へ1ピクセル市松50%と補正を適用して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
+          <p>編集時は元画像と範囲マスクだけを保持し、減色処理は行いません。保存時に元画像から出力を一度だけ作り、見せる範囲へ多くのパレット色を優先配分し、隠す範囲は元画像の色を残したまま淡色＋均一な半透明パレットへ変換して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
         </section>
       </div>
     </details>
@@ -253,7 +256,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="settings.js?v=nondestructive-export-1"></script>
-  <script src="app.js?v=nondestructive-export-1"></script>
+  <script src="settings.js?v=v0-5-0-rgb-preserved-1"></script>
+  <script src="app.js?v=v0-5-0-rgb-preserved-1"></script>
 </body>
 </html>
