@@ -85,7 +85,7 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.5.0',
+    version: 'v0.6.0',
     updatedAt: ''
   },
   output: {
@@ -109,19 +109,25 @@ const DEFAULT_CONFIG = {
       hiddenColors: 20
     },
     hiddenAlpha: {
-      base: 86,
-      strong: 112
+      base: 96,
+      strong: 118
     },
     hiddenLook: {
-      preserveSaturationBase: 0.16,
-      preserveSaturationStrong: 0.10,
-      whiteMixBase: 0.82,
-      whiteMixStrong: 0.90,
-      tintColor: { r: 236, g: 231, b: 245 },
-      tintMixBase: 0.16,
-      tintMixStrong: 0.24,
+      preserveSaturationBase: 0.12,
+      preserveSaturationStrong: 0.08,
+      tintColor: { r: 234, g: 228, b: 245 },
+      tintMixBase: 0.10,
+      tintMixStrong: 0.16,
+      toneMinBase: 232,
+      toneMinStrong: 228,
+      toneMaxBase: 248,
+      toneMaxStrong: 244,
+      contrastBase: 11,
+      contrastStrong: 16,
+      hueKeepBase: 0.08,
+      hueKeepStrong: 0.12,
       neutralizeBase: 0.18,
-      neutralizeStrong: 0.30
+      neutralizeStrong: 0.28
     }
   },
   preview: {
@@ -129,7 +135,7 @@ const DEFAULT_CONFIG = {
     expandModalEnabled: true,
     nonDestructive: {
       timelineHiddenAlphaScale: 1.00,
-      revealHiddenAlphaScale: 0.96,
+      revealHiddenAlphaScale: 1.12,
       revealVisibleBrightness: 1.02
     },
     timelineApproximation: {
@@ -150,7 +156,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。隠す範囲は白背景で見えにくく、黒背景では背景がうっすら透ける方向へ寄せています。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。隠す範囲は白背景で目立ちにくく、黒背景ではうっすら見える方向へ寄せています。'
   }
 };
 
@@ -332,36 +338,46 @@ function applyHiddenStyleToPixel(r, g, b, boost) {
   const hiddenLook = CONFIG.export.hiddenLook || {};
 
   const preserveSaturation = lerp(
-    hiddenLook.preserveSaturationBase ?? 0.38,
-    hiddenLook.preserveSaturationStrong ?? 0.28,
+    hiddenLook.preserveSaturationBase ?? 0.12,
+    hiddenLook.preserveSaturationStrong ?? 0.08,
     normalized
   );
   const neutralize = lerp(
-    hiddenLook.neutralizeBase ?? 0.08,
-    hiddenLook.neutralizeStrong ?? 0.14,
+    hiddenLook.neutralizeBase ?? 0.18,
+    hiddenLook.neutralizeStrong ?? 0.28,
     normalized
   );
-  const whiteMixBase = lerp(
-    hiddenLook.whiteMixBase ?? 0.72,
-    hiddenLook.whiteMixStrong ?? 0.80,
+  const toneMin = lerp(
+    hiddenLook.toneMinBase ?? 232,
+    hiddenLook.toneMinStrong ?? 228,
+    normalized
+  );
+  const toneMax = lerp(
+    hiddenLook.toneMaxBase ?? 248,
+    hiddenLook.toneMaxStrong ?? 244,
+    normalized
+  );
+  const contrast = lerp(
+    hiddenLook.contrastBase ?? 11,
+    hiddenLook.contrastStrong ?? 16,
+    normalized
+  );
+  const hueKeep = lerp(
+    hiddenLook.hueKeepBase ?? 0.08,
+    hiddenLook.hueKeepStrong ?? 0.12,
     normalized
   );
   const tintMix = lerp(
-    hiddenLook.tintMixBase ?? 0.08,
-    hiddenLook.tintMixStrong ?? 0.14,
+    hiddenLook.tintMixBase ?? 0.10,
+    hiddenLook.tintMixStrong ?? 0.16,
     normalized
   );
-  const shadowFloor = lerp(
-    hiddenLook.shadowFloorBase ?? 0.18,
-    hiddenLook.shadowFloorStrong ?? 0.24,
-    normalized
-  );
-  const tintColor = hiddenLook.tintColor || { r: 225, g: 219, b: 239 };
+  const tintColor = hiddenLook.tintColor || { r: 234, g: 228, b: 245 };
 
   const luminance = 0.299 * boosted.r + 0.587 * boosted.g + 0.114 * boosted.b;
   const luminance01 = luminance / 255;
 
-  // 元画像の色味を残しつつ彩度だけ軽く抑え、完全な白塗り化を避けます。
+  // まず色相をわずかに残したまま彩度を落として、強い黒線だけが残るのを抑えます。
   let rr = lerp(luminance, boosted.r, preserveSaturation);
   let gg = lerp(luminance, boosted.g, preserveSaturation);
   let bb = lerp(luminance, boosted.b, preserveSaturation);
@@ -371,24 +387,22 @@ function applyHiddenStyleToPixel(r, g, b, boost) {
   gg = lerp(gg, mean, neutralize);
   bb = lerp(bb, mean, neutralize);
 
-  // 暗部ほど白へ寄せすぎないよう重みを下げ、黒背景での可視性を残します。
-  const darkProtect = 1 - Math.pow(luminance01, 0.65);
-  const whiteMix = clamp01(whiteMixBase * (0.62 + luminance01 * 0.34) - darkProtect * 0.12);
-  rr = lerp(rr, 255, whiteMix);
-  gg = lerp(gg, 255, whiteMix);
-  bb = lerp(bb, 255, whiteMix);
+  // すべての画素を「かなり白に近い狭い帯域」へ圧縮し、
+  // 白背景では目立ちにくく、黒背景では階調差が残るようにします。
+  const bandBase = lerp(toneMin, toneMax, Math.pow(luminance01, 0.9));
+  const localOffset = (luminance01 - 0.5) * contrast;
+  rr = bandBase + localOffset;
+  gg = bandBase + localOffset;
+  bb = bandBase + localOffset;
+
+  // 元画像の色味はごく控えめに戻して、完全な無彩色化は避けます。
+  rr = lerp(rr, boosted.r, hueKeep);
+  gg = lerp(gg, boosted.g, hueKeep);
+  bb = lerp(bb, boosted.b, hueKeep);
 
   rr = lerp(rr, tintColor.r, tintMix);
   gg = lerp(gg, tintColor.g, tintMix);
   bb = lerp(bb, tintColor.b, tintMix);
-
-  // 暗部は少しだけ底上げして輪郭を残す。
-  if (luminance01 < 0.42) {
-    const lift = shadowFloor * (0.42 - luminance01) / 0.42;
-    rr = lerp(rr, tintColor.r, lift);
-    gg = lerp(gg, tintColor.g, lift);
-    bb = lerp(bb, tintColor.b, lift);
-  }
 
   return { r: clampByte(rr), g: clampByte(gg), b: clampByte(bb) };
 }
@@ -766,7 +780,7 @@ function createNonDestructivePreview(mode = state.previewMode) {
   cleanPreviewContext.fillRect(0, 0, width, height);
 
   // 編集中も保存時に近い「淡色＋半透明」の隠しレイヤーを再計算します。
-  // ただしPNG-8化は行わず、白背景では見えにくく、黒背景ではうっすら残る方向へ近似表示します。
+  // ただしPNG-8化は行わず、白背景では見えにくく、黒背景ではうっすら見える方向へ近似表示します。
   const exportHiddenAlpha = getHiddenRegionAlpha(state.revealBoost) / 255;
   const hiddenOpacityScale = isReveal
     ? (CONFIG.preview.nonDestructive.revealHiddenAlphaScale ?? 0.96)
@@ -826,7 +840,7 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を淡色＋半透明で再計算した非破壊プレビューです。白背景では目立ちにくく、最終PNG-8への減色は保存時だけ実行します。';
+    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を白寄りの狭い明度帯＋半透明で再計算した非破壊プレビューです。白背景では目立ちにくく、最終PNG-8への減色は保存時だけ実行します。';
   } else {
     previewNote.textContent = '黒背景へ元画像由来の淡色＋半透明レイヤーを重ねた近似表示です。隠し領域が完全に消えないようRGBを保持しつつ、クリック後にうっすら見える方向へ寄せています。';
   }
