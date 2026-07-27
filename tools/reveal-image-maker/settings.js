@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.5.0',
-    updatedAt: '2026-07-27 11:05 JST'
+    version: 'v0.6.0',
+    updatedAt: '2026-07-27 15:35 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-balanced-rgb-preserved-v050'
+    fileSuffix: 'reveal-balanced-rgb-preserved-v060'
   },
 
   editor: {
@@ -32,23 +32,27 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     },
     // 隠し領域が完全消失しないよう、前版よりアルファを戻します。
     hiddenAlpha: {
-      base: 100,
-      strong: 128
+      base: 96,
+      strong: 118
     },
-    // 元画像のRGBを残したまま、白背景では目立ちにくく、
-    // 黒背景ではうっすら見える程度の淡色化へ寄せます。
+    // 隠し領域のRGBを白に近い狭い明度帯へ圧縮し、
+    // 白背景では見えにくく、黒背景では階調差が少し残る方向へ調整します。
     hiddenLook: {
-      preserveSaturationBase: 0.38,
-      preserveSaturationStrong: 0.28,
-      whiteMixBase: 0.72,
-      whiteMixStrong: 0.80,
-      tintColor: { r: 225, g: 219, b: 239 },
-      tintMixBase: 0.08,
-      tintMixStrong: 0.14,
-      neutralizeBase: 0.08,
-      neutralizeStrong: 0.14,
-      shadowFloorBase: 0.18,
-      shadowFloorStrong: 0.24
+      preserveSaturationBase: 0.12,
+      preserveSaturationStrong: 0.08,
+      tintColor: { r: 234, g: 228, b: 245 },
+      tintMixBase: 0.10,
+      tintMixStrong: 0.16,
+      toneMinBase: 232,
+      toneMinStrong: 228,
+      toneMaxBase: 248,
+      toneMaxStrong: 244,
+      contrastBase: 11,
+      contrastStrong: 16,
+      hueKeepBase: 0.08,
+      hueKeepStrong: 0.12,
+      neutralizeBase: 0.18,
+      neutralizeStrong: 0.28
     }
   },
 
@@ -56,8 +60,8 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     defaultMode: 'timeline',
     expandModalEnabled: true,
     nonDestructive: {
-      timelineHiddenAlphaScale: 0.96,
-      revealHiddenAlphaScale: 1.22,
+      timelineHiddenAlphaScale: 1.00,
+      revealHiddenAlphaScale: 1.12,
       revealVisibleBrightness: 1.00
     },
     timelineApproximation: {
@@ -80,6 +84,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・半透明パレット化は保存時だけ行います。隠す範囲は元画像の色を薄く残したまま、白背景では目立ちにくく、黒背景ではうっすら見える方向へ調整しています。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・半透明パレット化は保存時だけ行います。隠す範囲は白に近い狭い明度帯へ寄せつつ、元画像の色味を少しだけ残すことで、白背景では目立ちにくく、黒背景ではうっすら見える方向へ調整しています。'
   }
 };
