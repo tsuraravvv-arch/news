@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.9.0',
-    updatedAt: '2026-07-27 23:10 JST'
+    version: 'v0.10.0',
+    updatedAt: '2026-07-28 19:45 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-adaptive-alpha-v090'
+    fileSuffix: 'reveal-hidden-tone-v0100'
   },
 
   editor: {
@@ -32,37 +32,37 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     },
     // 隠し領域が完全消失しないよう、前版よりアルファを戻します。
     hiddenAlpha: {
-      base: 158,
-      strong: 158
+      base: 170,
+      strong: 170
     },
     // 隠し色ごとに透明度を変え、暗い元絵ほどクリック後に残りやすくします。
     hiddenAlphaAdaptive: {
       enabled: true,
-      minBase: 146,
-      minStrong: 146,
-      maxBase: 210,
-      maxStrong: 210,
-      gammaBase: 1.15,
-      gammaStrong: 1.15
+      minBase: 156,
+      minStrong: 156,
+      maxBase: 224,
+      maxStrong: 224,
+      gammaBase: 1.08,
+      gammaStrong: 1.08
     },
     // 隠し領域のRGBを白に近い狭い明度帯へ圧縮し、
     // 白背景では見えにくく、黒背景では階調差が少し残る方向へ調整します。
     hiddenLook: {
-      preserveSaturationBase: 0.16,
-      preserveSaturationStrong: 0.16,
-      tintColor: { r: 234, g: 228, b: 245 },
-      tintMixBase: 0.10,
-      tintMixStrong: 0.10,
-      toneMinBase: 247,
-      toneMinStrong: 247,
-      toneMaxBase: 254,
-      toneMaxStrong: 254,
-      contrastBase: 24,
-      contrastStrong: 24,
-      hueKeepBase: 0.14,
-      hueKeepStrong: 0.14,
-      neutralizeBase: 0.18,
-      neutralizeStrong: 0.18
+      preserveSaturationBase: 0.22,
+      preserveSaturationStrong: 0.22,
+      tintColor: { r: 236, g: 230, b: 246 },
+      tintMixBase: 0.06,
+      tintMixStrong: 0.06,
+      toneMinBase: 249,
+      toneMinStrong: 249,
+      toneMaxBase: 255,
+      toneMaxStrong: 255,
+      contrastBase: 42,
+      contrastStrong: 42,
+      hueKeepBase: 0.24,
+      hueKeepStrong: 0.24,
+      neutralizeBase: 0.12,
+      neutralizeStrong: 0.12
     }
   },
 
@@ -94,6 +94,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、隠し範囲の透明度だけを色ごとに変える基礎改善版です。クリック前の白さは維持しつつ、暗い元絵ほどクリック後に少し見えやすくなるかを確認します。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、クリック前の白さを維持しつつ、隠し領域のRGBへより多くの階調を残す調整版です。白背景では今までと同等以上に白く見せつつ、黒背景では輪郭・顔・明暗が少し分かりやすくなるかを確認します。'
   }
 };
