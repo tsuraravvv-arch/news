@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.8.0',
+    version: 'v0.9.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-nondestructive-png8'
+    fileSuffix: 'reveal-adaptive-alpha-v090'
   },
   editor: {
     defaultTool: 'hide',
@@ -111,6 +111,15 @@ const DEFAULT_CONFIG = {
     hiddenAlpha: {
       base: 124,
       strong: 148
+    },
+    hiddenAlphaAdaptive: {
+      enabled: true,
+      minBase: 146,
+      minStrong: 146,
+      maxBase: 210,
+      maxStrong: 210,
+      gammaBase: 1.15,
+      gammaStrong: 1.15
     },
     hiddenLook: {
       preserveSaturationBase: 0.14,
@@ -408,6 +417,22 @@ function applyHiddenStyleToPixel(r, g, b, boost) {
   bb = lerp(bb, tintColor.b, tintMix);
 
   return { r: clampByte(rr), g: clampByte(gg), b: clampByte(bb) };
+}
+
+
+function getAdaptiveHiddenAlphaFromLuminance(luminance, boost) {
+  const adaptive = CONFIG.export.hiddenAlphaAdaptive || {};
+  if (!adaptive.enabled) return getHiddenRegionAlpha(boost);
+  const normalized = getBoostNormalized(boost);
+  const minAlpha = lerp(adaptive.minBase ?? 146, adaptive.minStrong ?? 146, normalized);
+  const maxAlpha = lerp(adaptive.maxBase ?? 210, adaptive.maxStrong ?? 210, normalized);
+  const gamma = lerp(adaptive.gammaBase ?? 1.15, adaptive.gammaStrong ?? 1.15, normalized);
+  const darkness = clamp01(1 - (luminance / 255));
+  return clampByte(lerp(minAlpha, maxAlpha, Math.pow(darkness, gamma)));
+}
+
+function getSourcePixelLuminanceAtIndex(sourcePixels, index) {
+  return 0.299 * sourcePixels[index] + 0.587 * sourcePixels[index + 1] + 0.114 * sourcePixels[index + 2];
 }
 
 function createExportImageData(selectionMaskData) {
@@ -739,7 +764,10 @@ function createVisibleLayerAtSize(width, height) {
   return cleanPreviewVisibleCanvas;
 }
 
-function createHiddenLayerAtSize(width, height) {
+function createHiddenLayerAtSize(width, height, options = {}) {
+  const alphaScale = options.alphaScale ?? 1;
+  const sourceForLuminance = options.sourceForLuminance || sourceCanvas;
+
   hiddenPreviewCanvas.width = width;
   hiddenPreviewCanvas.height = height;
   hiddenPreviewContext.clearRect(0, 0, width, height);
@@ -749,13 +777,23 @@ function createHiddenLayerAtSize(width, height) {
 
   const hiddenImageData = hiddenPreviewContext.getImageData(0, 0, width, height);
   const pixels = hiddenImageData.data;
+
+  timelineResampleCanvas.width = width;
+  timelineResampleCanvas.height = height;
+  timelineResampleContext.clearRect(0, 0, width, height);
+  timelineResampleContext.imageSmoothingEnabled = true;
+  timelineResampleContext.imageSmoothingQuality = 'high';
+  timelineResampleContext.drawImage(sourceForLuminance, 0, 0, width, height);
+  const referencePixels = timelineResampleContext.getImageData(0, 0, width, height).data;
+
   for (let index = 0; index < pixels.length; index += 4) {
     if (pixels[index + 3] < 1) continue;
     const hiddenStyled = applyHiddenStyleToPixel(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
     pixels[index] = hiddenStyled.r;
     pixels[index + 1] = hiddenStyled.g;
     pixels[index + 2] = hiddenStyled.b;
-    pixels[index + 3] = 255;
+    const luminance = getSourcePixelLuminanceAtIndex(referencePixels, index);
+    pixels[index + 3] = clampByte(getAdaptiveHiddenAlphaFromLuminance(luminance, state.revealBoost) * alphaScale);
   }
   hiddenPreviewContext.putImageData(hiddenImageData, 0, 0);
   hiddenPreviewContext.globalCompositeOperation = 'destination-out';
@@ -784,17 +822,15 @@ function createNonDestructivePreview(mode = state.previewMode) {
 
   // 編集中も保存時に近い「淡色＋半透明」の隠しレイヤーを再計算します。
   // ただしPNG-8化は行わず、白背景では見えにくく、黒背景ではうっすら見える方向へ近似表示します。
-  const exportHiddenAlpha = getHiddenRegionAlpha(state.revealBoost) / 255;
   const hiddenOpacityScale = isReveal
-    ? (CONFIG.preview.nonDestructive.revealHiddenAlphaScale ?? 0.96)
+    ? (CONFIG.preview.nonDestructive.revealHiddenAlphaScale ?? 1.00)
     : (CONFIG.preview.nonDestructive.timelineHiddenAlphaScale ?? 1.00);
-  const hiddenOpacity = clamp01(exportHiddenAlpha * hiddenOpacityScale);
-  const hiddenLayer = createHiddenLayerAtSize(width, height);
+  const hiddenLayer = createHiddenLayerAtSize(width, height, {
+    alphaScale: hiddenOpacityScale,
+    sourceForLuminance: sourceCanvas
+  });
 
-  cleanPreviewContext.save();
-  cleanPreviewContext.globalAlpha = hiddenOpacity;
   cleanPreviewContext.drawImage(hiddenLayer, 0, 0);
-  cleanPreviewContext.restore();
 
   const visibleLayer = createVisibleLayerAtSize(width, height);
   cleanPreviewContext.save();
@@ -843,9 +879,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を白寄りの狭い明度帯＋半透明で再計算した非破壊プレビューです。白背景では目立ちにくく、最終PNG-8への減色は保存時だけ実行します。';
+    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を白寄りの狭い明度帯＋可変半透明で再計算した非破壊プレビューです。白背景では白さを維持しつつ、暗い元絵の部分ほどクリック後に少し見えやすくなる方向へ寄せています。';
   } else {
-    previewNote.textContent = '黒背景へ元画像由来の淡色＋半透明レイヤーを重ねた近似表示です。隠し領域が完全に消えないようRGBを保持しつつ、クリック後にうっすら見える方向へ寄せています。';
+    previewNote.textContent = '黒背景へ元画像由来の淡色＋可変半透明レイヤーを重ねた近似表示です。暗部ほどやや見えやすくし、明部は白さを保つ方向へ寄せています。';
   }
 }
 
@@ -1344,7 +1380,7 @@ function yieldForPaint() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
-async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha = 48, onProgress = null) {
+async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha = 48, onProgress = null, originalImageData = imageData) {
   const { width, height, data } = imageData;
   const visibleLimit = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors));
   const hiddenLimit = Math.max(1, Math.min(254 - visibleLimit + 1, CONFIG.export.palette.hiddenColors));
@@ -1371,7 +1407,25 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha
   const alphaBytes = new Uint8Array(palette.length);
   alphaBytes[0] = 0;
   for (let index = 1; index < hiddenOffset; index += 1) alphaBytes[index] = 255;
-  for (let index = hiddenOffset; index < palette.length; index += 1) alphaBytes[index] = hiddenAlpha;
+
+  const hiddenLumaSums = new Float64Array(hidden.palette.length);
+  const hiddenCounts = new Uint32Array(hidden.palette.length);
+  const originalPixels = originalImageData.data;
+  for (let sourceIndex = 0; sourceIndex < data.length; sourceIndex += 4) {
+    if (data[sourceIndex + 3] < 128) continue;
+    const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 32;
+    if (isVisible) continue;
+    const key = ((data[sourceIndex] >> 3) << 10)
+      | ((data[sourceIndex + 1] >> 3) << 5)
+      | (data[sourceIndex + 2] >> 3);
+    const paletteIndex = hidden.binToPaletteIndex[key];
+    hiddenLumaSums[paletteIndex] += getSourcePixelLuminanceAtIndex(originalPixels, sourceIndex);
+    hiddenCounts[paletteIndex] += 1;
+  }
+  for (let index = 0; index < hidden.palette.length; index += 1) {
+    const averageLuminance = hiddenCounts[index] > 0 ? (hiddenLumaSums[index] / hiddenCounts[index]) : 255;
+    alphaBytes[hiddenOffset + index] = getAdaptiveHiddenAlphaFromLuminance(averageLuminance, state.revealBoost);
+  }
 
   onProgress?.(68, '画素を専用パレットへ割り当てています…');
   await yieldForPaint();
@@ -1435,7 +1489,7 @@ async function saveOutput() {
     const hiddenAlpha = getHiddenRegionAlpha(state.revealBoost);
     const blob = await encodeIndexedPng(imageData, selectionMaskData, hiddenAlpha, (value, message) => {
       setExportProgress(value, message);
-    });
+    }, state.sourceImageData);
 
     const name = outputFileName();
     outputFileNameNode.textContent = name;
