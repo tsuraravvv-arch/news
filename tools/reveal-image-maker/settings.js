@@ -3,7 +3,7 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   output: {
-    fileSuffix: 'reveal-nondestructive-png8'
+    fileSuffix: 'reveal-halfalpha-v3-hidden-tone-tuned'
   },
 
   editor: {
@@ -29,21 +29,21 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     },
     // 隠す範囲は市松ではなく、均一な半透明パレットとして保存します。
     hiddenAlpha: {
-      base: 86,
-      strong: 112
+      base: 58,
+      strong: 78
     },
     // 隠し領域は白背景で目立ちにくく、黒背景ではうっすら見えるよう、
     // 元画像をかなり薄くしたうえで淡いラベンダー寄りに整えます。
     hiddenLook: {
-      preserveSaturationBase: 0.16,
-      preserveSaturationStrong: 0.10,
-      whiteMixBase: 0.82,
-      whiteMixStrong: 0.90,
-      tintColor: { r: 236, g: 231, b: 245 },
-      tintMixBase: 0.16,
-      tintMixStrong: 0.24,
-      neutralizeBase: 0.18,
-      neutralizeStrong: 0.30
+      preserveSaturationBase: 0.10,
+      preserveSaturationStrong: 0.06,
+      whiteMixBase: 0.90,
+      whiteMixStrong: 0.94,
+      tintColor: { r: 208, g: 194, b: 236 },
+      tintMixBase: 0.32,
+      tintMixStrong: 0.42,
+      neutralizeBase: 0.28,
+      neutralizeStrong: 0.40
     }
   },
 
@@ -53,8 +53,8 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     // 編集中はPNG-8化せず、元画像＋範囲マスクだけで表示します。
     nonDestructive: {
       timelineHiddenAlphaScale: 1.00,
-      revealHiddenAlphaScale: 0.96,
-      revealVisibleBrightness: 1.02
+      revealHiddenAlphaScale: 1.08,
+      revealVisibleBrightness: 1.00
     },
     timelineApproximation: {
       maxLongEdge: 900,
