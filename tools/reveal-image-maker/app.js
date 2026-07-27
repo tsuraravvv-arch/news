@@ -85,7 +85,7 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.6.0',
+    version: 'v0.7.0',
     updatedAt: ''
   },
   output: {
@@ -109,25 +109,25 @@ const DEFAULT_CONFIG = {
       hiddenColors: 20
     },
     hiddenAlpha: {
-      base: 96,
-      strong: 118
+      base: 124,
+      strong: 148
     },
     hiddenLook: {
-      preserveSaturationBase: 0.12,
-      preserveSaturationStrong: 0.08,
+      preserveSaturationBase: 0.14,
+      preserveSaturationStrong: 0.10,
       tintColor: { r: 234, g: 228, b: 245 },
-      tintMixBase: 0.10,
-      tintMixStrong: 0.16,
-      toneMinBase: 232,
-      toneMinStrong: 228,
-      toneMaxBase: 248,
-      toneMaxStrong: 244,
-      contrastBase: 11,
-      contrastStrong: 16,
-      hueKeepBase: 0.08,
-      hueKeepStrong: 0.12,
-      neutralizeBase: 0.18,
-      neutralizeStrong: 0.28
+      tintMixBase: 0.08,
+      tintMixStrong: 0.12,
+      toneMinBase: 242,
+      toneMinStrong: 238,
+      toneMaxBase: 251,
+      toneMaxStrong: 248,
+      contrastBase: 12,
+      contrastStrong: 18,
+      hueKeepBase: 0.12,
+      hueKeepStrong: 0.18,
+      neutralizeBase: 0.16,
+      neutralizeStrong: 0.22
     }
   },
   preview: {
@@ -135,7 +135,7 @@ const DEFAULT_CONFIG = {
     expandModalEnabled: true,
     nonDestructive: {
       timelineHiddenAlphaScale: 1.00,
-      revealHiddenAlphaScale: 1.12,
+      revealHiddenAlphaScale: 1.16,
       revealVisibleBrightness: 1.02
     },
     timelineApproximation: {
@@ -178,7 +178,7 @@ function applyConfigToInputs() {
   revealBoostInput.step = String(Math.round(CONFIG.boost.step * 100));
   revealBoostInput.value = String(Math.round(CONFIG.boost.default * 100));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.5.0';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.7.0';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
