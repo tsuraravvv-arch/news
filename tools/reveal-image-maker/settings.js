@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.8.0',
-    updatedAt: '2026-07-27 22:20 JST'
+    version: 'v0.9.0',
+    updatedAt: '2026-07-27 23:10 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-singleboost-foundation-v080'
+    fileSuffix: 'reveal-adaptive-alpha-v090'
   },
 
   editor: {
@@ -34,6 +34,16 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     hiddenAlpha: {
       base: 158,
       strong: 158
+    },
+    // 隠し色ごとに透明度を変え、暗い元絵ほどクリック後に残りやすくします。
+    hiddenAlphaAdaptive: {
+      enabled: true,
+      minBase: 146,
+      minStrong: 146,
+      maxBase: 210,
+      maxStrong: 210,
+      gammaBase: 1.15,
+      gammaStrong: 1.15
     },
     // 隠し領域のRGBを白に近い狭い明度帯へ圧縮し、
     // 白背景では見えにくく、黒背景では階調差が少し残る方向へ調整します。
@@ -84,6 +94,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定で、まず白背景での白さを維持しつつ、黒背景での判別性が出るかを確認する基礎テストに集中します。隠す範囲はより白寄りのRGB帯へ圧縮しつつ、半透明は少し強めにしてクリック後の視認性を優先しています。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、隠し範囲の透明度だけを色ごとに変える基礎改善版です。クリック前の白さは維持しつつ、暗い元絵ほどクリック後に少し見えやすくなるかを確認します。'
   }
 };
