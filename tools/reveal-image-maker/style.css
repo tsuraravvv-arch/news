@@ -71,33 +71,40 @@ h3 { margin-bottom: 8px; font-size: 1rem; }
 }
 .lead { max-width: 760px; margin-bottom: 0; color: var(--ink-soft); line-height: 1.85; }
 
-.header-actions {
+.header-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  width: 100%;
+}
+.header-meta {
   flex: 0 0 auto;
   display: flex;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  padding-top: 4px;
 }
 .version-badge {
   display: inline-flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1px;
-  padding: 8px 11px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: rgba(255,255,255,.82);
-  color: #596b84;
-  font-size: .78rem;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(108,168,220,.16), rgba(145,132,222,.16));
+  border: 1px solid rgba(117, 140, 193, .24);
+  color: #5f6fb2;
   font-weight: 900;
-  line-height: 1.15;
-  white-space: nowrap;
+  font-size: .82rem;
+  letter-spacing: .05em;
 }
-.version-badge small {
+.version-date {
   color: var(--muted);
-  font-size: .64rem;
+  font-size: .76rem;
   font-weight: 700;
+  text-align: right;
 }
-
 .back-link {
   flex: 0 0 auto;
   padding: 11px 16px;
@@ -354,6 +361,8 @@ dd { margin: 0; color: var(--ink); font-weight: 800; overflow-wrap: anywhere; }
 
 @media (max-width: 900px) {
   .tool-header-inner { align-items: flex-start; }
+  .header-main { width: 100%; }
+  .header-meta { align-items: flex-start; }
   .workspace-grid { grid-template-columns: 1fr; }
   .controls-card { position: static; }
   .file-information dl { grid-template-columns: repeat(2, minmax(0,1fr)); }
@@ -364,35 +373,10 @@ dd { margin: 0; color: var(--ink); font-weight: 800; overflow-wrap: anywhere; }
   .tool-header-inner,
   .page-shell { width: calc(100vw - 24px); }
   .tool-header-inner { padding: 22px 20px; flex-direction: column; gap: 16px; }
-  
-.header-actions {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.version-badge {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 1px;
-  padding: 8px 11px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: rgba(255,255,255,.82);
-  color: #596b84;
-  font-size: .78rem;
-  font-weight: 900;
-  line-height: 1.15;
-  white-space: nowrap;
-}
-.version-badge small {
-  color: var(--muted);
-  font-size: .64rem;
-  font-weight: 700;
-}
-
-.back-link { align-self: flex-start; }
+  .header-main { flex-direction: column; gap: 14px; }
+  .header-meta { align-items: flex-start; padding-top: 0; }
+  .version-date { text-align: left; }
+  .back-link { align-self: flex-start; }
   .page-shell { padding-bottom: 36px; }
   .card { padding: 17px; margin-top: 12px; }
   .notice-strip { padding: 14px 15px; }
