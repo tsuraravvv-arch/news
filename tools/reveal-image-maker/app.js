@@ -45,6 +45,8 @@ const zoomInButton = document.getElementById('zoomInButton');
 const fitButton = document.getElementById('fitButton');
 const saveButton = document.getElementById('saveButton');
 const toast = document.getElementById('toast');
+const versionBadgeNode = document.getElementById('versionBadge');
+const versionDateNode = document.getElementById('versionDate');
 
 const toolButtons = [...document.querySelectorAll('[data-tool]')];
 const previewTabs = [...document.querySelectorAll('[data-preview]')];
@@ -82,6 +84,10 @@ function mergeConfig(base, override) {
 }
 
 const DEFAULT_CONFIG = {
+  meta: {
+    version: 'v0.5.0',
+    updatedAt: ''
+  },
   output: {
     fileSuffix: 'reveal-nondestructive-png8'
   },
@@ -165,6 +171,9 @@ function applyConfigToInputs() {
   revealBoostInput.max = String(Math.round(CONFIG.boost.max * 100));
   revealBoostInput.step = String(Math.round(CONFIG.boost.step * 100));
   revealBoostInput.value = String(Math.round(CONFIG.boost.default * 100));
+
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.5.0';
+  if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
 applyConfigToInputs();
@@ -319,56 +328,69 @@ function getHiddenRegionAlpha(boost) {
 
 function applyHiddenStyleToPixel(r, g, b, boost) {
   const boosted = applyRevealBoostToPixel(r, g, b, boost);
-  const luminance = 0.299 * boosted.r + 0.587 * boosted.g + 0.114 * boosted.b;
   const normalized = getBoostNormalized(boost);
   const hiddenLook = CONFIG.export.hiddenLook || {};
+
   const preserveSaturation = lerp(
-    hiddenLook.preserveSaturationBase ?? 0.16,
-    hiddenLook.preserveSaturationStrong ?? 0.10,
+    hiddenLook.preserveSaturationBase ?? 0.38,
+    hiddenLook.preserveSaturationStrong ?? 0.28,
     normalized
   );
   const neutralize = lerp(
-    hiddenLook.neutralizeBase ?? 0.18,
-    hiddenLook.neutralizeStrong ?? 0.30,
+    hiddenLook.neutralizeBase ?? 0.08,
+    hiddenLook.neutralizeStrong ?? 0.14,
     normalized
   );
-  const whiteMix = lerp(
-    hiddenLook.whiteMixBase ?? 0.82,
-    hiddenLook.whiteMixStrong ?? 0.90,
+  const whiteMixBase = lerp(
+    hiddenLook.whiteMixBase ?? 0.72,
+    hiddenLook.whiteMixStrong ?? 0.80,
     normalized
   );
   const tintMix = lerp(
-    hiddenLook.tintMixBase ?? 0.16,
-    hiddenLook.tintMixStrong ?? 0.24,
+    hiddenLook.tintMixBase ?? 0.08,
+    hiddenLook.tintMixStrong ?? 0.14,
     normalized
   );
-  const tintColor = hiddenLook.tintColor || { r: 236, g: 231, b: 245 };
+  const shadowFloor = lerp(
+    hiddenLook.shadowFloorBase ?? 0.18,
+    hiddenLook.shadowFloorStrong ?? 0.24,
+    normalized
+  );
+  const tintColor = hiddenLook.tintColor || { r: 225, g: 219, b: 239 };
 
-  let rr = mixChannel(boosted.r, luminance, 1 - preserveSaturation);
-  let gg = mixChannel(boosted.g, luminance, 1 - preserveSaturation);
-  let bb = mixChannel(boosted.b, luminance, 1 - preserveSaturation);
+  const luminance = 0.299 * boosted.r + 0.587 * boosted.g + 0.114 * boosted.b;
+  const luminance01 = luminance / 255;
+
+  // 元画像の色味を残しつつ彩度だけ軽く抑え、完全な白塗り化を避けます。
+  let rr = lerp(luminance, boosted.r, preserveSaturation);
+  let gg = lerp(luminance, boosted.g, preserveSaturation);
+  let bb = lerp(luminance, boosted.b, preserveSaturation);
 
   const mean = (rr + gg + bb) / 3;
-  rr = mixChannel(rr, mean, neutralize);
-  gg = mixChannel(gg, mean, neutralize);
-  bb = mixChannel(bb, mean, neutralize);
+  rr = lerp(rr, mean, neutralize);
+  gg = lerp(gg, mean, neutralize);
+  bb = lerp(bb, mean, neutralize);
 
-  rr = mixChannel(rr, 255, whiteMix);
-  gg = mixChannel(gg, 255, whiteMix);
-  bb = mixChannel(bb, 255, whiteMix);
+  // 暗部ほど白へ寄せすぎないよう重みを下げ、黒背景での可視性を残します。
+  const darkProtect = 1 - Math.pow(luminance01, 0.65);
+  const whiteMix = clamp01(whiteMixBase * (0.62 + luminance01 * 0.34) - darkProtect * 0.12);
+  rr = lerp(rr, 255, whiteMix);
+  gg = lerp(gg, 255, whiteMix);
+  bb = lerp(bb, 255, whiteMix);
 
-  rr = mixChannel(rr, tintColor.r, tintMix);
-  gg = mixChannel(gg, tintColor.g, tintMix);
-  bb = mixChannel(bb, tintColor.b, tintMix);
+  rr = lerp(rr, tintColor.r, tintMix);
+  gg = lerp(gg, tintColor.g, tintMix);
+  bb = lerp(bb, tintColor.b, tintMix);
 
-  if (luminance < 52) {
-    const floorLift = clamp01((52 - luminance) / 52) * 0.10;
-    rr = mixChannel(rr, tintColor.r, floorLift);
-    gg = mixChannel(gg, tintColor.g, floorLift);
-    bb = mixChannel(bb, tintColor.b, floorLift);
+  // 暗部は少しだけ底上げして輪郭を残す。
+  if (luminance01 < 0.42) {
+    const lift = shadowFloor * (0.42 - luminance01) / 0.42;
+    rr = lerp(rr, tintColor.r, lift);
+    gg = lerp(gg, tintColor.g, lift);
+    bb = lerp(bb, tintColor.b, lift);
   }
 
-  return { r: rr, g: gg, b: bb };
+  return { r: clampByte(rr), g: clampByte(gg), b: clampByte(bb) };
 }
 
 function createExportImageData(selectionMaskData) {
@@ -806,7 +828,7 @@ function updatePreviewNote() {
   } else if (state.previewMode === 'timeline') {
     previewNote.textContent = '元画像と範囲マスクから、隠す範囲を淡色＋半透明で再計算した非破壊プレビューです。白背景では目立ちにくく、最終PNG-8への減色は保存時だけ実行します。';
   } else {
-    previewNote.textContent = '黒背景へ淡色＋半透明の隠しレイヤーを重ねた近似表示です。クリック後に背景がうっすら透ける方向へ寄せていますが、最終PNG-8の見え方は保存後に確認してください。';
+    previewNote.textContent = '黒背景へ元画像由来の淡色＋半透明レイヤーを重ねた近似表示です。隠し領域が完全に消えないようRGBを保持しつつ、クリック後にうっすら見える方向へ寄せています。';
   }
 }
 
@@ -1417,7 +1439,7 @@ async function saveOutput() {
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setExportProgress(100, '保存画像を作成しました。');
-    showToast('元画像から半透明パレットのPNG-8を作成して保存しました。');
+    showToast('元画像のRGBを残した半透明パレットPNG-8を作成して保存しました。');
   } catch (error) {
     console.error(error);
     setExportProgress(0, '保存処理に失敗しました。');
