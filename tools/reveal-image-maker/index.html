@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=v0-5-0-rgb-preserved-1">
+  <link rel="stylesheet" href="style.css?v=v0-8-0-singleboost-1">
 </head>
 <body>
   <header class="tool-header">
@@ -15,14 +15,14 @@
         <div>
           <div class="eyebrow-row">
             <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-            <span class="status-badge">PNG-8 / 上40%プリセット / 半透明パレット試験</span>
+            <span class="status-badge">PNG-8 / 上40%プリセット / 単一ブースト基礎確認</span>
           </div>
           <h1>Reveal Image Maker</h1>
           <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
         </div>
         <div class="header-meta">
           <div class="version-badge" id="versionBadge">v0.7.0</div>
-          <div class="version-date" id="versionDate">2026-07-27 21:45 JST</div>
+          <div class="version-date" id="versionDate">2026-07-27 22:20 JST</div>
         </div>
       </div>
       <a class="back-link" href="../../">Labへ戻る</a>
@@ -152,7 +152,7 @@
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
-            <legend>補正値（実験用）</legend>
+            <legend>補正値（現版は1.00固定）</legend>
             <div class="range-row">
               <input id="revealBoost" type="range" min="100" max="140" value="120" step="5">
               <output id="revealBoostValue" for="revealBoost">x1.20</output>
@@ -162,7 +162,7 @@
               <span>1.20<br><small>中</small></span>
               <span>1.40<br><small>強</small></span>
             </div>
-            <p class="control-help">補正値によって、X上の白さ・粒状ノイズ・開いた後の階調が変化します。数値と白さは単純比例しません。</p>
+            <p class="control-help">現版はブースト1.00固定です。まずは白背景での隠れ方と、黒背景での見え方の基礎確認に集中します。</p>
           </fieldset>
         </div>
       </section>
