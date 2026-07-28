@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.16.0',
-    updatedAt: '2026-07-29 02:56 JST'
+    version: 'v0.16.1',
+    updatedAt: '2026-07-29 03:35 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-direct-900-v0160'
+    fileSuffix: 'reveal-direct-900-v0161-hidden-detail'
   },
 
   editor: {
@@ -28,22 +28,25 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     rebuildFromOriginalOnSave: true,
     maxLongEdge: 900,
     palette: {
-      visibleColors: 160,
-      hiddenColors: 95
+      visibleColors: 128,
+      hiddenColors: 127
     },
     // 900pxへ縮小した後の各画素を、そのまま連続した色面として処理します。
     // 黒背景で見える暗い像（premultiplied RGB）を先に決め、
-    // 白背景では各チャンネルがほぼ白へ寄るようにRGBとアルファを逆算します。
+    // 白背景では各チャンネルがほぼ白へ寄るようにRGBとアルファを逆算します。\n    // 今回は隠し領域だけ、暗部の階調・色差・輪郭を少し強めに残して、X再処理後の潰れを減らす方向へ調整します。
     hiddenLook: {
-      revealMin: 3,
-      revealMax: 47,
-      revealGamma: 0.86,
-      chromaKeep: 0.42,
+      revealMin: 6,
+      revealMax: 70,
+      revealGamma: 0.82,
+      chromaKeep: 0.52,
       whiteMargin: 5,
-      maxWhiteTintDepth: 7,
-      detailSharpen: 0.30,
-      alphaMin: 8,
-      alphaMax: 56
+      maxWhiteTintDepth: 8,
+      detailSharpen: 0.46,
+      alphaMin: 14,
+      alphaMax: 88,
+      edgeLift: 10,
+      saturationBoost: 0.22,
+      toneContrast: 0.16
     }
   },
 
