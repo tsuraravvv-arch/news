@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.11.0',
+    version: 'v0.12.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-hidden-tone-v0110'
+    fileSuffix: 'reveal-positive-composite-v0120'
   },
   editor: {
     defaultTool: 'hide',
@@ -122,21 +122,29 @@ const DEFAULT_CONFIG = {
       gammaStrong: 1.15
     },
     hiddenLook: {
-      preserveSaturationBase: 0.14,
-      preserveSaturationStrong: 0.10,
-      tintColor: { r: 234, g: 228, b: 245 },
-      tintMixBase: 0.08,
-      tintMixStrong: 0.12,
-      toneMinBase: 242,
-      toneMinStrong: 238,
-      toneMaxBase: 251,
-      toneMaxStrong: 248,
-      contrastBase: 12,
-      contrastStrong: 18,
-      hueKeepBase: 0.12,
-      hueKeepStrong: 0.18,
-      neutralizeBase: 0.16,
-      neutralizeStrong: 0.22
+      hiddenMeanDarkBase: 232,
+      hiddenMeanDarkStrong: 232,
+      hiddenMeanBrightBase: 246,
+      hiddenMeanBrightStrong: 246,
+      revealMeanDarkBase: 68,
+      revealMeanDarkStrong: 68,
+      revealMeanBrightBase: 154,
+      revealMeanBrightStrong: 154,
+      whiteTargetDarkBase: 249,
+      whiteTargetDarkStrong: 249,
+      whiteTargetBrightBase: 248,
+      whiteTargetBrightStrong: 248,
+      preliftBase: 0.88,
+      preliftStrong: 0.88,
+      chromaKeepBase: 0.40,
+      chromaKeepStrong: 0.40,
+      neutralizeBase: 0.08,
+      neutralizeStrong: 0.08,
+      hueRestoreBase: 0.26,
+      hueRestoreStrong: 0.26,
+      tintColor: { r: 236, g: 230, b: 246 },
+      tintMixBase: 0.03,
+      tintMixStrong: 0.03
     }
   },
   preview: {
@@ -144,8 +152,8 @@ const DEFAULT_CONFIG = {
     expandModalEnabled: true,
     nonDestructive: {
       timelineHiddenAlphaScale: 1.00,
-      revealHiddenAlphaScale: 1.16,
-      revealVisibleBrightness: 1.02
+      revealHiddenAlphaScale: 1.00,
+      revealVisibleBrightness: 1.00
     },
     timelineApproximation: {
       maxLongEdge: 900,
@@ -165,7 +173,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。現版はクリック前の白さを大きく崩さず、クリック後に灰色ベタや黒反転っぽさが出にくいよう、隠し領域の色生成を高輝度・色相保持寄りへ再調整しています。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、白背景では現在と同等以上の白さを維持しつつ、黒背景では元絵の明暗が正方向に残るよう、隠し領域のRGBとアルファをセットで再計算する確認版です。'
   }
 };
 
@@ -349,34 +357,24 @@ function applyHiddenStyleToPixel(r, g, b, boost) {
   const normalized = getBoostNormalized(boost);
   const hiddenLook = CONFIG.export.hiddenLook || {};
 
-  const whiteLiftDark = lerp(
-    hiddenLook.whiteLiftDarkBase ?? 0.82,
-    hiddenLook.whiteLiftDarkStrong ?? 0.82,
+  const hiddenMeanDark = lerp(
+    hiddenLook.hiddenMeanDarkBase ?? 232,
+    hiddenLook.hiddenMeanDarkStrong ?? 232,
     normalized
   );
-  const whiteLiftBright = lerp(
-    hiddenLook.whiteLiftBrightBase ?? 0.94,
-    hiddenLook.whiteLiftBrightStrong ?? 0.94,
+  const hiddenMeanBright = lerp(
+    hiddenLook.hiddenMeanBrightBase ?? 246,
+    hiddenLook.hiddenMeanBrightStrong ?? 246,
     normalized
   );
-  const toneFloor = lerp(
-    hiddenLook.toneFloorBase ?? 234,
-    hiddenLook.toneFloorStrong ?? 234,
-    normalized
-  );
-  const toneCeil = lerp(
-    hiddenLook.toneCeilBase ?? 252,
-    hiddenLook.toneCeilStrong ?? 252,
-    normalized
-  );
-  const toneContrast = lerp(
-    hiddenLook.toneContrastBase ?? 10,
-    hiddenLook.toneContrastStrong ?? 10,
+  const prelift = lerp(
+    hiddenLook.preliftBase ?? 0.88,
+    hiddenLook.preliftStrong ?? 0.88,
     normalized
   );
   const chromaKeep = lerp(
-    hiddenLook.chromaKeepBase ?? 0.52,
-    hiddenLook.chromaKeepStrong ?? 0.52,
+    hiddenLook.chromaKeepBase ?? 0.40,
+    hiddenLook.chromaKeepStrong ?? 0.40,
     normalized
   );
   const neutralize = lerp(
@@ -385,49 +383,42 @@ function applyHiddenStyleToPixel(r, g, b, boost) {
     normalized
   );
   const hueRestore = lerp(
-    hiddenLook.hueRestoreBase ?? 0.20,
-    hiddenLook.hueRestoreStrong ?? 0.20,
+    hiddenLook.hueRestoreBase ?? 0.26,
+    hiddenLook.hueRestoreStrong ?? 0.26,
     normalized
   );
   const tintMix = lerp(
-    hiddenLook.tintMixBase ?? 0.05,
-    hiddenLook.tintMixStrong ?? 0.05,
+    hiddenLook.tintMixBase ?? 0.03,
+    hiddenLook.tintMixStrong ?? 0.03,
     normalized
   );
   const tintColor = hiddenLook.tintColor || { r: 236, g: 230, b: 246 };
 
   const luminance = 0.299 * boosted.r + 0.587 * boosted.g + 0.114 * boosted.b;
   const luminance01 = luminance / 255;
+  const targetMean = lerp(hiddenMeanDark, hiddenMeanBright, Math.pow(luminance01, 0.90));
 
-  // まず各チャンネルをそのまま高輝度側へ持ち上げて、
-  // 黒背景での形状差が残りやすいようにチャンネル差を保持します。
-  const liftMix = lerp(whiteLiftDark, whiteLiftBright, Math.pow(luminance01, 0.88));
-  let rr = lerp(boosted.r, 255, liftMix);
-  let gg = lerp(boosted.g, 255, liftMix);
-  let bb = lerp(boosted.b, 255, liftMix);
+  let rr = lerp(boosted.r, 255, prelift);
+  let gg = lerp(boosted.g, 255, prelift);
+  let bb = lerp(boosted.b, 255, prelift);
 
-  // 平均輝度だけを高輝度の狭い帯域へ寄せ、白背景での白さを確保します。
   let mean = (rr + gg + bb) / 3;
-  const targetMean = lerp(toneFloor, toneCeil, Math.pow(luminance01, 0.92)) + ((luminance01 - 0.5) * toneContrast);
   const meanShift = targetMean - mean;
   rr += meanShift;
   gg += meanShift;
   bb += meanShift;
 
-  // 色差を少し保って、灰色ベタ化を弱めます。
   mean = (rr + gg + bb) / 3;
   rr = lerp(mean, rr, chromaKeep);
   gg = lerp(mean, gg, chromaKeep);
   bb = lerp(mean, bb, chromaKeep);
 
-  // 不自然な色転びだけを軽く均します。
   mean = (rr + gg + bb) / 3;
   rr = lerp(rr, mean, neutralize);
   gg = lerp(gg, mean, neutralize);
   bb = lerp(bb, mean, neutralize);
 
-  // 元絵の色味を控えめに戻し、顔や衣装の判別性を補強します。
-  const hueMix = hueRestore * (0.9 - 0.35 * luminance01);
+  const hueMix = hueRestore * (0.92 - 0.28 * luminance01);
   rr = lerp(rr, boosted.r, hueMix);
   gg = lerp(gg, boosted.g, hueMix);
   bb = lerp(bb, boosted.b, hueMix);
@@ -436,23 +427,42 @@ function applyHiddenStyleToPixel(r, g, b, boost) {
   gg = lerp(gg, tintColor.g, tintMix);
   bb = lerp(bb, tintColor.b, tintMix);
 
-  rr = clampByte(Math.min(toneCeil, Math.max(toneFloor - 8, rr)));
-  gg = clampByte(Math.min(toneCeil, Math.max(toneFloor - 8, gg)));
-  bb = clampByte(Math.min(toneCeil, Math.max(toneFloor - 8, bb)));
+  rr = clampByte(Math.max(targetMean - 18, Math.min(252, rr)));
+  gg = clampByte(Math.max(targetMean - 18, Math.min(252, gg)));
+  bb = clampByte(Math.max(targetMean - 18, Math.min(252, bb)));
 
   return { r: rr, g: gg, b: bb };
 }
 
-
-function getAdaptiveHiddenAlphaFromLuminance(luminance, boost) {
+function getAdaptiveHiddenAlphaFromLuminance(luminance, boost, hiddenPixel = null) {
   const adaptive = CONFIG.export.hiddenAlphaAdaptive || {};
-  if (!adaptive.enabled) return getHiddenRegionAlpha(boost);
+  const hiddenLook = CONFIG.export.hiddenLook || {};
   const normalized = getBoostNormalized(boost);
-  const minAlpha = lerp(adaptive.minBase ?? 146, adaptive.minStrong ?? 146, normalized);
-  const maxAlpha = lerp(adaptive.maxBase ?? 210, adaptive.maxStrong ?? 210, normalized);
-  const gamma = lerp(adaptive.gammaBase ?? 1.15, adaptive.gammaStrong ?? 1.15, normalized);
-  const darkness = clamp01(1 - (luminance / 255));
-  return clampByte(lerp(minAlpha, maxAlpha, Math.pow(darkness, gamma)));
+  const luminance01 = clamp01(luminance / 255);
+
+  const hiddenMeanDark = lerp(hiddenLook.hiddenMeanDarkBase ?? 232, hiddenLook.hiddenMeanDarkStrong ?? 232, normalized);
+  const hiddenMeanBright = lerp(hiddenLook.hiddenMeanBrightBase ?? 246, hiddenLook.hiddenMeanBrightStrong ?? 246, normalized);
+  const revealMeanDark = lerp(hiddenLook.revealMeanDarkBase ?? 68, hiddenLook.revealMeanDarkStrong ?? 68, normalized);
+  const revealMeanBright = lerp(hiddenLook.revealMeanBrightBase ?? 154, hiddenLook.revealMeanBrightStrong ?? 154, normalized);
+  const whiteTargetDark = lerp(hiddenLook.whiteTargetDarkBase ?? 249, hiddenLook.whiteTargetDarkStrong ?? 249, normalized);
+  const whiteTargetBright = lerp(hiddenLook.whiteTargetBrightBase ?? 248, hiddenLook.whiteTargetBrightStrong ?? 248, normalized);
+
+  const hiddenMean = hiddenPixel
+    ? ((hiddenPixel.r + hiddenPixel.g + hiddenPixel.b) / 3)
+    : lerp(hiddenMeanDark, hiddenMeanBright, Math.pow(luminance01, 0.90));
+
+  const revealMeanTarget = lerp(revealMeanDark, revealMeanBright, Math.pow(luminance01, 0.92));
+  const whiteTarget = lerp(whiteTargetDark, whiteTargetBright, Math.pow(luminance01, 0.92));
+
+  let alpha01 = revealMeanTarget / Math.max(1, hiddenMean);
+  const maxAlphaByWhite = (255 - whiteTarget) / Math.max(1, 255 - hiddenMean);
+  alpha01 = Math.min(alpha01, maxAlphaByWhite);
+
+  // 旧版のalpha最小値設定は白背景を暗くしすぎたため、v0.12では
+  // 正方向の見え方を優先しつつ、穏やかな固定範囲だけを設けます。
+  alpha01 = Math.max(0.18, Math.min(0.62, alpha01));
+
+  return clampByte(clamp01(alpha01) * 255);
 }
 
 function getSourcePixelLuminanceAtIndex(sourcePixels, index) {
@@ -817,7 +827,7 @@ function createHiddenLayerAtSize(width, height, options = {}) {
     pixels[index + 1] = hiddenStyled.g;
     pixels[index + 2] = hiddenStyled.b;
     const luminance = getSourcePixelLuminanceAtIndex(referencePixels, index);
-    pixels[index + 3] = clampByte(getAdaptiveHiddenAlphaFromLuminance(luminance, state.revealBoost) * alphaScale);
+    pixels[index + 3] = clampByte(getAdaptiveHiddenAlphaFromLuminance(luminance, state.revealBoost, hiddenStyled) * alphaScale);
   }
   hiddenPreviewContext.putImageData(hiddenImageData, 0, 0);
   hiddenPreviewContext.globalCompositeOperation = 'destination-out';
@@ -1448,7 +1458,7 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha
   }
   for (let index = 0; index < hidden.palette.length; index += 1) {
     const averageLuminance = hiddenCounts[index] > 0 ? (hiddenLumaSums[index] / hiddenCounts[index]) : 255;
-    alphaBytes[hiddenOffset + index] = getAdaptiveHiddenAlphaFromLuminance(averageLuminance, state.revealBoost);
+    alphaBytes[hiddenOffset + index] = getAdaptiveHiddenAlphaFromLuminance(averageLuminance, state.revealBoost, hidden.palette[index]);
   }
 
   onProgress?.(68, '画素を専用パレットへ割り当てています…');
