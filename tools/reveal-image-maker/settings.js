@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.15.0',
-    updatedAt: '2026-07-29 03:20 JST'
+    version: 'v0.16.0',
+    updatedAt: '2026-07-29 02:56 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-separated-color-carrier-v0150'
+    fileSuffix: 'reveal-direct-900-v0160'
   },
 
   editor: {
@@ -26,62 +26,32 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
 
   export: {
     rebuildFromOriginalOnSave: true,
+    maxLongEdge: 900,
     palette: {
-      visibleColors: 194,
-      neutralColors: 28,
-      carrierColors: 32
+      visibleColors: 160,
+      hiddenColors: 95
     },
-    // まずは白背景の白さをほぼ維持する前提で固定し、
-    // クリック後の見え方改善はRGB側で追います。
-    hiddenAlpha: {
-      base: 168,
-      strong: 168
-    },
-    hiddenAlphaAdaptive: {
-      enabled: true,
-      minBase: 154,
-      minStrong: 154,
-      maxBase: 218,
-      maxStrong: 218,
-      gammaBase: 1.10,
-      gammaStrong: 1.10
-    },
-    // v0.15.0: 白く隠す中立画素と、元色を保持する色キャリア画素を完全分離します。
-    // キャリアは別パレット・別アルファで保存し、平均化による色濁りを防ぎます。
+    // 900pxへ縮小した後の各画素を、そのまま連続した色面として処理します。
+    // 黒背景で見える暗い像（premultiplied RGB）を先に決め、
+    // 白背景では各チャンネルがほぼ白へ寄るようにRGBとアルファを逆算します。
     hiddenLook: {
-      neutralHiddenMeanDark: 232,
-      neutralHiddenMeanBright: 246,
-      neutralRevealDark: 52,
-      neutralRevealBright: 112,
-      neutralWhiteTarget: 250,
-      neutralPrelift: 0.90,
-      neutralChromaKeep: 0.10,
-      carrierAlpha: 112,
-      baseCarrierThreshold: 1,
-      colorCarrierThreshold: 2,
-      edgeCarrierThreshold: 6,
-      edgeThreshold: 26,
-      chromaThreshold: 24
+      revealMin: 3,
+      revealMax: 47,
+      revealGamma: 0.86,
+      chromaKeep: 0.42,
+      whiteMargin: 5,
+      maxWhiteTintDepth: 7,
+      detailSharpen: 0.30,
+      alphaMin: 8,
+      alphaMax: 56
     }
   },
 
   preview: {
     defaultMode: 'timeline',
     expandModalEnabled: true,
-    nonDestructive: {
-      timelineHiddenAlphaScale: 1.00,
-      revealHiddenAlphaScale: 1.00,
-      revealVisibleBrightness: 1.00
-    },
-    timelineApproximation: {
-      maxLongEdge: 900,
-      alphaThreshold: 130,
-      edgeAlphaThreshold: 128,
-      preserveMinRed: 190,
-      preserveMaxLuminance: 213,
-      whiteBackground: '#ffffff',
-      revealBackground: '#000000'
-    }
+    whiteBackground: '#ffffff',
+    revealBackground: '#000000'
   },
 
   boost: {
@@ -93,6 +63,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後 / X投稿後のカラーと鮮明さを最優先し、白く隠す中立画素と元色を残す色キャリア画素を別パレットで保存する確認版です。ブーストは1.00固定です。'
+    timelineApproximation: '元画像と範囲マスクから、保存時と同じ長辺900pxの最終RGBA画素を再計算して表示します。細かな色キャリア、網点、ディザは使用しません。保存時は元画像から同じ900pxデータを一度だけ作り直し、そのデータだけでPNG-8パレットを構築します。'
   }
 };
