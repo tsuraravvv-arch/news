@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.12.0',
-    updatedAt: '2026-07-28 21:20 JST'
+    version: 'v0.13.0',
+    updatedAt: '2026-07-28 22:05 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-positive-composite-v0120'
+    fileSuffix: 'reveal-click-color-priority-v0130'
   },
 
   editor: {
@@ -27,8 +27,8 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   export: {
     rebuildFromOriginalOnSave: true,
     palette: {
-      visibleColors: 228,
-      hiddenColors: 20
+      visibleColors: 222,
+      hiddenColors: 32
     },
     // まずは白背景の白さをほぼ維持する前提で固定し、
     // クリック後の見え方改善はRGB側で追います。
@@ -45,33 +45,20 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
       gammaBase: 1.10,
       gammaStrong: 1.10
     },
-    // v0.12.0: 正方向の合成計算へ切り替え。
-    // 白背景ではほぼ白を維持しつつ、黒背景では元絵の明暗に沿って
-    // うっすら見えるよう、隠し色の平均輝度とアルファをセットで決めます。
+    // v0.13.0: クリック後のカラーを最優先にする色キャリア方式。
+    // 大部分は白背景で隠れやすい中立画素、少数画素だけは元色を強く残し、
+    // 黒背景で縮小・合成されたときに色味が感じられるようにします。
     hiddenLook: {
-      hiddenMeanDarkBase: 232,
-      hiddenMeanDarkStrong: 232,
-      hiddenMeanBrightBase: 246,
-      hiddenMeanBrightStrong: 246,
-      revealMeanDarkBase: 68,
-      revealMeanDarkStrong: 68,
-      revealMeanBrightBase: 154,
-      revealMeanBrightStrong: 154,
-      whiteTargetDarkBase: 249,
-      whiteTargetDarkStrong: 249,
-      whiteTargetBrightBase: 248,
-      whiteTargetBrightStrong: 248,
-      preliftBase: 0.88,
-      preliftStrong: 0.88,
-      chromaKeepBase: 0.40,
-      chromaKeepStrong: 0.40,
-      neutralizeBase: 0.08,
-      neutralizeStrong: 0.08,
-      hueRestoreBase: 0.26,
-      hueRestoreStrong: 0.26,
-      tintColor: { r: 236, g: 230, b: 246 },
-      tintMixBase: 0.03,
-      tintMixStrong: 0.03
+      neutralRevealDark: 34,
+      neutralRevealBright: 82,
+      neutralChromaSpread: 5,
+      carrierRevealDark: 62,
+      carrierRevealBright: 122,
+      carrierChromaSpread: 24,
+      carrierThreshold: 2,
+      neutralMinAlpha: 0.18,
+      carrierMinAlpha: 0.30,
+      foregroundCeiling: 250
     }
   },
 
@@ -103,6 +90,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、白背景では現在と同等以上の白さを維持しつつ、黒背景では元絵の明暗が正方向に残るよう、隠し領域のRGBとアルファをセットで再計算する確認版です。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後のカラーを最優先し、大部分を白く隠す中立画素、少数を色味保持用の画素として生成する確認版です。ブーストは1.00固定です。'
   }
 };
