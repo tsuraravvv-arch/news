@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.16.0',
+    version: 'v0.16.1',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-direct-900-v0160'
+    fileSuffix: 'reveal-direct-900-v0161-hidden-detail'
   },
   editor: {
     defaultTool: 'hide',
@@ -106,19 +106,22 @@ const DEFAULT_CONFIG = {
     rebuildFromOriginalOnSave: true,
     maxLongEdge: 900,
     palette: {
-      visibleColors: 160,
-      hiddenColors: 95
+      visibleColors: 128,
+      hiddenColors: 127
     },
     hiddenLook: {
-      revealMin: 3,
-      revealMax: 47,
-      revealGamma: 0.86,
-      chromaKeep: 0.42,
+      revealMin: 6,
+      revealMax: 70,
+      revealGamma: 0.82,
+      chromaKeep: 0.52,
       whiteMargin: 5,
-      maxWhiteTintDepth: 7,
-      detailSharpen: 0.30,
-      alphaMin: 8,
-      alphaMax: 56
+      maxWhiteTintDepth: 8,
+      detailSharpen: 0.46,
+      alphaMin: 14,
+      alphaMax: 88,
+      edgeLift: 10,
+      saturationBoost: 0.22,
+      toneContrast: 0.16
     }
   },
   preview: {
@@ -135,7 +138,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時と同じ長辺900pxの最終RGBA画素を再計算して表示します。細かな色キャリア、網点、ディザは使用しません。保存時は元画像から同じ900pxデータを一度だけ作り直し、そのデータだけでPNG-8パレットを構築します。'
+    timelineApproximation: '元画像と範囲マスクから、保存時と同じ長辺900pxの最終RGBA画素を再計算して表示します。細かな色キャリア、網点、ディザは使用しません。保存時は元画像から同じ900pxデータを一度だけ作り直し、そのデータだけでPNG-8パレットを構築します。今回は隠し領域だけ、暗部の階調、色差、輪郭を少し強めに残す方向へ調整しています。'
   }
 };
 
@@ -160,7 +163,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.16.0';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.16.1';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -336,32 +339,53 @@ function getSharpenedChannel(pixels, width, height, x, y, channel, amount) {
   return clampByte(pixels[centerIndex] + (pixels[centerIndex] - neighborMean) * amount);
 }
 
-function createDirectHiddenPixel(r, g, b, sourceAlpha = 255) {
+function createDirectHiddenPixel(r, g, b, sourceAlpha = 255, edgeStrength = 0) {
   const look = CONFIG.export.hiddenLook || {};
-  const revealMin = Number(look.revealMin ?? 3);
-  const revealMax = Math.max(revealMin, Number(look.revealMax ?? 47));
-  const revealGamma = Math.max(0.05, Number(look.revealGamma ?? 0.86));
-  const chromaKeep = clamp01(Number(look.chromaKeep ?? 0.42));
+  const revealMin = Number(look.revealMin ?? 6);
+  const revealMax = Math.max(revealMin, Number(look.revealMax ?? 70));
+  const revealGamma = Math.max(0.05, Number(look.revealGamma ?? 0.82));
+  const chromaKeep = clamp01(Number(look.chromaKeep ?? 0.52));
   const whiteMargin = Math.max(0, Number(look.whiteMargin ?? 5));
-  const maxWhiteTintDepth = Math.max(0, Number(look.maxWhiteTintDepth ?? 7));
-  const alphaMin = Math.max(1, Number(look.alphaMin ?? 8));
-  const alphaMax = Math.max(alphaMin, Number(look.alphaMax ?? 56));
+  const maxWhiteTintDepth = Math.max(0, Number(look.maxWhiteTintDepth ?? 8));
+  const alphaMin = Math.max(1, Number(look.alphaMin ?? 14));
+  const alphaMax = Math.max(alphaMin, Number(look.alphaMax ?? 88));
+  const edgeLift = Math.max(0, Number(look.edgeLift ?? 10));
+  const saturationBoost = Math.max(0, Number(look.saturationBoost ?? 0.22));
+  const toneContrast = Math.max(0, Number(look.toneContrast ?? 0.16));
   const revealRange = revealMax - revealMin;
 
   const mapChannel = (value) => revealMin + revealRange * Math.pow(clamp01(value / 255), revealGamma);
   const sourceLuminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  const mappedLuminance = mapChannel(sourceLuminance);
+  const mappedLuminanceBase = mapChannel(sourceLuminance);
+  const normalizedLum = clamp01(sourceLuminance / 255);
+  const middleContrast = (normalizedLum - 0.5) * toneContrast * revealRange;
+  const edgeBrightness = edgeLift * clamp01(edgeStrength);
+  const mappedLuminance = mappedLuminanceBase + middleContrast + edgeBrightness;
 
-  let targetR = lerp(mappedLuminance, mapChannel(r), chromaKeep);
-  let targetG = lerp(mappedLuminance, mapChannel(g), chromaKeep);
-  let targetB = lerp(mappedLuminance, mapChannel(b), chromaKeep);
+  const mappedR = mapChannel(r);
+  const mappedG = mapChannel(g);
+  const mappedB = mapChannel(b);
+  const colorWeight = chromaKeep * (1 + saturationBoost * (0.45 + clamp01(edgeStrength) * 0.55));
 
-  // 白背景で色差が強く浮かばないよう、最大チャンネルとの差だけを制限します。
-  const maxTarget = Math.max(targetR, targetG, targetB);
-  const minimumTarget = maxTarget - maxWhiteTintDepth;
-  targetR = Math.max(minimumTarget, targetR);
-  targetG = Math.max(minimumTarget, targetG);
-  targetB = Math.max(minimumTarget, targetB);
+  let targetR = mappedLuminance + (mappedR - mappedLuminanceBase) * colorWeight;
+  let targetG = mappedLuminance + (mappedG - mappedLuminanceBase) * colorWeight;
+  let targetB = mappedLuminance + (mappedB - mappedLuminanceBase) * colorWeight;
+
+  let maxTarget = Math.max(targetR, targetG, targetB);
+  let minTarget = Math.min(targetR, targetG, targetB);
+  const currentTintDepth = maxTarget - minTarget;
+  if (currentTintDepth > maxWhiteTintDepth) {
+    const tintScale = maxWhiteTintDepth / Math.max(currentTintDepth, 1e-6);
+    targetR = maxTarget - (maxTarget - targetR) * tintScale;
+    targetG = maxTarget - (maxTarget - targetG) * tintScale;
+    targetB = maxTarget - (maxTarget - targetB) * tintScale;
+    maxTarget = Math.max(targetR, targetG, targetB);
+  }
+
+  targetR = clampByte(targetR);
+  targetG = clampByte(targetG);
+  targetB = clampByte(targetB);
+  maxTarget = Math.max(targetR, targetG, targetB);
 
   // 黒背景で見せたい premultiplied RGB を先に決め、
   // 白背景の最も明るいチャンネルが 255 - whiteMargin 付近になるようアルファを逆算します。
@@ -418,10 +442,14 @@ function createDirect900Output() {
       const isVisible = maskPixels[index + 3] > 127;
       if (isVisible) continue;
 
+      const baseR = sourcePixels[index];
+      const baseG = sourcePixels[index + 1];
+      const baseB = sourcePixels[index + 2];
       const r = getSharpenedChannel(sourcePixels, width, height, x, y, 0, sharpenAmount);
       const g = getSharpenedChannel(sourcePixels, width, height, x, y, 1, sharpenAmount);
       const b = getSharpenedChannel(sourcePixels, width, height, x, y, 2, sharpenAmount);
-      const hidden = createDirectHiddenPixel(r, g, b, sourceAlpha);
+      const edgeStrength = clamp01((Math.abs(r - baseR) + Math.abs(g - baseG) + Math.abs(b - baseB)) / 48);
+      const hidden = createDirectHiddenPixel(r, g, b, sourceAlpha, edgeStrength);
       outputPixels[index] = hidden.r;
       outputPixels[index + 1] = hidden.g;
       outputPixels[index + 2] = hidden.b;
