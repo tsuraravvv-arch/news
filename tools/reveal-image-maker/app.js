@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.10.0',
+    version: 'v0.11.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-hidden-tone-v0100'
+    fileSuffix: 'reveal-hidden-tone-v0110'
   },
   editor: {
     defaultTool: 'hide',
@@ -165,7 +165,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。現版は白背景での白さを維持しつつ、黒背景で顔や輪郭の見え方が少しでも自然になるよう、隠し領域の階調保持を強めています。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への減色・透過加工は保存時だけ行います。現版はクリック前の白さを大きく崩さず、クリック後に灰色ベタや黒反転っぽさが出にくいよう、隠し領域の色生成を高輝度・色相保持寄りへ再調整しています。'
   }
 };
 
@@ -349,74 +349,98 @@ function applyHiddenStyleToPixel(r, g, b, boost) {
   const normalized = getBoostNormalized(boost);
   const hiddenLook = CONFIG.export.hiddenLook || {};
 
-  const preserveSaturation = lerp(
-    hiddenLook.preserveSaturationBase ?? 0.12,
-    hiddenLook.preserveSaturationStrong ?? 0.08,
+  const whiteLiftDark = lerp(
+    hiddenLook.whiteLiftDarkBase ?? 0.82,
+    hiddenLook.whiteLiftDarkStrong ?? 0.82,
+    normalized
+  );
+  const whiteLiftBright = lerp(
+    hiddenLook.whiteLiftBrightBase ?? 0.94,
+    hiddenLook.whiteLiftBrightStrong ?? 0.94,
+    normalized
+  );
+  const toneFloor = lerp(
+    hiddenLook.toneFloorBase ?? 234,
+    hiddenLook.toneFloorStrong ?? 234,
+    normalized
+  );
+  const toneCeil = lerp(
+    hiddenLook.toneCeilBase ?? 252,
+    hiddenLook.toneCeilStrong ?? 252,
+    normalized
+  );
+  const toneContrast = lerp(
+    hiddenLook.toneContrastBase ?? 10,
+    hiddenLook.toneContrastStrong ?? 10,
+    normalized
+  );
+  const chromaKeep = lerp(
+    hiddenLook.chromaKeepBase ?? 0.52,
+    hiddenLook.chromaKeepStrong ?? 0.52,
     normalized
   );
   const neutralize = lerp(
-    hiddenLook.neutralizeBase ?? 0.18,
-    hiddenLook.neutralizeStrong ?? 0.28,
+    hiddenLook.neutralizeBase ?? 0.08,
+    hiddenLook.neutralizeStrong ?? 0.08,
     normalized
   );
-  const toneMin = lerp(
-    hiddenLook.toneMinBase ?? 232,
-    hiddenLook.toneMinStrong ?? 228,
-    normalized
-  );
-  const toneMax = lerp(
-    hiddenLook.toneMaxBase ?? 248,
-    hiddenLook.toneMaxStrong ?? 244,
-    normalized
-  );
-  const contrast = lerp(
-    hiddenLook.contrastBase ?? 11,
-    hiddenLook.contrastStrong ?? 16,
-    normalized
-  );
-  const hueKeep = lerp(
-    hiddenLook.hueKeepBase ?? 0.08,
-    hiddenLook.hueKeepStrong ?? 0.12,
+  const hueRestore = lerp(
+    hiddenLook.hueRestoreBase ?? 0.20,
+    hiddenLook.hueRestoreStrong ?? 0.20,
     normalized
   );
   const tintMix = lerp(
-    hiddenLook.tintMixBase ?? 0.10,
-    hiddenLook.tintMixStrong ?? 0.16,
+    hiddenLook.tintMixBase ?? 0.05,
+    hiddenLook.tintMixStrong ?? 0.05,
     normalized
   );
-  const tintColor = hiddenLook.tintColor || { r: 234, g: 228, b: 245 };
+  const tintColor = hiddenLook.tintColor || { r: 236, g: 230, b: 246 };
 
   const luminance = 0.299 * boosted.r + 0.587 * boosted.g + 0.114 * boosted.b;
   const luminance01 = luminance / 255;
 
-  // まず色相をわずかに残したまま彩度を落として、強い黒線だけが残るのを抑えます。
-  let rr = lerp(luminance, boosted.r, preserveSaturation);
-  let gg = lerp(luminance, boosted.g, preserveSaturation);
-  let bb = lerp(luminance, boosted.b, preserveSaturation);
+  // まず各チャンネルをそのまま高輝度側へ持ち上げて、
+  // 黒背景での形状差が残りやすいようにチャンネル差を保持します。
+  const liftMix = lerp(whiteLiftDark, whiteLiftBright, Math.pow(luminance01, 0.88));
+  let rr = lerp(boosted.r, 255, liftMix);
+  let gg = lerp(boosted.g, 255, liftMix);
+  let bb = lerp(boosted.b, 255, liftMix);
 
-  const mean = (rr + gg + bb) / 3;
+  // 平均輝度だけを高輝度の狭い帯域へ寄せ、白背景での白さを確保します。
+  let mean = (rr + gg + bb) / 3;
+  const targetMean = lerp(toneFloor, toneCeil, Math.pow(luminance01, 0.92)) + ((luminance01 - 0.5) * toneContrast);
+  const meanShift = targetMean - mean;
+  rr += meanShift;
+  gg += meanShift;
+  bb += meanShift;
+
+  // 色差を少し保って、灰色ベタ化を弱めます。
+  mean = (rr + gg + bb) / 3;
+  rr = lerp(mean, rr, chromaKeep);
+  gg = lerp(mean, gg, chromaKeep);
+  bb = lerp(mean, bb, chromaKeep);
+
+  // 不自然な色転びだけを軽く均します。
+  mean = (rr + gg + bb) / 3;
   rr = lerp(rr, mean, neutralize);
   gg = lerp(gg, mean, neutralize);
   bb = lerp(bb, mean, neutralize);
 
-  // すべての画素を「かなり白に近い狭い帯域」へ圧縮し、
-  // 白背景では目立ちにくく、黒背景では階調差が残るようにします。
-  const bandBase = lerp(toneMin, toneMax, Math.pow(luminance01, 0.9));
-  const localOffset = (luminance01 - 0.5) * contrast;
-  rr = bandBase + localOffset;
-  gg = bandBase + localOffset;
-  bb = bandBase + localOffset;
-
-  // 元画像の色味はごく控えめに戻して、完全な無彩色化は避けます。
-  rr = lerp(rr, boosted.r, hueKeep);
-  gg = lerp(gg, boosted.g, hueKeep);
-  bb = lerp(bb, boosted.b, hueKeep);
+  // 元絵の色味を控えめに戻し、顔や衣装の判別性を補強します。
+  const hueMix = hueRestore * (0.9 - 0.35 * luminance01);
+  rr = lerp(rr, boosted.r, hueMix);
+  gg = lerp(gg, boosted.g, hueMix);
+  bb = lerp(bb, boosted.b, hueMix);
 
   rr = lerp(rr, tintColor.r, tintMix);
   gg = lerp(gg, tintColor.g, tintMix);
   bb = lerp(bb, tintColor.b, tintMix);
 
-  return { r: clampByte(rr), g: clampByte(gg), b: clampByte(bb) };
+  rr = clampByte(Math.min(toneCeil, Math.max(toneFloor - 8, rr)));
+  gg = clampByte(Math.min(toneCeil, Math.max(toneFloor - 8, gg)));
+  bb = clampByte(Math.min(toneCeil, Math.max(toneFloor - 8, bb)));
+
+  return { r: rr, g: gg, b: bb };
 }
 
 
@@ -879,9 +903,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を白寄りの狭い明度帯＋可変半透明で再計算した非破壊プレビューです。白背景では白さを維持しつつ、暗い元絵の部分ほどクリック後に少し見えやすくなる方向へ寄せています。';
+    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を高輝度・色相保持寄りの淡色＋可変半透明で再計算した非破壊プレビューです。白背景では白さを維持しつつ、クリック後に灰色ベタや黒反転っぽさが出にくい方向へ寄せています。';
   } else {
-    previewNote.textContent = '黒背景へ元画像由来の淡色＋可変半透明レイヤーを重ねた近似表示です。暗部ほどやや見えやすくし、明部は白さを保つ方向へ寄せています。';
+    previewNote.textContent = '黒背景へ元画像由来の高輝度カラー＋可変半透明レイヤーを重ねた近似表示です。暗部の輪郭や顔の判別性を少し残しつつ、全体が一様な灰色になりにくい方向へ寄せています。';
   }
 }
 
