@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.16.3',
-    updatedAt: '2026-07-29 04:35 JST'
+    version: 'v0.16.4',
+    updatedAt: '2026-07-29 05:05 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-direct-900-v0163-neutral-balance'
+    fileSuffix: 'reveal-direct-900-v0164-x-color-comp'
   },
 
   editor: {
@@ -28,29 +28,31 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     rebuildFromOriginalOnSave: true,
     maxLongEdge: 900,
     palette: {
-      visibleColors: 128,
-      hiddenColors: 126
+      visibleColors: 112,
+      hiddenColors: 142
     },
     // 900pxへ縮小した後の各画素を、そのまま連続した色面として処理します。
     // 黒背景で見える暗い像（premultiplied RGB）を先に決め、
     // 白背景では各チャンネルがほぼ白へ寄るようにRGBとアルファを逆算します。\n    // 今回は隠し領域だけ、暗部の階調・色差・輪郭を少し強めに残して、X再処理後の潰れを減らす方向へ調整します。
     hiddenLook: {
       revealMin: 7,
-      revealMax: 76,
+      revealMax: 78,
       revealGamma: 0.81,
-      chromaKeep: 0.34,
+      chromaKeep: 0.40,
       whiteMargin: 7,
-      maxWhiteTintDepth: 5,
+      maxWhiteTintDepth: 6,
       detailSharpen: 0.44,
-      alphaMin: 12,
-      alphaMax: 92,
-      alphaBias: 2,
-      edgeAlphaBoost: 4,
+      alphaMin: 13,
+      alphaMax: 98,
+      alphaBias: 3,
+      edgeAlphaBoost: 5,
       edgeLift: 9,
-      saturationBoost: 0.10,
+      saturationBoost: 0.14,
       toneContrast: 0.18,
-      shadowNeutralize: 0.22,
-      alphaGamma: 1.06
+      shadowNeutralize: 0.14,
+      alphaGamma: 0.98,
+      xChromaComp: 0.18,
+      xAlphaComp: 4
     }
   },
 
