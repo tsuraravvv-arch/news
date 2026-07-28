@@ -68,6 +68,12 @@ const overlayContext = overlayCanvas.getContext('2d');
 const outputCanvas = document.createElement('canvas');
 const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
 const timelineCanvas = document.createElement('canvas');
+const HIDDEN_BAYER_4X4 = [
+  [0, 8, 2, 10],
+  [12, 4, 14, 6],
+  [3, 11, 1, 9],
+  [15, 7, 13, 5]
+];
 
 function mergeConfig(base, override) {
   if (Array.isArray(base)) return Array.isArray(override) ? override.slice() : base.slice();
@@ -85,11 +91,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.12.0',
+    version: 'v0.13.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-positive-composite-v0120'
+    fileSuffix: 'reveal-click-color-priority-v0130'
   },
   editor: {
     defaultTool: 'hide',
@@ -105,8 +111,8 @@ const DEFAULT_CONFIG = {
   export: {
     rebuildFromOriginalOnSave: true,
     palette: {
-      visibleColors: 228,
-      hiddenColors: 20
+      visibleColors: 222,
+      hiddenColors: 32
     },
     hiddenAlpha: {
       base: 124,
@@ -122,29 +128,16 @@ const DEFAULT_CONFIG = {
       gammaStrong: 1.15
     },
     hiddenLook: {
-      hiddenMeanDarkBase: 232,
-      hiddenMeanDarkStrong: 232,
-      hiddenMeanBrightBase: 246,
-      hiddenMeanBrightStrong: 246,
-      revealMeanDarkBase: 68,
-      revealMeanDarkStrong: 68,
-      revealMeanBrightBase: 154,
-      revealMeanBrightStrong: 154,
-      whiteTargetDarkBase: 249,
-      whiteTargetDarkStrong: 249,
-      whiteTargetBrightBase: 248,
-      whiteTargetBrightStrong: 248,
-      preliftBase: 0.88,
-      preliftStrong: 0.88,
-      chromaKeepBase: 0.40,
-      chromaKeepStrong: 0.40,
-      neutralizeBase: 0.08,
-      neutralizeStrong: 0.08,
-      hueRestoreBase: 0.26,
-      hueRestoreStrong: 0.26,
-      tintColor: { r: 236, g: 230, b: 246 },
-      tintMixBase: 0.03,
-      tintMixStrong: 0.03
+      neutralRevealDark: 34,
+      neutralRevealBright: 82,
+      neutralChromaSpread: 5,
+      carrierRevealDark: 62,
+      carrierRevealBright: 122,
+      carrierChromaSpread: 24,
+      carrierThreshold: 2,
+      neutralMinAlpha: 0.18,
+      carrierMinAlpha: 0.30,
+      foregroundCeiling: 250
     }
   },
   preview: {
@@ -173,7 +166,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、白背景では現在と同等以上の白さを維持しつつ、黒背景では元絵の明暗が正方向に残るよう、隠し領域のRGBとアルファをセットで再計算する確認版です。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後のカラーを最優先し、大部分を白く隠す中立画素、少数を色味保持用の画素として生成する確認版です。ブーストは1.00固定です。'
   }
 };
 
@@ -198,7 +191,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.8.0';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.13.0';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -352,117 +345,54 @@ function getHiddenRegionAlpha(boost) {
   return clampByte(lerp(base, strong, getBoostNormalized(boost)));
 }
 
-function applyHiddenStyleToPixel(r, g, b, boost) {
-  const boosted = applyRevealBoostToPixel(r, g, b, boost);
-  const normalized = getBoostNormalized(boost);
+function createHiddenPixelStyle(r, g, b, x, y, boost) {
   const hiddenLook = CONFIG.export.hiddenLook || {};
-
-  const hiddenMeanDark = lerp(
-    hiddenLook.hiddenMeanDarkBase ?? 232,
-    hiddenLook.hiddenMeanDarkStrong ?? 232,
-    normalized
-  );
-  const hiddenMeanBright = lerp(
-    hiddenLook.hiddenMeanBrightBase ?? 246,
-    hiddenLook.hiddenMeanBrightStrong ?? 246,
-    normalized
-  );
-  const prelift = lerp(
-    hiddenLook.preliftBase ?? 0.88,
-    hiddenLook.preliftStrong ?? 0.88,
-    normalized
-  );
-  const chromaKeep = lerp(
-    hiddenLook.chromaKeepBase ?? 0.40,
-    hiddenLook.chromaKeepStrong ?? 0.40,
-    normalized
-  );
-  const neutralize = lerp(
-    hiddenLook.neutralizeBase ?? 0.08,
-    hiddenLook.neutralizeStrong ?? 0.08,
-    normalized
-  );
-  const hueRestore = lerp(
-    hiddenLook.hueRestoreBase ?? 0.26,
-    hiddenLook.hueRestoreStrong ?? 0.26,
-    normalized
-  );
-  const tintMix = lerp(
-    hiddenLook.tintMixBase ?? 0.03,
-    hiddenLook.tintMixStrong ?? 0.03,
-    normalized
-  );
-  const tintColor = hiddenLook.tintColor || { r: 236, g: 230, b: 246 };
-
-  const luminance = 0.299 * boosted.r + 0.587 * boosted.g + 0.114 * boosted.b;
-  const luminance01 = luminance / 255;
-  const targetMean = lerp(hiddenMeanDark, hiddenMeanBright, Math.pow(luminance01, 0.90));
-
-  let rr = lerp(boosted.r, 255, prelift);
-  let gg = lerp(boosted.g, 255, prelift);
-  let bb = lerp(boosted.b, 255, prelift);
-
-  let mean = (rr + gg + bb) / 3;
-  const meanShift = targetMean - mean;
-  rr += meanShift;
-  gg += meanShift;
-  bb += meanShift;
-
-  mean = (rr + gg + bb) / 3;
-  rr = lerp(mean, rr, chromaKeep);
-  gg = lerp(mean, gg, chromaKeep);
-  bb = lerp(mean, bb, chromaKeep);
-
-  mean = (rr + gg + bb) / 3;
-  rr = lerp(rr, mean, neutralize);
-  gg = lerp(gg, mean, neutralize);
-  bb = lerp(bb, mean, neutralize);
-
-  const hueMix = hueRestore * (0.92 - 0.28 * luminance01);
-  rr = lerp(rr, boosted.r, hueMix);
-  gg = lerp(gg, boosted.g, hueMix);
-  bb = lerp(bb, boosted.b, hueMix);
-
-  rr = lerp(rr, tintColor.r, tintMix);
-  gg = lerp(gg, tintColor.g, tintMix);
-  bb = lerp(bb, tintColor.b, tintMix);
-
-  rr = clampByte(Math.max(targetMean - 18, Math.min(252, rr)));
-  gg = clampByte(Math.max(targetMean - 18, Math.min(252, gg)));
-  bb = clampByte(Math.max(targetMean - 18, Math.min(252, bb)));
-
-  return { r: rr, g: gg, b: bb };
-}
-
-function getAdaptiveHiddenAlphaFromLuminance(luminance, boost, hiddenPixel = null) {
-  const adaptive = CONFIG.export.hiddenAlphaAdaptive || {};
-  const hiddenLook = CONFIG.export.hiddenLook || {};
-  const normalized = getBoostNormalized(boost);
+  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
   const luminance01 = clamp01(luminance / 255);
+  const carrierThreshold = Math.max(0, Math.min(16, hiddenLook.carrierThreshold ?? 2));
+  const isCarrier = HIDDEN_BAYER_4X4[y & 3][x & 3] < carrierThreshold;
 
-  const hiddenMeanDark = lerp(hiddenLook.hiddenMeanDarkBase ?? 232, hiddenLook.hiddenMeanDarkStrong ?? 232, normalized);
-  const hiddenMeanBright = lerp(hiddenLook.hiddenMeanBrightBase ?? 246, hiddenLook.hiddenMeanBrightStrong ?? 246, normalized);
-  const revealMeanDark = lerp(hiddenLook.revealMeanDarkBase ?? 68, hiddenLook.revealMeanDarkStrong ?? 68, normalized);
-  const revealMeanBright = lerp(hiddenLook.revealMeanBrightBase ?? 154, hiddenLook.revealMeanBrightStrong ?? 154, normalized);
-  const whiteTargetDark = lerp(hiddenLook.whiteTargetDarkBase ?? 249, hiddenLook.whiteTargetDarkStrong ?? 249, normalized);
-  const whiteTargetBright = lerp(hiddenLook.whiteTargetBrightBase ?? 248, hiddenLook.whiteTargetBrightStrong ?? 248, normalized);
+  const revealDark = isCarrier
+    ? (hiddenLook.carrierRevealDark ?? 62)
+    : (hiddenLook.neutralRevealDark ?? 34);
+  const revealBright = isCarrier
+    ? (hiddenLook.carrierRevealBright ?? 122)
+    : (hiddenLook.neutralRevealBright ?? 82);
+  const spread = isCarrier
+    ? (hiddenLook.carrierChromaSpread ?? 24)
+    : (hiddenLook.neutralChromaSpread ?? 5);
+  const minAlpha = isCarrier
+    ? (hiddenLook.carrierMinAlpha ?? 0.30)
+    : (hiddenLook.neutralMinAlpha ?? 0.18);
+  const foregroundCeiling = hiddenLook.foregroundCeiling ?? 250;
 
-  const hiddenMean = hiddenPixel
-    ? ((hiddenPixel.r + hiddenPixel.g + hiddenPixel.b) / 3)
-    : lerp(hiddenMeanDark, hiddenMeanBright, Math.pow(luminance01, 0.90));
+  const revealMean = lerp(revealDark, revealBright, Math.pow(luminance01, 0.90));
+  const deltaR = r - luminance;
+  const deltaG = g - luminance;
+  const deltaB = b - luminance;
+  const maxDelta = Math.max(1, Math.abs(deltaR), Math.abs(deltaG), Math.abs(deltaB));
+  const chromaScale = spread / maxDelta;
 
-  const revealMeanTarget = lerp(revealMeanDark, revealMeanBright, Math.pow(luminance01, 0.92));
-  const whiteTarget = lerp(whiteTargetDark, whiteTargetBright, Math.pow(luminance01, 0.92));
+  let targetR = revealMean + deltaR * chromaScale;
+  let targetG = revealMean + deltaG * chromaScale;
+  let targetB = revealMean + deltaB * chromaScale;
 
-  let alpha01 = revealMeanTarget / Math.max(1, hiddenMean);
-  const maxAlphaByWhite = (255 - whiteTarget) / Math.max(1, 255 - hiddenMean);
-  alpha01 = Math.min(alpha01, maxAlphaByWhite);
+  const lowerBound = Math.max(8, revealMean - spread);
+  const upperBound = Math.min(220, revealMean + spread);
+  targetR = Math.max(lowerBound, Math.min(upperBound, targetR));
+  targetG = Math.max(lowerBound, Math.min(upperBound, targetG));
+  targetB = Math.max(lowerBound, Math.min(upperBound, targetB));
 
-  // 旧版のalpha最小値設定は白背景を暗くしすぎたため、v0.12では
-  // 正方向の見え方を優先しつつ、穏やかな固定範囲だけを設けます。
-  alpha01 = Math.max(0.18, Math.min(0.62, alpha01));
+  const maxTarget = Math.max(targetR, targetG, targetB);
+  const alpha01 = clamp01(Math.max(minAlpha, maxTarget / foregroundCeiling));
 
-  return clampByte(clamp01(alpha01) * 255);
+  return {
+    r: clampByte(targetR / alpha01),
+    g: clampByte(targetG / alpha01),
+    b: clampByte(targetB / alpha01),
+    a: clampByte(alpha01 * 255),
+    carrier: isCarrier
+  };
 }
 
 function getSourcePixelLuminanceAtIndex(sourcePixels, index) {
@@ -473,18 +403,31 @@ function createExportImageData(selectionMaskData) {
   const sourceData = state.sourceImageData;
   const exportData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
   const pixels = exportData.data;
+  const alphaHints = new Uint8Array(state.imageWidth * state.imageHeight);
 
   for (let index = 0; index < pixels.length; index += 4) {
-    if (pixels[index + 3] < 1) continue;
+    const pixelIndex = index >> 2;
+    if (pixels[index + 3] < 1) {
+      alphaHints[pixelIndex] = 0;
+      continue;
+    }
     const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
-    if (isVisible) continue;
-    const hiddenStyled = applyHiddenStyleToPixel(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
+    if (isVisible) {
+      alphaHints[pixelIndex] = 255;
+      continue;
+    }
+    const x = pixelIndex % state.imageWidth;
+    const y = Math.floor(pixelIndex / state.imageWidth);
+    const hiddenStyled = createHiddenPixelStyle(
+      pixels[index], pixels[index + 1], pixels[index + 2], x, y, state.revealBoost
+    );
     pixels[index] = hiddenStyled.r;
     pixels[index + 1] = hiddenStyled.g;
     pixels[index + 2] = hiddenStyled.b;
+    alphaHints[pixelIndex] = hiddenStyled.a;
   }
 
-  return exportData;
+  return { imageData: exportData, alphaHints };
 }
 
 function getSelectionMaskData() {
@@ -822,12 +765,16 @@ function createHiddenLayerAtSize(width, height, options = {}) {
 
   for (let index = 0; index < pixels.length; index += 4) {
     if (pixels[index + 3] < 1) continue;
-    const hiddenStyled = applyHiddenStyleToPixel(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
+    const pixelIndex = index >> 2;
+    const x = pixelIndex % width;
+    const y = Math.floor(pixelIndex / width);
+    const hiddenStyled = createHiddenPixelStyle(
+      referencePixels[index], referencePixels[index + 1], referencePixels[index + 2], x, y, state.revealBoost
+    );
     pixels[index] = hiddenStyled.r;
     pixels[index + 1] = hiddenStyled.g;
     pixels[index + 2] = hiddenStyled.b;
-    const luminance = getSourcePixelLuminanceAtIndex(referencePixels, index);
-    pixels[index + 3] = clampByte(getAdaptiveHiddenAlphaFromLuminance(luminance, state.revealBoost, hiddenStyled) * alphaScale);
+    pixels[index + 3] = clampByte(hiddenStyled.a * alphaScale);
   }
   hiddenPreviewContext.putImageData(hiddenImageData, 0, 0);
   hiddenPreviewContext.globalCompositeOperation = 'destination-out';
@@ -913,9 +860,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクから、隠す範囲を高輝度・色相保持寄りの淡色＋可変半透明で再計算した非破壊プレビューです。白背景では白さを維持しつつ、クリック後に灰色ベタや黒反転っぽさが出にくい方向へ寄せています。';
+    previewNote.textContent = '元画像と範囲マスクから、大部分を白く隠す中立画素、少数を色味保持用の画素として生成した非破壊プレビューです。今回はクリック後のカラーを最優先しています。';
   } else {
-    previewNote.textContent = '黒背景へ元画像由来の高輝度カラー＋可変半透明レイヤーを重ねた近似表示です。暗部の輪郭や顔の判別性を少し残しつつ、全体が一様な灰色になりにくい方向へ寄せています。';
+    previewNote.textContent = '黒背景へ中立画素と色味保持用画素を合成した近似表示です。前版より髪・肌・装飾の色が感じられることを優先しています。';
   }
 }
 
@@ -1414,7 +1361,7 @@ function yieldForPaint() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
-async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha = 48, onProgress = null, originalImageData = imageData) {
+async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha = 48, onProgress = null, originalImageData = imageData, alphaHints = null) {
   const { width, height, data } = imageData;
   const visibleLimit = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors));
   const hiddenLimit = Math.max(1, Math.min(254 - visibleLimit + 1, CONFIG.export.palette.hiddenColors));
@@ -1442,9 +1389,8 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha
   alphaBytes[0] = 0;
   for (let index = 1; index < hiddenOffset; index += 1) alphaBytes[index] = 255;
 
-  const hiddenLumaSums = new Float64Array(hidden.palette.length);
+  const hiddenAlphaSums = new Float64Array(hidden.palette.length);
   const hiddenCounts = new Uint32Array(hidden.palette.length);
-  const originalPixels = originalImageData.data;
   for (let sourceIndex = 0; sourceIndex < data.length; sourceIndex += 4) {
     if (data[sourceIndex + 3] < 128) continue;
     const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 32;
@@ -1453,12 +1399,14 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha
       | ((data[sourceIndex + 1] >> 3) << 5)
       | (data[sourceIndex + 2] >> 3);
     const paletteIndex = hidden.binToPaletteIndex[key];
-    hiddenLumaSums[paletteIndex] += getSourcePixelLuminanceAtIndex(originalPixels, sourceIndex);
+    const pixelIndex = sourceIndex >> 2;
+    hiddenAlphaSums[paletteIndex] += alphaHints ? alphaHints[pixelIndex] : hiddenAlpha;
     hiddenCounts[paletteIndex] += 1;
   }
   for (let index = 0; index < hidden.palette.length; index += 1) {
-    const averageLuminance = hiddenCounts[index] > 0 ? (hiddenLumaSums[index] / hiddenCounts[index]) : 255;
-    alphaBytes[hiddenOffset + index] = getAdaptiveHiddenAlphaFromLuminance(averageLuminance, state.revealBoost, hidden.palette[index]);
+    alphaBytes[hiddenOffset + index] = hiddenCounts[index] > 0
+      ? clampByte(hiddenAlphaSums[index] / hiddenCounts[index])
+      : hiddenAlpha;
   }
 
   onProgress?.(68, '画素を専用パレットへ割り当てています…');
@@ -1519,11 +1467,12 @@ async function saveOutput() {
     setExportProgress(18, '確定した範囲へ半透明パレット用の補正を適用しています…');
     await yieldForPaint();
 
-    const imageData = createExportImageData(selectionMaskData);
+    const exportResult = createExportImageData(selectionMaskData);
+    const imageData = exportResult.imageData;
     const hiddenAlpha = getHiddenRegionAlpha(state.revealBoost);
     const blob = await encodeIndexedPng(imageData, selectionMaskData, hiddenAlpha, (value, message) => {
       setExportProgress(value, message);
-    }, state.sourceImageData);
+    }, state.sourceImageData, exportResult.alphaHints);
 
     const name = outputFileName();
     outputFileNameNode.textContent = name;
