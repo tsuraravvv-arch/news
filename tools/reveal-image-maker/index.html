@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=v0-15-0-separated-carrier-1">
+  <link rel="stylesheet" href="style.css?v=v0-16-0-direct-900-1">
 </head>
 <body>
   <header class="tool-header">
@@ -15,14 +15,14 @@
         <div>
           <div class="eyebrow-row">
             <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-            <span class="status-badge">PNG-8 / 上40%プリセット / 単一ブースト基礎確認</span>
+            <span class="status-badge">PNG-8 / 長辺900px直接生成 / 連続色面</span>
           </div>
           <h1>Reveal Image Maker</h1>
           <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
         </div>
         <div class="header-meta">
-          <div class="version-badge" id="versionBadge">v0.15.0</div>
-          <div class="version-date" id="versionDate">2026-07-29 03:20 JST</div>
+          <div class="version-badge" id="versionBadge">v0.16.0</div>
+          <div class="version-date" id="versionDate">2026-07-29 02:56 JST</div>
         </div>
       </div>
       <a class="back-link" href="../../">Labへ戻る</a>
@@ -33,7 +33,7 @@
     <section class="notice-strip" aria-label="重要な案内">
       <p><strong>画像はブラウザ内だけで処理され、外部へ送信されません。</strong></p>
       <p>X上での表示結果は保証されません。</p>
-      <p>編集画面では元画像と範囲マスクだけを扱い、色数を落とさない<strong>非破壊プレビュー</strong>を表示します。<strong>PNG-8への減色・半透明パレット化・補正処理は保存ボタンを押したときだけ</strong>、元画像から一度だけ実行します。</p>
+      <p>編集画面では元画像と範囲マスクだけを保持します。プレビューは保存時と同じ<strong>長辺900pxの最終RGBA画素</strong>を元画像から再計算して表示し、<strong>PNG-8への減色と保存用データの確定は保存ボタンを押したときだけ</strong>、元画像から一度だけ実行します。</p>
     </section>
 
     <section class="card upload-card" aria-labelledby="uploadTitle">
@@ -59,7 +59,7 @@
           <div><dt>入力容量</dt><dd id="inputFileSize">—</dd></div>
           <div><dt>サイズ判定</dt><dd><span class="size-status" id="sizeStatus">—</span></dd></div>
         </dl>
-        <p class="recommendation">暫定推奨：長辺1200～1600px。元画像の解像度を維持して出力します。</p>
+        <p class="recommendation">入力画像は長辺900px以上を推奨します。出力は縦横比を保ったまま長辺900pxへ固定します。</p>
       </div>
     </section>
 
@@ -147,8 +147,8 @@
         <div class="editor-options-grid">
           <fieldset class="editor-option-card mode-group" id="strengthControls" disabled>
             <legend>現在の処理モード</legend>
-            <div class="mode-pill">PNG-8 × 半透明パレット</div>
-            <p class="control-help">塗った範囲はタップ前にも通常表示されます。塗っていない範囲だけを明るく補正した半透明パレットとして保存します。</p>
+            <div class="mode-pill">900px直接生成 × PNG-8</div>
+            <p class="control-help">塗った範囲は900pxへ縮小した原画を通常表示します。塗っていない範囲は、900pxの各画素ごとにRGBとアルファを直接決めた連続色面として保存します。</p>
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
@@ -182,14 +182,14 @@
           <button class="preview-tab is-active" type="button" role="tab" aria-selected="true" data-preview="timeline">タイムライン想定</button>
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="reveal">画像を開いた状態</button>
         </div>
-        <p class="preview-mode-note">タイムライン想定＝白背景の非破壊近似 / 画像を開いた状態＝黒背景の非破壊近似</p>
+        <p class="preview-mode-note">タイムライン想定＝900px最終RGBAを白背景へ合成 / 画像を開いた状態＝同じ900px最終RGBAを黒背景へ合成</p>
       </div>
 
       <div class="preview-stage background-white" id="previewStage">
         <canvas id="previewCanvas" aria-label="画像プレビュー"></canvas>
         <div class="empty-preview-message" id="emptyPreviewMessage">画像を読み込むと、ここにプレビューが表示されます。</div>
       </div>
-      <p class="preview-note" id="previewNote">元画像と範囲マスクだけを使った非破壊プレビューを表示します。PNG-8への半透明パレット化は保存時にだけ行います。</p>
+      <p class="preview-note" id="previewNote">保存時と同じ長辺900pxの最終RGBAデータを、白背景または黒背景へ合成して表示します。PNG-8への減色は保存時にだけ行います。</p>
     </section>
 
     <section class="card export-card" aria-labelledby="exportTitle">
@@ -198,14 +198,14 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 元サイズ / 見せる範囲を優先減色 / 半透明パレット / 保存時だけ元画像から生成</p>
+        <p>PNG-8 / 長辺900px固定 / 連続色面 / 900px最終画像からパレット構築 / 保存時だけ元画像から生成</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>PNG-8＋表示／中立／色キャリアの分離パレット＋個別tRNS＋保存時のみ元画像から生成</dd></div>
+            <div><dt>出力方式</dt><dd>長辺900pxへ直接生成＋表示領域／隠し領域の専用PNG-8パレット＋個別tRNS＋保存時のみ元画像から生成</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
@@ -238,7 +238,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>編集時は元画像と範囲マスクだけを保持し、減色処理は行いません。保存時に元画像から出力を一度だけ作り、見せる範囲へ多くのパレット色を優先配分し、隠す範囲は元画像の色を残したまま淡色＋均一な半透明パレットへ変換して、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
+          <p>編集時は元画像と範囲マスクだけを保持します。プレビューでは保存時と同じ長辺900pxのRGBA画素を一時的に再計算します。保存時は元画像から900pxの最終画素を一度だけ作り直し、細かな色キャリア、網点、ディザを使わず、隠す範囲も連続した色面のまま、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
         </section>
       </div>
     </details>
@@ -256,7 +256,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="settings.js?v=v0-15-0-separated-carrier-1"></script>
-  <script src="app.js?v=v0-15-0-separated-carrier-1"></script>
+  <script src="settings.js?v=v0-16-0-direct-900-1"></script>
+  <script src="app.js?v=v0-16-0-direct-900-1"></script>
 </body>
 </html>
