@@ -3,12 +3,12 @@
 // Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.11.0',
-    updatedAt: '2026-07-28 20:20 JST'
+    version: 'v0.12.0',
+    updatedAt: '2026-07-28 21:20 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-hidden-tone-v0110'
+    fileSuffix: 'reveal-positive-composite-v0120'
   },
 
   editor: {
@@ -45,28 +45,33 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
       gammaBase: 1.10,
       gammaStrong: 1.10
     },
-    // v0.11.0: 白寄せしつつ各チャンネル差を残す高輝度カラー方式。
-    // 目的は「白背景で白いまま」「黒背景で灰色ベタや黒反転っぽさを弱める」ことです。
+    // v0.12.0: 正方向の合成計算へ切り替え。
+    // 白背景ではほぼ白を維持しつつ、黒背景では元絵の明暗に沿って
+    // うっすら見えるよう、隠し色の平均輝度とアルファをセットで決めます。
     hiddenLook: {
-      whiteLiftDarkBase: 0.84,
-      whiteLiftDarkStrong: 0.84,
-      whiteLiftBrightBase: 0.95,
-      whiteLiftBrightStrong: 0.95,
-      toneFloorBase: 236,
-      toneFloorStrong: 236,
-      toneCeilBase: 252,
-      toneCeilStrong: 252,
-      toneContrastBase: 8,
-      toneContrastStrong: 8,
-      chromaKeepBase: 0.56,
-      chromaKeepStrong: 0.56,
-      neutralizeBase: 0.06,
-      neutralizeStrong: 0.06,
-      hueRestoreBase: 0.18,
-      hueRestoreStrong: 0.18,
+      hiddenMeanDarkBase: 232,
+      hiddenMeanDarkStrong: 232,
+      hiddenMeanBrightBase: 246,
+      hiddenMeanBrightStrong: 246,
+      revealMeanDarkBase: 68,
+      revealMeanDarkStrong: 68,
+      revealMeanBrightBase: 154,
+      revealMeanBrightStrong: 154,
+      whiteTargetDarkBase: 249,
+      whiteTargetDarkStrong: 249,
+      whiteTargetBrightBase: 248,
+      whiteTargetBrightStrong: 248,
+      preliftBase: 0.88,
+      preliftStrong: 0.88,
+      chromaKeepBase: 0.40,
+      chromaKeepStrong: 0.40,
+      neutralizeBase: 0.08,
+      neutralizeStrong: 0.08,
+      hueRestoreBase: 0.26,
+      hueRestoreStrong: 0.26,
       tintColor: { r: 236, g: 230, b: 246 },
-      tintMixBase: 0.04,
-      tintMixStrong: 0.04
+      tintMixBase: 0.03,
+      tintMixStrong: 0.03
     }
   },
 
@@ -75,7 +80,7 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     expandModalEnabled: true,
     nonDestructive: {
       timelineHiddenAlphaScale: 1.00,
-      revealHiddenAlphaScale: 1.18,
+      revealHiddenAlphaScale: 1.00,
       revealVisibleBrightness: 1.00
     },
     timelineApproximation: {
@@ -98,6 +103,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、クリック前の白さを大きく崩さず、クリック後に灰色ベタや黒反転っぽさが出にくいよう、隠し領域のRGB生成を高輝度・色相保持寄りへ切り替えた確認版です。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はブースト1.00固定のまま、白背景では現在と同等以上の白さを維持しつつ、黒背景では元絵の明暗が正方向に残るよう、隠し領域のRGBとアルファをセットで再計算する確認版です。'
   }
 };
