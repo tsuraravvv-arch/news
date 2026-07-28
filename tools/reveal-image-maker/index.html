@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=v0-8-0-singleboost-1">
+  <link rel="stylesheet" href="style.css?v=v0-15-0-separated-carrier-1">
 </head>
 <body>
   <header class="tool-header">
@@ -21,8 +21,8 @@
           <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
         </div>
         <div class="header-meta">
-          <div class="version-badge" id="versionBadge">v0.14.0</div>
-          <div class="version-date" id="versionDate">2026-07-28 22:05 JST</div>
+          <div class="version-badge" id="versionBadge">v0.15.0</div>
+          <div class="version-date" id="versionDate">2026-07-29 03:20 JST</div>
         </div>
       </div>
       <a class="back-link" href="../../">Labへ戻る</a>
@@ -205,7 +205,7 @@
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>PNG-8＋範囲別パレット＋均一な半透明tRNS＋保存時のみ元画像から生成</dd></div>
+            <div><dt>出力方式</dt><dd>PNG-8＋表示／中立／色キャリアの分離パレット＋個別tRNS＋保存時のみ元画像から生成</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
@@ -256,7 +256,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="settings.js?v=v0-13-0-click-color-1"></script>
-  <script src="app.js?v=v0-13-0-click-color-1"></script>
+  <script src="settings.js?v=v0-15-0-separated-carrier-1"></script>
+  <script src="app.js?v=v0-15-0-separated-carrier-1"></script>
 </body>
 </html>
