@@ -91,11 +91,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.13.0',
+    version: 'v0.14.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-click-color-priority-v0130'
+    fileSuffix: 'reveal-dark-overlay-click-recovery-v0140'
   },
   editor: {
     defaultTool: 'hide',
@@ -111,33 +111,33 @@ const DEFAULT_CONFIG = {
   export: {
     rebuildFromOriginalOnSave: true,
     palette: {
-      visibleColors: 222,
-      hiddenColors: 32
+      visibleColors: 168,
+      hiddenColors: 87
     },
     hiddenAlpha: {
-      base: 124,
-      strong: 148
+      base: 150,
+      strong: 150
     },
     hiddenAlphaAdaptive: {
-      enabled: true,
-      minBase: 146,
-      minStrong: 146,
-      maxBase: 210,
-      maxStrong: 210,
-      gammaBase: 1.15,
-      gammaStrong: 1.15
+      enabled: false,
+      minBase: 150,
+      minStrong: 150,
+      maxBase: 150,
+      maxStrong: 150,
+      gammaBase: 1.00,
+      gammaStrong: 1.00
     },
     hiddenLook: {
-      neutralRevealDark: 34,
-      neutralRevealBright: 82,
-      neutralChromaSpread: 5,
-      carrierRevealDark: 62,
-      carrierRevealBright: 122,
-      carrierChromaSpread: 24,
-      carrierThreshold: 2,
-      neutralMinAlpha: 0.18,
-      carrierMinAlpha: 0.30,
-      foregroundCeiling: 250
+      targetRevealMin: 36,
+      targetRevealMax: 126,
+      targetGamma: 0.86,
+      darkDetailThreshold: 78,
+      darkDetailLift: 1.42,
+      maxAlpha: 0.50,
+      minAlpha: 0.14,
+      visibleEdgeBoost: 0.10,
+      carrierThreshold: 1,
+      carrierBrightnessBoost: 1.08
     }
   },
   preview: {
@@ -166,7 +166,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後のカラーを最優先し、大部分を白く隠す中立画素、少数を色味保持用の画素として生成する確認版です。ブーストは1.00固定です。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後 / X投稿後の鮮明さを最優先し、白背景ではほぼ白いまま、黒背景では暗い原画に近い見え方を狙う確認版です。ブーストは1.00固定です。'
   }
 };
 
@@ -349,47 +349,47 @@ function createHiddenPixelStyle(r, g, b, x, y, boost) {
   const hiddenLook = CONFIG.export.hiddenLook || {};
   const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
   const luminance01 = clamp01(luminance / 255);
-  const carrierThreshold = Math.max(0, Math.min(16, hiddenLook.carrierThreshold ?? 2));
+  const targetRevealMin = hiddenLook.targetRevealMin ?? 36;
+  const targetRevealMax = hiddenLook.targetRevealMax ?? 126;
+  const targetGamma = hiddenLook.targetGamma ?? 0.86;
+  const darkDetailThreshold = hiddenLook.darkDetailThreshold ?? 78;
+  const darkDetailLift = hiddenLook.darkDetailLift ?? 1.42;
+  const minAlpha = hiddenLook.minAlpha ?? 0.14;
+  const maxAlpha = hiddenLook.maxAlpha ?? 0.50;
+  const carrierThreshold = Math.max(0, Math.min(4, hiddenLook.carrierThreshold ?? 1));
+  const carrierBrightnessBoost = hiddenLook.carrierBrightnessBoost ?? 1.08;
   const isCarrier = HIDDEN_BAYER_4X4[y & 3][x & 3] < carrierThreshold;
 
-  const revealDark = isCarrier
-    ? (hiddenLook.carrierRevealDark ?? 62)
-    : (hiddenLook.neutralRevealDark ?? 34);
-  const revealBright = isCarrier
-    ? (hiddenLook.carrierRevealBright ?? 122)
-    : (hiddenLook.neutralRevealBright ?? 82);
-  const spread = isCarrier
-    ? (hiddenLook.carrierChromaSpread ?? 24)
-    : (hiddenLook.neutralChromaSpread ?? 5);
-  const minAlpha = isCarrier
-    ? (hiddenLook.carrierMinAlpha ?? 0.30)
-    : (hiddenLook.neutralMinAlpha ?? 0.18);
-  const foregroundCeiling = hiddenLook.foregroundCeiling ?? 250;
+  let targetLum = lerp(targetRevealMin, targetRevealMax, Math.pow(luminance01, targetGamma));
+  if (luminance < darkDetailThreshold) {
+    const t = 1 - (luminance / Math.max(1, darkDetailThreshold));
+    targetLum *= lerp(1.0, darkDetailLift, t);
+  }
+  if (isCarrier) targetLum *= carrierBrightnessBoost;
 
-  const revealMean = lerp(revealDark, revealBright, Math.pow(luminance01, 0.90));
-  const deltaR = r - luminance;
-  const deltaG = g - luminance;
-  const deltaB = b - luminance;
-  const maxDelta = Math.max(1, Math.abs(deltaR), Math.abs(deltaG), Math.abs(deltaB));
-  const chromaScale = spread / maxDelta;
+  const scale = targetLum / Math.max(1, luminance);
+  let observedR = r * scale;
+  let observedG = g * scale;
+  let observedB = b * scale;
 
-  let targetR = revealMean + deltaR * chromaScale;
-  let targetG = revealMean + deltaG * chromaScale;
-  let targetB = revealMean + deltaB * chromaScale;
+  // 暗部ディテールが潰れやすいので、低輝度側だけ少し持ち上げます。
+  const floor = Math.max(0, targetRevealMin - 6);
+  observedR = Math.max(floor * 0.72, observedR);
+  observedG = Math.max(floor * 0.72, observedG);
+  observedB = Math.max(floor * 0.72, observedB);
 
-  const lowerBound = Math.max(8, revealMean - spread);
-  const upperBound = Math.min(220, revealMean + spread);
-  targetR = Math.max(lowerBound, Math.min(upperBound, targetR));
-  targetG = Math.max(lowerBound, Math.min(upperBound, targetG));
-  targetB = Math.max(lowerBound, Math.min(upperBound, targetB));
+  const observedMaxCap = 255 * maxAlpha;
+  observedR = Math.min(observedMaxCap, observedR);
+  observedG = Math.min(observedMaxCap, observedG);
+  observedB = Math.min(observedMaxCap, observedB);
 
-  const maxTarget = Math.max(targetR, targetG, targetB);
-  const alpha01 = clamp01(Math.max(minAlpha, maxTarget / foregroundCeiling));
+  const derivedAlpha = Math.max(observedR, observedG, observedB) / 255;
+  const alpha01 = clamp01(Math.max(minAlpha, Math.min(maxAlpha, derivedAlpha)));
 
   return {
-    r: clampByte(targetR / alpha01),
-    g: clampByte(targetG / alpha01),
-    b: clampByte(targetB / alpha01),
+    r: clampByte(observedR / alpha01),
+    g: clampByte(observedG / alpha01),
+    b: clampByte(observedB / alpha01),
     a: clampByte(alpha01 * 255),
     carrier: isCarrier
   };
@@ -860,9 +860,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクから、大部分を白く隠す中立画素、少数を色味保持用の画素として生成した非破壊プレビューです。今回はクリック後のカラーを最優先しています。';
+    previewNote.textContent = '元画像と範囲マスクから、白背景ではほぼ白く隠れつつ、クリック後 / X投稿後は暗い原画として読める見え方を狙う非破壊プレビューです。今回はクリック後の鮮明さを最優先しています。';
   } else {
-    previewNote.textContent = '黒背景へ中立画素と色味保持用画素を合成した近似表示です。前版より髪・肌・装飾の色が感じられることを優先しています。';
+    previewNote.textContent = '黒背景へ、暗い原画に近い色と階調が残るよう合成した近似表示です。前版よりも輪郭・顔・髪・衣装が読めることを優先しています。';
   }
 }
 
