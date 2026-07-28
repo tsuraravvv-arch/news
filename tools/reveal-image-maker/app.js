@@ -68,12 +68,6 @@ const overlayContext = overlayCanvas.getContext('2d');
 const outputCanvas = document.createElement('canvas');
 const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
 const timelineCanvas = document.createElement('canvas');
-const HIDDEN_BAYER_4X4 = [
-  [0, 8, 2, 10],
-  [12, 4, 14, 6],
-  [3, 11, 1, 9],
-  [15, 7, 13, 5]
-];
 
 function mergeConfig(base, override) {
   if (Array.isArray(base)) return Array.isArray(override) ? override.slice() : base.slice();
@@ -91,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.15.0',
+    version: 'v0.16.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-separated-color-carrier-v0150'
+    fileSuffix: 'reveal-direct-900-v0160'
   },
   editor: {
     defaultTool: 'hide',
@@ -110,67 +104,38 @@ const DEFAULT_CONFIG = {
   },
   export: {
     rebuildFromOriginalOnSave: true,
+    maxLongEdge: 900,
     palette: {
-      visibleColors: 194,
-      neutralColors: 28,
-      carrierColors: 32
-    },
-    hiddenAlpha: {
-      base: 124,
-      strong: 148
-    },
-    hiddenAlphaAdaptive: {
-      enabled: true,
-      minBase: 146,
-      minStrong: 146,
-      maxBase: 210,
-      maxStrong: 210,
-      gammaBase: 1.15,
-      gammaStrong: 1.15
+      visibleColors: 160,
+      hiddenColors: 95
     },
     hiddenLook: {
-      neutralHiddenMeanDark: 232,
-      neutralHiddenMeanBright: 246,
-      neutralRevealDark: 52,
-      neutralRevealBright: 112,
-      neutralWhiteTarget: 250,
-      neutralPrelift: 0.90,
-      neutralChromaKeep: 0.10,
-      carrierAlpha: 112,
-      baseCarrierThreshold: 1,
-      colorCarrierThreshold: 2,
-      edgeCarrierThreshold: 6,
-      edgeThreshold: 26,
-      chromaThreshold: 24
+      revealMin: 3,
+      revealMax: 47,
+      revealGamma: 0.86,
+      chromaKeep: 0.42,
+      whiteMargin: 5,
+      maxWhiteTintDepth: 7,
+      detailSharpen: 0.30,
+      alphaMin: 8,
+      alphaMax: 56
     }
   },
   preview: {
     defaultMode: 'timeline',
     expandModalEnabled: true,
-    nonDestructive: {
-      timelineHiddenAlphaScale: 1.00,
-      revealHiddenAlphaScale: 1.00,
-      revealVisibleBrightness: 1.00
-    },
-    timelineApproximation: {
-      maxLongEdge: 900,
-      alphaThreshold: 130,
-      edgeAlphaThreshold: 128,
-      preserveMinRed: 190,
-      preserveMaxLuminance: 213,
-      whiteBackground: '#ffffff',
-      revealBackground: '#000000'
-    }
+    whiteBackground: '#ffffff',
+    revealBackground: '#000000'
   },
   boost: {
     default: 1.00,
     min: 1.00,
-    max: 1.40,
+    max: 1.00,
     step: 0.05,
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後 / X投稿後のカラーと鮮明さを最優先し、白く隠す中立画素と元色を残す色キャリア画素を別パレットで保存する確認版です。ブーストは1.00固定です。'
+    timelineApproximation: '元画像と範囲マスクから、保存時と同じ長辺900pxの最終RGBA画素を再計算して表示します。細かな色キャリア、網点、ディザは使用しません。保存時は元画像から同じ900pxデータを一度だけ作り直し、そのデータだけでPNG-8パレットを構築します。'
   }
 };
 
@@ -195,7 +160,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.13.0';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.16.0';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -213,6 +178,12 @@ const cleanPreviewVisibleCanvas = document.createElement('canvas');
 const cleanPreviewVisibleContext = cleanPreviewVisibleCanvas.getContext('2d', { willReadFrequently: true });
 const hiddenPreviewCanvas = document.createElement('canvas');
 const hiddenPreviewContext = hiddenPreviewCanvas.getContext('2d', { willReadFrequently: true });
+const directSourceCanvas = document.createElement('canvas');
+const directSourceContext = directSourceCanvas.getContext('2d', { willReadFrequently: true });
+const directMaskCanvas = document.createElement('canvas');
+const directMaskContext = directMaskCanvas.getContext('2d', { willReadFrequently: true });
+const directOutputCanvas = document.createElement('canvas');
+const directOutputContext = directOutputCanvas.getContext('2d', { willReadFrequently: true });
 
 const state = {
   imageLoaded: false,
@@ -243,6 +214,8 @@ const state = {
   encodedPreviewVersion: -1,
   encodedPreviewPromise: null,
   previewRefreshToken: 0,
+  directPreviewVersion: -1,
+  directPreviewCanvas: null,
   toastTimer: null
 };
 
@@ -343,146 +316,142 @@ function applyRevealBoostToPixel(r, g, b, boost) {
   return { r: rr, g: gg, b: bb };
 }
 
-function getHiddenRegionAlpha(boost) {
-  const base = CONFIG.export.hiddenAlpha?.base ?? 86;
-  const strong = CONFIG.export.hiddenAlpha?.strong ?? 112;
-  return clampByte(lerp(base, strong, getBoostNormalized(boost)));
+function getDirectOutputSize(width, height) {
+  const maxLongEdge = Math.max(1, Number(CONFIG.export.maxLongEdge) || 900);
+  const ratio = maxLongEdge / Math.max(1, width, height);
+  return {
+    width: Math.max(1, Math.round(width * ratio)),
+    height: Math.max(1, Math.round(height * ratio))
+  };
 }
 
-function getPixelLuminanceFromBuffer(pixels, width, height, x, y) {
-  const safeX = Math.max(0, Math.min(width - 1, x));
-  const safeY = Math.max(0, Math.min(height - 1, y));
-  const index = (safeY * width + safeX) * 4;
-  return 0.299 * pixels[index] + 0.587 * pixels[index + 1] + 0.114 * pixels[index + 2];
+function getSharpenedChannel(pixels, width, height, x, y, channel, amount) {
+  if (amount <= 0) return pixels[(y * width + x) * 4 + channel];
+  const centerIndex = (y * width + x) * 4 + channel;
+  const leftIndex = (y * width + Math.max(0, x - 1)) * 4 + channel;
+  const rightIndex = (y * width + Math.min(width - 1, x + 1)) * 4 + channel;
+  const upIndex = (Math.max(0, y - 1) * width + x) * 4 + channel;
+  const downIndex = (Math.min(height - 1, y + 1) * width + x) * 4 + channel;
+  const neighborMean = (pixels[leftIndex] + pixels[rightIndex] + pixels[upIndex] + pixels[downIndex]) / 4;
+  return clampByte(pixels[centerIndex] + (pixels[centerIndex] - neighborMean) * amount);
 }
 
-function isColorCarrierPixel(pixels, width, height, x, y) {
-  const hiddenLook = CONFIG.export.hiddenLook || {};
-  const pattern = HIDDEN_BAYER_4X4[y & 3][x & 3];
-  const index = (y * width + x) * 4;
-  const r = pixels[index];
-  const g = pixels[index + 1];
-  const b = pixels[index + 2];
-  const maxChannel = Math.max(r, g, b);
-  const minChannel = Math.min(r, g, b);
-  const chroma = maxChannel - minChannel;
-  const center = getPixelLuminanceFromBuffer(pixels, width, height, x, y);
-  const horizontal = Math.abs(
-    getPixelLuminanceFromBuffer(pixels, width, height, x + 1, y)
-    - getPixelLuminanceFromBuffer(pixels, width, height, x - 1, y)
-  );
-  const vertical = Math.abs(
-    getPixelLuminanceFromBuffer(pixels, width, height, x, y + 1)
-    - getPixelLuminanceFromBuffer(pixels, width, height, x, y - 1)
-  );
-  const diagonal = Math.abs(
-    getPixelLuminanceFromBuffer(pixels, width, height, x + 1, y + 1)
-    - getPixelLuminanceFromBuffer(pixels, width, height, x - 1, y - 1)
-  );
-  const edge = Math.max(horizontal, vertical, diagonal, Math.abs(center - getPixelLuminanceFromBuffer(pixels, width, height, x + 1, y)));
+function createDirectHiddenPixel(r, g, b, sourceAlpha = 255) {
+  const look = CONFIG.export.hiddenLook || {};
+  const revealMin = Number(look.revealMin ?? 3);
+  const revealMax = Math.max(revealMin, Number(look.revealMax ?? 47));
+  const revealGamma = Math.max(0.05, Number(look.revealGamma ?? 0.86));
+  const chromaKeep = clamp01(Number(look.chromaKeep ?? 0.42));
+  const whiteMargin = Math.max(0, Number(look.whiteMargin ?? 5));
+  const maxWhiteTintDepth = Math.max(0, Number(look.maxWhiteTintDepth ?? 7));
+  const alphaMin = Math.max(1, Number(look.alphaMin ?? 8));
+  const alphaMax = Math.max(alphaMin, Number(look.alphaMax ?? 56));
+  const revealRange = revealMax - revealMin;
 
-  const baseCarrier = pattern < (hiddenLook.baseCarrierThreshold ?? 1);
-  const colorCarrier = chroma >= (hiddenLook.chromaThreshold ?? 24)
-    && pattern < (hiddenLook.colorCarrierThreshold ?? 2);
-  const edgeCarrier = edge >= (hiddenLook.edgeThreshold ?? 26)
-    && pattern < (hiddenLook.edgeCarrierThreshold ?? 6);
-  return baseCarrier || colorCarrier || edgeCarrier;
+  const mapChannel = (value) => revealMin + revealRange * Math.pow(clamp01(value / 255), revealGamma);
+  const sourceLuminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  const mappedLuminance = mapChannel(sourceLuminance);
+
+  let targetR = lerp(mappedLuminance, mapChannel(r), chromaKeep);
+  let targetG = lerp(mappedLuminance, mapChannel(g), chromaKeep);
+  let targetB = lerp(mappedLuminance, mapChannel(b), chromaKeep);
+
+  // 白背景で色差が強く浮かばないよう、最大チャンネルとの差だけを制限します。
+  const maxTarget = Math.max(targetR, targetG, targetB);
+  const minimumTarget = maxTarget - maxWhiteTintDepth;
+  targetR = Math.max(minimumTarget, targetR);
+  targetG = Math.max(minimumTarget, targetG);
+  targetB = Math.max(minimumTarget, targetB);
+
+  // 黒背景で見せたい premultiplied RGB を先に決め、
+  // 白背景の最も明るいチャンネルが 255 - whiteMargin 付近になるようアルファを逆算します。
+  const alpha = clampByte(Math.max(alphaMin, Math.min(alphaMax, maxTarget + whiteMargin)));
+  const alphaScale = alpha / 255;
+  const outputAlpha = clampByte(alpha * (sourceAlpha / 255));
+  return {
+    r: clampByte(targetR / Math.max(alphaScale, 1 / 255)),
+    g: clampByte(targetG / Math.max(alphaScale, 1 / 255)),
+    b: clampByte(targetB / Math.max(alphaScale, 1 / 255)),
+    a: outputAlpha
+  };
 }
 
-function createNeutralHiddenPixelStyle(r, g, b, boost) {
-  const hiddenLook = CONFIG.export.hiddenLook || {};
-  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-  const luminance01 = clamp01(luminance / 255);
-  const hiddenMean = lerp(
-    hiddenLook.neutralHiddenMeanDark ?? 232,
-    hiddenLook.neutralHiddenMeanBright ?? 246,
-    Math.pow(luminance01, 0.90)
-  );
-  const prelift = hiddenLook.neutralPrelift ?? 0.90;
-  const chromaKeep = hiddenLook.neutralChromaKeep ?? 0.10;
+function createDirect900Output() {
+  if (!state.imageLoaded) return null;
+  const target = getDirectOutputSize(state.imageWidth, state.imageHeight);
+  const { width, height } = target;
 
-  let rr = lerp(r, 255, prelift);
-  let gg = lerp(g, 255, prelift);
-  let bb = lerp(b, 255, prelift);
-  let mean = (rr + gg + bb) / 3;
-  const shift = hiddenMean - mean;
-  rr += shift;
-  gg += shift;
-  bb += shift;
-  mean = (rr + gg + bb) / 3;
-  rr = lerp(mean, rr, chromaKeep);
-  gg = lerp(mean, gg, chromaKeep);
-  bb = lerp(mean, bb, chromaKeep);
+  directSourceCanvas.width = width;
+  directSourceCanvas.height = height;
+  directSourceContext.clearRect(0, 0, width, height);
+  directSourceContext.imageSmoothingEnabled = true;
+  directSourceContext.imageSmoothingQuality = 'high';
+  directSourceContext.drawImage(sourceCanvas, 0, 0, width, height);
+  const sourceData = directSourceContext.getImageData(0, 0, width, height);
 
-  rr = clampByte(Math.max(hiddenMean - 10, Math.min(252, rr)));
-  gg = clampByte(Math.max(hiddenMean - 10, Math.min(252, gg)));
-  bb = clampByte(Math.max(hiddenMean - 10, Math.min(252, bb)));
+  directMaskCanvas.width = width;
+  directMaskCanvas.height = height;
+  directMaskContext.clearRect(0, 0, width, height);
+  directMaskContext.imageSmoothingEnabled = true;
+  directMaskContext.imageSmoothingQuality = 'high';
+  directMaskContext.drawImage(maskCanvas, 0, 0, width, height);
+  const maskData = directMaskContext.getImageData(0, 0, width, height);
 
-  const neutralReveal = lerp(
-    hiddenLook.neutralRevealDark ?? 52,
-    hiddenLook.neutralRevealBright ?? 112,
-    Math.pow(luminance01, 0.92)
-  );
-  const whiteTarget = hiddenLook.neutralWhiteTarget ?? 250;
-  const hiddenPixelMean = (rr + gg + bb) / 3;
-  let alpha01 = neutralReveal / Math.max(1, hiddenPixelMean);
-  const maxAlphaByWhite = (255 - whiteTarget) / Math.max(1, 255 - hiddenPixelMean);
-  alpha01 = Math.min(alpha01, maxAlphaByWhite);
-  alpha01 = Math.max(0.12, Math.min(0.46, alpha01));
+  const outputData = new ImageData(new Uint8ClampedArray(sourceData.data), width, height);
+  const outputPixels = outputData.data;
+  const sourcePixels = sourceData.data;
+  const maskPixels = maskData.data;
+  const sharpenAmount = Math.max(0, Number(CONFIG.export.hiddenLook?.detailSharpen ?? 0.30));
 
-  return { r: rr, g: gg, b: bb, a: clampByte(alpha01 * 255), carrier: false };
-}
+  for (let y = 0; y < height; y += 1) {
+    for (let x = 0; x < width; x += 1) {
+      const index = (y * width + x) * 4;
+      const sourceAlpha = sourcePixels[index + 3];
+      if (sourceAlpha < 1) {
+        outputPixels[index] = 0;
+        outputPixels[index + 1] = 0;
+        outputPixels[index + 2] = 0;
+        outputPixels[index + 3] = 0;
+        continue;
+      }
 
-function createCarrierPixelStyle(r, g, b) {
-  const alpha = clampByte(CONFIG.export.hiddenLook?.carrierAlpha ?? 112);
-  return { r, g, b, a: alpha, carrier: true };
-}
+      const isVisible = maskPixels[index + 3] > 127;
+      if (isVisible) continue;
 
-function getSourcePixelLuminanceAtIndex(sourcePixels, index) {
-  return 0.299 * sourcePixels[index] + 0.587 * sourcePixels[index + 1] + 0.114 * sourcePixels[index + 2];
-}
-
-function createExportImageData(selectionMaskData) {
-  const sourceData = state.sourceImageData;
-  const exportData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
-  const pixels = exportData.data;
-  const alphaHints = new Uint8Array(state.imageWidth * state.imageHeight);
-  const carrierHints = new Uint8Array(state.imageWidth * state.imageHeight);
-
-  for (let index = 0; index < pixels.length; index += 4) {
-    const pixelIndex = index >> 2;
-    if (pixels[index + 3] < 1) {
-      alphaHints[pixelIndex] = 0;
-      carrierHints[pixelIndex] = 0;
-      continue;
+      const r = getSharpenedChannel(sourcePixels, width, height, x, y, 0, sharpenAmount);
+      const g = getSharpenedChannel(sourcePixels, width, height, x, y, 1, sharpenAmount);
+      const b = getSharpenedChannel(sourcePixels, width, height, x, y, 2, sharpenAmount);
+      const hidden = createDirectHiddenPixel(r, g, b, sourceAlpha);
+      outputPixels[index] = hidden.r;
+      outputPixels[index + 1] = hidden.g;
+      outputPixels[index + 2] = hidden.b;
+      outputPixels[index + 3] = hidden.a;
     }
-    const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
-    if (isVisible) {
-      alphaHints[pixelIndex] = 255;
-      carrierHints[pixelIndex] = 0;
-      continue;
-    }
-
-    const x = pixelIndex % state.imageWidth;
-    const y = Math.floor(pixelIndex / state.imageWidth);
-    const carrier = isColorCarrierPixel(sourceData.data, state.imageWidth, state.imageHeight, x, y);
-    const hiddenStyled = carrier
-      ? createCarrierPixelStyle(pixels[index], pixels[index + 1], pixels[index + 2])
-      : createNeutralHiddenPixelStyle(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
-
-    pixels[index] = hiddenStyled.r;
-    pixels[index + 1] = hiddenStyled.g;
-    pixels[index + 2] = hiddenStyled.b;
-    alphaHints[pixelIndex] = hiddenStyled.a;
-    carrierHints[pixelIndex] = carrier ? 1 : 0;
   }
 
-  return { imageData: exportData, alphaHints, carrierHints };
+  directOutputCanvas.width = width;
+  directOutputCanvas.height = height;
+  directOutputContext.clearRect(0, 0, width, height);
+  directOutputContext.putImageData(outputData, 0, 0);
+
+  return {
+    imageData: outputData,
+    selectionMaskData: maskData.data,
+    canvas: directOutputCanvas,
+    width,
+    height
+  };
 }
 
-function getSelectionMaskData() {
+function getDirectPreviewOutput() {
   if (!state.imageLoaded) return null;
-  return maskContext.getImageData(0, 0, state.imageWidth, state.imageHeight).data;
+  if (state.directPreviewVersion === state.outputVersion && state.directPreviewCanvas) {
+    return state.directPreviewCanvas;
+  }
+  const output = createDirect900Output();
+  state.directPreviewVersion = state.outputVersion;
+  state.directPreviewCanvas = output?.canvas || null;
+  return state.directPreviewCanvas;
 }
 
 async function createRenderableImageFromBlob(blob) {
@@ -531,6 +500,8 @@ function updateHistoryButtons() {
 function markOutputDirty() {
   state.outputVersion += 1;
   state.renderedOutputVersion = -1;
+  state.directPreviewVersion = -1;
+  state.directPreviewCanvas = null;
   outputFileSizeNode.textContent = '保存時に計測';
   exportWarning.hidden = true;
   renderPreview();
@@ -540,20 +511,17 @@ function markOutputDirty() {
 function updateSizeStatus() {
   const longEdge = Math.max(state.imageWidth, state.imageHeight);
   sizeStatusNode.className = 'size-status';
-  if (longEdge < 800) {
-    sizeStatusNode.textContent = '低解像度：効果が不安定になる可能性';
+  if (longEdge < 900) {
+    sizeStatusNode.textContent = '900px未満：拡大して出力';
     sizeStatusNode.classList.add('warning');
-  } else if (longEdge < 1200) {
-    sizeStatusNode.textContent = '使用可能：テスト推奨';
-    sizeStatusNode.classList.add('caution');
-  } else if (longEdge <= 1600) {
-    sizeStatusNode.textContent = '暫定推奨サイズ';
+  } else if (longEdge === 900) {
+    sizeStatusNode.textContent = '出力サイズと一致';
     sizeStatusNode.classList.add('good');
-  } else if (longEdge <= 2000) {
-    sizeStatusNode.textContent = '使用可能：X側の縮小に注意';
-    sizeStatusNode.classList.add('caution');
+  } else if (longEdge <= 1800) {
+    sizeStatusNode.textContent = '推奨：900pxへ高品質縮小';
+    sizeStatusNode.classList.add('good');
   } else {
-    sizeStatusNode.textContent = '高解像度：出力容量に注意';
+    sizeStatusNode.textContent = '高解像度：900pxへ縮小';
     sizeStatusNode.classList.add('caution');
   }
 }
@@ -742,144 +710,14 @@ function renderEditor() {
   zoomIndicator.textContent = `${fitPercent}%`;
 }
 
-function getXTimelineSize(width, height) {
-  const maxLongEdge = CONFIG.preview.timelineApproximation.maxLongEdge;
-  const ratio = Math.min(1, maxLongEdge / Math.max(width, height));
-  return {
-    width: Math.max(1, Math.round(width * ratio)),
-    height: Math.max(1, Math.round(height * ratio))
-  };
-}
-
-function applyXTimelineAlphaApproximation(imageData) {
-  const pixels = imageData.data;
-  for (let index = 0; index < pixels.length; index += 4) {
-    const alpha = pixels[index + 3];
-    const red = pixels[index];
-    const green = pixels[index + 1];
-    const blue = pixels[index + 2];
-    const luminance = 0.299 * red + 0.587 * green + 0.114 * blue;
-
-    // Xの900px派生PNGを比較した結果、半透明は保持されず、
-    // ほぼ「透明 / 不透明」の2値へ戻されていました。
-    let keepOpaque = alpha >= CONFIG.preview.timelineApproximation.alphaThreshold;
-
-    // 128付近では淡い輪郭色の一部だけが残る傾向があったため、
-    // 測定結果に基づく小さな残存条件を加えます。
-    if (!keepOpaque
-      && alpha >= CONFIG.preview.timelineApproximation.edgeAlphaThreshold
-      && red > CONFIG.preview.timelineApproximation.preserveMinRed
-      && luminance <= CONFIG.preview.timelineApproximation.preserveMaxLuminance) {
-      keepOpaque = true;
-    }
-
-    pixels[index + 3] = keepOpaque ? 255 : 0;
-  }
-  return imageData;
-}
-
-function createVisibleLayerAtSize(width, height) {
-  cleanPreviewVisibleCanvas.width = width;
-  cleanPreviewVisibleCanvas.height = height;
-  cleanPreviewVisibleContext.clearRect(0, 0, width, height);
-  cleanPreviewVisibleContext.imageSmoothingEnabled = true;
-  cleanPreviewVisibleContext.imageSmoothingQuality = 'high';
-  cleanPreviewVisibleContext.drawImage(sourceCanvas, 0, 0, width, height);
-  cleanPreviewVisibleContext.globalCompositeOperation = 'destination-in';
-  cleanPreviewVisibleContext.drawImage(maskCanvas, 0, 0, width, height);
-  cleanPreviewVisibleContext.globalCompositeOperation = 'source-over';
-  return cleanPreviewVisibleCanvas;
-}
-
-function createHiddenLayerAtSize(width, height, options = {}) {
-  const alphaScale = options.alphaScale ?? 1;
-  const sourceForLuminance = options.sourceForLuminance || sourceCanvas;
-
-  hiddenPreviewCanvas.width = width;
-  hiddenPreviewCanvas.height = height;
-  hiddenPreviewContext.clearRect(0, 0, width, height);
-  hiddenPreviewContext.imageSmoothingEnabled = true;
-  hiddenPreviewContext.imageSmoothingQuality = 'high';
-  hiddenPreviewContext.drawImage(sourceCanvas, 0, 0, width, height);
-
-  const hiddenImageData = hiddenPreviewContext.getImageData(0, 0, width, height);
-  const pixels = hiddenImageData.data;
-
-  timelineResampleCanvas.width = width;
-  timelineResampleCanvas.height = height;
-  timelineResampleContext.clearRect(0, 0, width, height);
-  timelineResampleContext.imageSmoothingEnabled = true;
-  timelineResampleContext.imageSmoothingQuality = 'high';
-  timelineResampleContext.drawImage(sourceForLuminance, 0, 0, width, height);
-  const referencePixels = timelineResampleContext.getImageData(0, 0, width, height).data;
-
-  for (let index = 0; index < pixels.length; index += 4) {
-    if (pixels[index + 3] < 1) continue;
-    const pixelIndex = index >> 2;
-    const x = pixelIndex % width;
-    const y = Math.floor(pixelIndex / width);
-    const carrier = isColorCarrierPixel(referencePixels, width, height, x, y);
-    const hiddenStyled = carrier
-      ? createCarrierPixelStyle(referencePixels[index], referencePixels[index + 1], referencePixels[index + 2])
-      : createNeutralHiddenPixelStyle(referencePixels[index], referencePixels[index + 1], referencePixels[index + 2], state.revealBoost);
-    pixels[index] = hiddenStyled.r;
-    pixels[index + 1] = hiddenStyled.g;
-    pixels[index + 2] = hiddenStyled.b;
-    pixels[index + 3] = clampByte(hiddenStyled.a * alphaScale);
-  }
-  hiddenPreviewContext.putImageData(hiddenImageData, 0, 0);
-  hiddenPreviewContext.globalCompositeOperation = 'destination-out';
-  hiddenPreviewContext.drawImage(maskCanvas, 0, 0, width, height);
-  hiddenPreviewContext.globalCompositeOperation = 'source-over';
-  return hiddenPreviewCanvas;
-}
-
-function createNonDestructivePreview(mode = state.previewMode) {
-  if (!state.imageLoaded) return null;
-  const target = getXTimelineSize(state.imageWidth, state.imageHeight);
-  const width = mode === 'timeline' ? target.width : state.imageWidth;
-  const height = mode === 'timeline' ? target.height : state.imageHeight;
-
-  cleanPreviewCanvas.width = width;
-  cleanPreviewCanvas.height = height;
-  cleanPreviewContext.clearRect(0, 0, width, height);
-  cleanPreviewContext.imageSmoothingEnabled = true;
-  cleanPreviewContext.imageSmoothingQuality = 'high';
-
-  const isReveal = mode === 'reveal';
-  cleanPreviewContext.fillStyle = isReveal
-    ? CONFIG.preview.timelineApproximation.revealBackground
-    : CONFIG.preview.timelineApproximation.whiteBackground;
-  cleanPreviewContext.fillRect(0, 0, width, height);
-
-  // 編集中も保存時に近い「淡色＋半透明」の隠しレイヤーを再計算します。
-  // ただしPNG-8化は行わず、白背景では見えにくく、黒背景ではうっすら見える方向へ近似表示します。
-  const hiddenOpacityScale = isReveal
-    ? (CONFIG.preview.nonDestructive.revealHiddenAlphaScale ?? 1.00)
-    : (CONFIG.preview.nonDestructive.timelineHiddenAlphaScale ?? 1.00);
-  const hiddenLayer = createHiddenLayerAtSize(width, height, {
-    alphaScale: hiddenOpacityScale,
-    sourceForLuminance: sourceCanvas
-  });
-
-  cleanPreviewContext.drawImage(hiddenLayer, 0, 0);
-
-  const visibleLayer = createVisibleLayerAtSize(width, height);
-  cleanPreviewContext.save();
-  if (isReveal && 'filter' in cleanPreviewContext) {
-    cleanPreviewContext.filter = `brightness(${CONFIG.preview.nonDestructive.revealVisibleBrightness})`;
-  }
-  cleanPreviewContext.drawImage(visibleLayer, 0, 0);
-  cleanPreviewContext.restore();
-  cleanPreviewContext.filter = 'none';
-
-  return cleanPreviewCanvas;
+function createNonDestructivePreview() {
+  return getDirectPreviewOutput();
 }
 
 function getPreviewBackground() {
   return state.previewMode === 'reveal'
-    ? CONFIG.preview.timelineApproximation.revealBackground
-    : CONFIG.preview.timelineApproximation.whiteBackground;
+    ? CONFIG.preview.revealBackground
+    : CONFIG.preview.whiteBackground;
 }
 
 function getPreviewStageClass() {
@@ -911,9 +749,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '白く隠す中立画素と、元色を残す色キャリア画素を分離した非破壊プレビューです。白背景の見え方を維持しながら、クリック後のカラーと輪郭を優先しています。';
+    previewNote.textContent = '保存時と同じ長辺900pxの最終RGBA画素を白背景へ合成しています。隠し領域は細かな色キャリアや網点を使わず、連続した色面のまま表示します。';
   } else {
-    previewNote.textContent = '黒背景へ中立画素と元色キャリアを別々に合成した近似表示です。キャリアの色とアルファを平均化せず、暗い原画に近い鮮明さを狙っています。';
+    previewNote.textContent = 'タイムライン想定と同じ長辺900pxの最終RGBA画素を黒背景へ合成しています。クリック後に暗い原画として輪郭・色面・細部を読めることを優先した確認表示です。';
   }
 }
 
@@ -1221,7 +1059,7 @@ function buildRegionPalette(imageData, selectionMaskData, region, maxColors, car
   for (let index = 0; index < pixels.length; index += 4) {
     if (pixels[index + 3] < 128) continue;
     const pixelIndex = index >> 2;
-    const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
+    const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 127;
     const isCarrier = Boolean(carrierHints && carrierHints[pixelIndex]);
     if (region === 'visible' && !isVisible) continue;
     if (region === 'hidden-neutral' && (isVisible || isCarrier)) continue;
@@ -1417,72 +1255,231 @@ function yieldForPaint() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
-async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress = null, alphaHints = null, carrierHints = null) {
+const HIDDEN_COMPOSITE_BIN_COUNT = 1 << 18;
+
+function getHiddenCompositeKey(data, sourceIndex) {
+  const alpha = data[sourceIndex + 3];
+  const blackR = clampByte(data[sourceIndex] * alpha / 255);
+  const blackG = clampByte(data[sourceIndex + 1] * alpha / 255);
+  const blackB = clampByte(data[sourceIndex + 2] * alpha / 255);
+  const rBin = Math.min(31, blackR >> 1);
+  const gBin = Math.min(31, blackG >> 1);
+  const bBin = Math.min(31, blackB >> 1);
+  const aBin = Math.min(7, alpha >> 3);
+  return (rBin << 13) | (gBin << 8) | (bBin << 3) | aBin;
+}
+
+function createHiddenCompositePoint(key, count, blackRSum, blackGSum, blackBSum, alphaSum) {
+  return {
+    key,
+    count,
+    blackR: blackRSum / count,
+    blackG: blackGSum / count,
+    blackB: blackBSum / count,
+    alpha: alphaSum / count
+  };
+}
+
+function getHiddenCompositeBoxStats(indices, points) {
+  let blackRMin = 255;
+  let blackRMax = 0;
+  let blackGMin = 255;
+  let blackGMax = 0;
+  let blackBMin = 255;
+  let blackBMax = 0;
+  let alphaMin = 255;
+  let alphaMax = 0;
+  let count = 0;
+
+  for (const pointIndex of indices) {
+    const point = points[pointIndex];
+    blackRMin = Math.min(blackRMin, point.blackR);
+    blackRMax = Math.max(blackRMax, point.blackR);
+    blackGMin = Math.min(blackGMin, point.blackG);
+    blackGMax = Math.max(blackGMax, point.blackG);
+    blackBMin = Math.min(blackBMin, point.blackB);
+    blackBMax = Math.max(blackBMax, point.blackB);
+    alphaMin = Math.min(alphaMin, point.alpha);
+    alphaMax = Math.max(alphaMax, point.alpha);
+    count += point.count;
+  }
+
+  return {
+    indices,
+    blackRMin,
+    blackRMax,
+    blackGMin,
+    blackGMax,
+    blackBMin,
+    blackBMax,
+    alphaMin,
+    alphaMax,
+    count
+  };
+}
+
+function splitHiddenCompositeBox(box, points) {
+  if (box.indices.length < 2) return null;
+  const ranges = [
+    box.blackRMax - box.blackRMin,
+    box.blackGMax - box.blackGMin,
+    box.blackBMax - box.blackBMin,
+    (box.alphaMax - box.alphaMin) * 1.15
+  ];
+  const properties = ['blackR', 'blackG', 'blackB', 'alpha'];
+  const property = properties[ranges.indexOf(Math.max(...ranges))];
+  const sorted = [...box.indices].sort((left, right) => points[left][property] - points[right][property]);
+  const target = box.count / 2;
+  let cumulative = 0;
+  let splitAt = 1;
+
+  for (let index = 0; index < sorted.length - 1; index += 1) {
+    cumulative += points[sorted[index]].count;
+    if (cumulative >= target) {
+      splitAt = index + 1;
+      break;
+    }
+  }
+
+  if (splitAt <= 0 || splitAt >= sorted.length) return null;
+  return [
+    getHiddenCompositeBoxStats(sorted.slice(0, splitAt), points),
+    getHiddenCompositeBoxStats(sorted.slice(splitAt), points)
+  ];
+}
+
+function buildHiddenCompositePalette(imageData, selectionMaskData, maxColors) {
+  const counts = new Uint32Array(HIDDEN_COMPOSITE_BIN_COUNT);
+  const blackRSums = new Uint32Array(HIDDEN_COMPOSITE_BIN_COUNT);
+  const blackGSums = new Uint32Array(HIDDEN_COMPOSITE_BIN_COUNT);
+  const blackBSums = new Uint32Array(HIDDEN_COMPOSITE_BIN_COUNT);
+  const alphaSums = new Uint32Array(HIDDEN_COMPOSITE_BIN_COUNT);
+  const data = imageData.data;
+
+  for (let sourceIndex = 0; sourceIndex < data.length; sourceIndex += 4) {
+    const alpha = data[sourceIndex + 3];
+    if (alpha < 1) continue;
+    const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 127;
+    if (isVisible) continue;
+    const key = getHiddenCompositeKey(data, sourceIndex);
+    counts[key] += 1;
+    blackRSums[key] += clampByte(data[sourceIndex] * alpha / 255);
+    blackGSums[key] += clampByte(data[sourceIndex + 1] * alpha / 255);
+    blackBSums[key] += clampByte(data[sourceIndex + 2] * alpha / 255);
+    alphaSums[key] += alpha;
+  }
+
+  const points = [];
+  for (let key = 0; key < HIDDEN_COMPOSITE_BIN_COUNT; key += 1) {
+    if (!counts[key]) continue;
+    points.push(createHiddenCompositePoint(
+      key,
+      counts[key],
+      blackRSums[key],
+      blackGSums[key],
+      blackBSums[key],
+      alphaSums[key]
+    ));
+  }
+
+  if (!points.length || maxColors <= 0) {
+    return { palette: [], binToPaletteIndex: new Uint16Array(HIDDEN_COMPOSITE_BIN_COUNT) };
+  }
+
+  let boxes = [getHiddenCompositeBoxStats(points.map((_, index) => index), points)];
+  while (boxes.length < maxColors) {
+    let selectedIndex = -1;
+    let selectedScore = -1;
+    for (let index = 0; index < boxes.length; index += 1) {
+      const box = boxes[index];
+      if (box.indices.length < 2) continue;
+      const maxRange = Math.max(
+        box.blackRMax - box.blackRMin,
+        box.blackGMax - box.blackGMin,
+        box.blackBMax - box.blackBMin,
+        (box.alphaMax - box.alphaMin) * 1.15
+      );
+      const score = maxRange * Math.sqrt(box.count);
+      if (score > selectedScore) {
+        selectedScore = score;
+        selectedIndex = index;
+      }
+    }
+    if (selectedIndex < 0) break;
+    const split = splitHiddenCompositeBox(boxes[selectedIndex], points);
+    if (!split) break;
+    boxes.splice(selectedIndex, 1, split[0], split[1]);
+  }
+
+  const palette = [];
+  const binToPaletteIndex = new Uint16Array(HIDDEN_COMPOSITE_BIN_COUNT);
+  for (const box of boxes) {
+    let total = 0;
+    let blackRTotal = 0;
+    let blackGTotal = 0;
+    let blackBTotal = 0;
+    let alphaTotal = 0;
+    for (const pointIndex of box.indices) {
+      const point = points[pointIndex];
+      total += point.count;
+      blackRTotal += point.blackR * point.count;
+      blackGTotal += point.blackG * point.count;
+      blackBTotal += point.blackB * point.count;
+      alphaTotal += point.alpha * point.count;
+    }
+
+    const alpha = Math.max(1, clampByte(alphaTotal / total));
+    const paletteIndex = palette.length;
+    palette.push({
+      r: clampByte((blackRTotal / total) * 255 / alpha),
+      g: clampByte((blackGTotal / total) * 255 / alpha),
+      b: clampByte((blackBTotal / total) * 255 / alpha),
+      a: alpha
+    });
+    for (const pointIndex of box.indices) {
+      binToPaletteIndex[points[pointIndex].key] = paletteIndex;
+    }
+  }
+
+  return { palette, binToPaletteIndex };
+}
+
+async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress = null) {
   const { width, height, data } = imageData;
-  const visibleLimit = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors ?? 194));
-  const neutralLimit = Math.max(1, Math.min(254, CONFIG.export.palette.neutralColors ?? 28));
-  const carrierLimit = Math.max(1, Math.min(254, CONFIG.export.palette.carrierColors ?? 32));
+  const configuredVisible = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors ?? 160));
+  const configuredHidden = Math.max(1, Math.min(254, CONFIG.export.palette.hiddenColors ?? 95));
 
-  onProgress?.(28, '通常表示する範囲の色を解析しています…');
+  onProgress?.(30, '900px最終画像の通常表示範囲を解析しています…');
   await yieldForPaint();
-  const visible = buildRegionPalette(imageData, selectionMaskData, 'visible', visibleLimit, carrierHints);
+  const visible = buildRegionPalette(imageData, selectionMaskData, 'visible', configuredVisible);
 
-  onProgress?.(43, '白く隠す中立画素を解析しています…');
+  onProgress?.(52, '隠し領域の連続した色面とアルファを解析しています…');
   await yieldForPaint();
-  const neutral = buildRegionPalette(imageData, selectionMaskData, 'hidden-neutral', neutralLimit, carrierHints);
-
-  onProgress?.(58, '元色を残す色キャリア画素を解析しています…');
-  await yieldForPaint();
-  const usedBeforeCarrier = 1 + visible.palette.length + neutral.palette.length;
-  const carrier = buildRegionPalette(
+  const remainingPaletteSlots = Math.max(1, 255 - visible.palette.length);
+  const hidden = buildHiddenCompositePalette(
     imageData,
     selectionMaskData,
-    'hidden-carrier',
-    Math.min(carrierLimit, Math.max(1, 256 - usedBeforeCarrier)),
-    carrierHints
+    Math.min(configuredHidden, remainingPaletteSlots)
   );
 
-  const palette = [{ r: 0, g: 0, b: 0 }, ...visible.palette, ...neutral.palette, ...carrier.palette];
+  const palette = [
+    { r: 0, g: 0, b: 0, a: 0 },
+    ...visible.palette.map((color) => ({ ...color, a: 255 })),
+    ...hidden.palette
+  ];
   const visibleOffset = 1;
-  const neutralOffset = visibleOffset + visible.palette.length;
-  const carrierOffset = neutralOffset + neutral.palette.length;
+  const hiddenOffset = visibleOffset + visible.palette.length;
+
   const paletteBytes = new Uint8Array(palette.length * 3);
+  const alphaBytes = new Uint8Array(palette.length);
   for (let index = 0; index < palette.length; index += 1) {
     paletteBytes[index * 3] = palette[index].r;
     paletteBytes[index * 3 + 1] = palette[index].g;
     paletteBytes[index * 3 + 2] = palette[index].b;
+    alphaBytes[index] = palette[index].a;
   }
 
-  const alphaBytes = new Uint8Array(palette.length);
-  alphaBytes[0] = 0;
-  for (let index = visibleOffset; index < neutralOffset; index += 1) alphaBytes[index] = 255;
-
-  const neutralAlphaSums = new Float64Array(neutral.palette.length);
-  const neutralCounts = new Uint32Array(neutral.palette.length);
-  const carrierAlpha = clampByte(CONFIG.export.hiddenLook?.carrierAlpha ?? 112);
-
-  for (let sourceIndex = 0; sourceIndex < data.length; sourceIndex += 4) {
-    if (data[sourceIndex + 3] < 128) continue;
-    const pixelIndex = sourceIndex >> 2;
-    const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 32;
-    if (isVisible || carrierHints?.[pixelIndex]) continue;
-    const key = ((data[sourceIndex] >> 3) << 10)
-      | ((data[sourceIndex + 1] >> 3) << 5)
-      | (data[sourceIndex + 2] >> 3);
-    const paletteIndex = neutral.binToPaletteIndex[key];
-    neutralAlphaSums[paletteIndex] += alphaHints ? alphaHints[pixelIndex] : 48;
-    neutralCounts[paletteIndex] += 1;
-  }
-  for (let index = 0; index < neutral.palette.length; index += 1) {
-    alphaBytes[neutralOffset + index] = neutralCounts[index] > 0
-      ? clampByte(neutralAlphaSums[index] / neutralCounts[index])
-      : 48;
-  }
-  for (let index = 0; index < carrier.palette.length; index += 1) {
-    alphaBytes[carrierOffset + index] = carrierAlpha;
-  }
-
-  onProgress?.(70, '3種類の専用パレットへ画素を割り当てています…');
+  onProgress?.(72, '900pxの各画素をPNG-8パレットへ割り当てています…');
   await yieldForPaint();
   const scanlines = new Uint8Array((width + 1) * height);
   for (let y = 0; y < height; y += 1) {
@@ -1490,21 +1487,20 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress 
     scanlines[rowOffset] = 0;
     for (let x = 0; x < width; x += 1) {
       const sourceIndex = (y * width + x) * 4;
-      const pixelIndex = y * width + x;
-      if (data[sourceIndex + 3] < 128) {
+      if (data[sourceIndex + 3] < 1) {
         scanlines[rowOffset + x + 1] = 0;
         continue;
       }
-      const key = ((data[sourceIndex] >> 3) << 10)
-        | ((data[sourceIndex + 1] >> 3) << 5)
-        | (data[sourceIndex + 2] >> 3);
-      const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 32;
+
+      const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 127;
       if (isVisible) {
+        const key = ((data[sourceIndex] >> 3) << 10)
+          | ((data[sourceIndex + 1] >> 3) << 5)
+          | (data[sourceIndex + 2] >> 3);
         scanlines[rowOffset + x + 1] = visibleOffset + visible.binToPaletteIndex[key];
-      } else if (carrierHints?.[pixelIndex]) {
-        scanlines[rowOffset + x + 1] = carrierOffset + carrier.binToPaletteIndex[key];
       } else {
-        scanlines[rowOffset + x + 1] = neutralOffset + neutral.binToPaletteIndex[key];
+        const key = getHiddenCompositeKey(data, sourceIndex);
+        scanlines[rowOffset + x + 1] = hiddenOffset + hidden.binToPaletteIndex[key];
       }
     }
   }
@@ -1518,7 +1514,7 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress 
   ihdr[11] = 0;
   ihdr[12] = 0;
 
-  onProgress?.(84, 'PNG-8を圧縮しています…');
+  onProgress?.(86, 'PNG-8を圧縮しています…');
   await yieldForPaint();
   const signature = Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10]);
   const compressed = await compressZlib(scanlines);
@@ -1541,14 +1537,15 @@ async function saveOutput() {
   setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
   try {
     await yieldForPaint();
-    const selectionMaskData = getSelectionMaskData();
-    setExportProgress(18, '確定した範囲へ半透明パレット用の補正を適用しています…');
+    setExportProgress(18, '元画像から長辺900pxの最終RGBA画素を直接生成しています…');
     await yieldForPaint();
 
-    const exportResult = createExportImageData(selectionMaskData);
-    const blob = await encodeIndexedPng(exportResult.imageData, selectionMaskData, (value, message) => {
+    // 保存時はプレビューのキャッシュを使わず、元画像と確定マスクから一度だけ作り直します。
+    const exportResult = createDirect900Output();
+    if (!exportResult) throw new Error('900pxの保存画像を生成できませんでした。');
+    const blob = await encodeIndexedPng(exportResult.imageData, exportResult.selectionMaskData, (value, message) => {
       setExportProgress(value, message);
-    }, exportResult.alphaHints, exportResult.carrierHints);
+    });
 
     const name = outputFileName();
     outputFileNameNode.textContent = name;
@@ -1569,7 +1566,7 @@ async function saveOutput() {
     anchor.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setExportProgress(100, '保存画像を作成しました。');
-    showToast('元画像のRGBを残した半透明パレットPNG-8を作成して保存しました。');
+    showToast('長辺900pxの連続色面PNG-8を作成して保存しました。');
   } catch (error) {
     console.error(error);
     setExportProgress(0, '保存処理に失敗しました。');
