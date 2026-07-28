@@ -91,11 +91,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.14.0',
+    version: 'v0.15.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-dark-overlay-click-recovery-v0140'
+    fileSuffix: 'reveal-separated-color-carrier-v0150'
   },
   editor: {
     defaultTool: 'hide',
@@ -111,33 +111,37 @@ const DEFAULT_CONFIG = {
   export: {
     rebuildFromOriginalOnSave: true,
     palette: {
-      visibleColors: 168,
-      hiddenColors: 87
+      visibleColors: 194,
+      neutralColors: 28,
+      carrierColors: 32
     },
     hiddenAlpha: {
-      base: 150,
-      strong: 150
+      base: 124,
+      strong: 148
     },
     hiddenAlphaAdaptive: {
-      enabled: false,
-      minBase: 150,
-      minStrong: 150,
-      maxBase: 150,
-      maxStrong: 150,
-      gammaBase: 1.00,
-      gammaStrong: 1.00
+      enabled: true,
+      minBase: 146,
+      minStrong: 146,
+      maxBase: 210,
+      maxStrong: 210,
+      gammaBase: 1.15,
+      gammaStrong: 1.15
     },
     hiddenLook: {
-      targetRevealMin: 36,
-      targetRevealMax: 126,
-      targetGamma: 0.86,
-      darkDetailThreshold: 78,
-      darkDetailLift: 1.42,
-      maxAlpha: 0.50,
-      minAlpha: 0.14,
-      visibleEdgeBoost: 0.10,
-      carrierThreshold: 1,
-      carrierBrightnessBoost: 1.08
+      neutralHiddenMeanDark: 232,
+      neutralHiddenMeanBright: 246,
+      neutralRevealDark: 52,
+      neutralRevealBright: 112,
+      neutralWhiteTarget: 250,
+      neutralPrelift: 0.90,
+      neutralChromaKeep: 0.10,
+      carrierAlpha: 112,
+      baseCarrierThreshold: 1,
+      colorCarrierThreshold: 2,
+      edgeCarrierThreshold: 6,
+      edgeThreshold: 26,
+      chromaThreshold: 24
     }
   },
   preview: {
@@ -166,7 +170,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後 / X投稿後の鮮明さを最優先し、白背景ではほぼ白いまま、黒背景では暗い原画に近い見え方を狙う確認版です。ブーストは1.00固定です。'
+    timelineApproximation: '編集時は元画像と範囲マスクだけを使った非破壊プレビューを表示します。現版はクリック後 / X投稿後のカラーと鮮明さを最優先し、白く隠す中立画素と元色を残す色キャリア画素を別パレットで保存する確認版です。ブーストは1.00固定です。'
   }
 };
 
@@ -345,54 +349,93 @@ function getHiddenRegionAlpha(boost) {
   return clampByte(lerp(base, strong, getBoostNormalized(boost)));
 }
 
-function createHiddenPixelStyle(r, g, b, x, y, boost) {
+function getPixelLuminanceFromBuffer(pixels, width, height, x, y) {
+  const safeX = Math.max(0, Math.min(width - 1, x));
+  const safeY = Math.max(0, Math.min(height - 1, y));
+  const index = (safeY * width + safeX) * 4;
+  return 0.299 * pixels[index] + 0.587 * pixels[index + 1] + 0.114 * pixels[index + 2];
+}
+
+function isColorCarrierPixel(pixels, width, height, x, y) {
+  const hiddenLook = CONFIG.export.hiddenLook || {};
+  const pattern = HIDDEN_BAYER_4X4[y & 3][x & 3];
+  const index = (y * width + x) * 4;
+  const r = pixels[index];
+  const g = pixels[index + 1];
+  const b = pixels[index + 2];
+  const maxChannel = Math.max(r, g, b);
+  const minChannel = Math.min(r, g, b);
+  const chroma = maxChannel - minChannel;
+  const center = getPixelLuminanceFromBuffer(pixels, width, height, x, y);
+  const horizontal = Math.abs(
+    getPixelLuminanceFromBuffer(pixels, width, height, x + 1, y)
+    - getPixelLuminanceFromBuffer(pixels, width, height, x - 1, y)
+  );
+  const vertical = Math.abs(
+    getPixelLuminanceFromBuffer(pixels, width, height, x, y + 1)
+    - getPixelLuminanceFromBuffer(pixels, width, height, x, y - 1)
+  );
+  const diagonal = Math.abs(
+    getPixelLuminanceFromBuffer(pixels, width, height, x + 1, y + 1)
+    - getPixelLuminanceFromBuffer(pixels, width, height, x - 1, y - 1)
+  );
+  const edge = Math.max(horizontal, vertical, diagonal, Math.abs(center - getPixelLuminanceFromBuffer(pixels, width, height, x + 1, y)));
+
+  const baseCarrier = pattern < (hiddenLook.baseCarrierThreshold ?? 1);
+  const colorCarrier = chroma >= (hiddenLook.chromaThreshold ?? 24)
+    && pattern < (hiddenLook.colorCarrierThreshold ?? 2);
+  const edgeCarrier = edge >= (hiddenLook.edgeThreshold ?? 26)
+    && pattern < (hiddenLook.edgeCarrierThreshold ?? 6);
+  return baseCarrier || colorCarrier || edgeCarrier;
+}
+
+function createNeutralHiddenPixelStyle(r, g, b, boost) {
   const hiddenLook = CONFIG.export.hiddenLook || {};
   const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
   const luminance01 = clamp01(luminance / 255);
-  const targetRevealMin = hiddenLook.targetRevealMin ?? 36;
-  const targetRevealMax = hiddenLook.targetRevealMax ?? 126;
-  const targetGamma = hiddenLook.targetGamma ?? 0.86;
-  const darkDetailThreshold = hiddenLook.darkDetailThreshold ?? 78;
-  const darkDetailLift = hiddenLook.darkDetailLift ?? 1.42;
-  const minAlpha = hiddenLook.minAlpha ?? 0.14;
-  const maxAlpha = hiddenLook.maxAlpha ?? 0.50;
-  const carrierThreshold = Math.max(0, Math.min(4, hiddenLook.carrierThreshold ?? 1));
-  const carrierBrightnessBoost = hiddenLook.carrierBrightnessBoost ?? 1.08;
-  const isCarrier = HIDDEN_BAYER_4X4[y & 3][x & 3] < carrierThreshold;
+  const hiddenMean = lerp(
+    hiddenLook.neutralHiddenMeanDark ?? 232,
+    hiddenLook.neutralHiddenMeanBright ?? 246,
+    Math.pow(luminance01, 0.90)
+  );
+  const prelift = hiddenLook.neutralPrelift ?? 0.90;
+  const chromaKeep = hiddenLook.neutralChromaKeep ?? 0.10;
 
-  let targetLum = lerp(targetRevealMin, targetRevealMax, Math.pow(luminance01, targetGamma));
-  if (luminance < darkDetailThreshold) {
-    const t = 1 - (luminance / Math.max(1, darkDetailThreshold));
-    targetLum *= lerp(1.0, darkDetailLift, t);
-  }
-  if (isCarrier) targetLum *= carrierBrightnessBoost;
+  let rr = lerp(r, 255, prelift);
+  let gg = lerp(g, 255, prelift);
+  let bb = lerp(b, 255, prelift);
+  let mean = (rr + gg + bb) / 3;
+  const shift = hiddenMean - mean;
+  rr += shift;
+  gg += shift;
+  bb += shift;
+  mean = (rr + gg + bb) / 3;
+  rr = lerp(mean, rr, chromaKeep);
+  gg = lerp(mean, gg, chromaKeep);
+  bb = lerp(mean, bb, chromaKeep);
 
-  const scale = targetLum / Math.max(1, luminance);
-  let observedR = r * scale;
-  let observedG = g * scale;
-  let observedB = b * scale;
+  rr = clampByte(Math.max(hiddenMean - 10, Math.min(252, rr)));
+  gg = clampByte(Math.max(hiddenMean - 10, Math.min(252, gg)));
+  bb = clampByte(Math.max(hiddenMean - 10, Math.min(252, bb)));
 
-  // 暗部ディテールが潰れやすいので、低輝度側だけ少し持ち上げます。
-  const floor = Math.max(0, targetRevealMin - 6);
-  observedR = Math.max(floor * 0.72, observedR);
-  observedG = Math.max(floor * 0.72, observedG);
-  observedB = Math.max(floor * 0.72, observedB);
+  const neutralReveal = lerp(
+    hiddenLook.neutralRevealDark ?? 52,
+    hiddenLook.neutralRevealBright ?? 112,
+    Math.pow(luminance01, 0.92)
+  );
+  const whiteTarget = hiddenLook.neutralWhiteTarget ?? 250;
+  const hiddenPixelMean = (rr + gg + bb) / 3;
+  let alpha01 = neutralReveal / Math.max(1, hiddenPixelMean);
+  const maxAlphaByWhite = (255 - whiteTarget) / Math.max(1, 255 - hiddenPixelMean);
+  alpha01 = Math.min(alpha01, maxAlphaByWhite);
+  alpha01 = Math.max(0.12, Math.min(0.46, alpha01));
 
-  const observedMaxCap = 255 * maxAlpha;
-  observedR = Math.min(observedMaxCap, observedR);
-  observedG = Math.min(observedMaxCap, observedG);
-  observedB = Math.min(observedMaxCap, observedB);
+  return { r: rr, g: gg, b: bb, a: clampByte(alpha01 * 255), carrier: false };
+}
 
-  const derivedAlpha = Math.max(observedR, observedG, observedB) / 255;
-  const alpha01 = clamp01(Math.max(minAlpha, Math.min(maxAlpha, derivedAlpha)));
-
-  return {
-    r: clampByte(observedR / alpha01),
-    g: clampByte(observedG / alpha01),
-    b: clampByte(observedB / alpha01),
-    a: clampByte(alpha01 * 255),
-    carrier: isCarrier
-  };
+function createCarrierPixelStyle(r, g, b) {
+  const alpha = clampByte(CONFIG.export.hiddenLook?.carrierAlpha ?? 112);
+  return { r, g, b, a: alpha, carrier: true };
 }
 
 function getSourcePixelLuminanceAtIndex(sourcePixels, index) {
@@ -404,30 +447,37 @@ function createExportImageData(selectionMaskData) {
   const exportData = new ImageData(new Uint8ClampedArray(sourceData.data), state.imageWidth, state.imageHeight);
   const pixels = exportData.data;
   const alphaHints = new Uint8Array(state.imageWidth * state.imageHeight);
+  const carrierHints = new Uint8Array(state.imageWidth * state.imageHeight);
 
   for (let index = 0; index < pixels.length; index += 4) {
     const pixelIndex = index >> 2;
     if (pixels[index + 3] < 1) {
       alphaHints[pixelIndex] = 0;
+      carrierHints[pixelIndex] = 0;
       continue;
     }
     const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
     if (isVisible) {
       alphaHints[pixelIndex] = 255;
+      carrierHints[pixelIndex] = 0;
       continue;
     }
+
     const x = pixelIndex % state.imageWidth;
     const y = Math.floor(pixelIndex / state.imageWidth);
-    const hiddenStyled = createHiddenPixelStyle(
-      pixels[index], pixels[index + 1], pixels[index + 2], x, y, state.revealBoost
-    );
+    const carrier = isColorCarrierPixel(sourceData.data, state.imageWidth, state.imageHeight, x, y);
+    const hiddenStyled = carrier
+      ? createCarrierPixelStyle(pixels[index], pixels[index + 1], pixels[index + 2])
+      : createNeutralHiddenPixelStyle(pixels[index], pixels[index + 1], pixels[index + 2], state.revealBoost);
+
     pixels[index] = hiddenStyled.r;
     pixels[index + 1] = hiddenStyled.g;
     pixels[index + 2] = hiddenStyled.b;
     alphaHints[pixelIndex] = hiddenStyled.a;
+    carrierHints[pixelIndex] = carrier ? 1 : 0;
   }
 
-  return { imageData: exportData, alphaHints };
+  return { imageData: exportData, alphaHints, carrierHints };
 }
 
 function getSelectionMaskData() {
@@ -768,9 +818,10 @@ function createHiddenLayerAtSize(width, height, options = {}) {
     const pixelIndex = index >> 2;
     const x = pixelIndex % width;
     const y = Math.floor(pixelIndex / width);
-    const hiddenStyled = createHiddenPixelStyle(
-      referencePixels[index], referencePixels[index + 1], referencePixels[index + 2], x, y, state.revealBoost
-    );
+    const carrier = isColorCarrierPixel(referencePixels, width, height, x, y);
+    const hiddenStyled = carrier
+      ? createCarrierPixelStyle(referencePixels[index], referencePixels[index + 1], referencePixels[index + 2])
+      : createNeutralHiddenPixelStyle(referencePixels[index], referencePixels[index + 1], referencePixels[index + 2], state.revealBoost);
     pixels[index] = hiddenStyled.r;
     pixels[index + 1] = hiddenStyled.g;
     pixels[index + 2] = hiddenStyled.b;
@@ -860,9 +911,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '元画像と範囲マスクから、白背景ではほぼ白く隠れつつ、クリック後 / X投稿後は暗い原画として読める見え方を狙う非破壊プレビューです。今回はクリック後の鮮明さを最優先しています。';
+    previewNote.textContent = '白く隠す中立画素と、元色を残す色キャリア画素を分離した非破壊プレビューです。白背景の見え方を維持しながら、クリック後のカラーと輪郭を優先しています。';
   } else {
-    previewNote.textContent = '黒背景へ、暗い原画に近い色と階調が残るよう合成した近似表示です。前版よりも輪郭・顔・髪・衣装が読めることを優先しています。';
+    previewNote.textContent = '黒背景へ中立画素と元色キャリアを別々に合成した近似表示です。キャリアの色とアルファを平均化せず、暗い原画に近い鮮明さを狙っています。';
   }
 }
 
@@ -1159,7 +1210,7 @@ function splitColorBox(box, points) {
   ];
 }
 
-function buildRegionPalette(imageData, selectionMaskData, region, maxColors) {
+function buildRegionPalette(imageData, selectionMaskData, region, maxColors, carrierHints = null) {
   const binCount = 32 * 32 * 32;
   const counts = new Uint32Array(binCount);
   const rSums = new Uint32Array(binCount);
@@ -1169,8 +1220,13 @@ function buildRegionPalette(imageData, selectionMaskData, region, maxColors) {
 
   for (let index = 0; index < pixels.length; index += 4) {
     if (pixels[index + 3] < 128) continue;
+    const pixelIndex = index >> 2;
     const isVisible = !selectionMaskData || selectionMaskData[index + 3] > 32;
-    if (region === 'visible' ? !isVisible : isVisible) continue;
+    const isCarrier = Boolean(carrierHints && carrierHints[pixelIndex]);
+    if (region === 'visible' && !isVisible) continue;
+    if (region === 'hidden-neutral' && (isVisible || isCarrier)) continue;
+    if (region === 'hidden-carrier' && (isVisible || !isCarrier)) continue;
+    if (region === 'hidden' && isVisible) continue;
 
     const r = pixels[index];
     const g = pixels[index + 1];
@@ -1361,23 +1417,35 @@ function yieldForPaint() {
   return new Promise((resolve) => requestAnimationFrame(() => resolve()));
 }
 
-async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha = 48, onProgress = null, originalImageData = imageData, alphaHints = null) {
+async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress = null, alphaHints = null, carrierHints = null) {
   const { width, height, data } = imageData;
-  const visibleLimit = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors));
-  const hiddenLimit = Math.max(1, Math.min(254 - visibleLimit + 1, CONFIG.export.palette.hiddenColors));
+  const visibleLimit = Math.max(1, Math.min(254, CONFIG.export.palette.visibleColors ?? 194));
+  const neutralLimit = Math.max(1, Math.min(254, CONFIG.export.palette.neutralColors ?? 28));
+  const carrierLimit = Math.max(1, Math.min(254, CONFIG.export.palette.carrierColors ?? 32));
 
-  onProgress?.(32, '見せる範囲の色を解析しています…');
+  onProgress?.(28, '通常表示する範囲の色を解析しています…');
   await yieldForPaint();
-  const visible = buildRegionPalette(imageData, selectionMaskData, 'visible', visibleLimit);
+  const visible = buildRegionPalette(imageData, selectionMaskData, 'visible', visibleLimit, carrierHints);
 
-  onProgress?.(52, '隠す範囲の色を解析しています…');
+  onProgress?.(43, '白く隠す中立画素を解析しています…');
   await yieldForPaint();
-  const remaining = Math.max(1, 255 - visible.palette.length);
-  const hidden = buildRegionPalette(imageData, selectionMaskData, 'hidden', Math.min(hiddenLimit, remaining));
+  const neutral = buildRegionPalette(imageData, selectionMaskData, 'hidden-neutral', neutralLimit, carrierHints);
 
-  const palette = [{ r: 0, g: 0, b: 0 }, ...visible.palette, ...hidden.palette];
+  onProgress?.(58, '元色を残す色キャリア画素を解析しています…');
+  await yieldForPaint();
+  const usedBeforeCarrier = 1 + visible.palette.length + neutral.palette.length;
+  const carrier = buildRegionPalette(
+    imageData,
+    selectionMaskData,
+    'hidden-carrier',
+    Math.min(carrierLimit, Math.max(1, 256 - usedBeforeCarrier)),
+    carrierHints
+  );
+
+  const palette = [{ r: 0, g: 0, b: 0 }, ...visible.palette, ...neutral.palette, ...carrier.palette];
   const visibleOffset = 1;
-  const hiddenOffset = 1 + visible.palette.length;
+  const neutralOffset = visibleOffset + visible.palette.length;
+  const carrierOffset = neutralOffset + neutral.palette.length;
   const paletteBytes = new Uint8Array(palette.length * 3);
   for (let index = 0; index < palette.length; index += 1) {
     paletteBytes[index * 3] = palette[index].r;
@@ -1387,29 +1455,34 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha
 
   const alphaBytes = new Uint8Array(palette.length);
   alphaBytes[0] = 0;
-  for (let index = 1; index < hiddenOffset; index += 1) alphaBytes[index] = 255;
+  for (let index = visibleOffset; index < neutralOffset; index += 1) alphaBytes[index] = 255;
 
-  const hiddenAlphaSums = new Float64Array(hidden.palette.length);
-  const hiddenCounts = new Uint32Array(hidden.palette.length);
+  const neutralAlphaSums = new Float64Array(neutral.palette.length);
+  const neutralCounts = new Uint32Array(neutral.palette.length);
+  const carrierAlpha = clampByte(CONFIG.export.hiddenLook?.carrierAlpha ?? 112);
+
   for (let sourceIndex = 0; sourceIndex < data.length; sourceIndex += 4) {
     if (data[sourceIndex + 3] < 128) continue;
+    const pixelIndex = sourceIndex >> 2;
     const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 32;
-    if (isVisible) continue;
+    if (isVisible || carrierHints?.[pixelIndex]) continue;
     const key = ((data[sourceIndex] >> 3) << 10)
       | ((data[sourceIndex + 1] >> 3) << 5)
       | (data[sourceIndex + 2] >> 3);
-    const paletteIndex = hidden.binToPaletteIndex[key];
-    const pixelIndex = sourceIndex >> 2;
-    hiddenAlphaSums[paletteIndex] += alphaHints ? alphaHints[pixelIndex] : hiddenAlpha;
-    hiddenCounts[paletteIndex] += 1;
+    const paletteIndex = neutral.binToPaletteIndex[key];
+    neutralAlphaSums[paletteIndex] += alphaHints ? alphaHints[pixelIndex] : 48;
+    neutralCounts[paletteIndex] += 1;
   }
-  for (let index = 0; index < hidden.palette.length; index += 1) {
-    alphaBytes[hiddenOffset + index] = hiddenCounts[index] > 0
-      ? clampByte(hiddenAlphaSums[index] / hiddenCounts[index])
-      : hiddenAlpha;
+  for (let index = 0; index < neutral.palette.length; index += 1) {
+    alphaBytes[neutralOffset + index] = neutralCounts[index] > 0
+      ? clampByte(neutralAlphaSums[index] / neutralCounts[index])
+      : 48;
+  }
+  for (let index = 0; index < carrier.palette.length; index += 1) {
+    alphaBytes[carrierOffset + index] = carrierAlpha;
   }
 
-  onProgress?.(68, '画素を専用パレットへ割り当てています…');
+  onProgress?.(70, '3種類の専用パレットへ画素を割り当てています…');
   await yieldForPaint();
   const scanlines = new Uint8Array((width + 1) * height);
   for (let y = 0; y < height; y += 1) {
@@ -1417,6 +1490,7 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha
     scanlines[rowOffset] = 0;
     for (let x = 0; x < width; x += 1) {
       const sourceIndex = (y * width + x) * 4;
+      const pixelIndex = y * width + x;
       if (data[sourceIndex + 3] < 128) {
         scanlines[rowOffset + x + 1] = 0;
         continue;
@@ -1425,9 +1499,13 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, hiddenAlpha
         | ((data[sourceIndex + 1] >> 3) << 5)
         | (data[sourceIndex + 2] >> 3);
       const isVisible = !selectionMaskData || selectionMaskData[sourceIndex + 3] > 32;
-      scanlines[rowOffset + x + 1] = isVisible
-        ? visibleOffset + visible.binToPaletteIndex[key]
-        : hiddenOffset + hidden.binToPaletteIndex[key];
+      if (isVisible) {
+        scanlines[rowOffset + x + 1] = visibleOffset + visible.binToPaletteIndex[key];
+      } else if (carrierHints?.[pixelIndex]) {
+        scanlines[rowOffset + x + 1] = carrierOffset + carrier.binToPaletteIndex[key];
+      } else {
+        scanlines[rowOffset + x + 1] = neutralOffset + neutral.binToPaletteIndex[key];
+      }
     }
   }
 
@@ -1468,11 +1546,9 @@ async function saveOutput() {
     await yieldForPaint();
 
     const exportResult = createExportImageData(selectionMaskData);
-    const imageData = exportResult.imageData;
-    const hiddenAlpha = getHiddenRegionAlpha(state.revealBoost);
-    const blob = await encodeIndexedPng(imageData, selectionMaskData, hiddenAlpha, (value, message) => {
+    const blob = await encodeIndexedPng(exportResult.imageData, selectionMaskData, (value, message) => {
       setExportProgress(value, message);
-    }, state.sourceImageData, exportResult.alphaHints);
+    }, exportResult.alphaHints, exportResult.carrierHints);
 
     const name = outputFileName();
     outputFileNameNode.textContent = name;
