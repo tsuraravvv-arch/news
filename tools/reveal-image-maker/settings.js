@@ -2,12 +2,12 @@
 
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.17.4',
+    version: 'v0.17.5',
     updatedAt: '2026-07-29 07:35 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-png8-binary-v0174'
+    fileSuffix: 'reveal-png8-binary-v0175-hires4096'
   },
 
   editor: {
@@ -25,7 +25,7 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
 
   export: {
     rebuildFromOriginalOnSave: true,
-    maxLongEdge: 0,
+    maxLongEdge: 4096,
     palette: {
       visibleColors: 254,
       hiddenColors: 0
@@ -60,6 +60,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時にだけ原寸の2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回は半透明連続色面ではなく、透明/不透明の細かなパターン方式を試す実験版です。'
+    timelineApproximation: '元画像と範囲マスクから、保存時にだけ長辺4096px相当の高解像度2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回は粒感を減らすため、パターン自体は維持しつつ、最終出力解像度だけを先に高める試作Aです。'
   }
 };
