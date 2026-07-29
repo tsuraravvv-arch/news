@@ -71,24 +71,6 @@ const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true }
 const timelineCanvas = document.createElement('canvas');
 
 
-const BLUE_NOISE_64 = (() => {
-  const data = window.REVEAL_BLUE_NOISE_64;
-  if (!data || !Array.isArray(data.ranks) || !data.size) return null;
-  return {
-    size: Number(data.size),
-    ranks: data.ranks
-  };
-})();
-
-const BLUE_NOISE_32 = (() => {
-  const data = window.REVEAL_BLUE_NOISE_32;
-  if (!data || !Array.isArray(data.ranks) || !data.size) return null;
-  return {
-    size: Number(data.size),
-    ranks: data.ranks
-  };
-})();
-
 
 function mergeConfig(base, override) {
   if (Array.isArray(base)) return Array.isArray(override) ? override.slice() : base.slice();
@@ -106,11 +88,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.9',
+    version: 'v0.18.0',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'rv179a'
+    fileSuffix: 'rv180'
   },
   editor: {
     defaultTool: 'hide',
@@ -125,22 +107,15 @@ const DEFAULT_CONFIG = {
   },
   export: {
     rebuildFromOriginalOnSave: true,
-    maxLongEdge: 4096,
-    stableCanvas: {
-      enabled: true,
-      aspectRatio: '3:4',
-      subjectScale: 0.86,
-      anchorX: 0.5,
-      anchorY: 0.56
-    },
+    maxLongEdge: 0,
     palette: {
       visibleColors: 254,
       hiddenColors: 0
     },
     hiddenLook: {
-      checkerMode: 'bluenoise32',
-      checkerCoverage: 6,
-      brightenGain: 1.10,
+      checkerMode: 'checker2',
+      checkerCoverage: 8,
+      brightenGain: 1.00,
       brightenOffset: 0,
       whiteMix: 0.00,
       preserveVisibleAlpha: false
@@ -164,7 +139,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時にだけ原寸の2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回はX表示安定モード（3:4固定キャンバス＋被写体を少し小さめに配置）を追加した実験版です。'
+    timelineApproximation: '解析した参考PNGに合わせ、元画像サイズのままPNG-8へ変換し、隠し領域を1px単位の2×2対角チェッカーへ変換します。見せる範囲は完全不透明、隠し範囲は透明/不透明の50%市松です。プレビューは白背景または黒背景へ合成し、長辺900px相当へ縮小します。'
   }
 };
 
@@ -270,11 +245,9 @@ function sanitizeBaseName(name) {
   return withoutExtension.replace(/[\\/:*?"<>|]/g, '_').trim() || 'image';
 }
 
-function outputFileName(kind = 'png8') {
-  const kindSuffix = kind === 'rgba' ? 'rgba' : 'p8';
-  const base = (state.imageLoaded ? state.sourceName : 'image').slice(0, 18) || 'image';
-  const directSize = state.imageLoaded ? getDirectOutputSize(state.imageWidth, state.imageHeight) : { width: 3072, height: 4096 };
-  return `${base}-${CONFIG.output.fileSuffix}-${kindSuffix}_${directSize.width}x${directSize.height}.png`;
+function outputFileName() {
+  if (!state.imageLoaded) return 'reveal-rv180.png';
+  return `reveal-rv180-${state.imageWidth}x${state.imageHeight}.png`;
 }
 
 
@@ -356,27 +329,6 @@ function applyRevealBoostToPixel(r, g, b, boost) {
 
 function getDirectOutputSize(width, height) {
   const configuredLongEdge = Math.max(0, Number(CONFIG.export.maxLongEdge) || 0);
-  const stableCanvas = CONFIG.export.stableCanvas || {};
-  if (stableCanvas.enabled) {
-    const ratioText = String(stableCanvas.aspectRatio || '3:4');
-    const parts = ratioText.split(':').map((value) => Math.max(1, Number(value) || 1));
-    const ratioW = parts[0] || 3;
-    const ratioH = parts[1] || 4;
-    if (configuredLongEdge <= 0) {
-      return { width: ratioW, height: ratioH };
-    }
-    const isPortrait = ratioH >= ratioW;
-    if (isPortrait) {
-      return {
-        width: Math.max(1, Math.round(configuredLongEdge * (ratioW / ratioH))),
-        height: configuredLongEdge
-      };
-    }
-    return {
-      width: configuredLongEdge,
-      height: Math.max(1, Math.round(configuredLongEdge * (ratioH / ratioW)))
-    };
-  }
   if (configuredLongEdge <= 0) {
     return { width, height };
   }
@@ -386,44 +338,6 @@ function getDirectOutputSize(width, height) {
     width: Math.max(1, Math.round(width * ratio)),
     height: Math.max(1, Math.round(height * ratio))
   };
-}
-
-function getStablePlacement(outputWidth, outputHeight, sourceWidth, sourceHeight) {
-  const stableCanvas = CONFIG.export.stableCanvas || {};
-  const subjectScale = clamp01(Number(stableCanvas.subjectScale ?? 0.86));
-  const anchorX = clamp01(Number(stableCanvas.anchorX ?? 0.5));
-  const anchorY = clamp01(Number(stableCanvas.anchorY ?? 0.56));
-  const fitWidth = Math.max(1, outputWidth * subjectScale);
-  const fitHeight = Math.max(1, outputHeight * subjectScale);
-  const ratio = Math.min(fitWidth / Math.max(1, sourceWidth), fitHeight / Math.max(1, sourceHeight));
-  const drawWidth = Math.max(1, Math.round(sourceWidth * ratio));
-  const drawHeight = Math.max(1, Math.round(sourceHeight * ratio));
-  const left = Math.round((outputWidth - drawWidth) * anchorX);
-  const top = Math.round((outputHeight - drawHeight) * anchorY);
-  return {
-    drawWidth,
-    drawHeight,
-    dx: Math.max(Math.min(left, outputWidth - drawWidth), 0),
-    dy: Math.max(Math.min(top, outputHeight - drawHeight), 0)
-  };
-}
-
-function createPlacedCanvas(source, targetWidth, targetHeight, smoothing = true) {
-  const helperCanvas = document.createElement('canvas');
-  helperCanvas.width = targetWidth;
-  helperCanvas.height = targetHeight;
-  const helperContext = helperCanvas.getContext('2d', { willReadFrequently: true });
-  helperContext.clearRect(0, 0, targetWidth, targetHeight);
-  helperContext.imageSmoothingEnabled = smoothing;
-  helperContext.imageSmoothingQuality = 'high';
-  const stableCanvas = CONFIG.export.stableCanvas || {};
-  if (stableCanvas.enabled) {
-    const placement = getStablePlacement(targetWidth, targetHeight, source.width, source.height);
-    helperContext.drawImage(source, placement.dx, placement.dy, placement.drawWidth, placement.drawHeight);
-  } else {
-    helperContext.drawImage(source, 0, 0, targetWidth, targetHeight);
-  }
-  return helperCanvas;
 }
 
 function createScaledSourceCanvas(source, targetWidth, targetHeight, smoothing = true) {
@@ -473,25 +387,7 @@ function isHiddenPatternOpaque(x, y) {
 
   const coverage = Math.max(1, Math.min(16, Number(look.checkerCoverage ?? 6)));
 
-  if ((mode === 'bluenoise32' || mode === 'blue-noise-32' || mode === 'trialC') && BLUE_NOISE_32) {
-    const size = BLUE_NOISE_32.size;
-    const ranks = BLUE_NOISE_32.ranks;
-    const total = size * size;
-    const threshold = Math.max(1, Math.min(total, Math.round((coverage / 16) * total)));
-    const xx = ((x % size) + size) % size;
-    const yy = ((y % size) + size) % size;
-    return ranks[yy * size + xx] < threshold;
-  }
 
-  if ((mode === 'bluenoise64' || mode === 'blue-noise-64' || mode === 'trialB') && BLUE_NOISE_64) {
-    const size = BLUE_NOISE_64.size;
-    const ranks = BLUE_NOISE_64.ranks;
-    const total = size * size;
-    const threshold = Math.max(1, Math.min(total, Math.round((coverage / 16) * total)));
-    const xx = ((x % size) + size) % size;
-    const yy = ((y % size) + size) % size;
-    return ranks[yy * size + xx] < threshold;
-  }
 
   const bayer4 = [
     [0, 8, 2, 10],
@@ -505,13 +401,8 @@ function isHiddenPatternOpaque(x, y) {
 function createBinaryPatternOutput() {
   if (!state.imageLoaded) return null;
   const { width, height } = getDirectOutputSize(state.imageWidth, state.imageHeight);
-  const stableCanvas = CONFIG.export.stableCanvas || {};
-  const scaledSourceCanvas = stableCanvas.enabled
-    ? createPlacedCanvas(sourceCanvas, width, height, true)
-    : createScaledSourceCanvas(sourceCanvas, width, height, true);
-  const scaledMaskCanvas = stableCanvas.enabled
-    ? createPlacedCanvas(maskCanvas, width, height, true)
-    : createScaledSourceCanvas(maskCanvas, width, height, true);
+  const scaledSourceCanvas = createScaledSourceCanvas(sourceCanvas, width, height, true);
+  const scaledMaskCanvas = createScaledSourceCanvas(maskCanvas, width, height, true);
   const sourceData = scaledSourceCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
   const maskData = scaledMaskCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
   const outputData = new ImageData(width, height);
@@ -952,9 +843,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。今回は3:4固定キャンバス＋少し小さめ配置で、クリック後の見かけサイズを安定させる実験です。';
+    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。隠し領域はツール上では完全な白として表示します。';
   } else {
-    previewNote.textContent = '3:4固定 3072×4096 の保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に被写体が少し小さめに表示され、32x32準非周期パターンの粒感が相対的に目立ちにくくなるかを確認する実験用プレビューです。';
+    previewNote.textContent = '元画像サイズのPNG-8を黒背景へ合成し、長辺900px相当へ縮小して表示しています。参考ZIPと同じ1px対角チェッカーが、縮小時にどの程度滑らかに見えるかを確認するプレビューです。';
   }
 }
 
@@ -1748,50 +1639,42 @@ async function encodeRgbaPng(imageData, onProgress) {
   return blob;
 }
 
-async function saveOutput(kind = 'png8') {
+async function saveOutput() {
   if (!state.imageLoaded) return;
-  const isRgba = kind === 'rgba';
   saveButton.disabled = true;
-  if (saveRgbaButton) saveRgbaButton.disabled = true;
-  saveButton.textContent = isRgba ? 'PNG-8を保存' : '保存画像を作成中…';
-  if (saveRgbaButton) saveRgbaButton.textContent = isRgba ? '保存画像を作成中…' : 'RGBA PNGを保存（診断用）';
+  saveButton.textContent = '保存画像を作成中…';
   setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
   try {
     await yieldForPaint();
-    setExportProgress(18, isRgba ? '元画像から3:4固定・長辺4096pxのRGBA診断画像を生成しています…' : '元画像から3:4固定・長辺4096pxの高解像度2値透明パターンを生成しています…');
+    setExportProgress(18, '元画像から原寸の1px対角チェッカーPNG-8を生成しています…');
     await yieldForPaint();
 
     const exportResult = createBinaryPatternOutput();
     if (!exportResult) throw new Error('保存画像を生成できませんでした。');
-    const blob = isRgba
-      ? await encodeRgbaPng(exportResult.imageData, (value, message) => setExportProgress(value, message))
-      : await encodeIndexedPng(exportResult.imageData, exportResult.selectionMaskData, (value, message) => setExportProgress(value, message));
+    const blob = await encodeIndexedPng(
+      exportResult.imageData,
+      exportResult.selectionMaskData,
+      (value, message) => setExportProgress(value, message)
+    );
 
-    const name = outputFileName(isRgba ? 'rgba' : 'png8');
+    const name = outputFileName();
     outputFileNameNode.textContent = name;
     outputFileSizeNode.textContent = formatBytes(blob.size);
-    if (blob.size > 5 * 1024 * 1024) {
-      exportWarning.hidden = false;
-      exportWarning.textContent = `出力ファイルは${formatBytes(blob.size)}です。Xの静止画像上限を超える可能性があるため、投稿時にご確認ください。`;
-    } else {
-      exportWarning.hidden = false;
-      exportWarning.textContent = isRgba
-        ? 'RGBA PNG は診断用です。同じ画素内容を標準的なRGBA PNGで保存し、X投稿可否をPNG-8版と比較してください。'
-        : 'PNG-8 は本命の比較対象です。もし投稿に失敗し、RGBA版だけ成功するなら、PNG-8構造側に原因がある可能性があります。';
-    }
+    exportWarning.hidden = false;
+    exportWarning.textContent = blob.size > 5 * 1024 * 1024
+      ? `出力ファイルは${formatBytes(blob.size)}です。Xの静止画像上限を超える可能性があるため、投稿時にご確認ください。`
+      : '参考PNGと同じ方向の、PNG-8・2値透明・1px対角チェッカー構造で保存しました。';
 
     triggerBlobDownload(blob, name);
-    setExportProgress(100, isRgba ? 'RGBA PNGを作成しました。' : 'PNG-8を作成しました。');
-    showToast(isRgba ? 'RGBA PNG（診断用）を保存しました。' : 'PNG-8を保存しました。');
+    setExportProgress(100, 'PNG-8を作成しました。');
+    showToast('参考構造寄せのPNG-8を保存しました。');
   } catch (error) {
     console.error(error);
     setExportProgress(0, '保存処理に失敗しました。');
     showToast(error.message || '保存に失敗しました。');
   } finally {
     saveButton.disabled = false;
-    if (saveRgbaButton) saveRgbaButton.disabled = false;
     saveButton.textContent = 'PNG-8を保存';
-    if (saveRgbaButton) saveRgbaButton.textContent = 'RGBA PNGを保存（診断用）';
     setTimeout(() => setExportProgress(0, '', false), 1800);
   }
 }
@@ -1903,8 +1786,7 @@ editorCanvas.addEventListener('pointermove', (event) => {
 });
 editorCanvas.addEventListener('contextmenu', (event) => event.preventDefault());
 
-saveButton.addEventListener('click', () => saveOutput('png8'));
-if (saveRgbaButton) saveRgbaButton.addEventListener('click', () => saveOutput('rgba'));
+saveButton.addEventListener('click', saveOutput);
 expandPreviewButton.addEventListener('click', () => {
   if (!state.imageLoaded) return;
   previewModal.classList.add('is-open');
