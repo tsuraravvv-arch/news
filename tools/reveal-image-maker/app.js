@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.3',
+    version: 'v0.17.4',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-png8-binary-v0173'
+    fileSuffix: 'reveal-png8-binary-v0174'
   },
   editor: {
     defaultTool: 'hide',
@@ -124,8 +124,9 @@ const DEFAULT_CONFIG = {
     whiteBackground: '#ffffff',
     revealBackground: '#000000',
     simulationLongEdge: 900,
-    timelineWhiteBoost: 0.78,
-    timelineHiddenGamma: 0.72
+    timelineWhiteBoost: 1.00,
+    timelineHiddenGamma: 1.00,
+    timelinePreviewMode: 'visible-only'
   },
   boost: {
     default: 1.00,
@@ -160,7 +161,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.3';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.4';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -449,10 +450,6 @@ function createScaledMaskPreview(targetWidth, targetHeight, visibleOnly = true) 
 }
 
 function applyTimelineWhiteBoost(targetCanvas) {
-  const strength = clamp01(Number(CONFIG.preview.timelineWhiteBoost ?? 0.48));
-  const gamma = Math.max(0.1, Number(CONFIG.preview.timelineHiddenGamma ?? 0.9));
-  if (strength <= 0) return targetCanvas;
-
   const context = targetCanvas.getContext('2d', { willReadFrequently: true });
   const { width, height } = targetCanvas;
   const previewImage = context.getImageData(0, 0, width, height);
@@ -462,15 +459,11 @@ function applyTimelineWhiteBoost(targetCanvas) {
   const visibleMaskData = visibleMaskCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height).data;
 
   for (let index = 0; index < previewPixels.length; index += 4) {
-    const visible = visibleMaskData[index + 3] / 255;
-    const hidden = Math.pow(1 - visible, gamma);
-    const luminance = (previewPixels[index] * 0.299 + previewPixels[index + 1] * 0.587 + previewPixels[index + 2] * 0.114) / 255;
-    const luminanceAssist = 0.70 + (1 - luminance) * 0.30;
-    const mix = Math.min(1, hidden * strength * luminanceAssist);
-    if (mix <= 0) continue;
-    previewPixels[index] = clampByte(lerp(previewPixels[index], 255, mix));
-    previewPixels[index + 1] = clampByte(lerp(previewPixels[index + 1], 255, mix));
-    previewPixels[index + 2] = clampByte(lerp(previewPixels[index + 2], 255, mix));
+    const visible = clamp01(visibleMaskData[index + 3] / 255);
+    previewPixels[index] = clampByte(lerp(255, previewPixels[index], visible));
+    previewPixels[index + 1] = clampByte(lerp(255, previewPixels[index + 1], visible));
+    previewPixels[index + 2] = clampByte(lerp(255, previewPixels[index + 2], visible));
+    previewPixels[index + 3] = 255;
   }
 
   context.putImageData(previewImage, 0, 0);
@@ -820,7 +813,7 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、隠し領域へ追加の白寄せ近似を強めにかけて表示しています。実際のXタイムラインでの隠れ方へさらに寄せるための補正表示です。';
+    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。隠し領域はツール上では完全な白として表示します。';
   } else {
     previewNote.textContent = '保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、粒感が強すぎないかを確認する実験用プレビューです。';
   }
