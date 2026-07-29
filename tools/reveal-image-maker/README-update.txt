@@ -1,4 +1,4 @@
-Reveal Image Maker v0.17.2 binary-mask experimental
+Reveal Image Maker v0.17.3 binary-mask experimental
 
 今回の目的
 - これまでの「半透明RGBAを直接作る方式」から離れ、
@@ -34,3 +34,9 @@ v0.17.2 changes
 - timeline preview now applies extra white concealment in hidden areas to better match X timeline
 - output file generation is unchanged from v0.17.1
 - reveal preview remains the same direction as v0.17.1
+
+
+v0.17.3 changes
+- strengthened timeline-preview concealment only
+- output generation remains identical to v0.17.2 / v0.17.1
+- stronger white mix and hidden-mask gamma tuning to reduce white-side show-through in the tool preview
