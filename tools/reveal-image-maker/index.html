@@ -59,7 +59,7 @@
           <div><dt>入力容量</dt><dd id="inputFileSize">—</dd></div>
           <div><dt>サイズ判定</dt><dd><span class="size-status" id="sizeStatus">—</span></dd></div>
         </dl>
-        <p class="recommendation">入力画像は保存時に長辺4096px相当へ高品質拡大してから書き出します。X向けの見え方確認は、その保存画像を長辺900px相当へ縮小した近似プレビューで行います。</p>
+        <p class="recommendation">入力画像は保存時に長辺4096px相当へ高品質拡大してから書き出します。今回はBayer4と64x64非周期の中間案として、32x32の準非周期ドット配置を試します。X向けの見え方確認は、その保存画像を長辺900px相当へ縮小した近似プレビューで行います。</p>
       </div>
     </section>
 
@@ -147,8 +147,8 @@
         <div class="editor-options-grid">
           <fieldset class="editor-option-card mode-group" id="strengthControls" disabled>
             <legend>現在の処理モード</legend>
-            <div class="mode-pill">長辺4096px 比較保存（PNG-8 / RGBA）</div>
-            <p class="control-help">塗った範囲は通常表示します。塗っていない範囲は、長辺4096pxへ拡大した最終画像上で、元画像のRGBを使った不透明ピクセルと完全透明ピクセルの2値パターンに変換します。保存時は同じ画素内容を PNG-8 と RGBA PNG の両方で書き出して比較できます。</p>
+            <div class="mode-pill">長辺4096px 準非周期32x32（PNG-8 / RGBA）</div>
+            <p class="control-help">塗った範囲は通常表示します。塗っていない範囲は、長辺4096pxへ拡大した最終画像上で、元画像のRGBを使った不透明ピクセルと完全透明ピクセルの2値パターンに変換します。今回は32x32の準非周期ドット配置を使い、Bayer4より周期模様を減らしつつ、64x64非周期より粒感を抑える中間案を試します。保存時は同じ画素内容を PNG-8 と RGBA PNG の両方で書き出して比較できます。</p>
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
@@ -198,14 +198,14 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 長辺4096px出力 / 2値透明パターン / 単一透明色 / 保存時だけ元画像から生成</p>
+        <p>PNG-8 / 長辺4096px出力 / 2値透明パターン / 準非周期32x32 / 単一透明色 / 保存時だけ元画像から生成</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>長辺4096px相当へ保存＋透明1色＋不透明254色以内のPNG-8＋2値透明パターン＋保存時のみ元画像から生成</dd></div>
+            <div><dt>出力方式</dt><dd>長辺4096px相当へ保存＋透明1色＋不透明254色以内のPNG-8＋2値透明パターン（準非周期32x32）＋保存時のみ元画像から生成</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
@@ -256,8 +256,8 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="settings.js?v=v0-17-7-trialb-1"></script>
-  <script src="blue-noise-64.js?v=v0-17-7-trialb-1"></script>
-  <script src="app.js?v=v0-17-7-trialb-1"></script>
+  <script src="settings.js?v=v0-17-8-trialc-1"></script>
+  <script src="blue-noise-32.js?v=v0-17-8-trialc-1"></script>
+  <script src="app.js?v=v0-17-8-trialc-1"></script>
 </body>
 </html>
