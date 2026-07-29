@@ -2,12 +2,12 @@
 
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.17.0',
-    updatedAt: '2026-07-29 06:10 JST'
+    version: 'v0.17.1',
+    updatedAt: '2026-07-29 06:35 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-png8-binary-v0170'
+    fileSuffix: 'reveal-png8-binary-v0171'
   },
 
   editor: {
@@ -31,8 +31,9 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
       hiddenColors: 0
     },
     hiddenLook: {
-      checkerMode: 'checker2',
-      brightenGain: 1.00,
+      checkerMode: 'bayer4',
+      checkerCoverage: 6,
+      brightenGain: 1.10,
       brightenOffset: 0,
       whiteMix: 0.00,
       preserveVisibleAlpha: false
