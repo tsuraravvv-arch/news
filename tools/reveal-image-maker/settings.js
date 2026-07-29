@@ -2,12 +2,12 @@
 
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.17.9',
-    updatedAt: '2026-07-29 15:40 JST'
+    version: 'v0.18.0',
+    updatedAt: '2026-07-29 17:10 JST'
   },
 
   output: {
-    fileSuffix: 'rv179a'
+    fileSuffix: 'rv180'
   },
 
   editor: {
@@ -25,22 +25,15 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
 
   export: {
     rebuildFromOriginalOnSave: true,
-    maxLongEdge: 4096,
-    stableCanvas: {
-      enabled: true,
-      aspectRatio: '3:4',
-      subjectScale: 0.86,
-      anchorX: 0.5,
-      anchorY: 0.56
-    },
+    maxLongEdge: 0,
     palette: {
       visibleColors: 254,
       hiddenColors: 0
     },
     hiddenLook: {
-      checkerMode: 'bluenoise32',
-      checkerCoverage: 6,
-      brightenGain: 1.10,
+      checkerMode: 'checker2',
+      checkerCoverage: 8,
+      brightenGain: 1.00,
       brightenOffset: 0,
       whiteMix: 0.00,
       preserveVisibleAlpha: false
@@ -67,6 +60,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時にだけ長辺4096px相当の高解像度画像を一度だけ作り直します。今回はX表示安定モード（3:4固定キャンバス＋被写体を少し小さめに配置）を追加した Trial A です。保存時は長辺4096px・短辺3072pxの縦長キャンバスへ再配置し、短いファイル名で PNG-8（比較用本命）とRGBA PNG（診断用）を書き出します。プレビューでは保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。'
+    timelineApproximation: '解析した参考PNGと同じ方向へ寄せ、元画像サイズのままPNG-8へ変換し、隠し領域だけを1px単位の2×2対角チェッカー（透明/不透明の2値）にします。見せる範囲は完全不透明、隠し範囲は50%市松です。プレビューは白背景または黒背景へ合成し、長辺900px相当へ縮小してXの見え方を近似します。'
   }
 };
