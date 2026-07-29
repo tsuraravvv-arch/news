@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.0',
+    version: 'v0.17.1',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-png8-binary-v0170'
+    fileSuffix: 'reveal-png8-binary-v0171'
   },
   editor: {
     defaultTool: 'hide',
@@ -110,8 +110,9 @@ const DEFAULT_CONFIG = {
       hiddenColors: 0
     },
     hiddenLook: {
-      checkerMode: 'checker2',
-      brightenGain: 1.00,
+      checkerMode: 'bayer4',
+      checkerCoverage: 6,
+      brightenGain: 1.10,
       brightenOffset: 0,
       whiteMix: 0.00,
       preserveVisibleAlpha: false
@@ -157,7 +158,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.0';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.1';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -319,8 +320,18 @@ function applyRevealBoostToPixel(r, g, b, boost) {
 }
 
 
+
 function getDirectOutputSize(width, height) {
   return { width, height };
+}
+
+function getScaledSize(width, height, maxLongEdge) {
+  const longEdge = Math.max(1, width, height);
+  const ratio = Math.min(1, Math.max(1, maxLongEdge) / longEdge);
+  return {
+    width: Math.max(1, Math.round(width * ratio)),
+    height: Math.max(1, Math.round(height * ratio))
+  };
 }
 
 function boostHiddenRgb(r, g, b) {
@@ -340,11 +351,21 @@ function boostHiddenRgb(r, g, b) {
 }
 
 function isHiddenPatternOpaque(x, y) {
-  const mode = String(CONFIG.export.hiddenLook?.checkerMode || 'checker2');
+  const look = CONFIG.export.hiddenLook || {};
+  const mode = String(look.checkerMode || 'bayer4');
+
   if (mode === 'checker2') {
     return ((x + y) & 1) === 0;
   }
-  return ((x + y) & 1) === 0;
+
+  const coverage = Math.max(1, Math.min(16, Number(look.checkerCoverage ?? 6)));
+  const bayer4 = [
+    [0, 8, 2, 10],
+    [12, 4, 14, 6],
+    [3, 11, 1, 9],
+    [15, 7, 13, 5]
+  ];
+  return bayer4[y & 3][x & 3] < coverage;
 }
 
 function createBinaryPatternOutput() {
@@ -749,9 +770,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小して表示しています。実ファイル自体は2値透明のため、通常の画像ビューアで見るとこのプレビューほどは隠れません。';
+    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小して表示しています。実ファイル自体はBayer4の2値透明のため、通常の画像ビューアで見るとこのプレビューほどは隠れません。';
   } else {
-    previewNote.textContent = '保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、2値透明パターンの方向性を確認する実験用プレビューです。';
+    previewNote.textContent = '保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、粒感が強すぎないかを確認する実験用プレビューです。';
   }
 }
 
