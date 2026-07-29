@@ -70,6 +70,17 @@ const outputCanvas = document.createElement('canvas');
 const outputContext = outputCanvas.getContext('2d', { willReadFrequently: true });
 const timelineCanvas = document.createElement('canvas');
 
+
+const BLUE_NOISE_64 = (() => {
+  const data = window.REVEAL_BLUE_NOISE_64;
+  if (!data || !Array.isArray(data.ranks) || !data.size) return null;
+  return {
+    size: Number(data.size),
+    ranks: data.ranks
+  };
+})();
+
+
 function mergeConfig(base, override) {
   if (Array.isArray(base)) return Array.isArray(override) ? override.slice() : base.slice();
   if (base && typeof base === 'object') {
@@ -86,11 +97,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.6',
+    version: 'v0.17.7',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-compare-v0176-hires4096'
+    fileSuffix: 'reveal-nonperiodic-v0177-hires4096'
   },
   editor: {
     defaultTool: 'hide',
@@ -111,7 +122,7 @@ const DEFAULT_CONFIG = {
       hiddenColors: 0
     },
     hiddenLook: {
-      checkerMode: 'bayer4',
+      checkerMode: 'bluenoise64',
       checkerCoverage: 6,
       brightenGain: 1.10,
       brightenOffset: 0,
@@ -389,6 +400,17 @@ function isHiddenPatternOpaque(x, y) {
   }
 
   const coverage = Math.max(1, Math.min(16, Number(look.checkerCoverage ?? 6)));
+
+  if ((mode === 'bluenoise64' || mode === 'blue-noise-64' || mode === 'trialB') && BLUE_NOISE_64) {
+    const size = BLUE_NOISE_64.size;
+    const ranks = BLUE_NOISE_64.ranks;
+    const total = size * size;
+    const threshold = Math.max(1, Math.min(total, Math.round((coverage / 16) * total)));
+    const xx = ((x % size) + size) % size;
+    const yy = ((y % size) + size) % size;
+    return ranks[yy * size + xx] < threshold;
+  }
+
   const bayer4 = [
     [0, 8, 2, 10],
     [12, 4, 14, 6],
