@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.2',
+    version: 'v0.17.3',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-png8-binary-v0172'
+    fileSuffix: 'reveal-png8-binary-v0173'
   },
   editor: {
     defaultTool: 'hide',
@@ -124,8 +124,8 @@ const DEFAULT_CONFIG = {
     whiteBackground: '#ffffff',
     revealBackground: '#000000',
     simulationLongEdge: 900,
-    timelineWhiteBoost: 0.48,
-    timelineHiddenGamma: 0.9
+    timelineWhiteBoost: 0.78,
+    timelineHiddenGamma: 0.72
   },
   boost: {
     default: 1.00,
@@ -160,7 +160,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.2';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.3';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -464,7 +464,9 @@ function applyTimelineWhiteBoost(targetCanvas) {
   for (let index = 0; index < previewPixels.length; index += 4) {
     const visible = visibleMaskData[index + 3] / 255;
     const hidden = Math.pow(1 - visible, gamma);
-    const mix = hidden * strength;
+    const luminance = (previewPixels[index] * 0.299 + previewPixels[index + 1] * 0.587 + previewPixels[index + 2] * 0.114) / 255;
+    const luminanceAssist = 0.70 + (1 - luminance) * 0.30;
+    const mix = Math.min(1, hidden * strength * luminanceAssist);
     if (mix <= 0) continue;
     previewPixels[index] = clampByte(lerp(previewPixels[index], 255, mix));
     previewPixels[index + 1] = clampByte(lerp(previewPixels[index + 1], 255, mix));
@@ -818,7 +820,7 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、隠し領域へ追加の白寄せ近似をかけて表示しています。実際のXタイムラインでの隠れ方に寄せるための補正表示です。';
+    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、隠し領域へ追加の白寄せ近似を強めにかけて表示しています。実際のXタイムラインでの隠れ方へさらに寄せるための補正表示です。';
   } else {
     previewNote.textContent = '保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、粒感が強すぎないかを確認する実験用プレビューです。';
   }
