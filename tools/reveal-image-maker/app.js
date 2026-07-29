@@ -9,6 +9,8 @@ const inputFileSizeNode = document.getElementById('inputFileSize');
 const sizeStatusNode = document.getElementById('sizeStatus');
 const outputFileNameNode = document.getElementById('outputFileName');
 const outputFileSizeNode = document.getElementById('outputFileSize');
+const outputTransparencyNode = document.getElementById('outputTransparency');
+const outputTransparentMarginNode = document.getElementById('outputTransparentMargin');
 const exportWarning = document.getElementById('exportWarning');
 const exportProgress = document.getElementById('exportProgress');
 const exportProgressBar = document.getElementById('exportProgressBar');
@@ -44,6 +46,7 @@ const zoomOutButton = document.getElementById('zoomOutButton');
 const zoomInButton = document.getElementById('zoomInButton');
 const fitButton = document.getElementById('fitButton');
 const saveButton = document.getElementById('saveButton');
+const exportPresetButtons = [...document.querySelectorAll('[data-export-preset]')];
 const saveRgbaButton = document.getElementById('saveRgbaButton');
 const toast = document.getElementById('toast');
 const versionBadgeNode = document.getElementById('versionBadge');
@@ -88,11 +91,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.18.0',
+    version: 'v0.18.1',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'rv180'
+    fileSuffix: 'rv181'
   },
   editor: {
     defaultTool: 'hide',
@@ -108,6 +111,14 @@ const DEFAULT_CONFIG = {
   export: {
     rebuildFromOriginalOnSave: true,
     maxLongEdge: 0,
+    aspectRatio: '3:4',
+    resolutions: [
+      { id: 'compat', width: 1086, height: 1448 },
+      { id: 'mid', width: 1440, height: 1920 },
+      { id: 'mid-high', width: 1728, height: 2304 },
+      { id: 'high', width: 2304, height: 3072 },
+      { id: 'max', width: 3072, height: 4096 }
+    ],
     palette: {
       visibleColors: 254,
       hiddenColors: 0
@@ -139,7 +150,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '解析した参考PNGに合わせ、元画像サイズのままPNG-8へ変換し、隠し領域を1px単位の2×2対角チェッカーへ変換します。見せる範囲は完全不透明、隠し範囲は透明/不透明の50%市松です。プレビューは白背景または黒背景へ合成し、長辺900px相当へ縮小します。'
+    timelineApproximation: '投稿成功例と失敗例の境界を調べるため、5段階の3:4解像度から選んでPNG-8へ変換し、隠し領域を1px単位の2×2対角チェッカーへ変換します。見せる範囲は完全不透明、隠し範囲は透明/不透明の50%市松です。プレビューは白背景または黒背景へ合成し、長辺900px相当へ縮小します。'
   }
 };
 
@@ -245,9 +256,8 @@ function sanitizeBaseName(name) {
   return withoutExtension.replace(/[\\/:*?"<>|]/g, '_').trim() || 'image';
 }
 
-function outputFileName() {
-  if (!state.imageLoaded) return 'reveal-rv180.png';
-  return `reveal-rv180-${state.imageWidth}x${state.imageHeight}.png`;
+function outputFileName(width = 1086, height = 1448) {
+  return `reveal-${CONFIG.output.fileSuffix || 'rv181'}-${width}x${height}.png`;
 }
 
 
@@ -352,6 +362,35 @@ function createScaledSourceCanvas(source, targetWidth, targetHeight, smoothing =
   return helperCanvas;
 }
 
+function createCoverCroppedCanvas(source, targetWidth, targetHeight, smoothing = true) {
+  const helperCanvas = document.createElement('canvas');
+  helperCanvas.width = targetWidth;
+  helperCanvas.height = targetHeight;
+  const helperContext = helperCanvas.getContext('2d', { willReadFrequently: true });
+  const sourceWidth = Math.max(1, source.width);
+  const sourceHeight = Math.max(1, source.height);
+  const sourceAspect = sourceWidth / sourceHeight;
+  const targetAspect = targetWidth / targetHeight;
+
+  let sx = 0;
+  let sy = 0;
+  let sw = sourceWidth;
+  let sh = sourceHeight;
+  if (sourceAspect > targetAspect) {
+    sw = sourceHeight * targetAspect;
+    sx = (sourceWidth - sw) / 2;
+  } else if (sourceAspect < targetAspect) {
+    sh = sourceWidth / targetAspect;
+    sy = (sourceHeight - sh) / 2;
+  }
+
+  helperContext.clearRect(0, 0, targetWidth, targetHeight);
+  helperContext.imageSmoothingEnabled = smoothing;
+  helperContext.imageSmoothingQuality = 'high';
+  helperContext.drawImage(source, sx, sy, sw, sh, 0, 0, targetWidth, targetHeight);
+  return helperCanvas;
+}
+
 function getScaledSize(width, height, maxLongEdge) {
   const longEdge = Math.max(1, width, height);
   const ratio = Math.min(1, Math.max(1, maxLongEdge) / longEdge);
@@ -398,11 +437,12 @@ function isHiddenPatternOpaque(x, y) {
   return bayer4[y & 3][x & 3] < coverage;
 }
 
-function createBinaryPatternOutput() {
+function createBinaryPatternOutput(targetWidth, targetHeight) {
   if (!state.imageLoaded) return null;
-  const { width, height } = getDirectOutputSize(state.imageWidth, state.imageHeight);
-  const scaledSourceCanvas = createScaledSourceCanvas(sourceCanvas, width, height, true);
-  const scaledMaskCanvas = createScaledSourceCanvas(maskCanvas, width, height, true);
+  const width = Math.max(1, Math.round(Number(targetWidth) || 1086));
+  const height = Math.max(1, Math.round(Number(targetHeight) || 1448));
+  const scaledSourceCanvas = createCoverCroppedCanvas(sourceCanvas, width, height, true);
+  const scaledMaskCanvas = createCoverCroppedCanvas(maskCanvas, width, height, true);
   const sourceData = scaledSourceCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
   const maskData = scaledMaskCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
   const outputData = new ImageData(width, height);
@@ -581,7 +621,7 @@ function setControlsEnabled(enabled) {
   disabledGroups.forEach((group) => {
     if (group) group.disabled = !enabled;
   });
-  saveButton.disabled = !enabled;
+  exportPresetButtons.forEach((button) => { button.disabled = !enabled; });
   if (saveRgbaButton) saveRgbaButton.disabled = !enabled;
   expandPreviewButton.disabled = !enabled;
 }
@@ -597,6 +637,8 @@ function markOutputDirty() {
   state.directPreviewVersion = -1;
   state.directPreviewCanvas = null;
   outputFileSizeNode.textContent = '保存時に計測';
+  if (outputTransparencyNode) outputTransparencyNode.textContent = '保存時に計測';
+  if (outputTransparentMarginNode) outputTransparentMarginNode.textContent = '保存時に計測';
   exportWarning.hidden = true;
   renderPreview();
   if (previewModal.classList.contains('is-open')) renderModalPreview();
@@ -605,18 +647,18 @@ function markOutputDirty() {
 function updateSizeStatus() {
   const longEdge = Math.max(state.imageWidth, state.imageHeight);
   sizeStatusNode.className = 'size-status';
-  if (longEdge < 900) {
-    sizeStatusNode.textContent = '900px未満：拡大して出力';
+  if (longEdge < 1448) {
+    sizeStatusNode.textContent = '小さめ：全ボタンで拡大出力';
     sizeStatusNode.classList.add('warning');
-  } else if (longEdge === 900) {
-    sizeStatusNode.textContent = '出力サイズと一致';
+  } else if (longEdge < 2304) {
+    sizeStatusNode.textContent = '1086×1448向き';
     sizeStatusNode.classList.add('good');
-  } else if (longEdge <= 1800) {
-    sizeStatusNode.textContent = '推奨：900pxへ高品質縮小';
+  } else if (longEdge < 4096) {
+    sizeStatusNode.textContent = '中～高解像度テスト向き';
     sizeStatusNode.classList.add('good');
   } else {
-    sizeStatusNode.textContent = '高解像度：900pxへ縮小';
-    sizeStatusNode.classList.add('caution');
+    sizeStatusNode.textContent = '全解像度を比較可能';
+    sizeStatusNode.classList.add('good');
   }
 }
 
@@ -845,7 +887,7 @@ function updatePreviewNote() {
   } else if (state.previewMode === 'timeline') {
     previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。隠し領域はツール上では完全な白として表示します。';
   } else {
-    previewNote.textContent = '元画像サイズのPNG-8を黒背景へ合成し、長辺900px相当へ縮小して表示しています。参考ZIPと同じ1px対角チェッカーが、縮小時にどの程度滑らかに見えるかを確認するプレビューです。';
+    previewNote.textContent = '1086×1448の互換性優先出力を黒背景へ合成し、長辺900px相当へ縮小して表示しています。保存時は選択した解像度で同じ1px対角チェッカーを生成します。';
   }
 }
 
@@ -1043,7 +1085,7 @@ async function loadFile(file) {
     fileNameNode.textContent = file.name;
     imageDimensionsNode.textContent = `${width} × ${height}px`;
     inputFileSizeNode.textContent = formatBytes(file.size);
-    outputFileNameNode.textContent = outputFileName();
+    outputFileNameNode.textContent = '解像度ボタン選択後に表示';
     outputFileSizeNode.textContent = '保存時に計測';
     fileInformation.hidden = false;
     updateSizeStatus();
@@ -1608,6 +1650,51 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress 
   return new Blob([pngBytes], { type: 'image/png' });
 }
 
+function analyzeOutputTransparency(imageData) {
+  const { width, height, data } = imageData;
+  const total = width * height;
+  let transparent = 0;
+  for (let index = 3; index < data.length; index += 4) {
+    if (data[index] < 1) transparent += 1;
+  }
+
+  const rowIsTransparent = (y) => {
+    let index = (y * width) * 4 + 3;
+    for (let x = 0; x < width; x += 1, index += 4) {
+      if (data[index] > 0) return false;
+    }
+    return true;
+  };
+  const columnIsTransparent = (x) => {
+    let index = x * 4 + 3;
+    for (let y = 0; y < height; y += 1, index += width * 4) {
+      if (data[index] > 0) return false;
+    }
+    return true;
+  };
+
+  let top = 0;
+  while (top < height && rowIsTransparent(top)) top += 1;
+  let bottom = 0;
+  while (bottom < height - top && rowIsTransparent(height - 1 - bottom)) bottom += 1;
+  let left = 0;
+  while (left < width && columnIsTransparent(left)) left += 1;
+  let right = 0;
+  while (right < width - left && columnIsTransparent(width - 1 - right)) right += 1;
+
+  return {
+    transparent,
+    transparentRatio: total ? transparent / total : 0,
+    margins: { top, right, bottom, left },
+    hasFullTransparentMargin: top > 0 || right > 0 || bottom > 0 || left > 0
+  };
+}
+
+function formatTransparentMargins(margins) {
+  if (!margins || !(margins.top || margins.right || margins.bottom || margins.left)) return 'なし';
+  return `上${margins.top}px / 右${margins.right}px / 下${margins.bottom}px / 左${margins.left}px`;
+}
+
 function triggerBlobDownload(blob, name) {
   const url = URL.createObjectURL(blob);
   const anchor = document.createElement('a');
@@ -1639,42 +1726,58 @@ async function encodeRgbaPng(imageData, onProgress) {
   return blob;
 }
 
-async function saveOutput() {
-  if (!state.imageLoaded) return;
-  saveButton.disabled = true;
-  saveButton.textContent = '保存画像を作成中…';
-  setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
+async function saveOutput(button) {
+  if (!state.imageLoaded || !button) return;
+  const targetWidth = Number(button.dataset.width);
+  const targetHeight = Number(button.dataset.height);
+  if (!targetWidth || !targetHeight) return;
+
+  const originalHtml = button.innerHTML;
+  exportPresetButtons.forEach((item) => { item.disabled = true; });
+  button.classList.add('is-processing');
+  button.innerHTML = '<span>作成中…</span><small>端末内で処理しています</small>';
+  setExportProgress(5, `${targetWidth}×${targetHeight}用の元画像と範囲マスクを読み込んでいます…`);
+
   try {
     await yieldForPaint();
-    setExportProgress(18, '元画像から原寸の1px対角チェッカーPNG-8を生成しています…');
+    setExportProgress(18, `${targetWidth}×${targetHeight}へ中央トリミングし、1px対角チェッカーを生成しています…`);
     await yieldForPaint();
 
-    const exportResult = createBinaryPatternOutput();
+    const exportResult = createBinaryPatternOutput(targetWidth, targetHeight);
     if (!exportResult) throw new Error('保存画像を生成できませんでした。');
+    const diagnostics = analyzeOutputTransparency(exportResult.imageData);
     const blob = await encodeIndexedPng(
       exportResult.imageData,
       exportResult.selectionMaskData,
       (value, message) => setExportProgress(value, message)
     );
 
-    const name = outputFileName();
+    const name = outputFileName(targetWidth, targetHeight);
     outputFileNameNode.textContent = name;
     outputFileSizeNode.textContent = formatBytes(blob.size);
+    if (outputTransparencyNode) outputTransparencyNode.textContent = `${(diagnostics.transparentRatio * 100).toFixed(2)}%`;
+    if (outputTransparentMarginNode) outputTransparentMarginNode.textContent = formatTransparentMargins(diagnostics.margins);
+
+    const warnings = [];
+    if (blob.size > 5 * 1024 * 1024) warnings.push(`容量が${formatBytes(blob.size)}あります。`);
+    if (diagnostics.transparentRatio > 0.60) warnings.push(`透明率が${(diagnostics.transparentRatio * 100).toFixed(2)}%と高めです。`);
+    if (diagnostics.hasFullTransparentMargin) warnings.push(`完全透明の外周があります（${formatTransparentMargins(diagnostics.margins)}）。`);
     exportWarning.hidden = false;
-    exportWarning.textContent = blob.size > 5 * 1024 * 1024
-      ? `出力ファイルは${formatBytes(blob.size)}です。Xの静止画像上限を超える可能性があるため、投稿時にご確認ください。`
-      : '参考PNGと同じ方向の、PNG-8・2値透明・1px対角チェッカー構造で保存しました。';
+    exportWarning.textContent = warnings.length
+      ? `${warnings.join(' ')} 投稿結果を他の解像度と比較してください。`
+      : `${targetWidth}×${targetHeight}を、外周へ余白を追加せずPNG-8で保存しました。`;
 
     triggerBlobDownload(blob, name);
-    setExportProgress(100, 'PNG-8を作成しました。');
-    showToast('参考構造寄せのPNG-8を保存しました。');
+    setExportProgress(100, `${targetWidth}×${targetHeight}のPNG-8を作成しました。`);
+    showToast(`${targetWidth}×${targetHeight}を保存しました。`);
   } catch (error) {
     console.error(error);
     setExportProgress(0, '保存処理に失敗しました。');
     showToast(error.message || '保存に失敗しました。');
   } finally {
-    saveButton.disabled = false;
-    saveButton.textContent = 'PNG-8を保存';
+    button.classList.remove('is-processing');
+    button.innerHTML = originalHtml;
+    exportPresetButtons.forEach((item) => { item.disabled = !state.imageLoaded; });
     setTimeout(() => setExportProgress(0, '', false), 1800);
   }
 }
@@ -1786,7 +1889,9 @@ editorCanvas.addEventListener('pointermove', (event) => {
 });
 editorCanvas.addEventListener('contextmenu', (event) => event.preventDefault());
 
-saveButton.addEventListener('click', saveOutput);
+exportPresetButtons.forEach((button) => {
+  button.addEventListener('click', () => saveOutput(button));
+});
 expandPreviewButton.addEventListener('click', () => {
   if (!state.imageLoaded) return;
   previewModal.classList.add('is-open');
