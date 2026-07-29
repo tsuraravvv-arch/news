@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.4',
+    version: 'v0.17.5',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-png8-binary-v0174'
+    fileSuffix: 'reveal-png8-binary-v0175-hires4096'
   },
   editor: {
     defaultTool: 'hide',
@@ -104,7 +104,7 @@ const DEFAULT_CONFIG = {
   },
   export: {
     rebuildFromOriginalOnSave: true,
-    maxLongEdge: 0,
+    maxLongEdge: 4096,
     palette: {
       visibleColors: 254,
       hiddenColors: 0
@@ -161,7 +161,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.4';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.5';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -243,7 +243,11 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName() {
-  const dims = state.imageLoaded ? `_${state.imageWidth}x${state.imageHeight}` : '';
+  if (!state.imageLoaded) {
+    return `${state.sourceName}-${CONFIG.output.fileSuffix}.png`;
+  }
+  const directSize = getDirectOutputSize(state.imageWidth, state.imageHeight);
+  const dims = `_${directSize.width}x${directSize.height}`;
   return `${state.sourceName}-${CONFIG.output.fileSuffix}${dims}.png`;
 }
 
@@ -325,7 +329,28 @@ function applyRevealBoostToPixel(r, g, b, boost) {
 
 
 function getDirectOutputSize(width, height) {
-  return { width, height };
+  const configuredLongEdge = Math.max(0, Number(CONFIG.export.maxLongEdge) || 0);
+  if (configuredLongEdge <= 0) {
+    return { width, height };
+  }
+  const longEdge = Math.max(1, width, height);
+  const ratio = configuredLongEdge / longEdge;
+  return {
+    width: Math.max(1, Math.round(width * ratio)),
+    height: Math.max(1, Math.round(height * ratio))
+  };
+}
+
+function createScaledSourceCanvas(source, targetWidth, targetHeight, smoothing = true) {
+  const helperCanvas = document.createElement('canvas');
+  helperCanvas.width = targetWidth;
+  helperCanvas.height = targetHeight;
+  const helperContext = helperCanvas.getContext('2d', { willReadFrequently: true });
+  helperContext.clearRect(0, 0, targetWidth, targetHeight);
+  helperContext.imageSmoothingEnabled = smoothing;
+  helperContext.imageSmoothingQuality = 'high';
+  helperContext.drawImage(source, 0, 0, targetWidth, targetHeight);
+  return helperCanvas;
 }
 
 function getScaledSize(width, height, maxLongEdge) {
@@ -374,8 +399,10 @@ function isHiddenPatternOpaque(x, y) {
 function createBinaryPatternOutput() {
   if (!state.imageLoaded) return null;
   const { width, height } = getDirectOutputSize(state.imageWidth, state.imageHeight);
-  const sourceData = sourceContext.getImageData(0, 0, width, height);
-  const maskData = maskContext.getImageData(0, 0, width, height);
+  const scaledSourceCanvas = createScaledSourceCanvas(sourceCanvas, width, height, true);
+  const scaledMaskCanvas = createScaledSourceCanvas(maskCanvas, width, height, true);
+  const sourceData = scaledSourceCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
+  const maskData = scaledMaskCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
   const outputData = new ImageData(width, height);
   const sourcePixels = sourceData.data;
   const maskPixels = maskData.data;
@@ -815,7 +842,7 @@ function updatePreviewNote() {
   } else if (state.previewMode === 'timeline') {
     previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。隠し領域はツール上では完全な白として表示します。';
   } else {
-    previewNote.textContent = '保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、粒感が強すぎないかを確認する実験用プレビューです。';
+    previewNote.textContent = '長辺4096pxの保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、粒感やモアレが弱まるかを確認する実験用プレビューです。';
   }
 }
 
@@ -1585,7 +1612,7 @@ async function saveOutput() {
   setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
   try {
     await yieldForPaint();
-    setExportProgress(18, '元画像から原寸の2値透明パターンを生成しています…');
+    setExportProgress(18, '元画像から長辺4096pxの高解像度2値透明パターンを生成しています…');
     await yieldForPaint();
 
     // 保存時はプレビューのキャッシュを使わず、元画像と確定マスクから一度だけ作り直します。
