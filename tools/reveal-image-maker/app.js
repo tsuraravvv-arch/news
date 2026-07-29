@@ -80,6 +80,15 @@ const BLUE_NOISE_64 = (() => {
   };
 })();
 
+const BLUE_NOISE_32 = (() => {
+  const data = window.REVEAL_BLUE_NOISE_32;
+  if (!data || !Array.isArray(data.ranks) || !data.size) return null;
+  return {
+    size: Number(data.size),
+    ranks: data.ranks
+  };
+})();
+
 
 function mergeConfig(base, override) {
   if (Array.isArray(base)) return Array.isArray(override) ? override.slice() : base.slice();
@@ -97,11 +106,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.7',
+    version: 'v0.17.8',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-nonperiodic-v0177-hires4096'
+    fileSuffix: 'reveal-hybrid32-v0178-hires4096'
   },
   editor: {
     defaultTool: 'hide',
@@ -122,7 +131,7 @@ const DEFAULT_CONFIG = {
       hiddenColors: 0
     },
     hiddenLook: {
-      checkerMode: 'bluenoise64',
+      checkerMode: 'bluenoise32',
       checkerCoverage: 6,
       brightenGain: 1.10,
       brightenOffset: 0,
@@ -148,7 +157,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時にだけ原寸の2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回は半透明連続色面ではなく、透明/不透明の細かなパターン方式を試す実験版です。'
+    timelineApproximation: '元画像と範囲マスクから、保存時にだけ原寸の2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回はBayer4と64x64非周期の中間案として、32x32の準非周期パターンを試す実験版です。'
   }
 };
 
@@ -400,6 +409,16 @@ function isHiddenPatternOpaque(x, y) {
   }
 
   const coverage = Math.max(1, Math.min(16, Number(look.checkerCoverage ?? 6)));
+
+  if ((mode === 'bluenoise32' || mode === 'blue-noise-32' || mode === 'trialC') && BLUE_NOISE_32) {
+    const size = BLUE_NOISE_32.size;
+    const ranks = BLUE_NOISE_32.ranks;
+    const total = size * size;
+    const threshold = Math.max(1, Math.min(total, Math.round((coverage / 16) * total)));
+    const xx = ((x % size) + size) % size;
+    const yy = ((y % size) + size) % size;
+    return ranks[yy * size + xx] < threshold;
+  }
 
   if ((mode === 'bluenoise64' || mode === 'blue-noise-64' || mode === 'trialB') && BLUE_NOISE_64) {
     const size = BLUE_NOISE_64.size;
@@ -867,7 +886,7 @@ function updatePreviewNote() {
   } else if (state.previewMode === 'timeline') {
     previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。隠し領域はツール上では完全な白として表示します。';
   } else {
-    previewNote.textContent = '長辺4096pxの保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、粒感やモアレが弱まるかを確認する実験用プレビューです。';
+    previewNote.textContent = '長辺4096pxの保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、32x32準非周期パターンで粒感やモアレがほどよく弱まるかを確認する実験用プレビューです。';
   }
 }
 
