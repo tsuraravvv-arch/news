@@ -85,11 +85,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.1',
+    version: 'v0.17.2',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-png8-binary-v0171'
+    fileSuffix: 'reveal-png8-binary-v0172'
   },
   editor: {
     defaultTool: 'hide',
@@ -123,7 +123,9 @@ const DEFAULT_CONFIG = {
     expandModalEnabled: true,
     whiteBackground: '#ffffff',
     revealBackground: '#000000',
-    simulationLongEdge: 900
+    simulationLongEdge: 900,
+    timelineWhiteBoost: 0.48,
+    timelineHiddenGamma: 0.9
   },
   boost: {
     default: 1.00,
@@ -158,7 +160,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.1';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.2';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -430,7 +432,50 @@ function createBinaryPatternOutput() {
   };
 }
 
-function drawOutputCompositePreview(sourceCanvas, backgroundColor, targetCanvas) {
+function createScaledMaskPreview(targetWidth, targetHeight, visibleOnly = true) {
+  const helperCanvas = document.createElement('canvas');
+  helperCanvas.width = targetWidth;
+  helperCanvas.height = targetHeight;
+  const helperContext = helperCanvas.getContext('2d', { willReadFrequently: true });
+  helperContext.clearRect(0, 0, targetWidth, targetHeight);
+  helperContext.imageSmoothingEnabled = true;
+  helperContext.imageSmoothingQuality = 'high';
+  if (visibleOnly) {
+    helperContext.drawImage(maskCanvas, 0, 0, targetWidth, targetHeight);
+  } else {
+    helperContext.drawImage(sourceCanvas, 0, 0, targetWidth, targetHeight);
+  }
+  return helperCanvas;
+}
+
+function applyTimelineWhiteBoost(targetCanvas) {
+  const strength = clamp01(Number(CONFIG.preview.timelineWhiteBoost ?? 0.48));
+  const gamma = Math.max(0.1, Number(CONFIG.preview.timelineHiddenGamma ?? 0.9));
+  if (strength <= 0) return targetCanvas;
+
+  const context = targetCanvas.getContext('2d', { willReadFrequently: true });
+  const { width, height } = targetCanvas;
+  const previewImage = context.getImageData(0, 0, width, height);
+  const previewPixels = previewImage.data;
+
+  const visibleMaskCanvas = createScaledMaskPreview(width, height, true);
+  const visibleMaskData = visibleMaskCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height).data;
+
+  for (let index = 0; index < previewPixels.length; index += 4) {
+    const visible = visibleMaskData[index + 3] / 255;
+    const hidden = Math.pow(1 - visible, gamma);
+    const mix = hidden * strength;
+    if (mix <= 0) continue;
+    previewPixels[index] = clampByte(lerp(previewPixels[index], 255, mix));
+    previewPixels[index + 1] = clampByte(lerp(previewPixels[index + 1], 255, mix));
+    previewPixels[index + 2] = clampByte(lerp(previewPixels[index + 2], 255, mix));
+  }
+
+  context.putImageData(previewImage, 0, 0);
+  return targetCanvas;
+}
+
+function drawOutputCompositePreview(sourceCanvas, backgroundColor, targetCanvas, mode = 'timeline') {
   const simulationLongEdge = Math.max(1, Number(CONFIG.preview.simulationLongEdge) || 900);
   const target = getScaledSize(sourceCanvas.width, sourceCanvas.height, simulationLongEdge);
   targetCanvas.width = target.width;
@@ -442,6 +487,9 @@ function drawOutputCompositePreview(sourceCanvas, backgroundColor, targetCanvas)
   context.imageSmoothingEnabled = true;
   context.imageSmoothingQuality = 'high';
   context.drawImage(sourceCanvas, 0, 0, target.width, target.height);
+  if (mode === 'timeline') {
+    applyTimelineWhiteBoost(targetCanvas);
+  }
   return targetCanvas;
 }
 
@@ -462,7 +510,7 @@ function getDirectPreviewOutput(mode = state.previewMode) {
     if (state.revealPreviewVersion === state.outputVersion && state.revealPreviewCanvas) {
       return state.revealPreviewCanvas;
     }
-    state.revealPreviewCanvas = drawOutputCompositePreview(state.directPreviewCanvas, CONFIG.preview.revealBackground, revealCanvas);
+    state.revealPreviewCanvas = drawOutputCompositePreview(state.directPreviewCanvas, CONFIG.preview.revealBackground, revealCanvas, 'reveal');
     state.revealPreviewVersion = state.outputVersion;
     return state.revealPreviewCanvas;
   }
@@ -470,7 +518,7 @@ function getDirectPreviewOutput(mode = state.previewMode) {
   if (state.timelinePreviewVersion === state.outputVersion && state.timelinePreviewCanvas) {
     return state.timelinePreviewCanvas;
   }
-  state.timelinePreviewCanvas = drawOutputCompositePreview(state.directPreviewCanvas, CONFIG.preview.whiteBackground, timelineCanvas);
+  state.timelinePreviewCanvas = drawOutputCompositePreview(state.directPreviewCanvas, CONFIG.preview.whiteBackground, timelineCanvas, 'timeline');
   state.timelinePreviewVersion = state.outputVersion;
   return state.timelinePreviewCanvas;
 }
@@ -770,7 +818,7 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小して表示しています。実ファイル自体はBayer4の2値透明のため、通常の画像ビューアで見るとこのプレビューほどは隠れません。';
+    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、隠し領域へ追加の白寄せ近似をかけて表示しています。実際のXタイムラインでの隠れ方に寄せるための補正表示です。';
   } else {
     previewNote.textContent = '保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、粒感が強すぎないかを確認する実験用プレビューです。';
   }
