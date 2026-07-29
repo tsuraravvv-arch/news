@@ -567,3 +567,6 @@ dd { margin: 0; color: var(--ink); font-weight: 800; overflow-wrap: anywhere; }
   height: 12px;
   accent-color: #8273df;
 }
+
+.export-button-grid { margin-top: 8px; align-items: stretch; }
+.export-button-grid .save-button { width: 100%; min-width: 0; }
