@@ -2,12 +2,12 @@
 
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.17.7',
-    updatedAt: '2026-07-29 12:25 JST'
+    version: 'v0.17.8',
+    updatedAt: '2026-07-29 13:05 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-nonperiodic-v0177-hires4096'
+    fileSuffix: 'reveal-hybrid32-v0178-hires4096'
   },
 
   editor: {
@@ -31,7 +31,7 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
       hiddenColors: 0
     },
     hiddenLook: {
-      checkerMode: 'bluenoise64',
+      checkerMode: 'bluenoise32',
       checkerCoverage: 6,
       brightenGain: 1.10,
       brightenOffset: 0,
@@ -60,6 +60,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時にだけ長辺4096px相当の高解像度画像を一度だけ作り直します。今回はBayer4の代わりに、より周期感の弱い非周期ドット配置（Trial B）でPNG-8（比較用本命）とRGBA PNG（診断用）を保存できます。プレビューでは保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。'
+    timelineApproximation: '元画像と範囲マスクから、保存時にだけ長辺4096px相当の高解像度画像を一度だけ作り直します。今回はBayer4と64x64非周期の中間案として、32x32の準非周期ドット配置（Trial C）でPNG-8（比較用本命）とRGBA PNG（診断用）を保存できます。プレビューでは保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。'
   }
 };
