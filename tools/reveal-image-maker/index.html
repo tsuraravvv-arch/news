@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=v0-16-0-direct-900-1">
+  <link rel="stylesheet" href="style.css?v=v0-17-0-binary-mask-1">
 </head>
 <body>
   <header class="tool-header">
@@ -15,7 +15,7 @@
         <div>
           <div class="eyebrow-row">
             <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-            <span class="status-badge">PNG-8 / 長辺900px直接生成 / 連続色面</span>
+            <span class="status-badge">PNG-8 / 2値透明パターン / 原寸保存 / TL近似プレビュー</span>
           </div>
           <h1>Reveal Image Maker</h1>
           <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -33,7 +33,7 @@
     <section class="notice-strip" aria-label="重要な案内">
       <p><strong>画像はブラウザ内だけで処理され、外部へ送信されません。</strong></p>
       <p>X上での表示結果は保証されません。</p>
-      <p>編集画面では元画像と範囲マスクだけを保持します。プレビューは保存時と同じ<strong>長辺900pxの最終RGBA画素</strong>を元画像から再計算して表示し、<strong>PNG-8への減色と保存用データの確定は保存ボタンを押したときだけ</strong>、元画像から一度だけ実行します。</p>
+      <p>編集画面では元画像と範囲マスクだけを保持します。今回は<strong>保存時に元画像サイズのまま2値透明パターンPNG-8を一度だけ生成</strong>し、プレビューではその保存画像を<strong>白背景・黒背景へ合成したうえで長辺900pxへ縮小してX表示を近似</strong>します。</p>
     </section>
 
     <section class="card upload-card" aria-labelledby="uploadTitle">
@@ -59,7 +59,7 @@
           <div><dt>入力容量</dt><dd id="inputFileSize">—</dd></div>
           <div><dt>サイズ判定</dt><dd><span class="size-status" id="sizeStatus">—</span></dd></div>
         </dl>
-        <p class="recommendation">入力画像は長辺900px以上を推奨します。出力は縦横比を保ったまま長辺900pxへ固定します。</p>
+        <p class="recommendation">入力画像はそのままのサイズで保存します。X向けの見え方確認は、保存画像を長辺900px相当へ縮小した近似プレビューで行います。</p>
       </div>
     </section>
 
@@ -147,12 +147,12 @@
         <div class="editor-options-grid">
           <fieldset class="editor-option-card mode-group" id="strengthControls" disabled>
             <legend>現在の処理モード</legend>
-            <div class="mode-pill">900px直接生成 × PNG-8</div>
-            <p class="control-help">塗った範囲は900pxへ縮小した原画を通常表示します。塗っていない範囲は、900pxの各画素ごとにRGBとアルファを直接決めた連続色面として保存します。</p>
+            <div class="mode-pill">2値透明パターン × 原寸PNG-8</div>
+            <p class="control-help">塗った範囲は通常表示します。塗っていない範囲は、元画像のRGBを使った不透明ピクセルと完全透明ピクセルの2値パターンに変換して保存します。</p>
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
-            <legend>補正値（現版は1.00固定）</legend>
+            <legend>明度ブースト（現版は1.00固定）</legend>
             <div class="range-row">
               <input id="revealBoost" type="range" min="100" max="140" value="120" step="5">
               <output id="revealBoostValue" for="revealBoost">x1.20</output>
@@ -162,7 +162,7 @@
               <span>1.20<br><small>中</small></span>
               <span>1.40<br><small>強</small></span>
             </div>
-            <p class="control-help">現版はブースト1.00固定です。まずは白背景での隠れ方と、黒背景での見え方の基礎確認に集中します。</p>
+            <p class="control-help">現版はブースト1.00固定です。今回は参考サイトの解析に合わせ、透明/不透明のドット構造がX側の縮小でどう見えるかを確認します。</p>
           </fieldset>
         </div>
       </section>
@@ -182,14 +182,14 @@
           <button class="preview-tab is-active" type="button" role="tab" aria-selected="true" data-preview="timeline">タイムライン想定</button>
           <button class="preview-tab" type="button" role="tab" aria-selected="false" data-preview="reveal">画像を開いた状態</button>
         </div>
-        <p class="preview-mode-note">タイムライン想定＝900px最終RGBAを白背景へ合成 / 画像を開いた状態＝同じ900px最終RGBAを黒背景へ合成</p>
+        <p class="preview-mode-note">タイムライン想定＝保存画像を白背景へ合成して長辺900pxへ縮小 / 画像を開いた状態＝同じ保存画像を黒背景へ合成して長辺900pxへ縮小</p>
       </div>
 
       <div class="preview-stage background-white" id="previewStage">
         <canvas id="previewCanvas" aria-label="画像プレビュー"></canvas>
         <div class="empty-preview-message" id="emptyPreviewMessage">画像を読み込むと、ここにプレビューが表示されます。</div>
       </div>
-      <p class="preview-note" id="previewNote">保存時と同じ長辺900pxの最終RGBAデータを、白背景または黒背景へ合成して表示します。PNG-8への減色は保存時にだけ行います。</p>
+      <p class="preview-note" id="previewNote">保存画像そのものを白背景または黒背景へ合成し、長辺900px相当へ縮小した近似表示です。PNG-8への減色と2値透明化は保存時にだけ元画像から行います。</p>
     </section>
 
     <section class="card export-card" aria-labelledby="exportTitle">
@@ -198,19 +198,19 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 長辺900px固定 / 連続色面 / 900px最終画像からパレット構築 / 保存時だけ元画像から生成</p>
+        <p>PNG-8 / 原寸保存 / 2値透明パターン / 単一透明色 / 保存時だけ元画像から生成</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>長辺900pxへ直接生成＋表示領域／隠し領域の専用PNG-8パレット＋個別tRNS＋保存時のみ元画像から生成</dd></div>
+            <div><dt>出力方式</dt><dd>元画像サイズのまま保存＋透明1色＋不透明254色以内のPNG-8＋2値透明パターン＋保存時のみ元画像から生成</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
         </div>
-        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNG-8を保存</button>
+        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNG-8を保存（実験版）</button>
       </div>
       <div class="export-progress" id="exportProgress" hidden aria-live="polite">
         <div class="export-progress-heading">
