@@ -44,6 +44,7 @@ const zoomOutButton = document.getElementById('zoomOutButton');
 const zoomInButton = document.getElementById('zoomInButton');
 const fitButton = document.getElementById('fitButton');
 const saveButton = document.getElementById('saveButton');
+const saveRgbaButton = document.getElementById('saveRgbaButton');
 const toast = document.getElementById('toast');
 const versionBadgeNode = document.getElementById('versionBadge');
 const versionDateNode = document.getElementById('versionDate');
@@ -85,11 +86,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.5',
+    version: 'v0.17.6',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-png8-binary-v0175-hires4096'
+    fileSuffix: 'reveal-compare-v0176-hires4096'
   },
   editor: {
     defaultTool: 'hide',
@@ -161,7 +162,7 @@ function applyConfigToInputs() {
   revealBoostInput.disabled = isFixedBoost;
   revealBoostInput.setAttribute('aria-disabled', String(isFixedBoost));
 
-  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.5';
+  if (versionBadgeNode) versionBadgeNode.textContent = CONFIG.meta?.version || 'v0.17.6';
   if (versionDateNode) versionDateNode.textContent = CONFIG.meta?.updatedAt || '';
 }
 
@@ -242,13 +243,14 @@ function sanitizeBaseName(name) {
   return withoutExtension.replace(/[\\/:*?"<>|]/g, '_').trim() || 'image';
 }
 
-function outputFileName() {
+function outputFileName(kind = 'png8') {
+  const kindSuffix = kind === 'rgba' ? 'rgba' : 'png8';
   if (!state.imageLoaded) {
-    return `${state.sourceName}-${CONFIG.output.fileSuffix}.png`;
+    return `${state.sourceName}-${CONFIG.output.fileSuffix}-${kindSuffix}.png`;
   }
   const directSize = getDirectOutputSize(state.imageWidth, state.imageHeight);
   const dims = `_${directSize.width}x${directSize.height}`;
-  return `${state.sourceName}-${CONFIG.output.fileSuffix}${dims}.png`;
+  return `${state.sourceName}-${CONFIG.output.fileSuffix}-${kindSuffix}${dims}.png`;
 }
 
 
@@ -580,6 +582,7 @@ function setControlsEnabled(enabled) {
     if (group) group.disabled = !enabled;
   });
   saveButton.disabled = !enabled;
+  if (saveRgbaButton) saveRgbaButton.disabled = !enabled;
   expandPreviewButton.disabled = !enabled;
 }
 
@@ -1605,50 +1608,81 @@ async function encodeIndexedPng(imageData, selectionMaskData = null, onProgress 
   return new Blob([pngBytes], { type: 'image/png' });
 }
 
-async function saveOutput() {
+function triggerBlobDownload(blob, name) {
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = name;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+async function encodeRgbaPng(imageData, onProgress) {
+  onProgress?.(70, 'RGBA PNGを構成しています…');
+  await yieldForPaint();
+  const canvas = document.createElement('canvas');
+  canvas.width = imageData.width;
+  canvas.height = imageData.height;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  context.putImageData(imageData, 0, 0);
+  onProgress?.(88, 'RGBA PNGを変換しています…');
+  await yieldForPaint();
+  const blob = await new Promise((resolve, reject) => {
+    canvas.toBlob((result) => {
+      if (result) resolve(result);
+      else reject(new Error('RGBA PNGの生成に失敗しました。'));
+    }, 'image/png');
+  });
+  onProgress?.(96, 'ダウンロードファイルを準備しています…');
+  return blob;
+}
+
+async function saveOutput(kind = 'png8') {
   if (!state.imageLoaded) return;
+  const isRgba = kind === 'rgba';
   saveButton.disabled = true;
-  saveButton.textContent = '保存画像を作成中…';
+  if (saveRgbaButton) saveRgbaButton.disabled = true;
+  saveButton.textContent = isRgba ? 'PNG-8を保存' : '保存画像を作成中…';
+  if (saveRgbaButton) saveRgbaButton.textContent = isRgba ? '保存画像を作成中…' : 'RGBA PNGを保存（診断用）';
   setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
   try {
     await yieldForPaint();
-    setExportProgress(18, '元画像から長辺4096pxの高解像度2値透明パターンを生成しています…');
+    setExportProgress(18, isRgba ? '元画像から長辺4096pxのRGBA診断画像を生成しています…' : '元画像から長辺4096pxの高解像度2値透明パターンを生成しています…');
     await yieldForPaint();
 
-    // 保存時はプレビューのキャッシュを使わず、元画像と確定マスクから一度だけ作り直します。
     const exportResult = createBinaryPatternOutput();
     if (!exportResult) throw new Error('保存画像を生成できませんでした。');
-    const blob = await encodeIndexedPng(exportResult.imageData, exportResult.selectionMaskData, (value, message) => {
-      setExportProgress(value, message);
-    });
+    const blob = isRgba
+      ? await encodeRgbaPng(exportResult.imageData, (value, message) => setExportProgress(value, message))
+      : await encodeIndexedPng(exportResult.imageData, exportResult.selectionMaskData, (value, message) => setExportProgress(value, message));
 
-    const name = outputFileName();
+    const name = outputFileName(isRgba ? 'rgba' : 'png8');
     outputFileNameNode.textContent = name;
     outputFileSizeNode.textContent = formatBytes(blob.size);
     if (blob.size > 5 * 1024 * 1024) {
       exportWarning.hidden = false;
       exportWarning.textContent = `出力ファイルは${formatBytes(blob.size)}です。Xの静止画像上限を超える可能性があるため、投稿時にご確認ください。`;
     } else {
-      exportWarning.hidden = true;
+      exportWarning.hidden = false;
+      exportWarning.textContent = isRgba
+        ? 'RGBA PNG は診断用です。同じ画素内容を標準的なRGBA PNGで保存し、X投稿可否をPNG-8版と比較してください。'
+        : 'PNG-8 は本命の比較対象です。もし投稿に失敗し、RGBA版だけ成功するなら、PNG-8構造側に原因がある可能性があります。';
     }
 
-    const url = URL.createObjectURL(blob);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = name;
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setExportProgress(100, '保存画像を作成しました。');
-    showToast('原寸の2値透明パターンPNG-8を作成して保存しました。');
+    triggerBlobDownload(blob, name);
+    setExportProgress(100, isRgba ? 'RGBA PNGを作成しました。' : 'PNG-8を作成しました。');
+    showToast(isRgba ? 'RGBA PNG（診断用）を保存しました。' : 'PNG-8を保存しました。');
   } catch (error) {
     console.error(error);
     setExportProgress(0, '保存処理に失敗しました。');
-    showToast(error.message || 'PNG-8の保存に失敗しました。');
+    showToast(error.message || '保存に失敗しました。');
   } finally {
     saveButton.disabled = false;
-    saveButton.textContent = 'PNG-8を保存（実験版）';
+    if (saveRgbaButton) saveRgbaButton.disabled = false;
+    saveButton.textContent = 'PNG-8を保存';
+    if (saveRgbaButton) saveRgbaButton.textContent = 'RGBA PNGを保存（診断用）';
     setTimeout(() => setExportProgress(0, '', false), 1800);
   }
 }
@@ -1760,7 +1794,8 @@ editorCanvas.addEventListener('pointermove', (event) => {
 });
 editorCanvas.addEventListener('contextmenu', (event) => event.preventDefault());
 
-saveButton.addEventListener('click', saveOutput);
+saveButton.addEventListener('click', () => saveOutput('png8'));
+if (saveRgbaButton) saveRgbaButton.addEventListener('click', () => saveOutput('rgba'));
 expandPreviewButton.addEventListener('click', () => {
   if (!state.imageLoaded) return;
   previewModal.classList.add('is-open');
