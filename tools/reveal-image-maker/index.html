@@ -15,7 +15,7 @@
         <div>
           <div class="eyebrow-row">
             <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-            <span class="status-badge">PNG-8 / 2値透明パターン / Bayer4 / 原寸保存 / TL実測優先プレビュー</span>
+            <span class="status-badge">PNG-8 / 2値透明 / 1px対角チェッカー / 原寸保存 / TL実測優先プレビュー</span>
           </div>
           <h1>Reveal Image Maker</h1>
           <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -59,7 +59,7 @@
           <div><dt>入力容量</dt><dd id="inputFileSize">—</dd></div>
           <div><dt>サイズ判定</dt><dd><span class="size-status" id="sizeStatus">—</span></dd></div>
         </dl>
-        <p class="recommendation">入力画像は保存時に X表示安定モード（3:4固定キャンバス＋被写体を少し小さめに中央配置）で長辺4096pxへ再構成してから書き出します。今回は32x32の準非周期ドット配置を使い、短いファイル名のPNG-8 / RGBA PNGを比較しつつ、X向けの見え方を長辺900px相当の近似プレビューで確認します。</p>
+        <p class="recommendation">解析した参考PNGに合わせ、出力サイズは元画像のまま維持します。隠し領域は1px単位の2×2対角チェッカーへ変換し、PNG-8として保存します。高解像度の入力ほど、Xやブラウザで縮小されたときに格子が平均化され、滑らかに見えやすくなります。</p>
       </div>
     </section>
 
@@ -147,8 +147,8 @@
         <div class="editor-options-grid">
           <fieldset class="editor-option-card mode-group" id="strengthControls" disabled>
             <legend>現在の処理モード</legend>
-            <div class="mode-pill">X表示安定モード 3:4固定 / 準非周期32x32</div>
-            <p class="control-help">塗った範囲は通常表示します。塗っていない範囲は、3:4固定キャンバスへ再配置した最終画像上で、元画像のRGBを使った不透明ピクセルと完全透明ピクセルの2値パターンに変換します。今回は32x32の準非周期ドット配置を使い、被写体を少し小さめに置いてXのクリック後表示倍率を安定させることを狙います。保存時は同じ画素内容を PNG-8 と RGBA PNG の両方で書き出して比較できます。</p>
+            <div class="mode-pill">参考構造再現：原寸PNG-8 × 1pxチェッカー</div>
+            <p class="control-help">塗った範囲は完全不透明で通常表示します。塗っていない範囲は元画像のRGBを保持しながら、1pxごとに透明／不透明が交互になる2×2対角チェッカーへ変換します。参考ZIPで確認できたPNG-8・2値透明・50%市松の構造に合わせた試作です。</p>
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
@@ -198,19 +198,19 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 3:4固定 3072×4096 / 2値透明パターン / 準非周期32x32 / 短いファイル名</p>
+        <p>PNG-8 / 元画像サイズ維持 / 2値透明 / 2×2対角チェッカー / 単一透明色 / 保存時だけ元画像から生成</p>
       </div>
 
       <div class="export-grid">
         <div class="export-details">
           <dl>
             <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>3:4固定 3072×4096 へ再配置＋透明1色＋不透明254色以内のPNG-8＋2値透明パターン（準非周期32x32）＋短いファイル名で保存</dd></div>
+            <div><dt>出力方式</dt><dd>元画像サイズのまま保存＋透明1色＋不透明254色以内のPNG-8＋1px対角チェッカー＋保存時のみ元画像から生成</dd></div>
             <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
           </dl>
           <p class="export-warning" id="exportWarning" hidden></p>
         </div>
-        <div class="button-grid two export-button-grid"><button id="saveButton" type="button" class="primary-button save-button" disabled>PNG-8を保存</button><button id="saveRgbaButton" type="button" class="secondary-button save-button" disabled>RGBA PNGを保存（診断用）</button></div>
+        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNG-8を保存</button>
       </div>
       <div class="export-progress" id="exportProgress" hidden aria-live="polite">
         <div class="export-progress-heading">
@@ -238,7 +238,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>編集時は元画像と範囲マスクだけを保持します。プレビューでは保存時と同じ長辺900pxのRGBA画素を一時的に再計算します。保存時は元画像から900pxの最終画素を一度だけ作り直し、細かな色キャリア、網点、ディザを使わず、隠す範囲も連続した色面のまま、透明パレットを含むPNG-8（カラータイプ3）として保存します。</p>
+          <p>編集時は元画像と範囲マスクだけを保持します。保存時は元画像サイズのまま最終画素を一度だけ作り直し、見せる範囲を完全不透明、隠す範囲を1px単位の2×2対角チェッカーへ変換します。出力は透明パレットを含むPNG-8（カラータイプ3）です。</p>
         </section>
       </div>
     </details>
@@ -256,8 +256,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="settings.js?v=v0-17-9-stable3x4-1"></script>
-  <script src="blue-noise-32.js?v=v0-17-9-stable3x4-1"></script>
-  <script src="app.js?v=v0-17-9-stable3x4-1"></script>
+  <script src="settings.js?v=v0-18-0-reference-checker-1"></script>
+  <script src="app.js?v=v0-18-0-reference-checker-1"></script>
 </body>
 </html>
