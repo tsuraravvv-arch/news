@@ -2,12 +2,12 @@
 
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.17.1',
-    updatedAt: '2026-07-29 06:35 JST'
+    version: 'v0.17.2',
+    updatedAt: '2026-07-29 07:00 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-png8-binary-v0171'
+    fileSuffix: 'reveal-png8-binary-v0172'
   },
 
   editor: {
@@ -45,7 +45,9 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     expandModalEnabled: true,
     whiteBackground: '#ffffff',
     revealBackground: '#000000',
-    simulationLongEdge: 900
+    simulationLongEdge: 900,
+    timelineWhiteBoost: 0.48,
+    timelineHiddenGamma: 0.9
   },
 
   boost: {
