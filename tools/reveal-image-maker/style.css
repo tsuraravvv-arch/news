@@ -570,3 +570,44 @@ dd { margin: 0; color: var(--ink); font-weight: 800; overflow-wrap: anywhere; }
 
 .export-button-grid { margin-top: 8px; align-items: stretch; }
 .export-button-grid .save-button { width: 100%; min-width: 0; }
+
+
+/* v0.18.1: resolution-by-resolution export */
+.resolution-guide {
+  margin: 18px 0 12px;
+  padding: 13px 15px;
+  border: 1px solid #c7d9e8;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f5fbff, #f8f5ff);
+  color: var(--ink-soft);
+}
+.resolution-guide strong,
+.resolution-guide span { display: block; }
+.resolution-guide span { margin-top: 5px; color: var(--muted); font-size: .82rem; line-height: 1.65; }
+.resolution-export-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+.resolution-save-button {
+  width: 100%;
+  min-width: 0;
+  min-height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 10px 8px;
+}
+.resolution-save-button span { font-size: .98rem; }
+.resolution-save-button small { font-size: .68rem; font-weight: 750; opacity: .88; }
+.resolution-save-button.is-caution { background: linear-gradient(135deg, #8b7edc, #bd78ad); }
+.resolution-save-button.is-processing { cursor: progress; filter: saturate(.65); }
+@media (max-width: 1050px) {
+  .resolution-export-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 680px) {
+  .resolution-export-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .resolution-save-button:last-child { grid-column: 1 / -1; }
+}
