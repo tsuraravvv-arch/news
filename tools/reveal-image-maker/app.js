@@ -106,11 +106,11 @@ function mergeConfig(base, override) {
 
 const DEFAULT_CONFIG = {
   meta: {
-    version: 'v0.17.8',
+    version: 'v0.17.9',
     updatedAt: ''
   },
   output: {
-    fileSuffix: 'reveal-hybrid32-v0178-hires4096'
+    fileSuffix: 'rv179a'
   },
   editor: {
     defaultTool: 'hide',
@@ -126,6 +126,13 @@ const DEFAULT_CONFIG = {
   export: {
     rebuildFromOriginalOnSave: true,
     maxLongEdge: 4096,
+    stableCanvas: {
+      enabled: true,
+      aspectRatio: '3:4',
+      subjectScale: 0.86,
+      anchorX: 0.5,
+      anchorY: 0.56
+    },
     palette: {
       visibleColors: 254,
       hiddenColors: 0
@@ -157,7 +164,7 @@ const DEFAULT_CONFIG = {
     labelPrecision: 2
   },
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時にだけ原寸の2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回はBayer4と64x64非周期の中間案として、32x32の準非周期パターンを試す実験版です。'
+    timelineApproximation: '元画像と範囲マスクから、保存時にだけ原寸の2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回はX表示安定モード（3:4固定キャンバス＋被写体を少し小さめに配置）を追加した実験版です。'
   }
 };
 
@@ -264,13 +271,10 @@ function sanitizeBaseName(name) {
 }
 
 function outputFileName(kind = 'png8') {
-  const kindSuffix = kind === 'rgba' ? 'rgba' : 'png8';
-  if (!state.imageLoaded) {
-    return `${state.sourceName}-${CONFIG.output.fileSuffix}-${kindSuffix}.png`;
-  }
-  const directSize = getDirectOutputSize(state.imageWidth, state.imageHeight);
-  const dims = `_${directSize.width}x${directSize.height}`;
-  return `${state.sourceName}-${CONFIG.output.fileSuffix}-${kindSuffix}${dims}.png`;
+  const kindSuffix = kind === 'rgba' ? 'rgba' : 'p8';
+  const base = (state.imageLoaded ? state.sourceName : 'image').slice(0, 18) || 'image';
+  const directSize = state.imageLoaded ? getDirectOutputSize(state.imageWidth, state.imageHeight) : { width: 3072, height: 4096 };
+  return `${base}-${CONFIG.output.fileSuffix}-${kindSuffix}_${directSize.width}x${directSize.height}.png`;
 }
 
 
@@ -352,6 +356,27 @@ function applyRevealBoostToPixel(r, g, b, boost) {
 
 function getDirectOutputSize(width, height) {
   const configuredLongEdge = Math.max(0, Number(CONFIG.export.maxLongEdge) || 0);
+  const stableCanvas = CONFIG.export.stableCanvas || {};
+  if (stableCanvas.enabled) {
+    const ratioText = String(stableCanvas.aspectRatio || '3:4');
+    const parts = ratioText.split(':').map((value) => Math.max(1, Number(value) || 1));
+    const ratioW = parts[0] || 3;
+    const ratioH = parts[1] || 4;
+    if (configuredLongEdge <= 0) {
+      return { width: ratioW, height: ratioH };
+    }
+    const isPortrait = ratioH >= ratioW;
+    if (isPortrait) {
+      return {
+        width: Math.max(1, Math.round(configuredLongEdge * (ratioW / ratioH))),
+        height: configuredLongEdge
+      };
+    }
+    return {
+      width: configuredLongEdge,
+      height: Math.max(1, Math.round(configuredLongEdge * (ratioH / ratioW)))
+    };
+  }
   if (configuredLongEdge <= 0) {
     return { width, height };
   }
@@ -361,6 +386,44 @@ function getDirectOutputSize(width, height) {
     width: Math.max(1, Math.round(width * ratio)),
     height: Math.max(1, Math.round(height * ratio))
   };
+}
+
+function getStablePlacement(outputWidth, outputHeight, sourceWidth, sourceHeight) {
+  const stableCanvas = CONFIG.export.stableCanvas || {};
+  const subjectScale = clamp01(Number(stableCanvas.subjectScale ?? 0.86));
+  const anchorX = clamp01(Number(stableCanvas.anchorX ?? 0.5));
+  const anchorY = clamp01(Number(stableCanvas.anchorY ?? 0.56));
+  const fitWidth = Math.max(1, outputWidth * subjectScale);
+  const fitHeight = Math.max(1, outputHeight * subjectScale);
+  const ratio = Math.min(fitWidth / Math.max(1, sourceWidth), fitHeight / Math.max(1, sourceHeight));
+  const drawWidth = Math.max(1, Math.round(sourceWidth * ratio));
+  const drawHeight = Math.max(1, Math.round(sourceHeight * ratio));
+  const left = Math.round((outputWidth - drawWidth) * anchorX);
+  const top = Math.round((outputHeight - drawHeight) * anchorY);
+  return {
+    drawWidth,
+    drawHeight,
+    dx: Math.max(Math.min(left, outputWidth - drawWidth), 0),
+    dy: Math.max(Math.min(top, outputHeight - drawHeight), 0)
+  };
+}
+
+function createPlacedCanvas(source, targetWidth, targetHeight, smoothing = true) {
+  const helperCanvas = document.createElement('canvas');
+  helperCanvas.width = targetWidth;
+  helperCanvas.height = targetHeight;
+  const helperContext = helperCanvas.getContext('2d', { willReadFrequently: true });
+  helperContext.clearRect(0, 0, targetWidth, targetHeight);
+  helperContext.imageSmoothingEnabled = smoothing;
+  helperContext.imageSmoothingQuality = 'high';
+  const stableCanvas = CONFIG.export.stableCanvas || {};
+  if (stableCanvas.enabled) {
+    const placement = getStablePlacement(targetWidth, targetHeight, source.width, source.height);
+    helperContext.drawImage(source, placement.dx, placement.dy, placement.drawWidth, placement.drawHeight);
+  } else {
+    helperContext.drawImage(source, 0, 0, targetWidth, targetHeight);
+  }
+  return helperCanvas;
 }
 
 function createScaledSourceCanvas(source, targetWidth, targetHeight, smoothing = true) {
@@ -442,8 +505,13 @@ function isHiddenPatternOpaque(x, y) {
 function createBinaryPatternOutput() {
   if (!state.imageLoaded) return null;
   const { width, height } = getDirectOutputSize(state.imageWidth, state.imageHeight);
-  const scaledSourceCanvas = createScaledSourceCanvas(sourceCanvas, width, height, true);
-  const scaledMaskCanvas = createScaledSourceCanvas(maskCanvas, width, height, true);
+  const stableCanvas = CONFIG.export.stableCanvas || {};
+  const scaledSourceCanvas = stableCanvas.enabled
+    ? createPlacedCanvas(sourceCanvas, width, height, true)
+    : createScaledSourceCanvas(sourceCanvas, width, height, true);
+  const scaledMaskCanvas = stableCanvas.enabled
+    ? createPlacedCanvas(maskCanvas, width, height, true)
+    : createScaledSourceCanvas(maskCanvas, width, height, true);
   const sourceData = scaledSourceCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
   const maskData = scaledMaskCanvas.getContext('2d', { willReadFrequently: true }).getImageData(0, 0, width, height);
   const outputData = new ImageData(width, height);
@@ -884,9 +952,9 @@ function updatePreviewNote() {
   if (!state.imageLoaded) {
     previewNote.textContent = CONFIG.notes.timelineApproximation;
   } else if (state.previewMode === 'timeline') {
-    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。隠し領域はツール上では完全な白として表示します。';
+    previewNote.textContent = '保存画像を白背景へ合成し、長辺900px相当へ縮小した後、実際のXタイムライン結果を優先し、選択した「見せる範囲」だけを白背景上へ表示しています。今回は3:4固定キャンバス＋少し小さめ配置で、クリック後の見かけサイズを安定させる実験です。';
   } else {
-    previewNote.textContent = '長辺4096pxの保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に色味がグレー化しにくいか、32x32準非周期パターンで粒感やモアレがほどよく弱まるかを確認する実験用プレビューです。';
+    previewNote.textContent = '3:4固定 3072×4096 の保存画像を黒背景へ合成し、長辺900px相当へ縮小して表示しています。クリック後に被写体が少し小さめに表示され、32x32準非周期パターンの粒感が相対的に目立ちにくくなるかを確認する実験用プレビューです。';
   }
 }
 
@@ -1690,7 +1758,7 @@ async function saveOutput(kind = 'png8') {
   setExportProgress(5, '元画像と範囲マスクを読み込んでいます…');
   try {
     await yieldForPaint();
-    setExportProgress(18, isRgba ? '元画像から長辺4096pxのRGBA診断画像を生成しています…' : '元画像から長辺4096pxの高解像度2値透明パターンを生成しています…');
+    setExportProgress(18, isRgba ? '元画像から3:4固定・長辺4096pxのRGBA診断画像を生成しています…' : '元画像から3:4固定・長辺4096pxの高解像度2値透明パターンを生成しています…');
     await yieldForPaint();
 
     const exportResult = createBinaryPatternOutput();
