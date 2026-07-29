@@ -1,14 +1,13 @@
 'use strict';
 
-// Reveal Image Maker 用サイト設定
 window.REVEAL_IMAGE_MAKER_CONFIG = {
   meta: {
-    version: 'v0.16.4',
-    updatedAt: '2026-07-29 05:05 JST'
+    version: 'v0.17.0',
+    updatedAt: '2026-07-29 06:10 JST'
   },
 
   output: {
-    fileSuffix: 'reveal-direct-900-v0164-x-color-comp'
+    fileSuffix: 'reveal-png8-binary-v0170'
   },
 
   editor: {
@@ -26,33 +25,17 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
 
   export: {
     rebuildFromOriginalOnSave: true,
-    maxLongEdge: 900,
+    maxLongEdge: 0,
     palette: {
-      visibleColors: 112,
-      hiddenColors: 142
+      visibleColors: 254,
+      hiddenColors: 0
     },
-    // 900pxへ縮小した後の各画素を、そのまま連続した色面として処理します。
-    // 黒背景で見える暗い像（premultiplied RGB）を先に決め、
-    // 白背景では各チャンネルがほぼ白へ寄るようにRGBとアルファを逆算します。\n    // 今回は隠し領域だけ、暗部の階調・色差・輪郭を少し強めに残して、X再処理後の潰れを減らす方向へ調整します。
     hiddenLook: {
-      revealMin: 7,
-      revealMax: 78,
-      revealGamma: 0.81,
-      chromaKeep: 0.40,
-      whiteMargin: 7,
-      maxWhiteTintDepth: 6,
-      detailSharpen: 0.44,
-      alphaMin: 13,
-      alphaMax: 98,
-      alphaBias: 3,
-      edgeAlphaBoost: 5,
-      edgeLift: 9,
-      saturationBoost: 0.14,
-      toneContrast: 0.18,
-      shadowNeutralize: 0.14,
-      alphaGamma: 0.98,
-      xChromaComp: 0.18,
-      xAlphaComp: 4
+      checkerMode: 'checker2',
+      brightenGain: 1.00,
+      brightenOffset: 0,
+      whiteMix: 0.00,
+      preserveVisibleAlpha: false
     }
   },
 
@@ -60,7 +43,8 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
     defaultMode: 'timeline',
     expandModalEnabled: true,
     whiteBackground: '#ffffff',
-    revealBackground: '#000000'
+    revealBackground: '#000000',
+    simulationLongEdge: 900
   },
 
   boost: {
@@ -72,6 +56,6 @@ window.REVEAL_IMAGE_MAKER_CONFIG = {
   },
 
   notes: {
-    timelineApproximation: '元画像と範囲マスクから、保存時と同じ長辺900pxの最終RGBA画素を再計算して表示します。細かな色キャリア、網点、ディザは使用しません。保存時は元画像から同じ900pxデータを一度だけ作り直し、そのデータだけでPNG-8パレットを構築します。'
+    timelineApproximation: '元画像と範囲マスクから、保存時にだけ原寸の2値透明パターンPNG-8を一度だけ作り直します。プレビューでは、その保存画像を白背景または黒背景へ合成し、長辺900px相当へ縮小してXの表示を近似します。今回は半透明連続色面ではなく、透明/不透明の細かなパターン方式を試す実験版です。'
   }
 };
