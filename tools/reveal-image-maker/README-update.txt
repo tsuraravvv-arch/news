@@ -1,4 +1,4 @@
-Reveal Image Maker v0.17.0 binary-mask experimental
+Reveal Image Maker v0.17.1 binary-mask experimental
 
 今回の目的
 - これまでの「半透明RGBAを直接作る方式」から離れ、
@@ -22,3 +22,9 @@ Reveal Image Maker v0.17.0 binary-mask experimental
 注意
 - 保存画像そのものを通常の画像ビューアで見ると、タップ前想定ほどは隠れません。
   これは仕様で、X側の縮小・平均化を前提にした実験です。
+
+
+v0.17.1 changes
+- preview blank bug fixed (missing getScaledSize helper)
+- hidden pattern changed from 2x2 50% checker to Bayer4 6/16 coverage
+- hidden opaque pixels slightly brightened to keep click-open image readable
