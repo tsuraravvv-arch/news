@@ -6,7 +6,7 @@
   <meta name="robots" content="noindex,nofollow,noarchive">
   <meta name="description" content="X向けのクリック・長押しで全体が見える透過画像を試作する、Tsurara Idea Labの実験ツールです。">
   <title>Reveal Image Maker | Tsurara Idea Lab</title>
-  <link rel="stylesheet" href="style.css?v=v0-17-4-visible-only-1">
+  <link rel="stylesheet" href="style.css?v=v0-18-1-resolution-test-1">
 </head>
 <body>
   <header class="tool-header">
@@ -15,7 +15,7 @@
         <div>
           <div class="eyebrow-row">
             <span class="eyebrow">Tsurara Idea Lab / Experimental Tool</span>
-            <span class="status-badge">PNG-8 / 2値透明 / 1px対角チェッカー / 原寸保存 / TL実測優先プレビュー</span>
+            <span class="status-badge">PNG-8 / 2値透明 / 1px対角チェッカー / 5段階解像度テスト</span>
           </div>
           <h1>Reveal Image Maker</h1>
           <p class="lead">X向けの「クリック・長押しすると全体が見える」透過画像を、ブラウザ内で試作するツールです。</p>
@@ -33,7 +33,7 @@
     <section class="notice-strip" aria-label="重要な案内">
       <p><strong>画像はブラウザ内だけで処理され、外部へ送信されません。</strong></p>
       <p>X上での表示結果は保証されません。</p>
-      <p>編集画面では元画像と範囲マスクだけを保持します。今回は<strong>保存時に元画像サイズのまま2値透明パターンPNG-8を一度だけ生成</strong>し、プレビューではその保存画像を<strong>白背景・黒背景へ合成したうえで長辺900pxへ縮小してX表示を近似</strong>します。</p>
+      <p>編集画面では元画像と範囲マスクだけを保持します。今回は<strong>同じ編集内容から3:4の5段階解像度を個別に保存</strong>できます。画像は各出力サイズへ中央トリミングで全面配置し、外周へ透明余白を追加しません。</p>
     </section>
 
     <section class="card upload-card" aria-labelledby="uploadTitle">
@@ -59,7 +59,7 @@
           <div><dt>入力容量</dt><dd id="inputFileSize">—</dd></div>
           <div><dt>サイズ判定</dt><dd><span class="size-status" id="sizeStatus">—</span></dd></div>
         </dl>
-        <p class="recommendation">解析した参考PNGに合わせ、出力サイズは元画像のまま維持します。隠し領域は1px単位の2×2対角チェッカーへ変換し、PNG-8として保存します。高解像度の入力ほど、Xやブラウザで縮小されたときに格子が平均化され、滑らかに見えやすくなります。</p>
+        <p class="recommendation">出力時は画像を3:4のキャンバスいっぱいへ中央トリミングし、1086×1448から3072×4096まで同じ編集内容で比較できます。まず1086×1448から投稿し、成功したら上の解像度を順番に試してください。</p>
       </div>
     </section>
 
@@ -147,8 +147,8 @@
         <div class="editor-options-grid">
           <fieldset class="editor-option-card mode-group" id="strengthControls" disabled>
             <legend>現在の処理モード</legend>
-            <div class="mode-pill">参考構造再現：原寸PNG-8 × 1pxチェッカー</div>
-            <p class="control-help">塗った範囲は完全不透明で通常表示します。塗っていない範囲は元画像のRGBを保持しながら、1pxごとに透明／不透明が交互になる2×2対角チェッカーへ変換します。参考ZIPで確認できたPNG-8・2値透明・50%市松の構造に合わせた試作です。</p>
+            <div class="mode-pill">投稿境界検証：3:4固定 × 5段階解像度 × 1pxチェッカー</div>
+            <p class="control-help">塗った範囲は完全不透明、塗っていない範囲は1px対角チェッカーへ変換します。保存ボタンごとに解像度だけを変え、同一条件でXが受理する境界を切り分けます。</p>
           </fieldset>
 
           <fieldset class="editor-option-card" id="boostControls" disabled>
@@ -198,19 +198,40 @@
           <span class="step-label">STEP 4</span>
           <h2 id="exportTitle">PNGを書き出す</h2>
         </div>
-        <p>PNG-8 / 元画像サイズ維持 / 2値透明 / 2×2対角チェッカー / 単一透明色 / 保存時だけ元画像から生成</p>
+        <p>PNG-8 / 3:4全面配置 / 5段階解像度 / 2値透明 / 1px対角チェッカー</p>
       </div>
 
-      <div class="export-grid">
-        <div class="export-details">
-          <dl>
-            <div><dt>出力ファイル名</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
-            <div><dt>出力方式</dt><dd>元画像サイズのまま保存＋透明1色＋不透明254色以内のPNG-8＋1px対角チェッカー＋保存時のみ元画像から生成</dd></div>
-            <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
-          </dl>
-          <p class="export-warning" id="exportWarning" hidden></p>
-        </div>
-        <button id="saveButton" type="button" class="primary-button save-button" disabled>PNG-8を保存</button>
+      <div class="export-details">
+        <dl>
+          <div><dt>最後に保存したファイル</dt><dd id="outputFileName">画像読込み後に表示</dd></div>
+          <div><dt>出力容量</dt><dd id="outputFileSize">保存時に計測</dd></div>
+          <div><dt>透明率</dt><dd id="outputTransparency">保存時に計測</dd></div>
+          <div><dt>完全透明の外周</dt><dd id="outputTransparentMargin">保存時に計測</dd></div>
+        </dl>
+        <p class="export-warning" id="exportWarning" hidden></p>
+      </div>
+
+      <div class="resolution-guide">
+        <strong>同じ編集内容を、解像度だけ変えて個別に保存します。</strong>
+        <span>まず「1086×1448」から投稿し、成功した場合は右へ順番に試すと、投稿可能な境界を確認できます。</span>
+      </div>
+
+      <div class="resolution-export-grid" id="resolutionExportGrid" aria-label="解像度別の保存ボタン">
+        <button id="saveButton" type="button" class="primary-button save-button resolution-save-button" data-export-preset="compat" data-width="1086" data-height="1448" disabled>
+          <span>1086×1448</span><small>投稿成功例基準</small>
+        </button>
+        <button type="button" class="primary-button save-button resolution-save-button" data-export-preset="mid" data-width="1440" data-height="1920" disabled>
+          <span>1440×1920</span><small>中解像度</small>
+        </button>
+        <button type="button" class="primary-button save-button resolution-save-button" data-export-preset="mid-high" data-width="1728" data-height="2304" disabled>
+          <span>1728×2304</span><small>中高解像度</small>
+        </button>
+        <button type="button" class="primary-button save-button resolution-save-button" data-export-preset="high" data-width="2304" data-height="3072" disabled>
+          <span>2304×3072</span><small>高解像度</small>
+        </button>
+        <button type="button" class="primary-button save-button resolution-save-button is-caution" data-export-preset="max" data-width="3072" data-height="4096" disabled>
+          <span>3072×4096</span><small>失敗例との境界比較</small>
+        </button>
       </div>
       <div class="export-progress" id="exportProgress" hidden aria-live="polite">
         <div class="export-progress-heading">
@@ -238,7 +259,7 @@
         </section>
         <section>
           <h3>現在の出力方式</h3>
-          <p>編集時は元画像と範囲マスクだけを保持します。保存時は元画像サイズのまま最終画素を一度だけ作り直し、見せる範囲を完全不透明、隠す範囲を1px単位の2×2対角チェッカーへ変換します。出力は透明パレットを含むPNG-8（カラータイプ3）です。</p>
+          <p>編集時は元画像と範囲マスクだけを保持します。保存時は選択した3:4解像度へ画像を中央トリミングで全面配置し、最終画素を一度だけ作り直し、見せる範囲を完全不透明、隠す範囲を1px単位の2×2対角チェッカーへ変換します。出力は透明パレットを含むPNG-8（カラータイプ3）です。</p>
         </section>
       </div>
     </details>
@@ -256,7 +277,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="settings.js?v=v0-18-0-reference-checker-1"></script>
-  <script src="app.js?v=v0-18-0-reference-checker-1"></script>
+  <script src="settings.js?v=v0-18-1-resolution-test-1"></script>
+  <script src="app.js?v=v0-18-1-resolution-test-1"></script>
 </body>
 </html>
