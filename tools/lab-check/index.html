@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lab診断ページ | Tsurara Idea Lab</title>
+  <meta name="description" content="data/articles.json の内容を検査し、ID重複や必須項目の欠落などを確認するための管理者向け診断ページです。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="check-header">
+    <p class="section-kicker">Admin Tool</p>
+    <h1>Lab診断ページ</h1>
+    <p class="check-lead">
+      <code>data/articles.json</code> の内容を自動でチェックし、記事追加時のJSON事故やID重複などを見つけやすくするための管理者向けページです。<br>
+      このページはデータを読み取って表示するだけで、<code>data/articles.json</code> を書き換えることはありません。
+    </p>
+  </header>
+
+  <main id="app" class="check-main">
+    <p class="loading-message" id="loadingMessage">診断中です…</p>
+  </main>
+
+  <footer class="check-footer">
+    <p>Tsurara Idea Lab 管理者向け診断ツール（静的ページ／外部ライブラリ不使用）</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
