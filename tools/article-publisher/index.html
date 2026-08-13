@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>本番記事登録ツール | Tsurara Idea Lab</title>
+  <meta name="description" content="採用済みAIIニュースをTsurara Idea Labの正式記事へ変換するための管理者向けローカルツールです。" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="pub-header">
+    <p class="section-kicker">Admin Tool (Local Only / STEP1-3)</p>
+    <h1>本番記事登録ツール</h1>
+    <p class="pub-lead">
+      採用済みのAII制作引き継ぎ情報から、Tsurara Idea Labの正式記事（<code>data/articles.json</code>形式）を作成し、ローカルへ登録・GitHubへPushするための管理者向けツールです。<br>
+      <strong>STEP1（記事作成）・STEP2（ローカルへ登録）・STEP3（GitHubへPush）</strong> に対応しています。STEP3のPushは <code>origin/main</code> へ直接反映され、GitHub Pagesにも即時反映されるため、実行前には内容確認ダイアログが表示されます。
+    </p>
+    <p class="load-status" id="loadStatus">サーバー接続を確認しています…</p>
+  </header>
+
+  <main class="pub-main">
+
+    <section class="flow-section" aria-label="AII制作引き継ぎ情報の入力" id="inputSection">
+      <h2>1. AII制作引き継ぎ情報を入力</h2>
+      <p class="section-desc">
+        【制作引き継ぎ AIIxxxxx】の内容を、対応する項目に入力してください。記事の事実関係はこのテキスト項目のみを根拠に作成されます（サンプル画像は見た目の参考用で、事実情報の根拠にはしません）。
+      </p>
+
+      <form id="inputForm">
+        <fieldset class="form-fieldset">
+          <legend>制作引き継ぎをまとめて貼り付け</legend>
+          <p class="field-hint">AII収集チャットから出力された【制作引き継ぎ AIIxxxxx】の全文をそのまま貼り付けて「解析して反映」を押すと、下の個別項目へ自動で振り分けます。振り分け後の内容は個別項目側で確認・修正してください。</p>
+          <label class="form-field">
+            <span class="form-label">制作引き継ぎ全文</span>
+            <textarea id="fieldHandoffPaste" rows="14" placeholder="【制作引き継ぎ AII00123】&#10;ニュースタイトル：...&#10;ニュース概要：...&#10;（そのまま貼り付けてください）"></textarea>
+          </label>
+          <div class="section-actions">
+            <button type="button" class="primary-button" id="parseHandoffButton">解析して反映</button>
+            <span class="generate-status" id="parseHandoffStatus"></span>
+          </div>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend>基本情報</legend>
+          <div class="bilingual-grid">
+            <label class="form-field">
+              <span class="form-label">AII管理ID（任意）</span>
+              <input type="text" id="fieldAiiId" placeholder="例：AII00123">
+            </label>
+            <label class="form-field">
+              <span class="form-label">カテゴリ（任意・未選択ならClaudeが判定）</span>
+              <select id="fieldCategoryOverride">
+                <option value="">自動判定（推奨）</option>
+                <option value="FAS">FAS（ファッション）</option>
+                <option value="JOB">JOB（職業）</option>
+                <option value="PNF">PNF（ポーズ・表情）</option>
+                <option value="VIS">VIS（ビジュアル演出）</option>
+                <option value="SSN">SSN（季節）</option>
+                <option value="ORI">ORI（オリジナル企画）</option>
+                <option value="ITM">ITM（アイテム）</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="form-field">
+            <span class="form-label">ニュースタイトル <span class="required-mark">必須</span></span>
+            <input type="text" id="fieldNewsTitle" required>
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">ニュース概要 <span class="required-mark">必須</span></span>
+            <textarea id="fieldNewsSummary" rows="3" required></textarea>
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">何が新しいか</span>
+            <textarea id="fieldWhatsNew" rows="2"></textarea>
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">創作での効果</span>
+            <textarea id="fieldCreativeEffect" rows="2"></textarea>
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">使いどころ</span>
+            <textarea id="fieldUseCasesRaw" rows="2"></textarea>
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">再現のポイント</span>
+            <textarea id="fieldReproPoints" rows="2"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend>表現の詳細</legend>
+
+          <div class="bilingual-grid">
+            <label class="form-field">
+              <span class="form-label">対象</span>
+              <select id="fieldTargetType">
+                <option value="画像生成">画像生成</option>
+                <option value="動画生成">動画生成</option>
+              </select>
+            </label>
+            <label class="form-field">
+              <span class="form-label">表現タイプ</span>
+              <input type="text" id="fieldExpressionType">
+            </label>
+          </div>
+
+          <label class="form-field">
+            <span class="form-label">中心となる効果</span>
+            <input type="text" id="fieldCoreEffect">
+          </label>
+
+          <div class="bilingual-grid">
+            <label class="form-field">
+              <span class="form-label">変更する要素</span>
+              <textarea id="fieldChangedElements" rows="2"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">維持する要素</span>
+              <textarea id="fieldKeptElements" rows="2"></textarea>
+            </label>
+          </div>
+
+          <label class="form-field">
+            <span class="form-label">再現上の必須ポイント</span>
+            <textarea id="fieldMustHavePoints" rows="2"></textarea>
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">サンプル制作向け日本語プロンプト（参考。本番プロンプトへそのまま転記はしません）</span>
+            <textarea id="fieldSampleTestPrompt" rows="3"></textarea>
+          </label>
+        </fieldset>
+
+        <fieldset class="form-fieldset">
+          <legend>採用情報</legend>
+
+          <label class="form-field">
+            <span class="form-label">採用したサンプル制作プロンプト</span>
+            <textarea id="fieldAdoptedSamplePrompt" rows="3" placeholder="本番プロンプト作成時の方向性の参考にします"></textarea>
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">情報源URL <span class="optional-mark">任意</span></span>
+            <input type="text" id="fieldSourceUrl" placeholder="https://...">
+          </label>
+
+          <label class="form-field">
+            <span class="form-label">追加コメント（任意・通常は不要）</span>
+            <textarea id="fieldExtraComments" rows="2"></textarea>
+          </label>
+
+          <div class="form-field">
+            <span class="form-label">採用判断用サンプル画像（任意）</span>
+            <p class="field-hint">見た目の参考用です。記事の事実根拠にはせず、<code>images/articles/</code>への保存対象にもしません。公開画像は記事生成後の「最終公開画像」欄で別途指定します。</p>
+            <div class="drop-zone" id="sampleImageDropZone">
+              <div id="sampleImagePreviewWrap" class="image-preview-wrap" hidden>
+                <img id="sampleImagePreview" alt="サンプル画像プレビュー">
+              </div>
+              <p class="drop-zone-hint" id="sampleImageHint">ここに画像をドラッグ＆ドロップ、または下のボタンで選択してください。</p>
+              <div class="section-actions">
+                <label class="file-picker-button" for="sampleImageInput">画像を選択</label>
+                <input type="file" id="sampleImageInput" accept="image/*" hidden>
+                <button type="button" class="side-button" id="clearSampleImageButton">削除</button>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="button" class="primary-button" id="generateButton">Claudeで記事を作成</button>
+          <span class="generate-status" id="generateStatus"></span>
+        </div>
+      </form>
+    </section>
+
+    <section class="flow-section" aria-label="生成結果" id="resultSection" hidden>
+      <h2>2. 生成結果の確認・調整</h2>
+      <p class="section-desc">
+        Claudeが作成した内容です。登録前に内容を確認し、必要であれば直接編集してください（この画面での編集はプレビューと最終JSONにすぐ反映されます）。
+      </p>
+
+      <div class="result-grid">
+        <div class="result-block">
+          <details class="form-fieldset foldable-section" open>
+            <summary>最終公開画像</summary>
+            <p class="field-hint">STEP2でそのまま <code>images/articles/&lt;正式ID&gt;.png</code> として保存される画像です（PNG以外は自動的にPNGへ変換されます）。採用判断用サンプル画像とは別物として扱われ、自動では反映されません。本番プロンプトで再生成した画像をここへアップロードするか、サンプル画像をそのまま使う場合は下のボタンで明示的にコピーしてください。差し替えると右側の公開プレビューにも即座に反映されます。</p>
+            <div class="drop-zone" id="finalImageDropZone">
+              <div id="finalImagePreviewWrap" class="image-preview-wrap" hidden>
+                <img id="finalImagePreview" alt="最終公開画像プレビュー">
+              </div>
+              <p class="drop-zone-hint" id="finalImageHint">記事生成後に、ここへ最終公開画像をドラッグ＆ドロップ、または下のボタンで選択してください。</p>
+              <div class="section-actions">
+                <label class="file-picker-button" for="finalImageInput">画像を選択</label>
+                <input type="file" id="finalImageInput" accept="image/*" hidden>
+                <button type="button" class="side-button" id="useSampleAsFinalButton">サンプル画像を最終公開画像にコピー</button>
+                <button type="button" class="side-button" id="clearFinalImageButton">削除</button>
+              </div>
+            </div>
+          </details>
+
+          <details class="form-fieldset foldable-section" open>
+            <summary>本番プロンプト</summary>
+            <p class="field-hint">「本番プロンプトをコピー→外部で画像生成→上の最終公開画像を差し替え」という流れで使用します。</p>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">promptJa</span>
+                <textarea id="fieldPromptJa" rows="6"></textarea>
+              </label>
+              <label class="form-field">
+                <span class="form-label">promptEn</span>
+                <textarea id="fieldPromptEn" rows="6"></textarea>
+              </label>
+            </div>
+            <div class="section-actions">
+              <button type="button" class="side-button" id="copyPromptJaButton">日本語プロンプトをコピー</button>
+              <button type="button" class="side-button" id="copyPromptEnButton">英語プロンプトをコピー</button>
+            </div>
+          </details>
+
+          <details class="form-fieldset foldable-section" open>
+            <summary>正式ID・カテゴリ・日時</summary>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">正式ID候補</span>
+                <div class="field-with-button">
+                  <input type="text" id="fieldId" placeholder="カテゴリ確定後に自動採番されます">
+                  <button type="button" class="side-button" id="regenerateIdButton">候補を再取得</button>
+                </div>
+                <span class="field-hint" id="idHint">data/articles.json の既存IDを確認して、次に使える候補を自動入力します。</span>
+              </label>
+              <label class="form-field">
+                <span class="form-label">カテゴリ</span>
+                <select id="fieldCategory">
+                  <option value="FAS">FAS（ファッション）</option>
+                  <option value="JOB">JOB（職業）</option>
+                  <option value="PNF">PNF（ポーズ・表情）</option>
+                  <option value="VIS">VIS（ビジュアル演出）</option>
+                  <option value="SSN">SSN（季節）</option>
+                  <option value="ORI">ORI（オリジナル企画）</option>
+                  <option value="ITM">ITM（アイテム）</option>
+                </select>
+                <span class="field-hint" id="categoryReasonHint"></span>
+              </label>
+            </div>
+
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">datetime</span>
+                <div class="datetime-row">
+                  <input type="date" id="fieldDatetimeDate">
+                  <input type="time" id="fieldDatetimeTime">
+                  <button type="button" class="side-button" id="setNowDatetimeButton">現在日時</button>
+                </div>
+              </label>
+              <label class="form-field">
+                <span class="form-label">publishedAt</span>
+                <div class="datetime-row">
+                  <input type="date" id="fieldPublishedAtDate">
+                  <input type="time" id="fieldPublishedAtTime">
+                  <button type="button" class="side-button" id="copyDatetimeButton">datetimeと同じ</button>
+                </div>
+              </label>
+            </div>
+          </details>
+
+          <details class="form-fieldset foldable-section">
+            <summary>タイトル・概要</summary>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">title</span>
+                <input type="text" id="fieldTitle">
+              </label>
+              <label class="form-field">
+                <span class="form-label">titleEn</span>
+                <input type="text" id="fieldTitleEn">
+              </label>
+            </div>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">summary</span>
+                <textarea id="fieldSummary" rows="3"></textarea>
+              </label>
+              <label class="form-field">
+                <span class="form-label">summaryEn</span>
+                <textarea id="fieldSummaryEn" rows="3"></textarea>
+              </label>
+            </div>
+          </details>
+
+          <details class="form-fieldset foldable-section">
+            <summary>トレンド要素・使いどころ（1行1要素）</summary>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">trendElements</span>
+                <textarea id="fieldTrendElements" rows="4"></textarea>
+              </label>
+              <label class="form-field">
+                <span class="form-label">trendElementsEn</span>
+                <textarea id="fieldTrendElementsEn" rows="4"></textarea>
+              </label>
+            </div>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">useCases</span>
+                <textarea id="fieldUseCases" rows="4"></textarea>
+              </label>
+              <label class="form-field">
+                <span class="form-label">useCasesEn</span>
+                <textarea id="fieldUseCasesEn" rows="4"></textarea>
+              </label>
+            </div>
+          </details>
+
+          <details class="form-fieldset foldable-section">
+            <summary>メモ</summary>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">noteTitle</span>
+                <input type="text" id="fieldNoteTitle">
+              </label>
+              <label class="form-field">
+                <span class="form-label">noteTitleEn</span>
+                <input type="text" id="fieldNoteTitleEn">
+              </label>
+            </div>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">notes（1行1要素）</span>
+                <textarea id="fieldNotes" rows="4"></textarea>
+              </label>
+              <label class="form-field">
+                <span class="form-label">notesEn（1行1要素）</span>
+                <textarea id="fieldNotesEn" rows="4"></textarea>
+              </label>
+            </div>
+          </details>
+
+          <details class="form-fieldset foldable-section">
+            <summary>出典</summary>
+            <label class="form-field">
+              <span class="form-label">sourceUrl</span>
+              <input type="text" id="fieldSourceUrlFinal">
+            </label>
+          </details>
+        </div>
+
+        <div class="result-block">
+          <h2>公開プレビュー</h2>
+          <p class="section-desc">Tsurara Idea Labへ公開した場合の記事詳細表示に近い見た目の簡易プレビューです（本体のHTML/CSSは変更せず、本ツール側だけで再現しています）。最終公開画像を差し替えると、ここにも即座に反映されます。なお、情報源URLは本体サイトでも非公開表示のため、このプレビューにも表示されません。</p>
+          <div id="previewCard"></div>
+
+          <details class="form-fieldset foldable-section" id="devJsonSection">
+            <summary>開発者向け：生成JSON</summary>
+            <div class="json-output-buttons">
+              <button type="button" class="side-button" id="copyObjectButton">JSONをコピー（オブジェクトのみ）</button>
+              <button type="button" class="side-button" id="copyForAppendButton">JSONをコピー（配列末尾追記用）</button>
+            </div>
+            <pre class="json-output" id="jsonOutput"></pre>
+          </details>
+
+          <div class="step-disabled-note">
+            <strong>STEP3（GitHubへPush）は、ローカルへ登録した後に下の「4. GitHubへPush」から実行できます。</strong><br>
+            push は <code>origin/main</code> へ直接反映され、GitHub Pagesにも即時反映されます。実行前に必ず内容をご確認ください。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="flow-section" aria-label="ローカルへ登録" id="registerSection" hidden>
+      <h2>3. ローカルへ登録</h2>
+      <p class="section-desc">
+        上記の記事内容・最終公開画像・公開プレビューをすべてご確認のうえ実行してください。実行すると <code>data/articles.json</code> への追記と、最終画像の <code>images/articles/</code> への保存を行います。登録前に <code>data/articles.json</code> のバックアップを別フォルダへ作成し、JSON構文・ID重複・必須項目を検証してから書き込みます。検証に失敗した場合は何も書き込みません。
+      </p>
+      <div class="form-actions">
+        <button type="button" class="primary-button" id="registerButton">ローカルへ登録</button>
+        <span class="generate-status" id="registerStatus"></span>
+      </div>
+      <div id="registerReport"></div>
+    </section>
+
+    <section class="flow-section final-action-section" aria-label="GitHubへPush" id="pushSection" hidden>
+      <h2>4. GitHubへPush <span class="final-action-badge">最終操作</span></h2>
+      <p class="section-desc">
+        ローカルへ登録した内容を <code>origin/main</code> へコミット・pushします。push は即座に GitHub Pages（本番サイト）へ反映されます。実行すると、まず <code>data/articles.json</code> をコミット（Update articles.json）し、最終画像がある場合は続けて画像もコミットしたうえで、まとめて1回だけ push します。この記事登録に関係のない変更が作業ツリーに残っている場合は、誤push防止のため自動的に中止します。
+      </p>
+      <div class="form-actions">
+        <button type="button" class="primary-button" id="pushButton">GitHubへPush</button>
+        <span class="generate-status" id="pushStatus"></span>
+      </div>
+      <div id="pushReport"></div>
+    </section>
+
+  </main>
+
+  <footer class="pub-footer">
+    <p>Tsurara Idea Lab 本番記事登録ツール（STEP1: 記事作成／STEP2: ローカルへ登録／STEP3: GitHubへPush）／ローカル専用（127.0.0.1限定）／記事生成は claude CLI のヘッドレスモードをこのPC上で実行して行います（別課金のAPIは使用しません）。</p>
+  </footer>
+
+  <div class="preview-image-modal" id="previewImageModal" hidden>
+    <button type="button" class="preview-image-modal-close" id="previewImageModalClose" aria-label="閉じる">×</button>
+    <img id="previewImageModalImg" alt="">
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
