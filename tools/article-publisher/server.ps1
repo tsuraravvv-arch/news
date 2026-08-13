@@ -43,15 +43,39 @@ function Get-ContentType {
   return 'application/octet-stream'
 }
 
+# JSON文字列に安全に埋め込むための最小限のエスケープ（ConvertTo-Json自体が失敗した場合のフォールバック用）
+function ConvertTo-SafeJsonString {
+  param([string]$Text)
+  if ($null -eq $Text) { return '' }
+  return ($Text -replace '\\', '\\\\' -replace '"', '\"' -replace "`r", '\r' -replace "`n", '\n' -replace "`t", '\t')
+}
+
+# HTTPレスポンス本文が絶対に空にならないようにする。
+# ConvertTo-Jsonでの直列化失敗・OutputStreamへの書き込み失敗のいずれが起きても、
+# ここより外側へ例外を伝播させず、可能な限り有効なJSONを返す（最終手段として手組みJSONを使う）。
 function Write-JsonResponse {
   param($Response, [int]$StatusCode, $Obj)
-  $json = $Obj | ConvertTo-Json -Depth 30 -Compress
-  $bytes = [System.Text.Encoding]::UTF8.GetBytes($json)
-  $Response.StatusCode = $StatusCode
-  $Response.ContentType = 'application/json; charset=utf-8'
-  $Response.ContentLength64 = $bytes.Length
-  $Response.OutputStream.Write($bytes, 0, $bytes.Length)
-  $Response.OutputStream.Close()
+
+  $json = $null
+  try {
+    $json = $Obj | ConvertTo-Json -Depth 30 -Compress
+    if ($null -eq $json -or $json -eq '') { throw 'ConvertTo-Json returned empty output.' }
+  } catch {
+    $StatusCode = 500
+    $json = '{"ok":false,"error":"レスポンスの生成に失敗しました: ' + (ConvertTo-SafeJsonString $_.Exception.Message) + '"}'
+  }
+
+  try {
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($json)
+    $Response.StatusCode = $StatusCode
+    $Response.ContentType = 'application/json; charset=utf-8'
+    $Response.ContentLength64 = $bytes.Length
+    $Response.OutputStream.Write($bytes, 0, $bytes.Length)
+  } catch {
+    Write-Host "レスポンス送信に失敗しました: $($_.Exception.Message)"
+  } finally {
+    try { $Response.OutputStream.Close() } catch {}
+  }
 }
 
 function Write-FileResponse {
@@ -444,6 +468,49 @@ function Register-Article {
 
 # --- STEP3: GitHubへPush（data/articles.json への追記・画像保存後のコミット・push） ---
 
+# git をネイティブプロセスとして直接起動し、stdout/stderrを分離して読み取るヘルパー。
+# 「& git ... 2>&1」は使わない：PowerShellはネイティブコマンドのstderr出力を2>&1で
+# 合流させるとErrorRecordとして扱うため、スクリプト先頭の $ErrorActionPreference = 'Stop'
+# の下では、git が成功時に出す通常の警告・進捗出力（例: 改行コード変換の警告、
+# git push が標準で標準エラー出力へ書く進捗サマリなど）でも即座に例外化してしまう。
+# ここでは Process を直接扱い、終了コードのみで成否を判定することでこの問題を避ける。
+function Invoke-Git {
+  param([string[]]$GitArgs, [int]$TimeoutSeconds = 30)
+
+  $psi = New-Object System.Diagnostics.ProcessStartInfo
+  $psi.FileName = 'git'
+  foreach ($a in $GitArgs) { $psi.ArgumentList.Add($a) }
+  $psi.WorkingDirectory = $RepoRoot
+  $psi.RedirectStandardOutput = $true
+  $psi.RedirectStandardError = $true
+  $psi.UseShellExecute = $false
+  $psi.StandardOutputEncoding = [System.Text.Encoding]::UTF8
+  $psi.StandardErrorEncoding = [System.Text.Encoding]::UTF8
+
+  $proc = New-Object System.Diagnostics.Process
+  $proc.StartInfo = $psi
+  [void]$proc.Start()
+
+  # WaitForExitの前に非同期読み取りを開始し、出力バッファ詰まりによるデッドロックを避ける
+  $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
+  $stderrTask = $proc.StandardError.ReadToEndAsync()
+
+  $exited = $proc.WaitForExit([Math]::Max(1, $TimeoutSeconds) * 1000)
+  if (-not $exited) {
+    try { $proc.Kill($true) } catch {}
+    return [ordered]@{ exitCode = -1; stdout = ''; stderr = ''; timedOut = $true }
+  }
+
+  [System.Threading.Tasks.Task]::WaitAll(@($stdoutTask, $stderrTask), 5000) | Out-Null
+
+  return [ordered]@{
+    exitCode = $proc.ExitCode
+    stdout   = [string]$stdoutTask.Result
+    stderr   = [string]$stderrTask.Result
+    timedOut = $false
+  }
+}
+
 # この記事登録（data/articles.json・images/articles/<ID>.png）以外の変更が作業ツリーに
 # 残っている場合は、意図しないファイルを誤ってpushしないよう処理を中止する。
 # articles.json と 画像は履歴の慣例（Update articles.json → Create/Update <ID>.png）に
@@ -455,99 +522,116 @@ function Push-Article {
     throw '記事IDの形式が不正です。'
   }
 
-  Push-Location $RepoRoot
-  try {
-    $articlesRelPath = 'data/articles.json'
-    $imageRelPath = "images/articles/$Id.png"
-    $allowedPaths = @($articlesRelPath, $imageRelPath)
+  $articlesRelPath = 'data/articles.json'
+  $imageRelPath = "images/articles/$Id.png"
+  $allowedPaths = @($articlesRelPath, $imageRelPath)
 
-    $statusRaw = @(& git status --porcelain 2>&1)
-    if ($LASTEXITCODE -ne 0) { throw "git status の取得に失敗しました: $($statusRaw -join "`n")" }
+  $statusResult = Invoke-Git -GitArgs @('status', '--porcelain') -TimeoutSeconds 20
+  if ($statusResult.timedOut) { throw 'git status の取得がタイムアウトしました。' }
+  if ($statusResult.exitCode -ne 0) { throw "git status の取得に失敗しました: $($statusResult.stderr)" }
 
-    $unexpected = @()
-    $relevant = @{}
-    foreach ($line in $statusRaw) {
-      if (-not $line) { continue }
-      $statusCode = $line.Substring(0, 2)
-      $path = $line.Substring(3).Trim()
-      if ($path -match '^(.*) -> (.*)$') { $path = $Matches[2] }
-      $path = $path.Trim('"') -replace '\\', '/'
-      if ($allowedPaths -contains $path) {
-        $relevant[$path] = $statusCode
-      } else {
-        $unexpected += $line
-      }
+  $statusLines = @($statusResult.stdout -split "`r?`n" | Where-Object { $_ -ne '' })
+
+  $unexpected = @()
+  $relevant = @{}
+  foreach ($line in $statusLines) {
+    $statusCode = $line.Substring(0, 2)
+    $path = $line.Substring(3).Trim()
+    if ($path -match '^(.*) -> (.*)$') { $path = $Matches[2] }
+    $path = $path.Trim('"') -replace '\\', '/'
+    if ($allowedPaths -contains $path) {
+      $relevant[$path] = $statusCode
+    } else {
+      $unexpected += $line
     }
+  }
 
-    if ($unexpected.Count -gt 0) {
-      return [ordered]@{
-        ok                = $false
-        error             = 'この記事登録（data/articles.json・該当画像）以外の変更が作業ツリーに見つかったため、Pushを中止しました。内容を確認してください。'
-        unexpectedChanges = $unexpected
-        committed         = $false
-        pushed            = $false
-      }
-    }
-
-    $aheadCount = 0
-    $aheadRaw = @(& git rev-list --count '@{u}..HEAD' 2>&1)
-    if ($LASTEXITCODE -eq 0) { [void][int]::TryParse(($aheadRaw | Select-Object -Last 1), [ref]$aheadCount) }
-
-    if (-not $relevant.ContainsKey($articlesRelPath) -and -not $relevant.ContainsKey($imageRelPath) -and $aheadCount -eq 0) {
-      return [ordered]@{
-        ok        = $false
-        error     = 'Push対象の変更が見つかりませんでした。STEP2（ローカルへ登録）を実行済みか確認してください。'
-        committed = $false
-        pushed    = $false
-      }
-    }
-
-    $commits = @()
-    $committed = $false
-
-    if ($relevant.ContainsKey($articlesRelPath)) {
-      & git add -- $articlesRelPath 2>&1 | Out-Null
-      if ($LASTEXITCODE -ne 0) { throw 'git add (data/articles.json) に失敗しました。' }
-      $commitOut = & git commit -m 'Update articles.json' 2>&1
-      if ($LASTEXITCODE -ne 0) { throw "git commit (data/articles.json) に失敗しました: $($commitOut -join "`n")" }
-      $committed = $true
-      $hash = (& git rev-parse --short HEAD 2>&1)
-      $commits += "Update articles.json ($hash)"
-    }
-
-    if ($relevant.ContainsKey($imageRelPath)) {
-      $verb = if ($relevant[$imageRelPath].Trim() -eq '??') { 'Create' } else { 'Update' }
-      & git add -- $imageRelPath 2>&1 | Out-Null
-      if ($LASTEXITCODE -ne 0) { throw 'git add (画像) に失敗しました。' }
-      $msg = "$verb $Id.png"
-      $commitOut = & git commit -m $msg 2>&1
-      if ($LASTEXITCODE -ne 0) { throw "git commit (画像) に失敗しました: $($commitOut -join "`n")" }
-      $committed = $true
-      $hash = (& git rev-parse --short HEAD 2>&1)
-      $commits += "$msg ($hash)"
-    }
-
-    $pushOut = @(& git push 2>&1)
-    if ($LASTEXITCODE -ne 0) {
-      return [ordered]@{
-        ok         = $false
-        error      = 'コミットは完了しましたが、pushに失敗しました。再度「GitHubへPush」を実行するか、手動で git push を行ってください。'
-        committed  = $committed
-        commits    = $commits
-        pushed     = $false
-        pushOutput = ($pushOut -join "`n")
-      }
-    }
-
+  if ($unexpected.Count -gt 0) {
     return [ordered]@{
-      ok         = $true
-      committed  = $committed
-      pushed     = $true
-      commits    = $commits
-      pushOutput = ($pushOut -join "`n")
+      ok                = $false
+      error             = 'この記事登録（data/articles.json・該当画像）以外の変更が作業ツリーに見つかったため、Pushを中止しました。内容を確認してください。'
+      unexpectedChanges = $unexpected
+      committed         = $false
+      pushed            = $false
     }
-  } finally {
-    Pop-Location
+  }
+
+  $aheadCount = 0
+  $aheadResult = Invoke-Git -GitArgs @('rev-list', '--count', '@{u}..HEAD') -TimeoutSeconds 20
+  if (-not $aheadResult.timedOut -and $aheadResult.exitCode -eq 0) {
+    [void][int]::TryParse($aheadResult.stdout.Trim(), [ref]$aheadCount)
+  }
+
+  if (-not $relevant.ContainsKey($articlesRelPath) -and -not $relevant.ContainsKey($imageRelPath) -and $aheadCount -eq 0) {
+    return [ordered]@{
+      ok        = $false
+      error     = 'Push対象の変更が見つかりませんでした。STEP2（ローカルへ登録）を実行済みか確認してください。'
+      committed = $false
+      pushed    = $false
+    }
+  }
+
+  $commits = @()
+  $committed = $false
+
+  if ($relevant.ContainsKey($articlesRelPath)) {
+    $addResult = Invoke-Git -GitArgs @('add', '--', $articlesRelPath) -TimeoutSeconds 20
+    if ($addResult.timedOut) { throw 'git add (data/articles.json) がタイムアウトしました。' }
+    if ($addResult.exitCode -ne 0) { throw "git add (data/articles.json) に失敗しました: $($addResult.stderr)" }
+
+    $commitResult = Invoke-Git -GitArgs @('commit', '-m', 'Update articles.json') -TimeoutSeconds 20
+    if ($commitResult.timedOut) { throw 'git commit (data/articles.json) がタイムアウトしました。' }
+    if ($commitResult.exitCode -ne 0) { throw "git commit (data/articles.json) に失敗しました: $($commitResult.stdout)$($commitResult.stderr)" }
+    $committed = $true
+
+    $hashResult = Invoke-Git -GitArgs @('rev-parse', '--short', 'HEAD') -TimeoutSeconds 10
+    $commits += "Update articles.json ($($hashResult.stdout.Trim()))"
+  }
+
+  if ($relevant.ContainsKey($imageRelPath)) {
+    $verb = if ($relevant[$imageRelPath].Trim() -eq '??') { 'Create' } else { 'Update' }
+    $addResult = Invoke-Git -GitArgs @('add', '--', $imageRelPath) -TimeoutSeconds 20
+    if ($addResult.timedOut) { throw 'git add (画像) がタイムアウトしました。' }
+    if ($addResult.exitCode -ne 0) { throw "git add (画像) に失敗しました: $($addResult.stderr)" }
+
+    $msg = "$verb $Id.png"
+    $commitResult = Invoke-Git -GitArgs @('commit', '-m', $msg) -TimeoutSeconds 20
+    if ($commitResult.timedOut) { throw 'git commit (画像) がタイムアウトしました。' }
+    if ($commitResult.exitCode -ne 0) { throw "git commit (画像) に失敗しました: $($commitResult.stdout)$($commitResult.stderr)" }
+    $committed = $true
+
+    $hashResult = Invoke-Git -GitArgs @('rev-parse', '--short', 'HEAD') -TimeoutSeconds 10
+    $commits += "$msg ($($hashResult.stdout.Trim()))"
+  }
+
+  $pushResult = Invoke-Git -GitArgs @('push') -TimeoutSeconds 90
+  if ($pushResult.timedOut) {
+    return [ordered]@{
+      ok         = $false
+      error      = 'コミットは完了しましたが、git push が90秒以内に終わらなかったため中断しました（ネットワークまたは認証待ちの可能性があります）。再度「GitHubへPush」を実行するか、手動で git push を行ってください。'
+      committed  = $committed
+      commits    = $commits
+      pushed     = $false
+      pushOutput = ''
+    }
+  }
+  if ($pushResult.exitCode -ne 0) {
+    return [ordered]@{
+      ok         = $false
+      error      = 'コミットは完了しましたが、pushに失敗しました。再度「GitHubへPush」を実行するか、手動で git push を行ってください。'
+      committed  = $committed
+      commits    = $commits
+      pushed     = $false
+      pushOutput = ($pushResult.stdout + $pushResult.stderr)
+    }
+  }
+
+  return [ordered]@{
+    ok         = $true
+    committed  = $committed
+    pushed     = $true
+    commits    = $commits
+    pushOutput = ($pushResult.stdout + $pushResult.stderr)
   }
 }
 
