@@ -209,6 +209,63 @@ function Build-GenerationPrompt {
   return ($lines -join "`n")
 }
 
+# --- Claudeへの依頼文を組み立てる（オリジナル入力: ニュース・トレンド収集を経由しない、ユーザー制作済みプロンプト向け） ---
+function Build-OriginalGenerationPrompt {
+  param($Fields)
+
+  function V($name) {
+    if ($Fields.PSObject.Properties[$name]) { return [string]$Fields.$name }
+    return ''
+  }
+
+  $lines = @()
+  $lines += 'あなたは Tsurara Idea Lab というAI画像生成プロンプト紹介サイトの正式記事を作成するアシスタントです。'
+  $lines += '以下は、ニュース・トレンド収集を経由せず、ユーザーが独自に制作した完成済みのAI画像生成プロンプトです。これをもとに、正式記事データを1件だけ作成してください。'
+  $lines += ''
+  $lines += '# 最重要ルール'
+  $lines += '- 「完成した日本語プロンプト」は promptJa の正本（そのまま採用する原文）として扱ってください。意味・条件・構造を不用意に省略・簡略化・改変しないでください（誤字脱字レベルの整形のみ可）。'
+  $lines += '- 記事タイトル・テーマ、完成した日本語プロンプト、補足情報に無い事実（ニュース・トレンド・流行情報など）を新たに作らないでください。'
+  $lines += '- 存在しないニュースソースや情報源URLを作らないでください。sourceUrlに相当する情報は出力に含めないでください（ツール側で空文字として扱います）。'
+  $lines += '- 【制作引き継ぎ AIIxxxxx】のような制作引き継ぎIDを生成しないでください。'
+  $lines += '- 正式記事IDはこの段階では採番しません。出力にidフィールドは含めないでください（ツール側で別途採番します）。'
+  $lines += ''
+  $lines += '# カテゴリ判定'
+  $lines += '- カテゴリは以下7種類から、内容の主目的に最も合うものを1つだけ判定してください。カメラ・構図・ライティング・画風・エフェクト・演出などが含まれていても、機械的にVISへ固定しないでください。衣装やアイテム、ポーズが主目的ならそちらを優先してください。'
+  $lines += '  - FAS: ファッション（衣装・スタイル全般）'
+  $lines += '  - JOB: 職業（コスチューム含む職業モチーフ）'
+  $lines += '  - PNF: ポーズ・表情'
+  $lines += '  - VIS: ビジュアル演出（カメラ・構図・ライティング・画風・エフェクト・映像演出が主目的の場合）'
+  $lines += '  - SSN: 季節（季節・イベント）'
+  $lines += '  - ORI: オリジナル企画'
+  $lines += '  - ITM: アイテム（小物・装飾品など）'
+  $lines += '- 判定理由を categoryReason に1〜2文で必ず記入してください。'
+  $lines += ''
+  $lines += '# 出力フィールドの作成方針'
+  $lines += '- title/summary/trendElements/useCases/notes/noteTitle は日本語、titleEn/summaryEn/trendElementsEn/useCasesEn/notesEn/noteTitleEn は英語で、両方とも必ず作成してください（英語は日本語の機械的な直訳ではなく、内容が対応する自然な英語にしてください）。'
+  $lines += '- title/titleEn は、入力された「記事タイトル・テーマ」を土台に、記事として適切な形へ整えてください（テーマ程度の簡潔な入力であっても、完成した日本語プロンプトの内容から自然なタイトルへ整形してください）。'
+  $lines += '- trendElements/trendElementsEn は、説明文ではなく「タグとして使える短い要素」にしてください。1件あたり短い名詞句または単文とし、3〜5件程度に厳選してください。trendElements と trendElementsEn は件数・順序・意味を対応させてください。summary/notes等、他のフィールドはこの短文化ルールの対象外です。'
+  $lines += '- promptJa には、下記の「完成した日本語プロンプト」の内容をそのまま採用してください（正本のため書き換えないこと）。promptEn は、その内容から対応関係を保った自然な英語プロンプトとして作成してください。'
+  $lines += '- noteTitle/noteTitleEn は「画像生成メモ」に類する見出しにしてください。notes/notesEn には、完成した日本語プロンプトと補足情報から、実際に使う際に役立つ具体的なメモを箇条書きで数点入れてください。'
+  $lines += ''
+  $lines += '# 入力情報'
+  $lines += ('記事タイトル・テーマ: ' + (V 'theme'))
+  $lines += ''
+  $lines += '完成した日本語プロンプト:'
+  $lines += (V 'promptJa')
+  $supplementalNotes = V 'supplementalNotes'
+  if ($supplementalNotes) {
+    $lines += ''
+    $lines += '補足情報:'
+    $lines += $supplementalNotes
+  }
+  $lines += ''
+  $lines += '# 出力形式'
+  $lines += '- 指定されたJSON Schemaに従い、フィールドを過不足なく埋めてください。'
+  $lines += '- 配列項目は必ずJSONの配列にしてください（文字列を1つに連結したものにしないでください）。'
+
+  return ($lines -join "`n")
+}
+
 # --- claude CLI をヘッドレスモードで呼び出す ---
 function Invoke-ClaudeGenerate {
   param([string]$PromptText)
@@ -682,7 +739,8 @@ try {
 
         $fields = $bodyText | ConvertFrom-Json
 
-        $promptText = Build-GenerationPrompt $fields
+        $mode = if ($fields.PSObject.Properties['mode']) { [string]$fields.mode } else { 'handoff' }
+        $promptText = if ($mode -eq 'original') { Build-OriginalGenerationPrompt $fields } else { Build-GenerationPrompt $fields }
         $generated = Invoke-ClaudeGenerate $promptText
 
         $cat = [string]$generated.category

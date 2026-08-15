@@ -20,8 +20,15 @@
 
   <main class="pub-main">
 
-    <section class="flow-section" aria-label="AII制作引き継ぎ情報の入力" id="inputSection">
-      <h2>1. AII制作引き継ぎ情報を入力</h2>
+    <section class="flow-section" aria-label="記事のもとになる情報を入力" id="inputSection">
+      <h2>1. 記事のもとになる情報を入力</h2>
+
+      <div class="input-mode-tabs" id="inputModeTabs" role="tablist" aria-label="入力方式">
+        <button type="button" class="input-mode-tab is-active" data-mode="handoff" role="tab" aria-selected="true" id="inputModeTabHandoff">制作引き継ぎ</button>
+        <button type="button" class="input-mode-tab" data-mode="original" role="tab" aria-selected="false" id="inputModeTabOriginal">オリジナル</button>
+      </div>
+
+      <div class="input-mode-panel" id="handoffPanel" data-mode-panel="handoff">
       <p class="section-desc">
         【制作引き継ぎ AIIxxxxx】の内容を、対応する項目に入力してください。記事の事実関係はこのテキスト項目のみを根拠に作成されます（サンプル画像は見た目の参考用で、事実情報の根拠にはしません）。
       </p>
@@ -177,6 +184,39 @@
           <span class="generate-status" id="generateStatus"></span>
         </div>
       </form>
+      </div>
+
+      <div class="input-mode-panel" id="originalPanel" data-mode-panel="original" hidden>
+        <p class="section-desc">
+          ニュース・トレンド収集を経由せず、ChatGPTとの相談などによってすでに直接制作した完成済みのAI画像生成プロンプトを記事化する場合はこちらを使用してください。AII/FASのような制作引き継ぎIDは不要です（架空のIDは生成されません）。
+        </p>
+
+        <form id="originalForm">
+          <fieldset class="form-fieldset">
+            <legend>オリジナル入力</legend>
+
+            <label class="form-field">
+              <span class="form-label">記事タイトル・テーマ <span class="required-mark">必須</span></span>
+              <input type="text" id="fieldOriginalTheme" required placeholder="例：天気付きキャラクターポストカード">
+            </label>
+
+            <label class="form-field">
+              <span class="form-label">完成した日本語プロンプト <span class="required-mark">必須</span></span>
+              <textarea id="fieldOriginalPromptJa" rows="8" required placeholder="すでに完成しているAI画像生成用プロンプトをそのまま貼り付けてください（意味・条件は保ったまま記事化します）"></textarea>
+            </label>
+
+            <label class="form-field">
+              <span class="form-label">補足情報 <span class="optional-mark">任意</span></span>
+              <textarea id="fieldOriginalNotes" rows="4" placeholder="目的・特徴・使いどころ・前提条件・注意事項・添付画像の使い方・想定用途など、自由に記述してください"></textarea>
+            </label>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="button" class="primary-button" id="generateOriginalButton">Claudeで記事を作成</button>
+            <span class="generate-status" id="generateOriginalStatus"></span>
+          </div>
+        </form>
+      </div>
     </section>
 
     <section class="flow-section" aria-label="生成結果" id="resultSection" hidden>

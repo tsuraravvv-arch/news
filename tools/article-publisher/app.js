@@ -42,6 +42,19 @@
   var generateButton = document.getElementById('generateButton');
   var generateStatus = document.getElementById('generateStatus');
 
+  // --- DOM参照: 入力方式タブ（制作引き継ぎ／オリジナル） ---
+  var inputModeTabs = document.getElementById('inputModeTabs');
+  var handoffPanel = document.getElementById('handoffPanel');
+  var originalPanel = document.getElementById('originalPanel');
+
+  // --- DOM参照: オリジナル入力フォーム ---
+  var originalForm = document.getElementById('originalForm');
+  var fieldOriginalTheme = document.getElementById('fieldOriginalTheme');
+  var fieldOriginalPromptJa = document.getElementById('fieldOriginalPromptJa');
+  var fieldOriginalNotes = document.getElementById('fieldOriginalNotes');
+  var generateOriginalButton = document.getElementById('generateOriginalButton');
+  var generateOriginalStatus = document.getElementById('generateOriginalStatus');
+
   // --- DOM参照: サンプル画像 ---
   var sampleImageDropZone = document.getElementById('sampleImageDropZone');
   var sampleImageInput = document.getElementById('sampleImageInput');
@@ -114,6 +127,7 @@
   var pushReport = document.getElementById('pushReport');
 
   // --- 状態 ---
+  var inputMode = 'handoff'; // 'handoff' | 'original'（記事JSON生成後の処理はモードによらず共通）
   var maxNumByPrefix = {};
   var existingIds = new Set();
   var dataLoadState = 'loading';
@@ -349,6 +363,24 @@
     });
   });
 
+  // --- 入力方式タブの切り替え（表示の出し分けのみ。各パネルの入力内容はDOM上に残るため保持される） ---
+  function setInputMode(mode) {
+    inputMode = mode === 'original' ? 'original' : 'handoff';
+    handoffPanel.hidden = inputMode !== 'handoff';
+    originalPanel.hidden = inputMode !== 'original';
+    Array.prototype.forEach.call(inputModeTabs.querySelectorAll('.input-mode-tab'), function (tab) {
+      var isActive = tab.getAttribute('data-mode') === inputMode;
+      tab.classList.toggle('is-active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  }
+
+  inputModeTabs.addEventListener('click', function (event) {
+    var tab = event.target.closest ? event.target.closest('.input-mode-tab') : null;
+    if (!tab) return;
+    setInputMode(tab.getAttribute('data-mode'));
+  });
+
   // --- 制作引き継ぎ全文の貼り付け解析 ---
   // 【制作引き継ぎ AIIxxxxx】の各ラベル行を検出し、次のラベル行が現れるまでを値として取り込む。
   // 未対応の書式（ラベル文言の変更・欠落など）があっても、見つかった項目だけを反映し例外にはしない。
@@ -455,6 +487,7 @@
   // --- 「Claudeで記事を作成」 ---
   function collectInputFields() {
     return {
+      mode: 'handoff',
       aiiId: fieldAiiId.value.trim(),
       categoryOverride: fieldCategoryOverride.value,
       newsTitle: fieldNewsTitle.value.trim(),
@@ -476,7 +509,18 @@
     };
   }
 
-  function applyGeneratedArticle(payload) {
+  function collectOriginalFields() {
+    return {
+      mode: 'original',
+      theme: fieldOriginalTheme.value.trim(),
+      promptJa: fieldOriginalPromptJa.value.trim(),
+      supplementalNotes: fieldOriginalNotes.value.trim()
+    };
+  }
+
+  // sourceUrlOverride省略時は制作引き継ぎ側のsourceUrl欄を使用する（従来どおりの挙動）。
+  // オリジナル側には情報源URL欄が無いため、呼び出し側から空文字を明示的に渡す。
+  function applyGeneratedArticle(payload, sourceUrlOverride) {
     var article = payload.article || {};
     var category = article.category && CATEGORY_NAMES[article.category] ? article.category : '';
 
@@ -509,7 +553,7 @@
     fieldNoteTitleEn.value = article.noteTitleEn || '';
     fieldNotes.value = arrayToLines(article.notes);
     fieldNotesEn.value = arrayToLines(article.notesEn);
-    fieldSourceUrlFinal.value = fieldSourceUrl.value.trim();
+    fieldSourceUrlFinal.value = sourceUrlOverride === undefined ? fieldSourceUrl.value.trim() : sourceUrlOverride;
 
     // 採用判断用サンプル画像と最終公開画像は明確に分離するため、ここでは自動コピーしない。
     // 最終公開画像は、この後ユーザーが明示的にアップロードするか「サンプル画像を使う」ボタンで反映する。
@@ -558,6 +602,45 @@
       })
       .finally(function () {
         generateButton.disabled = false;
+      });
+  });
+
+  generateOriginalButton.addEventListener('click', function () {
+    if (!originalForm.reportValidity()) return;
+    if (dataLoadState !== 'ok') {
+      generateOriginalStatus.textContent = 'サーバーに接続できていないため生成できません。上部の接続状況を確認してください。';
+      generateOriginalStatus.className = 'generate-status is-error';
+      return;
+    }
+
+    generateOriginalButton.disabled = true;
+    generateOriginalStatus.textContent = 'Claudeが記事を作成しています…（数十秒かかる場合があります）';
+    generateOriginalStatus.className = 'generate-status is-loading';
+
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(collectOriginalFields())
+    })
+      .then(function (response) {
+        return response.json().then(function (payload) {
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload && payload.error ? payload.error : ('HTTPステータス: ' + response.status));
+          }
+          return payload;
+        });
+      })
+      .then(function (payload) {
+        applyGeneratedArticle(payload, '');
+        generateOriginalStatus.textContent = '生成が完了しました。内容を確認してください。';
+        generateOriginalStatus.className = 'generate-status is-ok';
+      })
+      .catch(function (error) {
+        generateOriginalStatus.textContent = '生成に失敗しました: ' + (error && error.message ? error.message : String(error));
+        generateOriginalStatus.className = 'generate-status is-error';
+      })
+      .finally(function () {
+        generateOriginalButton.disabled = false;
       });
   });
 
