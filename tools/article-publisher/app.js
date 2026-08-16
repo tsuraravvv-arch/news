@@ -713,9 +713,14 @@
       ? '判定理由: ' + article.categoryReason
       : '';
 
-    var candidateId = computeIdCandidate(fieldCategory.value);
-    fieldId.value = candidateId;
-    lastAutoId = candidateId;
+    // 既にこの編集セッションでIDが割り当てられている場合はそのまま維持し、再生成のたびに次の連番へ
+    // 進めない（同じ記事IDへ何度でもローカル登録できるようにするため）。IDを付け直したい場合は
+    // 「ID再採番」ボタンを明示的に押してもらう。
+    if (!fieldId.value.trim()) {
+      var candidateId = computeIdCandidate(fieldCategory.value);
+      fieldId.value = candidateId;
+      lastAutoId = candidateId;
+    }
 
     var now = new Date();
     fieldDatetimeDate.value = formatDateInput(now);
@@ -1227,6 +1232,11 @@
   }
 
   function performRegister() {
+    // 登録の正本は、過去にキャッシュしたlastGeneratedJsonではなく、実行時点の結果フォームの内容そのもの。
+    // これにより「Claudeで記事を作成」を再実行しなくても、フォームを直接編集してからの再登録が常に
+    // 最新の編集内容を反映する（lastGeneratedJsonはコピー機能等の表示用にのみ残す）。
+    var articleJson = JSON.stringify(buildArticle(), null, 2);
+
     registerButton.disabled = true;
     registerStatus.textContent = '登録処理を実行しています…';
     registerStatus.className = 'generate-status is-loading';
@@ -1234,7 +1244,7 @@
     fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ articleJson: lastGeneratedJson, imageDataUrl: finalImageDataUrl || null })
+      body: JSON.stringify({ articleJson: articleJson, imageDataUrl: finalImageDataUrl || null })
     })
       .then(function (response) {
         return parseJsonResponseSafely(response).then(function (payload) {
