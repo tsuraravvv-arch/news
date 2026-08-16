@@ -197,6 +197,21 @@ function isNewArticle(article) {
   return diff >= 0 && diff <= 24 * 60 * 60 * 1000;
 }
 
+function parseArticleDateValue(value) {
+  if (!value) return NaN;
+  const normalized = String(value).replace(' ', 'T').replace(/\//g, '-');
+  const time = new Date(normalized).getTime();
+  return Number.isNaN(time) ? NaN : time;
+}
+
+function articleSortValue(article) {
+  const published = parseArticleDateValue(article.publishedAt);
+  if (!Number.isNaN(published)) return published;
+  const datetime = parseArticleDateValue(article.datetime);
+  if (!Number.isNaN(datetime)) return datetime;
+  return -Infinity;
+}
+
 function getField(article, base) {
   if (currentLang === 'en') {
     const enKey = `${base}En`;
@@ -330,7 +345,9 @@ function renderCard(article) {
 }
 
 function render() {
-  filteredArticles = articles.filter((article) => matchesFilter(article) && matchesQuery(article));
+  filteredArticles = articles
+    .filter((article) => matchesFilter(article) && matchesQuery(article))
+    .sort((a, b) => articleSortValue(b) - articleSortValue(a));
   resultCount.textContent = typeof text('count') === 'function' ? text('count')(filteredArticles.length) : `${filteredArticles.length}`;
   if (!filteredArticles.length) {
     cardsGrid.innerHTML = `<div class="empty-state"><h2>${escapeHtml(text('noResults'))}</h2></div>`;
