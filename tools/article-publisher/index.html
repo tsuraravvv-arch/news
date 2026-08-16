@@ -315,7 +315,7 @@
     <section class="flow-section" aria-label="生成結果" id="resultSection" hidden>
       <h2>2. 生成結果の確認・調整</h2>
       <p class="section-desc">
-        Claudeが作成した内容です。登録前に内容を確認し、必要であれば直接編集してください（この画面での編集はプレビューと最終JSONにすぐ反映されます）。日本語を正本として編集してください。英語版（titleEn等）は自動生成されており、通常は確認不要です。日本語を変更すると、対応する英語版は「ローカルへ登録」実行時に自動的に再同期されます。
+        Claudeが作成した内容です。登録前に内容を確認し、必要であれば直接編集してください（この画面での編集はプレビューと最終JSONにすぐ反映されます）。日本語を正本として編集してください。英語版（titleEn等）は自動生成されており、通常は確認不要です。必要な場合は下部の「英語版を確認・編集」で内容を確認・編集できます。日本語を変更すると、対応する英語版は「ローカルへ登録」実行時に自動的に再同期されます。
       </p>
       <p class="field-hint" id="enSyncStatus">英語版は日本語最新版と同期済みです。</p>
 
@@ -340,20 +340,13 @@
 
           <details class="form-fieldset foldable-section" open>
             <summary>本番プロンプト</summary>
-            <p class="field-hint">「本番プロンプトをコピー→外部で画像生成→上の最終公開画像を差し替え」という流れで使用します。</p>
-            <div class="bilingual-grid">
-              <label class="form-field">
-                <span class="form-label">promptJa</span>
-                <textarea id="fieldPromptJa" rows="6"></textarea>
-              </label>
-              <label class="form-field">
-                <span class="form-label">promptEn</span>
-                <textarea id="fieldPromptEn" rows="6"></textarea>
-              </label>
-            </div>
+            <p class="field-hint">「本番プロンプトをコピー→外部で画像生成→上の最終公開画像を差し替え」という流れで使用します。英語版は下部の「英語版を確認・編集」で確認・編集できます。</p>
+            <label class="form-field">
+              <span class="form-label">promptJa</span>
+              <textarea id="fieldPromptJa" rows="6"></textarea>
+            </label>
             <div class="section-actions">
               <button type="button" class="side-button" id="copyPromptJaButton">日本語プロンプトをコピー</button>
-              <button type="button" class="side-button" id="copyPromptEnButton">英語プロンプトをコピー</button>
             </div>
           </details>
 
@@ -405,74 +398,38 @@
 
           <details class="form-fieldset foldable-section">
             <summary>タイトル・概要</summary>
-            <div class="bilingual-grid">
-              <label class="form-field">
-                <span class="form-label">title</span>
-                <input type="text" id="fieldTitle">
-              </label>
-              <label class="form-field">
-                <span class="form-label">titleEn</span>
-                <input type="text" id="fieldTitleEn">
-              </label>
-            </div>
-            <div class="bilingual-grid">
-              <label class="form-field">
-                <span class="form-label">summary</span>
-                <textarea id="fieldSummary" rows="3"></textarea>
-              </label>
-              <label class="form-field">
-                <span class="form-label">summaryEn</span>
-                <textarea id="fieldSummaryEn" rows="3"></textarea>
-              </label>
-            </div>
+            <label class="form-field">
+              <span class="form-label">title</span>
+              <input type="text" id="fieldTitle">
+            </label>
+            <label class="form-field">
+              <span class="form-label">summary</span>
+              <textarea id="fieldSummary" rows="3"></textarea>
+            </label>
           </details>
 
           <details class="form-fieldset foldable-section">
             <summary>トレンド要素・使いどころ（1行1要素）</summary>
-            <div class="bilingual-grid">
-              <label class="form-field">
-                <span class="form-label">trendElements</span>
-                <textarea id="fieldTrendElements" rows="4"></textarea>
-              </label>
-              <label class="form-field">
-                <span class="form-label">trendElementsEn</span>
-                <textarea id="fieldTrendElementsEn" rows="4"></textarea>
-              </label>
-            </div>
-            <div class="bilingual-grid">
-              <label class="form-field">
-                <span class="form-label">useCases</span>
-                <textarea id="fieldUseCases" rows="4"></textarea>
-              </label>
-              <label class="form-field">
-                <span class="form-label">useCasesEn</span>
-                <textarea id="fieldUseCasesEn" rows="4"></textarea>
-              </label>
-            </div>
+            <label class="form-field">
+              <span class="form-label">trendElements</span>
+              <textarea id="fieldTrendElements" rows="4"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">useCases</span>
+              <textarea id="fieldUseCases" rows="4"></textarea>
+            </label>
           </details>
 
           <details class="form-fieldset foldable-section">
             <summary>メモ</summary>
-            <div class="bilingual-grid">
-              <label class="form-field">
-                <span class="form-label">noteTitle</span>
-                <input type="text" id="fieldNoteTitle">
-              </label>
-              <label class="form-field">
-                <span class="form-label">noteTitleEn</span>
-                <input type="text" id="fieldNoteTitleEn">
-              </label>
-            </div>
-            <div class="bilingual-grid">
-              <label class="form-field">
-                <span class="form-label">notes（1行1要素）</span>
-                <textarea id="fieldNotes" rows="4"></textarea>
-              </label>
-              <label class="form-field">
-                <span class="form-label">notesEn（1行1要素）</span>
-                <textarea id="fieldNotesEn" rows="4"></textarea>
-              </label>
-            </div>
+            <label class="form-field">
+              <span class="form-label">noteTitle</span>
+              <input type="text" id="fieldNoteTitle">
+            </label>
+            <label class="form-field">
+              <span class="form-label">notes（1行1要素）</span>
+              <textarea id="fieldNotes" rows="4"></textarea>
+            </label>
           </details>
 
           <details class="form-fieldset foldable-section">
@@ -480,6 +437,42 @@
             <label class="form-field">
               <span class="form-label">sourceUrl</span>
               <input type="text" id="fieldSourceUrlFinal">
+            </label>
+          </details>
+
+          <details class="form-fieldset foldable-section" id="enFieldsSection">
+            <summary>英語版を確認・編集</summary>
+            <p class="field-hint">英語版は日本語から自動生成されます。通常は確認不要ですが、必要であればここで内容を確認・手動編集できます（手動編集した内容は、対応する日本語が変更されるまで保持されます）。</p>
+            <label class="form-field">
+              <span class="form-label">titleEn</span>
+              <input type="text" id="fieldTitleEn">
+            </label>
+            <label class="form-field">
+              <span class="form-label">summaryEn</span>
+              <textarea id="fieldSummaryEn" rows="3"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">trendElementsEn</span>
+              <textarea id="fieldTrendElementsEn" rows="4"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">useCasesEn</span>
+              <textarea id="fieldUseCasesEn" rows="4"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">promptEn</span>
+              <textarea id="fieldPromptEn" rows="6"></textarea>
+            </label>
+            <div class="section-actions">
+              <button type="button" class="side-button" id="copyPromptEnButton">英語プロンプトをコピー</button>
+            </div>
+            <label class="form-field">
+              <span class="form-label">noteTitleEn</span>
+              <input type="text" id="fieldNoteTitleEn">
+            </label>
+            <label class="form-field">
+              <span class="form-label">notesEn（1行1要素）</span>
+              <textarea id="fieldNotesEn" rows="4"></textarea>
             </label>
           </details>
         </div>
