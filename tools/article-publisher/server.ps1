@@ -337,9 +337,102 @@ function Build-CriGenerationPrompt {
   return ($lines -join "`n")
 }
 
+# --- 日英同期（日本語を正本として、変更のあった日英ペアだけを再同期する）で使うJA→EN対応表 ---
+# AII/CRI/オリジナルいずれの生成結果に対しても共通で使用する（入力元別の生成ロジックは変更しない）。
+$EnSyncFieldMap = [ordered]@{
+  title          = @{ enKey = 'titleEn';          isArray = $false }
+  summary        = @{ enKey = 'summaryEn';        isArray = $false }
+  trendElements  = @{ enKey = 'trendElementsEn';  isArray = $true }
+  useCases       = @{ enKey = 'useCasesEn';       isArray = $true }
+  promptJa       = @{ enKey = 'promptEn';         isArray = $false }
+  noteTitle      = @{ enKey = 'noteTitleEn';      isArray = $false }
+  notes          = @{ enKey = 'notesEn';          isArray = $true }
+}
+
+# --- 日英同期用のJSON Schemaを動的に組み立てる（dirtyなペアに対応する英語フィールドのみを要求する） ---
+function Build-EnSyncSchema {
+  param([string[]]$DirtyPairs)
+
+  $properties = [ordered]@{}
+  $required = @()
+  foreach ($pair in $DirtyPairs) {
+    if (-not $EnSyncFieldMap.Contains($pair)) { continue }
+    $enKey = $EnSyncFieldMap[$pair].enKey
+    if ($EnSyncFieldMap[$pair].isArray) {
+      $properties[$enKey] = @{ type = 'array'; items = @{ type = 'string' } }
+    } else {
+      $properties[$enKey] = @{ type = 'string' }
+    }
+    $required += $enKey
+  }
+
+  $schemaObj = [ordered]@{
+    type                 = 'object'
+    properties           = $properties
+    required             = $required
+    additionalProperties = $false
+  }
+
+  return ($schemaObj | ConvertTo-Json -Depth 10 -Compress)
+}
+
+# --- 日英同期用のClaude依頼文を組み立てる ---
+# 現在確定している日本語の内容（正本）を渡し、指定された英語フィールドだけを更新させる。
+# 記事全体の再生成は行わない（idやカテゴリなど、日英同期に無関係なフィールドは扱わない）。
+function Build-EnSyncPrompt {
+  param($Fields, [string[]]$DirtyPairs)
+
+  function V($name) {
+    if ($Fields.PSObject.Properties[$name]) { return [string]$Fields.$name }
+    return ''
+  }
+
+  function VLines($name) {
+    if (-not $Fields.PSObject.Properties[$name]) { return '' }
+    $value = $Fields.$name
+    if ($value -is [array]) { return ($value -join "`n") }
+    return [string]$value
+  }
+
+  $requestedEnFields = $DirtyPairs | Where-Object { $EnSyncFieldMap.Contains($_) } | ForEach-Object { $EnSyncFieldMap[$_].enKey }
+
+  $lines = @()
+  $lines += 'あなたは Tsurara Idea Lab というAI画像生成プロンプト紹介サイトの正式記事を作成するアシスタントです。'
+  $lines += '以下は、ユーザーが確認・確定した最新の日本語記事内容（正本）です。この日本語をもとに、指定された英語フィールドだけを更新してください。'
+  $lines += ''
+  $lines += '# 最重要ルール'
+  $lines += '- 出力するのは、下記「更新が必要な英語フィールド」に列挙されたフィールドのみです。それ以外のフィールドは出力しないでください。'
+  $lines += '- 単純な機械翻訳ではなく、記事表現として自然な英語にしてください。promptEnを更新する場合は、promptJaの意味を保ちながら英語の画像生成AIでそのまま使える自然なプロンプトにしてください。'
+  $lines += '- 日本語に無い要素を新たに追加しないでください。日本語から削除された要素を英語側で復活させないでください。'
+  $lines += '- trendElementsEn/useCasesEn/notesEn を更新する場合は、対応する日本語配列と件数・順序・意味を1件ずつ対応させてください（要約・統合・分割はしないでください）。'
+  $lines += ''
+  $lines += '# 現在の日本語記事内容（正本）'
+  $lines += ('title: ' + (V 'title'))
+  $lines += ('summary: ' + (V 'summary'))
+  $lines += 'trendElements:'
+  $lines += (VLines 'trendElements')
+  $lines += 'useCases:'
+  $lines += (VLines 'useCases')
+  $lines += 'promptJa:'
+  $lines += (V 'promptJa')
+  $lines += ('noteTitle: ' + (V 'noteTitle'))
+  $lines += 'notes:'
+  $lines += (VLines 'notes')
+  $lines += ''
+  $lines += '# 更新が必要な英語フィールド'
+  $lines += ($requestedEnFields -join ', ')
+  $lines += ''
+  $lines += '# 出力形式'
+  $lines += '- 指定されたJSON Schemaに従い、上記フィールドのみを過不足なく埋めてください。'
+  $lines += '- 配列項目は必ずJSONの配列にしてください（文字列を1つに連結したものにしないでください）。'
+
+  return ($lines -join "`n")
+}
+
 # --- claude CLI をヘッドレスモードで呼び出す ---
+# $Schema省略時は既存の記事生成用スキーマ（$ArticleJsonSchema）を使用する（既存呼び出し元の挙動は変わらない）。
 function Invoke-ClaudeGenerate {
-  param([string]$PromptText)
+  param([string]$PromptText, [string]$Schema = $ArticleJsonSchema)
 
   $psi = New-Object System.Diagnostics.ProcessStartInfo
   $psi.FileName = 'claude'
@@ -348,7 +441,7 @@ function Invoke-ClaudeGenerate {
   $psi.ArgumentList.Add('--output-format')
   $psi.ArgumentList.Add('json')
   $psi.ArgumentList.Add('--json-schema')
-  $psi.ArgumentList.Add($ArticleJsonSchema)
+  $psi.ArgumentList.Add($Schema)
   $psi.ArgumentList.Add('--disallowedTools')
   $psi.ArgumentList.Add('Bash,Read,Write,Edit,WebFetch,WebSearch,Glob,Grep,Task')
   $psi.WorkingDirectory = $RepoRoot
@@ -829,6 +922,28 @@ try {
           article         = $generated
           categoryLabel   = $labelJa
           categoryLabelEn = $labelEn
+        }
+      }
+      elseif ($request.HttpMethod -eq 'POST' -and $request.Url.AbsolutePath -eq '/api/sync-en') {
+        # 日英同期：日本語を正本として、変更のあった日英ペアだけを再同期する（STEP2の登録処理自体には触れない）。
+        $reader = New-Object System.IO.StreamReader($request.InputStream, [System.Text.Encoding]::UTF8)
+        $bodyText = $reader.ReadToEnd()
+        $reader.Close()
+
+        $body = $bodyText | ConvertFrom-Json
+        $dirtyPairs = @()
+        if ($body.PSObject.Properties['dirtyPairs']) {
+          $dirtyPairs = @($body.dirtyPairs | ForEach-Object { [string]$_ } | Where-Object { $_ })
+        }
+
+        if ($dirtyPairs.Count -eq 0) {
+          Write-JsonResponse $response 400 @{ ok = $false; error = '同期対象のフィールドが指定されていません。' }
+        } else {
+          $promptText = Build-EnSyncPrompt -Fields $body.ja -DirtyPairs $dirtyPairs
+          $schema = Build-EnSyncSchema -DirtyPairs $dirtyPairs
+          $generated = Invoke-ClaudeGenerate -PromptText $promptText -Schema $schema
+
+          Write-JsonResponse $response 200 @{ ok = $true; en = $generated }
         }
       }
       elseif ($request.HttpMethod -eq 'POST' -and $request.Url.AbsolutePath -eq '/api/register') {

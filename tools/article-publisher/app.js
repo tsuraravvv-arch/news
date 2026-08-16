@@ -127,6 +127,8 @@
   var useSampleAsFinalButton = document.getElementById('useSampleAsFinalButton');
   var clearFinalImageButton = document.getElementById('clearFinalImageButton');
 
+  var enSyncStatus = document.getElementById('enSyncStatus');
+
   var previewCard = document.getElementById('previewCard');
   var jsonOutput = document.getElementById('jsonOutput');
   var copyObjectButton = document.getElementById('copyObjectButton');
@@ -159,6 +161,11 @@
   var finalImageDataUrl = '';
   var lastGeneratedJson = '';
   var lastRegisteredArticle = null;
+  // 日英同期の状態（キーはJA側フィールド名）。true = JAが変更され、対応するENの再同期が必要。
+  var enPairDirty = {
+    title: false, summary: false, trendElements: false, useCases: false,
+    promptJa: false, noteTitle: false, notes: false
+  };
 
   // --- ユーティリティ ---
   function escapeHtml(value) {
@@ -720,6 +727,10 @@
     // 採用判断用サンプル画像と最終公開画像は明確に分離するため、ここでは自動コピーしない。
     // 最終公開画像は、この後ユーザーが明示的にアップロードするか「サンプル画像を使う」ボタンで反映する。
 
+    // 生成直後はJA/ENが対で揃っているため、日英同期の未同期状態をリセットする。
+    Object.keys(enPairDirty).forEach(function (key) { enPairDirty[key] = false; });
+    updateEnSyncStatusDisplay();
+
     resultSection.hidden = false;
     registerSection.hidden = false;
     registerReport.innerHTML = '';
@@ -1058,6 +1069,68 @@
     copyText(buildAppendSnippet(lastGeneratedJson), copyForAppendButton);
   });
 
+  // --- 日英同期（日本語を正本とし、変更のあった日英ペアだけを登録前に再同期する） ---
+  // キーはJA側フィールド名。AII/CRI/オリジナルいずれの生成結果にも共通で適用される。
+  var EN_SYNC_PAIRS = {
+    title: { jaEl: fieldTitle, enEl: fieldTitleEn, enKey: 'titleEn', isArray: false },
+    summary: { jaEl: fieldSummary, enEl: fieldSummaryEn, enKey: 'summaryEn', isArray: false },
+    trendElements: { jaEl: fieldTrendElements, enEl: fieldTrendElementsEn, enKey: 'trendElementsEn', isArray: true },
+    useCases: { jaEl: fieldUseCases, enEl: fieldUseCasesEn, enKey: 'useCasesEn', isArray: true },
+    promptJa: { jaEl: fieldPromptJa, enEl: fieldPromptEn, enKey: 'promptEn', isArray: false },
+    noteTitle: { jaEl: fieldNoteTitle, enEl: fieldNoteTitleEn, enKey: 'noteTitleEn', isArray: false },
+    notes: { jaEl: fieldNotes, enEl: fieldNotesEn, enKey: 'notesEn', isArray: true }
+  };
+
+  Object.keys(EN_SYNC_PAIRS).forEach(function (key) {
+    EN_SYNC_PAIRS[key].jaEl.addEventListener('input', function () {
+      if (!enPairDirty[key]) {
+        enPairDirty[key] = true;
+        updateEnSyncStatusDisplay();
+      }
+    });
+  });
+
+  function collectDirtyPairs() {
+    return Object.keys(EN_SYNC_PAIRS).filter(function (key) { return enPairDirty[key]; });
+  }
+
+  function updateEnSyncStatusDisplay() {
+    if (!enSyncStatus) return;
+    var dirtyCount = collectDirtyPairs().length;
+    if (dirtyCount === 0) {
+      enSyncStatus.textContent = '英語版は日本語最新版と同期済みです。';
+    } else {
+      enSyncStatus.textContent = '日本語が変更されています（' + dirtyCount + '項目）。英語版は登録時に自動更新されます。';
+    }
+  }
+
+  function collectJaSyncPayload() {
+    return {
+      title: fieldTitle.value.trim(),
+      summary: fieldSummary.value.trim(),
+      trendElements: linesToArray(fieldTrendElements.value),
+      useCases: linesToArray(fieldUseCases.value),
+      promptJa: fieldPromptJa.value.trim(),
+      noteTitle: fieldNoteTitle.value.trim(),
+      notes: linesToArray(fieldNotes.value)
+    };
+  }
+
+  // 同期に成功したペアだけEN側フィールドへ反映し、dirty状態を解除する。
+  // レスポンスに含まれないペアには触れないため、同期対象外のENフィールド（手動編集分を含む）はそのまま保持される。
+  function applyEnSyncResult(enPayload) {
+    var payload = enPayload || {};
+    Object.keys(EN_SYNC_PAIRS).forEach(function (key) {
+      var pair = EN_SYNC_PAIRS[key];
+      if (!enPairDirty[key]) return;
+      if (!Object.prototype.hasOwnProperty.call(payload, pair.enKey)) return;
+      pair.enEl.value = pair.isArray ? arrayToLines(payload[pair.enKey]) : String(payload[pair.enKey] || '');
+      enPairDirty[key] = false;
+    });
+    updateEnSyncStatusDisplay();
+    renderAll();
+  }
+
   // --- STEP2: ローカルへ登録 ---
   function checkListItem(label, passed) {
     if (passed === null || passed === undefined) {
@@ -1122,23 +1195,7 @@
     registerReport.innerHTML = html;
   }
 
-  registerButton.addEventListener('click', function () {
-    if (!lastGeneratedJson) {
-      registerStatus.textContent = '登録する記事がありません。先に記事を作成してください。';
-      registerStatus.className = 'generate-status is-error';
-      return;
-    }
-    var article = buildArticle();
-    if (!article.id || !article.title || !article.category) {
-      registerStatus.textContent = 'ID・タイトル・カテゴリのいずれかが空です。内容を確認してください。';
-      registerStatus.className = 'generate-status is-error';
-      return;
-    }
-
-    var confirmMessage = '「' + article.id + ' ' + article.title + '」を data/articles.json へ登録します。';
-    confirmMessage += finalImageDataUrl ? '\n最終画像も images/articles/' + article.id + '.png として保存されます。' : '\n最終画像は指定されていないため、画像は保存されません。';
-    if (!window.confirm(confirmMessage + '\n\nよろしいですか？')) return;
-
+  function performRegister() {
     registerButton.disabled = true;
     registerStatus.textContent = '登録処理を実行しています…';
     registerStatus.className = 'generate-status is-loading';
@@ -1181,6 +1238,57 @@
       })
       .finally(function () {
         registerButton.disabled = false;
+      });
+  }
+
+  registerButton.addEventListener('click', function () {
+    if (!lastGeneratedJson) {
+      registerStatus.textContent = '登録する記事がありません。先に記事を作成してください。';
+      registerStatus.className = 'generate-status is-error';
+      return;
+    }
+    var article = buildArticle();
+    if (!article.id || !article.title || !article.category) {
+      registerStatus.textContent = 'ID・タイトル・カテゴリのいずれかが空です。内容を確認してください。';
+      registerStatus.className = 'generate-status is-error';
+      return;
+    }
+
+    var confirmMessage = '「' + article.id + ' ' + article.title + '」を data/articles.json へ登録します。';
+    confirmMessage += finalImageDataUrl ? '\n最終画像も images/articles/' + article.id + '.png として保存されます。' : '\n最終画像は指定されていないため、画像は保存されません。';
+    if (!window.confirm(confirmMessage + '\n\nよろしいですか？')) return;
+
+    var dirtyPairs = collectDirtyPairs();
+    if (dirtyPairs.length === 0) {
+      performRegister();
+      return;
+    }
+
+    registerButton.disabled = true;
+    registerStatus.textContent = '英語版を日本語最新版と同期しています…（数十秒かかる場合があります）';
+    registerStatus.className = 'generate-status is-loading';
+
+    fetch('/api/sync-en', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ja: collectJaSyncPayload(), dirtyPairs: dirtyPairs })
+    })
+      .then(function (response) {
+        return response.json().then(function (payload) {
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload && payload.error ? payload.error : ('HTTPステータス: ' + response.status));
+          }
+          return payload;
+        });
+      })
+      .then(function (payload) {
+        applyEnSyncResult(payload.en);
+        performRegister();
+      })
+      .catch(function (error) {
+        registerButton.disabled = false;
+        registerStatus.textContent = '英語版の自動同期に失敗したため、登録していません: ' + (error && error.message ? error.message : String(error));
+        registerStatus.className = 'generate-status is-error';
       });
   });
 
