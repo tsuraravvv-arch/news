@@ -432,7 +432,7 @@ function Build-EnSyncPrompt {
 # --- claude CLI をヘッドレスモードで呼び出す ---
 # $Schema省略時は既存の記事生成用スキーマ（$ArticleJsonSchema）を使用する（既存呼び出し元の挙動は変わらない）。
 function Invoke-ClaudeGenerate {
-  param([string]$PromptText, [string]$Schema = $ArticleJsonSchema)
+  param([string]$PromptText, [string]$Schema = $ArticleJsonSchema, [int]$TimeoutSeconds = 180)
 
   $psi = New-Object System.Diagnostics.ProcessStartInfo
   $psi.FileName = 'claude'
@@ -451,10 +451,25 @@ function Invoke-ClaudeGenerate {
   $psi.StandardOutputEncoding = [System.Text.Encoding]::UTF8
   $psi.StandardErrorEncoding = [System.Text.Encoding]::UTF8
 
-  $proc = [System.Diagnostics.Process]::Start($psi)
-  $stdout = $proc.StandardOutput.ReadToEnd()
-  $stderr = $proc.StandardError.ReadToEnd()
-  $proc.WaitForExit()
+  $proc = New-Object System.Diagnostics.Process
+  $proc.StartInfo = $psi
+  [void]$proc.Start()
+
+  # WaitForExitの前に非同期読み取りを開始し、出力バッファ詰まりによるデッドロックを避ける（Invoke-Gitと同じ対策）。
+  # 修正前はReadToEnd()を同期・順番に呼んでおり、claudeがstderrへ十分な量を書き込むとパイプが詰まって
+  # 双方が待ち合ったまま応答が返らず、結果として空/不完全なHTTPレスポンスになる不具合があった。
+  $stdoutTask = $proc.StandardOutput.ReadToEndAsync()
+  $stderrTask = $proc.StandardError.ReadToEndAsync()
+
+  $exited = $proc.WaitForExit([Math]::Max(1, $TimeoutSeconds) * 1000)
+  if (-not $exited) {
+    try { $proc.Kill($true) } catch {}
+    throw "claude CLI の応答が ${TimeoutSeconds} 秒以内に完了しなかったため中断しました（タイムアウト）。"
+  }
+
+  [System.Threading.Tasks.Task]::WaitAll(@($stdoutTask, $stderrTask), 5000) | Out-Null
+  $stdout = [string]$stdoutTask.Result
+  $stderr = [string]$stderrTask.Result
 
   if ($proc.ExitCode -ne 0) {
     throw "claude CLI がエラー終了しました（exit code $($proc.ExitCode)）: $stderr"
@@ -926,24 +941,31 @@ try {
       }
       elseif ($request.HttpMethod -eq 'POST' -and $request.Url.AbsolutePath -eq '/api/sync-en') {
         # 日英同期：日本語を正本として、変更のあった日英ペアだけを再同期する（STEP2の登録処理自体には触れない）。
+        # 成功・失敗を問わず必ず有効なJSON（{ok:true,...} または {ok:false, error:...}）を返すよう、
+        # このエンドポイント自身でtry/catchする（/api/register・/api/pushと同じ方針）。
         $reader = New-Object System.IO.StreamReader($request.InputStream, [System.Text.Encoding]::UTF8)
         $bodyText = $reader.ReadToEnd()
         $reader.Close()
 
-        $body = $bodyText | ConvertFrom-Json
-        $dirtyPairs = @()
-        if ($body.PSObject.Properties['dirtyPairs']) {
-          $dirtyPairs = @($body.dirtyPairs | ForEach-Object { [string]$_ } | Where-Object { $_ })
-        }
+        try {
+          $body = $bodyText | ConvertFrom-Json
+          $dirtyPairs = @()
+          if ($body.PSObject.Properties['dirtyPairs']) {
+            $dirtyPairs = @($body.dirtyPairs | ForEach-Object { [string]$_ } | Where-Object { $_ })
+          }
 
-        if ($dirtyPairs.Count -eq 0) {
-          Write-JsonResponse $response 400 @{ ok = $false; error = '同期対象のフィールドが指定されていません。' }
-        } else {
-          $promptText = Build-EnSyncPrompt -Fields $body.ja -DirtyPairs $dirtyPairs
-          $schema = Build-EnSyncSchema -DirtyPairs $dirtyPairs
-          $generated = Invoke-ClaudeGenerate -PromptText $promptText -Schema $schema
+          if ($dirtyPairs.Count -eq 0) {
+            Write-JsonResponse $response 400 @{ ok = $false; error = '同期対象のフィールドが指定されていません。' }
+          } else {
+            $promptText = Build-EnSyncPrompt -Fields $body.ja -DirtyPairs $dirtyPairs
+            $schema = Build-EnSyncSchema -DirtyPairs $dirtyPairs
+            $generated = Invoke-ClaudeGenerate -PromptText $promptText -Schema $schema
 
-          Write-JsonResponse $response 200 @{ ok = $true; en = $generated }
+            Write-JsonResponse $response 200 @{ ok = $true; en = $generated }
+          }
+        } catch {
+          Write-Host "英語同期エラー: $($_.Exception.Message)"
+          Write-JsonResponse $response 500 @{ ok = $false; error = $_.Exception.Message }
         }
       }
       elseif ($request.HttpMethod -eq 'POST' -and $request.Url.AbsolutePath -eq '/api/register') {

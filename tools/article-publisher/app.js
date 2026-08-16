@@ -205,6 +205,21 @@
     return Array.isArray(arr) ? arr.map(function (v) { return String(v); }).join('\n') : '';
   }
 
+  // レスポンス本文が空、またはJSONとして解釈できない場合でも response.json() のように例外を投げず、
+  // 常に { ok, ... } 形状のオブジェクトへ安全に変換する（サーバー側が異常終了した場合の保険）。
+  function parseJsonResponseSafely(response) {
+    return response.text().then(function (text) {
+      if (!text) {
+        return { ok: false, error: 'サーバーからの応答が空でした（HTTPステータス: ' + response.status + '）。' };
+      }
+      try {
+        return JSON.parse(text);
+      } catch (e) {
+        return { ok: false, error: 'サーバーからの応答をJSONとして解釈できませんでした（HTTPステータス: ' + response.status + '）。' };
+      }
+    });
+  }
+
   function computeIdCandidate(category) {
     if (!category) return '';
     var max = maxNumByPrefix[category] || 0;
@@ -757,7 +772,7 @@
       body: JSON.stringify(collectInputFields())
     })
       .then(function (response) {
-        return response.json().then(function (payload) {
+        return parseJsonResponseSafely(response).then(function (payload) {
           if (!response.ok || !payload.ok) {
             throw new Error(payload && payload.error ? payload.error : ('HTTPステータス: ' + response.status));
           }
@@ -796,7 +811,7 @@
       body: JSON.stringify(collectOriginalFields())
     })
       .then(function (response) {
-        return response.json().then(function (payload) {
+        return parseJsonResponseSafely(response).then(function (payload) {
           if (!response.ok || !payload.ok) {
             throw new Error(payload && payload.error ? payload.error : ('HTTPステータス: ' + response.status));
           }
@@ -835,7 +850,7 @@
       body: JSON.stringify(collectCriFields())
     })
       .then(function (response) {
-        return response.json().then(function (payload) {
+        return parseJsonResponseSafely(response).then(function (payload) {
           if (!response.ok || !payload.ok) {
             throw new Error(payload && payload.error ? payload.error : ('HTTPステータス: ' + response.status));
           }
@@ -1206,7 +1221,7 @@
       body: JSON.stringify({ articleJson: lastGeneratedJson, imageDataUrl: finalImageDataUrl || null })
     })
       .then(function (response) {
-        return response.json().then(function (payload) {
+        return parseJsonResponseSafely(response).then(function (payload) {
           return { httpOk: response.ok, payload: payload };
         });
       })
@@ -1274,7 +1289,7 @@
       body: JSON.stringify({ ja: collectJaSyncPayload(), dirtyPairs: dirtyPairs })
     })
       .then(function (response) {
-        return response.json().then(function (payload) {
+        return parseJsonResponseSafely(response).then(function (payload) {
           if (!response.ok || !payload.ok) {
             throw new Error(payload && payload.error ? payload.error : ('HTTPステータス: ' + response.status));
           }
@@ -1351,7 +1366,7 @@
       body: JSON.stringify({ id: lastRegisteredArticle.id })
     })
       .then(function (response) {
-        return response.json().then(function (payload) {
+        return parseJsonResponseSafely(response).then(function (payload) {
           return { httpOk: response.ok, payload: payload };
         });
       })
