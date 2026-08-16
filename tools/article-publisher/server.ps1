@@ -531,9 +531,55 @@ function Indent-Text {
   return (($Text -split "`n") | ForEach-Object { $prefix + $_ }) -join "`n"
 }
 
-# 記事1件を data/articles.json へ追記し、必要なら最終画像を images/articles/<ID>.png に保存する。
-# 既存データは一切再シリアライズせず、末尾に追記するだけに留める（既存記事の書式が変わらないようにするため）。
-# 事前検証（JSON構文・必須項目・ID形式・カテゴリ・ID重複）に失敗した場合は何も書き込まない。
+# JSON文字列・エスケープ・括弧深度を認識しながら、トップレベル配列（$Text全体が `[ {...}, {...} ]` 形式である前提）の
+# 各要素オブジェクトについて、開き `{` と閉じ `}` の文字位置（0始まり、両端含む）を出現順に返す。
+# 単純な正規表現での抜き出しと違い、記事の値に含まれる `{` `}` `,` （文字列中の文字）を要素境界と誤認しない。
+# 戻り値はConvertFrom-Jsonでパースした配列と同じ「出現順」になるため、パース結果とインデックスで対応させて使う。
+function Get-TopLevelObjectRanges {
+  param([string]$Text)
+
+  $ranges = New-Object System.Collections.Generic.List[object]
+  $depth = 0
+  $inString = $false
+  $escapeNext = $false
+  $elementStart = -1
+
+  for ($i = 0; $i -lt $Text.Length; $i++) {
+    $ch = $Text[$i]
+
+    if ($inString) {
+      if ($escapeNext) {
+        $escapeNext = $false
+      } elseif ($ch -eq '\') {
+        $escapeNext = $true
+      } elseif ($ch -eq '"') {
+        $inString = $false
+      }
+      continue
+    }
+
+    if ($ch -eq '"') {
+      $inString = $true
+    } elseif ($ch -eq '[' -or $ch -eq '{') {
+      if ($ch -eq '{' -and $depth -eq 1 -and $elementStart -lt 0) {
+        $elementStart = $i
+      }
+      $depth++
+    } elseif ($ch -eq ']' -or $ch -eq '}') {
+      $depth--
+      if ($ch -eq '}' -and $depth -eq 1 -and $elementStart -ge 0) {
+        [void]$ranges.Add([ordered]@{ Start = $elementStart; End = $i })
+        $elementStart = -1
+      }
+    }
+  }
+
+  return $ranges
+}
+
+# 記事1件を data/articles.json へ登録する（新規は末尾へ追記、既存IDが1件だけ一致した場合はその配列位置で置換するUpsert）。
+# 既存データは一切再シリアライズせず、対象記事のテキスト範囲だけを書き換える（他の記事の書式・並び順を変えないため）。
+# 事前検証（JSON構文・必須項目・ID形式・カテゴリ・ID一致件数）に失敗した場合は何も書き込まない。
 # 書き込み後の検証・画像保存で失敗した場合は、バックアップから元の状態へロールバックする。
 function Register-Article {
   param([string]$ArticleJsonText, [string]$ImageDataUrl)
@@ -543,7 +589,7 @@ function Register-Article {
     requiredFields   = $false
     idFormat         = $false
     categoryValid    = $false
-    idDuplicate      = $false
+    idCountValid     = $false
     jsonSyntaxAfter  = $null
   }
   $missingFields = @()
@@ -579,14 +625,25 @@ function Register-Article {
   }
 
   $beforeCount = $existingArticles.Count
-  $existingIds = New-Object System.Collections.Generic.HashSet[string]
-  foreach ($a in $existingArticles) {
-    if ($a.id) { [void]$existingIds.Add(([string]$a.id).ToUpperInvariant()) }
+
+  # HashSetでは「同一IDが何件存在するか」を判定できないため、対象IDの実際の一致件数と、
+  # 一致した配列インデックス（出現順）を数え上げる。比較は大文字小文字を区別しない。
+  $idUpper = if ($id) { $id.ToUpperInvariant() } else { '' }
+  $matchIndexes = @()
+  for ($i = 0; $i -lt $existingArticles.Count; $i++) {
+    $existingId = [string]$existingArticles[$i].id
+    if ($idUpper -and $existingId -and ($existingId.ToUpperInvariant() -eq $idUpper)) {
+      $matchIndexes += $i
+    }
   }
-  $validations.idDuplicate = -not ($id -and $existingIds.Contains($id.ToUpperInvariant()))
+  $idMatchCount = $matchIndexes.Count
+  $validations.idCountValid = ($idMatchCount -le 1)
+
+  # 0件なら新規登録、1件なら既存記事の更新、2件以上はdata/articles.json自体の異常なID重複として中止する。
+  $operation = if ($idMatchCount -eq 0) { 'create' } elseif ($idMatchCount -eq 1) { 'update' } else { 'duplicate' }
 
   $allPreChecksPassed = $validations.jsonSyntaxBefore -and $validations.requiredFields `
-    -and $validations.idFormat -and $validations.categoryValid -and $validations.idDuplicate
+    -and $validations.idFormat -and $validations.categoryValid -and $validations.idCountValid
 
   if (-not $allPreChecksPassed) {
     return [ordered]@{
@@ -597,12 +654,29 @@ function Register-Article {
       before         = $beforeCount
       after          = $beforeCount
       added          = 0
+      updated        = 0
+      operation      = $operation
+      idMatchCount   = $idMatchCount
       id             = $id
       title          = [string]$newArticle.title
       category       = $category
       changedFiles   = @()
       imageResult    = 'not_attempted'
       gitDiffSummary = ''
+    }
+  }
+
+  # 画像は、JSON・画像本体のいずれも書き換える前に data URL 形式の確認とBase64デコードまで済ませておく。
+  # 不正な画像データが原因で、ファイルを書き換えたあとに失敗してロールバックする事態を避けるため。
+  $imageBytes = $null
+  if ($ImageDataUrl) {
+    $commaIdx = $ImageDataUrl.IndexOf(',')
+    if ($commaIdx -lt 0) { throw '画像データの形式が不正です（data URLではありません）。' }
+    $base64 = $ImageDataUrl.Substring($commaIdx + 1)
+    try {
+      $imageBytes = [System.Convert]::FromBase64String($base64)
+    } catch {
+      throw "画像データのBase64デコードに失敗しました: $($_.Exception.Message)"
     }
   }
 
@@ -621,28 +695,64 @@ function Register-Article {
 
   try {
     $indentedNew = Indent-Text -Text $ArticleJsonText.Trim() -Spaces 2
-    $hadTrailingNewline = $originalText -match '[\r\n]\s*$'
-    $trimmedOriginal = $originalText.TrimEnd()
-    if (-not $trimmedOriginal.EndsWith(']')) {
-      throw 'data/articles.json の末尾が配列の閉じ括弧 ] ではありません。手動で確認してください。'
-    }
-    $head = $trimmedOriginal.Substring(0, $trimmedOriginal.Length - 1).TrimEnd()
 
-    if ($beforeCount -eq 0) {
-      $newText = "[`n" + $indentedNew + "`n]"
+    if ($operation -eq 'create') {
+      $hadTrailingNewline = $originalText -match '[\r\n]\s*$'
+      $trimmedOriginal = $originalText.TrimEnd()
+      if (-not $trimmedOriginal.EndsWith(']')) {
+        throw 'data/articles.json の末尾が配列の閉じ括弧 ] ではありません。手動で確認してください。'
+      }
+      $head = $trimmedOriginal.Substring(0, $trimmedOriginal.Length - 1).TrimEnd()
+
+      if ($beforeCount -eq 0) {
+        $newText = "[`n" + $indentedNew + "`n]"
+      } else {
+        $newText = $head + ",`n" + $indentedNew + "`n]"
+      }
+      if ($hadTrailingNewline) { $newText += "`n" }
     } else {
-      $newText = $head + ",`n" + $indentedNew + "`n]"
+      # update: 既存記事をテキスト範囲で特定し、その配列位置のまま新しい記事JSONへ置換する。
+      # 配列全体は再シリアライズせず、対象記事以外の書式・並び順は一切変更しない。
+      $ranges = Get-TopLevelObjectRanges -Text $originalText
+      if ($ranges.Count -ne $beforeCount) {
+        throw "記事範囲の解析結果（$($ranges.Count)件）が記事数（$beforeCount 件）と一致しませんでした。手動で確認してください。"
+      }
+      $targetRange = $ranges[$matchIndexes[0]]
+
+      # 対象記事の `{` が行頭からどれだけ字下げされているかを、直前の空白文字を逆方向にたどって求める。
+      # この範囲を置換対象に含めることで、Indent-Textで生成した新しいテキスト（先頭行も字下げ済み）を
+      # そのまま差し込んでも二重字下げにならないようにする。
+      $lineStart = $targetRange.Start
+      while ($lineStart -gt 0 -and ($originalText[$lineStart - 1] -eq ' ' -or $originalText[$lineStart - 1] -eq "`t")) {
+        $lineStart--
+      }
+
+      $newText = $originalText.Substring(0, $lineStart) + $indentedNew + $originalText.Substring($targetRange.End + 1)
     }
-    if ($hadTrailingNewline) { $newText += "`n" }
 
     $tempPath = $ArticlesJsonPath + '.tmp'
     [System.IO.File]::WriteAllText($tempPath, $newText, (New-Object System.Text.UTF8Encoding($false)))
 
     $verifyText = Get-Content -LiteralPath $tempPath -Raw -Encoding UTF8
     $verifyArticles = @($verifyText | ConvertFrom-Json -Depth 30)
-    $lastArticle = $verifyArticles[$verifyArticles.Count - 1]
-    if ($verifyArticles.Count -ne ($beforeCount + 1) -or [string]$lastArticle.id -ne $id) {
-      throw '追記後のJSON検証に失敗しました（件数または末尾IDが一致しません）。'
+
+    if ($operation -eq 'create') {
+      $lastArticle = $verifyArticles[$verifyArticles.Count - 1]
+      if ($verifyArticles.Count -ne ($beforeCount + 1) -or [string]$lastArticle.id -ne $id) {
+        throw '登録後のJSON検証に失敗しました（件数または末尾IDが一致しません）。'
+      }
+    } else {
+      $verifyMatchCount = 0
+      $verifyMatchedArticle = $null
+      foreach ($a in $verifyArticles) {
+        if (([string]$a.id).ToUpperInvariant() -eq $idUpper) {
+          $verifyMatchCount++
+          $verifyMatchedArticle = $a
+        }
+      }
+      if ($verifyArticles.Count -ne $beforeCount -or $verifyMatchCount -ne 1 -or [string]$verifyMatchedArticle.title -ne [string]$newArticle.title) {
+        throw '登録後のJSON検証に失敗しました（件数、対象IDの一致件数、または内容が一致しません）。'
+      }
     }
     $validations.jsonSyntaxAfter = $true
 
@@ -650,7 +760,7 @@ function Register-Article {
     $tempPath = $null
 
     $imageResult = 'skipped'
-    if ($ImageDataUrl) {
+    if ($null -ne $imageBytes) {
       if (-not (Test-Path -LiteralPath $ArticlesImagesDir)) {
         New-Item -ItemType Directory -Path $ArticlesImagesDir -Force | Out-Null
       }
@@ -659,11 +769,7 @@ function Register-Article {
         Copy-Item -LiteralPath $imageTargetPath -Destination $imageBackupPath -Force
       }
 
-      $commaIdx = $ImageDataUrl.IndexOf(',')
-      if ($commaIdx -lt 0) { throw '画像データの形式が不正です（data URLではありません）。' }
-      $base64 = $ImageDataUrl.Substring($commaIdx + 1)
-      $bytes = [System.Convert]::FromBase64String($base64)
-      [System.IO.File]::WriteAllBytes($imageTargetPath, $bytes)
+      [System.IO.File]::WriteAllBytes($imageTargetPath, $imageBytes)
       $imageWritten = $true
       $imageResult = 'saved'
       $changedFiles += "images/articles/$id.png"
@@ -671,11 +777,18 @@ function Register-Article {
 
     $gitDiffSummary = Get-GitStatusSummary -Paths @('data/articles.json', 'images/articles')
 
+    $addedCount = if ($operation -eq 'create') { 1 } else { 0 }
+    $updatedCount = if ($operation -eq 'update') { 1 } else { 0 }
+    $afterCount = if ($operation -eq 'create') { $beforeCount + 1 } else { $beforeCount }
+
     return [ordered]@{
       ok             = $true
       before         = $beforeCount
-      after          = $beforeCount + 1
-      added          = 1
+      after          = $afterCount
+      added          = $addedCount
+      updated        = $updatedCount
+      operation      = $operation
+      idMatchCount   = $idMatchCount
       id             = $id
       title          = [string]$newArticle.title
       category       = $category

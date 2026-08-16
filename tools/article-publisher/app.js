@@ -1163,6 +1163,21 @@
     return String(result || '');
   }
 
+  // operation（create/update/duplicate）はserver.ps1側の判定結果をそのまま表示するためのラベル変換のみ行う。
+  // create/update/duplicateの実際の判定自体はサーバー側を正本とし、ここでは行わない。
+  function idCheckLabel(payload) {
+    if (payload.operation === 'update') return 'ID確認：既存記事を更新';
+    if (payload.operation === 'duplicate') return 'ID確認：同一IDの記事が複数存在';
+    if (payload.operation === 'create') return 'ID確認：新規登録';
+    return 'ID確認';
+  }
+
+  function idCheckPassed(payload) {
+    if (payload.operation === 'create' || payload.operation === 'update') return true;
+    if (payload.operation === 'duplicate') return false;
+    return null;
+  }
+
   function renderRegisterReport(payload) {
     var v = payload.validations || {};
 
@@ -1171,6 +1186,7 @@
     html += '<span class="stat-pill">登録前: ' + escapeHtml(payload.before) + '件</span>';
     html += '<span class="stat-pill">登録後: ' + escapeHtml(payload.after) + '件</span>';
     html += '<span class="stat-pill">追加: ' + escapeHtml(payload.added) + '件</span>';
+    html += '<span class="stat-pill">更新: ' + escapeHtml(payload.updated) + '件</span>';
     html += '</div>';
 
     if (payload.id || payload.title) {
@@ -1183,8 +1199,8 @@
     html += checkListItem('必須項目（id/category/datetime/title/summary）', v.requiredFields);
     html += checkListItem('ID形式（英字3文字＋数字5桁）', v.idFormat);
     html += checkListItem('カテゴリ（現行7種類）', v.categoryValid);
-    html += checkListItem('ID重複なし', v.idDuplicate);
-    html += checkListItem('JSON構文（追記後）', v.jsonSyntaxAfter);
+    html += checkListItem(idCheckLabel(payload), idCheckPassed(payload));
+    html += checkListItem('JSON構文（登録後）', v.jsonSyntaxAfter);
     html += '</ul>';
 
     if (payload.missingFields && payload.missingFields.length) {
@@ -1232,6 +1248,8 @@
           registerStatus.className = 'generate-status is-ok';
           loadExistingData();
 
+          // hasImageは「今回の登録処理で画像を書き換えたか」を表す（既存画像の有無ではない）。
+          // imageResultは新規/更新いずれの場合も、今回imageDataUrlを指定して実際に保存できた時だけ'saved'になる。
           lastRegisteredArticle = {
             id: result.payload.id,
             title: result.payload.title,
@@ -1269,8 +1287,13 @@
       return;
     }
 
-    var confirmMessage = '「' + article.id + ' ' + article.title + '」を data/articles.json へ登録します。';
-    confirmMessage += finalImageDataUrl ? '\n最終画像も images/articles/' + article.id + '.png として保存されます。' : '\n最終画像は指定されていないため、画像は保存されません。';
+    // ここでの新規/既存判定はあくまで確認ダイアログ表示用の参考情報。
+    // create/updateの最終判定はserver.ps1側（Register-Article）を正本とする。
+    var isExistingId = existingIds.has(String(article.id || '').toUpperCase());
+    var confirmMessage = isExistingId
+      ? '「' + article.id + ' ' + article.title + '」は既存記事です。data/articles.json 内の該当記事を上書き更新します。'
+      : '「' + article.id + ' ' + article.title + '」を data/articles.json へ新規登録します。';
+    confirmMessage += finalImageDataUrl ? '\n最終画像も images/articles/' + article.id + '.png として保存されます。' : '\n最終画像は指定されていないため、画像は変更されません（既存の画像がある場合はそのまま維持されます）。';
     if (!window.confirm(confirmMessage + '\n\nよろしいですか？')) return;
 
     var dirtyPairs = collectDirtyPairs();
