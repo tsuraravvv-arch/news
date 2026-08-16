@@ -266,6 +266,77 @@ function Build-OriginalGenerationPrompt {
   return ($lines -join "`n")
 }
 
+# --- Claudeへの依頼文を組み立てる（CRI: 情報収集・制作管理用のクリエイティブトレンドID。CRIは正式カテゴリではなく、既存7カテゴリへ振り分ける） ---
+function Build-CriGenerationPrompt {
+  param($Fields)
+
+  function V($name) {
+    if ($Fields.PSObject.Properties[$name]) { return [string]$Fields.$name }
+    return ''
+  }
+
+  $categoryHint = V 'categoryOverride'
+  $categoryInstruction = if ($categoryHint) {
+    "- カテゴリは「$categoryHint」に固定してください。"
+  } else {
+    "- カテゴリは以下7種類から、内容の主目的に最も合うものを1つだけ判定してください。CRIは情報収集・制作管理用のIDであり、Tsurara Idea Labの正式カテゴリではありません。カメラ・構図・ライティング・画風・エフェクト・演出などが含まれていても、機械的にVISへ固定しないでください。衣装やアイテム、ポーズが主目的ならそちらを優先してください。`n" +
+    "  - FAS: ファッション（衣装・スタイル全般）`n" +
+    "  - JOB: 職業（コスチューム含む職業モチーフ）`n" +
+    "  - PNF: ポーズ・表情`n" +
+    "  - VIS: ビジュアル演出（カメラ・構図・ライティング・画風・エフェクト・映像演出が主目的の場合）`n" +
+    "  - SSN: 季節（季節・イベント）`n" +
+    "  - ORI: オリジナル企画（複数要素を組み合わせた独自企画で、他カテゴリに明確に当てはまらない場合）`n" +
+    "  - ITM: アイテム（小物・装飾品など）`n" +
+    "- 判定理由を categoryReason に1〜2文で必ず記入してください。"
+  }
+
+  $lines = @()
+  $lines += 'あなたは Tsurara Idea Lab というAI画像生成プロンプト紹介サイトの正式記事を作成するアシスタントです。'
+  $lines += '以下の「CRI制作引き継ぎ情報」（ネット上の流行・創作表現を画像生成アイデアへ変換した、情報収集・制作管理用のクリエイティブトレンド情報）をもとに、正式記事データを1件だけ作成してください。'
+  $lines += ''
+  $lines += '# 最重要ルール（事実関係・記事化方針）'
+  $lines += '- 記事の事実関係は、必ず下記の「CRI制作引き継ぎ情報」のテキスト項目だけを根拠にしてください。引き継ぎ情報に無い確証のない事実は作らないでください。'
+  $lines += '- 元ネタそのものの解説記事にはしないでください。特定の作品名・キャラクター名など、引き継ぎ情報に明記されていない固有名詞を新たに追加しないでください。'
+  $lines += '- CRIは流行・表現の傾向を抽象化したものです。画像生成で再利用できる独立した表現として整理し、「何を試せるプロンプトなのか」が読者に伝わる記事にしてください。'
+  $lines += '- 「サンプル制作向け日本語プロンプト」が提供されている場合も、その内容をそのまま転記せず、公開記事としてユーザーがそのまま画像生成AIに使える完成形の本番プロンプトへ整えてください。'
+  $lines += ''
+  $lines += '# カテゴリ判定'
+  $lines += $categoryInstruction
+  $lines += ''
+  $lines += '# 出力フィールドの作成方針'
+  $lines += '- title/summary/trendElements/useCases/notes/noteTitle は日本語、titleEn/summaryEn/trendElementsEn/useCasesEn/notesEn/noteTitleEn は英語で、両方とも必ず作成してください（英語は日本語の機械的な直訳ではなく、内容が対応する自然な英語にしてください）。'
+  $lines += '- trendElements/trendElementsEn は、説明文ではなく「タグとして使える短い要素」にしてください。1件あたり短い名詞句または単文とし、3〜5件程度に厳選してください。trendElements と trendElementsEn は件数・順序・意味を対応させてください。'
+  $lines += '- useCases/useCasesEn も、説明文ではなく3〜5件程度の短い用途表現にしてください。'
+  $lines += '- 下記「Lab記事向けトレンド要素」「Lab記事向け使いどころ」が存在する場合は、それぞれ trendElements・useCases 作成時の優先材料として使用してください。'
+  $lines += '- promptJa / promptEn は、公開記事としてユーザーがそのまま画像生成AIに使える完成形の本番プロンプトにしてください。promptJa と promptEn は内容が大きく変わらないようにしてください（英語版は自然な英語プロンプトとして整えつつ、対応関係を保つ）。'
+  $lines += '- noteTitle/noteTitleEn は「画像生成メモ」に類する見出しにしてください。notes/notesEn には、再現のポイントや必須ポイントなど、実際に使う際に役立つ具体的なメモを箇条書きで数点入れてください。'
+  $lines += ''
+  $lines += '# CRI制作引き継ぎ情報'
+  $lines += ('CRI管理ID: ' + (V 'criId'))
+  $lines += ('アイデア名: ' + (V 'ideaName'))
+  $lines += ('アイデア概要: ' + (V 'ideaSummary'))
+  $lines += ('注目理由: ' + (V 'attentionReason'))
+  $lines += ('創作での魅力: ' + (V 'creativeAppeal'))
+  $lines += ('使いどころ: ' + (V 'useCasesRaw'))
+  $lines += ('再現のポイント: ' + (V 'reproPoints'))
+  $lines += ('分類: ' + (V 'classification'))
+  $lines += ('中心となる表現: ' + (V 'coreExpression'))
+  $lines += ('変更する要素: ' + (V 'changedElements'))
+  $lines += ('維持する要素: ' + (V 'keptElements'))
+  $lines += ('再現上の必須ポイント: ' + (V 'mustHavePoints'))
+  $lines += ('Lab記事向けトレンド要素（優先材料）: ' + (V 'labTrendHints'))
+  $lines += ('Lab記事向け使いどころ（優先材料）: ' + (V 'labUseCaseHints'))
+  $lines += ('サンプル制作向け日本語プロンプト（参考・そのまま転記しないこと）: ' + (V 'sampleTestPrompt'))
+  $lines += ('情報源URL（参考のみ。sourceUrlフィールドはツール側で別途設定するため出力に含めなくてよい）: ' + (V 'sourceUrl'))
+  $lines += ''
+  $lines += '# 出力形式'
+  $lines += '- 指定されたJSON Schemaに従い、フィールドを過不足なく埋めてください。'
+  $lines += '- 配列項目は必ずJSONの配列にしてください（文字列を1つに連結したものにしないでください）。'
+  $lines += '- 出力にidフィールドやCRI管理IDに相当する文字列を含めないでください（正式IDはこの段階では採番せず、ツール側で別途設定します）。'
+
+  return ($lines -join "`n")
+}
+
 # --- claude CLI をヘッドレスモードで呼び出す ---
 function Invoke-ClaudeGenerate {
   param([string]$PromptText)
@@ -740,7 +811,13 @@ try {
         $fields = $bodyText | ConvertFrom-Json
 
         $mode = if ($fields.PSObject.Properties['mode']) { [string]$fields.mode } else { 'handoff' }
-        $promptText = if ($mode -eq 'original') { Build-OriginalGenerationPrompt $fields } else { Build-GenerationPrompt $fields }
+        $promptText = if ($mode -eq 'original') {
+          Build-OriginalGenerationPrompt $fields
+        } elseif ($mode -eq 'cri') {
+          Build-CriGenerationPrompt $fields
+        } else {
+          Build-GenerationPrompt $fields
+        }
         $generated = Invoke-ClaudeGenerate $promptText
 
         $cat = [string]$generated.category

@@ -1,12 +1,14 @@
 # 本番記事登録ツール（tools/article-publisher）
 
-Tsurara Idea Lab の本番運用向けツールです。採用済みのAII制作引き継ぎ情報から、正式記事（`data/articles.json`形式）を作成します。
+Tsurara Idea Lab の本番運用向けツールです。採用済みのAII制作引き継ぎ情報、およびCRI（クリエイティブトレンド）制作引き継ぎ情報から、正式記事（`data/articles.json`形式）を作成します。
 
 **STEP1（記事作成）・STEP2（ローカルへ登録）・STEP3（GitHubへPush）** に対応しています。
 
 ## できること（STEP1: 記事作成）
 
-- AII制作引き継ぎ情報のフォーム入力
+- AII制作引き継ぎ情報、CRI制作引き継ぎ情報のフォーム入力
+  - 「制作引き継ぎ全文」欄に【制作引き継ぎ AIIxxxxx】または【制作引き継ぎ CRIxxxxx】をそのまま貼り付けると、ID種別を自動判定して該当フォーム（AIIは本フォーム内、CRIは「CRIトレンド入力」欄）へ振り分けます
+  - CRIは情報収集・制作管理用のIDであり、Tsurara Idea Labの正式カテゴリではありません。記事化時に既存7カテゴリ（FAS/JOB/PNF/VIS/SSN/ORI/ITM）のいずれかへ振り分けられ、CRI管理IDは正式記事IDには使用しません
 - `claude` CLIのヘッドレスモード（`claude -p`）による正式記事内容の自動生成
   - カテゴリ判定／タイトル・概要／トレンド要素／使いどころ／本番プロンプト（日英）／メモ を生成
   - ログイン中のClaude Pro/Max契約の利用枠内で実行されます。別課金のAPIキーは使用しません

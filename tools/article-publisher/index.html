@@ -30,13 +30,14 @@
 
       <div class="input-mode-panel" id="handoffPanel" data-mode-panel="handoff">
       <p class="section-desc">
-        【制作引き継ぎ AIIxxxxx】の内容を、対応する項目に入力してください。記事の事実関係はこのテキスト項目のみを根拠に作成されます（サンプル画像は見た目の参考用で、事実情報の根拠にはしません）。
+        【制作引き継ぎ AIIxxxxx】の内容を、対応する項目に入力してください。記事の事実関係はこのテキスト項目のみを根拠に作成されます（サンプル画像は見た目の参考用で、事実情報の根拠にはしません）。<br>
+        CRI（【制作引き継ぎ CRIxxxxx】形式のクリエイティブトレンド情報）を貼り付けた場合は、自動判定して下の「CRIトレンド入力」欄に振り分けます。CRIは情報収集・制作管理用のIDであり、Tsurara Idea Labの正式カテゴリではありません。
       </p>
 
       <form id="inputForm">
         <fieldset class="form-fieldset">
           <legend>制作引き継ぎをまとめて貼り付け</legend>
-          <p class="field-hint">AII収集チャットから出力された【制作引き継ぎ AIIxxxxx】の全文をそのまま貼り付けて「解析して反映」を押すと、下の個別項目へ自動で振り分けます。振り分け後の内容は個別項目側で確認・修正してください。</p>
+          <p class="field-hint">AII収集チャットから出力された【制作引き継ぎ AIIxxxxx】、またはCRI収集・調整チャットから出力された【制作引き継ぎ CRIxxxxx】の全文をそのまま貼り付けて「解析して反映」を押すと、種別を自動判定して下の個別項目（AIIは本フォーム内、CRIは「CRIトレンド入力」欄）へ振り分けます。振り分け後の内容は個別項目側で確認・修正してください。</p>
           <label class="form-field">
             <span class="form-label">制作引き継ぎ全文</span>
             <textarea id="fieldHandoffPaste" rows="14" placeholder="【制作引き継ぎ AII00123】&#10;ニュースタイトル：...&#10;ニュース概要：...&#10;（そのまま貼り付けてください）"></textarea>
@@ -45,6 +46,7 @@
             <button type="button" class="primary-button" id="parseHandoffButton">解析して反映</button>
             <span class="generate-status" id="parseHandoffStatus"></span>
           </div>
+          <p class="field-hint" id="handoffSourceInfo" hidden></p>
         </fieldset>
 
         <fieldset class="form-fieldset">
@@ -184,6 +186,97 @@
           <span class="generate-status" id="generateStatus"></span>
         </div>
       </form>
+
+      <div id="criFieldsWrap" hidden>
+        <p class="section-desc">
+          CRI（クリエイティブトレンド）の制作引き継ぎ情報です。CRIは情報収集・制作管理用のIDであり、Tsurara Idea Labの正式カテゴリではありません。内容を確認・修正のうえ、記事の主目的に合う既存カテゴリ（上の「カテゴリ」欄で指定、未指定ならClaudeが判定）で記事化します。
+        </p>
+        <form id="criForm">
+          <fieldset class="form-fieldset">
+            <legend>CRIアイデア情報</legend>
+            <label class="form-field">
+              <span class="form-label">アイデア名 <span class="required-mark">必須</span></span>
+              <input type="text" id="fieldCriIdeaName" required>
+            </label>
+            <label class="form-field">
+              <span class="form-label">アイデア概要 <span class="required-mark">必須</span></span>
+              <textarea id="fieldCriIdeaSummary" rows="3" required></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">注目理由</span>
+              <textarea id="fieldCriAttentionReason" rows="2"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">創作での魅力</span>
+              <textarea id="fieldCriCreativeAppeal" rows="2"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">使いどころ</span>
+              <textarea id="fieldCriUseCasesRaw" rows="2"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">再現のポイント</span>
+              <textarea id="fieldCriReproPoints" rows="2"></textarea>
+            </label>
+          </fieldset>
+
+          <fieldset class="form-fieldset">
+            <legend>CRI再現情報</legend>
+            <label class="form-field">
+              <span class="form-label">分類</span>
+              <input type="text" id="fieldCriClassification">
+            </label>
+            <label class="form-field">
+              <span class="form-label">中心となる表現</span>
+              <input type="text" id="fieldCriCoreExpression">
+            </label>
+            <div class="bilingual-grid">
+              <label class="form-field">
+                <span class="form-label">変更する要素</span>
+                <textarea id="fieldCriChangedElements" rows="2"></textarea>
+              </label>
+              <label class="form-field">
+                <span class="form-label">維持する要素</span>
+                <textarea id="fieldCriKeptElements" rows="2"></textarea>
+              </label>
+            </div>
+            <label class="form-field">
+              <span class="form-label">再現上の必須ポイント</span>
+              <textarea id="fieldCriMustHavePoints" rows="2"></textarea>
+            </label>
+          </fieldset>
+
+          <fieldset class="form-fieldset">
+            <legend>Lab記事向け優先材料（任意）</legend>
+            <p class="field-hint">存在する場合、trendElements／useCasesの作成時に優先材料として使用します。</p>
+            <label class="form-field">
+              <span class="form-label">Lab記事向けトレンド要素</span>
+              <textarea id="fieldCriLabTrendHints" rows="2"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">Lab記事向け使いどころ</span>
+              <textarea id="fieldCriLabUseCaseHints" rows="2"></textarea>
+            </label>
+          </fieldset>
+
+          <fieldset class="form-fieldset">
+            <legend>プロンプト・情報源</legend>
+            <label class="form-field">
+              <span class="form-label">サンプル制作向け日本語プロンプト（参考。本番プロンプトへそのまま転記はしません）</span>
+              <textarea id="fieldCriSampleTestPrompt" rows="3"></textarea>
+            </label>
+            <label class="form-field">
+              <span class="form-label">情報源URL <span class="optional-mark">任意</span></span>
+              <input type="text" id="fieldCriSourceUrl" placeholder="https://...">
+            </label>
+          </fieldset>
+
+          <div class="form-actions">
+            <button type="button" class="primary-button" id="generateCriButton">Claudeで記事を作成（CRI）</button>
+            <span class="generate-status" id="generateCriStatus"></span>
+          </div>
+        </form>
+      </div>
       </div>
 
       <div class="input-mode-panel" id="originalPanel" data-mode-panel="original" hidden>

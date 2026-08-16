@@ -19,6 +19,28 @@
   var fieldHandoffPaste = document.getElementById('fieldHandoffPaste');
   var parseHandoffButton = document.getElementById('parseHandoffButton');
   var parseHandoffStatus = document.getElementById('parseHandoffStatus');
+  var handoffSourceInfo = document.getElementById('handoffSourceInfo');
+
+  // --- DOM参照: CRI入力フォーム ---
+  var criFieldsWrap = document.getElementById('criFieldsWrap');
+  var criForm = document.getElementById('criForm');
+  var fieldCriIdeaName = document.getElementById('fieldCriIdeaName');
+  var fieldCriIdeaSummary = document.getElementById('fieldCriIdeaSummary');
+  var fieldCriAttentionReason = document.getElementById('fieldCriAttentionReason');
+  var fieldCriCreativeAppeal = document.getElementById('fieldCriCreativeAppeal');
+  var fieldCriUseCasesRaw = document.getElementById('fieldCriUseCasesRaw');
+  var fieldCriReproPoints = document.getElementById('fieldCriReproPoints');
+  var fieldCriClassification = document.getElementById('fieldCriClassification');
+  var fieldCriCoreExpression = document.getElementById('fieldCriCoreExpression');
+  var fieldCriChangedElements = document.getElementById('fieldCriChangedElements');
+  var fieldCriKeptElements = document.getElementById('fieldCriKeptElements');
+  var fieldCriMustHavePoints = document.getElementById('fieldCriMustHavePoints');
+  var fieldCriLabTrendHints = document.getElementById('fieldCriLabTrendHints');
+  var fieldCriLabUseCaseHints = document.getElementById('fieldCriLabUseCaseHints');
+  var fieldCriSampleTestPrompt = document.getElementById('fieldCriSampleTestPrompt');
+  var fieldCriSourceUrl = document.getElementById('fieldCriSourceUrl');
+  var generateCriButton = document.getElementById('generateCriButton');
+  var generateCriStatus = document.getElementById('generateCriStatus');
 
   var fieldAiiId = document.getElementById('fieldAiiId');
   var fieldCategoryOverride = document.getElementById('fieldCategoryOverride');
@@ -128,6 +150,7 @@
 
   // --- 状態 ---
   var inputMode = 'handoff'; // 'handoff' | 'original'（記事JSON生成後の処理はモードによらず共通）
+  var currentCriManagementId = ''; // CRI検出時の管理ID（CRIxxxxx）。正式記事IDには使用しない
   var maxNumByPrefix = {};
   var existingIds = new Set();
   var dataLoadState = 'loading';
@@ -401,6 +424,111 @@
     ['sourceUrl', '情報源URL']
   ];
 
+  // --- CRI（クリエイティブトレンド）全文の貼り付け解析 ---
+  // 【制作引き継ぎ CRIxxxxx】の各ラベル行を検出し、次のラベル行が現れるまでを値として取り込む。
+  // AIIのparseHandoffTextとは独立した関数・ラベル一覧とし、AII側の解析結果に影響しない。
+  // 収集段階の生データだけでなく、「記事化・調整」チャットで内容を補正した調整済み引き継ぎも入力され得るため、
+  // 特定の文面・値には依存せず、ラベル行の検出だけを基準に解析する。
+  var CRI_FIELD_LABELS = [
+    ['ideaName', 'アイデア名'],
+    ['ideaSummary', 'アイデア概要'],
+    ['attentionReason', '注目理由'],
+    ['creativeAppeal', '創作での魅力'],
+    ['useCasesRaw', '使いどころ'],
+    ['reproPoints', '再現のポイント'],
+    ['classification', '分類'],
+    ['coreExpression', '中心となる表現'],
+    ['changedElements', '変更する要素'],
+    ['keptElements', '維持する要素'],
+    ['mustHavePoints', '再現上の必須ポイント'],
+    ['labTrendHints', 'Lab記事向けトレンド要素'],
+    ['labUseCaseHints', 'Lab記事向け使いどころ'],
+    ['sampleTestPrompt', 'サンプル制作向け日本語プロンプト'],
+    ['sourceUrl', '情報源URL']
+  ];
+
+  function parseCriHandoffText(rawText) {
+    var text = String(rawText || '');
+    var result = {};
+
+    var criMatch = text.match(/CRI\d+/);
+    if (criMatch) result.criId = criMatch[0];
+
+    var labelRegexes = CRI_FIELD_LABELS.map(function (pair) {
+      return { field: pair[0], re: new RegExp('^\\s*' + pair[1] + '\\s*[:：]\\s*(.*)$') };
+    });
+
+    var currentField = null;
+    var buffer = [];
+
+    function flush() {
+      if (currentField) {
+        var value = buffer.join('\n').trim();
+        if (value) result[currentField] = value;
+      }
+      buffer = [];
+    }
+
+    text.split('\n').forEach(function (line) {
+      var matched = null;
+      for (var i = 0; i < labelRegexes.length; i++) {
+        var m = line.match(labelRegexes[i].re);
+        if (m) { matched = { field: labelRegexes[i].field, inline: m[1] }; break; }
+      }
+      if (matched) {
+        flush();
+        currentField = matched.field;
+        buffer = matched.inline ? [matched.inline] : [];
+      } else if (currentField) {
+        buffer.push(line);
+      }
+    });
+    flush();
+
+    return result;
+  }
+
+  function applyCriParsedFields(parsed, criId) {
+    currentCriManagementId = criId || parsed.criId || '';
+    criFieldsWrap.hidden = false;
+
+    if (parsed.ideaName) fieldCriIdeaName.value = parsed.ideaName;
+    if (parsed.ideaSummary) fieldCriIdeaSummary.value = parsed.ideaSummary;
+    if (parsed.attentionReason) fieldCriAttentionReason.value = parsed.attentionReason;
+    if (parsed.creativeAppeal) fieldCriCreativeAppeal.value = parsed.creativeAppeal;
+    if (parsed.useCasesRaw) fieldCriUseCasesRaw.value = parsed.useCasesRaw;
+    if (parsed.reproPoints) fieldCriReproPoints.value = parsed.reproPoints;
+    if (parsed.classification) fieldCriClassification.value = parsed.classification;
+    if (parsed.coreExpression) fieldCriCoreExpression.value = parsed.coreExpression;
+    if (parsed.changedElements) fieldCriChangedElements.value = parsed.changedElements;
+    if (parsed.keptElements) fieldCriKeptElements.value = parsed.keptElements;
+    if (parsed.mustHavePoints) fieldCriMustHavePoints.value = parsed.mustHavePoints;
+    if (parsed.labTrendHints) fieldCriLabTrendHints.value = parsed.labTrendHints;
+    if (parsed.labUseCaseHints) fieldCriLabUseCaseHints.value = parsed.labUseCaseHints;
+    if (parsed.sampleTestPrompt) fieldCriSampleTestPrompt.value = parsed.sampleTestPrompt;
+    if (parsed.sourceUrl) fieldCriSourceUrl.value = parsed.sourceUrl;
+
+    var resolvedCount = Object.keys(parsed).filter(function (key) { return key !== 'criId'; }).length;
+    var missingLabels = CRI_FIELD_LABELS
+      .filter(function (pair) { return !parsed[pair[0]]; })
+      .map(function (pair) { return pair[1]; });
+
+    handoffSourceInfo.hidden = false;
+    handoffSourceInfo.textContent = '入力元：CRI｜管理ID：' + (currentCriManagementId || '（未検出）');
+
+    if (resolvedCount === 0) {
+      parseHandoffStatus.textContent = 'CRIの項目を認識できませんでした。ラベル文言（例：「アイデア名：」）が含まれているか確認してください。';
+      parseHandoffStatus.className = 'generate-status is-error';
+    } else {
+      var message = resolvedCount + '項目を「CRIトレンド入力」欄へ反映しました。内容を確認してください。';
+      if (missingLabels.length) message += '（見つからなかった項目: ' + missingLabels.join('、') + '）';
+      parseHandoffStatus.textContent = message;
+      parseHandoffStatus.className = 'generate-status is-ok';
+    }
+
+    criFieldsWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function parseHandoffText(rawText) {
     var text = String(rawText || '');
     var result = {};
@@ -450,6 +578,17 @@
   }
 
   parseHandoffButton.addEventListener('click', function () {
+    var rawHandoffText = fieldHandoffPaste.value;
+    var criIdMatch = String(rawHandoffText || '').match(/CRI\d+/);
+
+    if (criIdMatch) {
+      applyCriParsedFields(parseCriHandoffText(rawHandoffText), criIdMatch[0]);
+      return;
+    }
+
+    criFieldsWrap.hidden = true;
+    handoffSourceInfo.hidden = true;
+
     var parsed = parseHandoffText(fieldHandoffPaste.value);
 
     if (parsed.aiiId) fieldAiiId.value = parsed.aiiId;
@@ -515,6 +654,29 @@
       theme: fieldOriginalTheme.value.trim(),
       promptJa: fieldOriginalPromptJa.value.trim(),
       supplementalNotes: fieldOriginalNotes.value.trim()
+    };
+  }
+
+  function collectCriFields() {
+    return {
+      mode: 'cri',
+      criId: currentCriManagementId,
+      categoryOverride: fieldCategoryOverride.value,
+      ideaName: fieldCriIdeaName.value.trim(),
+      ideaSummary: fieldCriIdeaSummary.value.trim(),
+      attentionReason: fieldCriAttentionReason.value.trim(),
+      creativeAppeal: fieldCriCreativeAppeal.value.trim(),
+      useCasesRaw: fieldCriUseCasesRaw.value.trim(),
+      reproPoints: fieldCriReproPoints.value.trim(),
+      classification: fieldCriClassification.value.trim(),
+      coreExpression: fieldCriCoreExpression.value.trim(),
+      changedElements: fieldCriChangedElements.value.trim(),
+      keptElements: fieldCriKeptElements.value.trim(),
+      mustHavePoints: fieldCriMustHavePoints.value.trim(),
+      labTrendHints: fieldCriLabTrendHints.value.trim(),
+      labUseCaseHints: fieldCriLabUseCaseHints.value.trim(),
+      sampleTestPrompt: fieldCriSampleTestPrompt.value.trim(),
+      sourceUrl: fieldCriSourceUrl.value.trim()
     };
   }
 
@@ -641,6 +803,45 @@
       })
       .finally(function () {
         generateOriginalButton.disabled = false;
+      });
+  });
+
+  generateCriButton.addEventListener('click', function () {
+    if (!criForm.reportValidity()) return;
+    if (dataLoadState !== 'ok') {
+      generateCriStatus.textContent = 'サーバーに接続できていないため生成できません。上部の接続状況を確認してください。';
+      generateCriStatus.className = 'generate-status is-error';
+      return;
+    }
+
+    generateCriButton.disabled = true;
+    generateCriStatus.textContent = 'Claudeが記事を作成しています…（数十秒かかる場合があります）';
+    generateCriStatus.className = 'generate-status is-loading';
+
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(collectCriFields())
+    })
+      .then(function (response) {
+        return response.json().then(function (payload) {
+          if (!response.ok || !payload.ok) {
+            throw new Error(payload && payload.error ? payload.error : ('HTTPステータス: ' + response.status));
+          }
+          return payload;
+        });
+      })
+      .then(function (payload) {
+        applyGeneratedArticle(payload, fieldCriSourceUrl.value.trim());
+        generateCriStatus.textContent = '生成が完了しました。内容を確認してください。';
+        generateCriStatus.className = 'generate-status is-ok';
+      })
+      .catch(function (error) {
+        generateCriStatus.textContent = '生成に失敗しました: ' + (error && error.message ? error.message : String(error));
+        generateCriStatus.className = 'generate-status is-error';
+      })
+      .finally(function () {
+        generateCriButton.disabled = false;
       });
   });
 
