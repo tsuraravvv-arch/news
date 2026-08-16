@@ -8220,5 +8220,64 @@
       "Output image only, with no explanatory or confirmation text"
     ],
     "sourceUrl": ""
+  },
+  {
+    "datetime": "2026-08-16 23:58",
+    "publishedAt": "2026-08-16 23:58",
+    "category": "PNF",
+    "categoryLabel": "ポーズ・表情",
+    "categoryLabelEn": "Pose & Expression",
+    "id": "PNF00001",
+    "title": "無関心フェイス｜脱力スナップで魅せるセルフィー風ポーズ",
+    "titleEn": "Apathetic Face | Selfie-Style Poses with an Effortless Candid Snap",
+    "summary": "2026年春〜夏にかけて複数の海外メディアが取り上げている、笑顔や決め顔を避けた「無関心そうな顔つき」のセルフィー表現を、画像生成で再現できるポーズアイデアとして整理。上唇をわずかに前へ出し、脱力した視線と肩・顔の軽いずれで、第三者が自然に切り取ったような近距離スナップを演出する。衣装や背景を変えずに、表情と構図だけで現代的な気だるさを加えたいときに使える。",
+    "summaryEn": "A pose idea distilled from a \"nonchalant selfie face\" trend covered by multiple international outlets in spring–summer 2026, moving away from smiles and posed expressions. A slightly pushed-forward upper lip, a relaxed unfocused gaze, and a subtle shoulder-face offset create the look of a close-up snapshot casually taken by someone else rather than an actual selfie. It adds a modern, effortless mood through expression and framing alone, without changing costume or background.",
+    "trendElements": [
+      "無関心フェイス",
+      "気怠い視線",
+      "脱力スナップ",
+      "無造作フレーミング",
+      "Gen Z系ポートレート表現"
+    ],
+    "trendElementsEn": [
+      "Nonchalant face",
+      "Languid gaze",
+      "Relaxed candid snap",
+      "Casual off-center framing",
+      "Gen Z portrait aesthetic"
+    ],
+    "useCases": [
+      "SNS風写真",
+      "街歩き",
+      "カフェ",
+      "日常シーン",
+      "ファッションスナップ"
+    ],
+    "useCasesEn": [
+      "Social-media-style photo",
+      "Street walk",
+      "Café scene",
+      "Everyday moment",
+      "Fashion snapshot"
+    ],
+    "promptJa": "キャラクターの外見・衣装・主要デザインは変えず維持する。自撮り棒やスマートフォンを構える動作は描かず、友人など第三者が自然に撮ったような近距離スナップとして描写する。構図はバストアップ〜胸上程度の近い画角にし、顔と表情を主役にする。上唇をほんのわずかに前へ突き出し、下唇は控えめにする。口角は上げず、まぶたの力を抜いた気怠げで無関心そうな視線にする。肩の向きと顔の向きを少しだけずらし、中央にきっちり構えないラフで無造作なフレーミングにする。カメラを意識した笑顔や決めポーズは避け、「撮られていることに気づいているが特に気にしていない」自然な瞬間の空気感を表現する。背景はカフェや街中など日常的なシーンを想定し、柔らかい自然光でスナップ写真のような質感に仕上げる。避けるべき要素:自撮り構図、腕を伸ばしてスマホを構えるポーズ、鏡越しの構図、全身が入る広い画角。",
+    "promptEn": "Keep the character's appearance, outfit, and overall design unchanged. Do not depict the act of holding a phone or taking a selfie — instead render the shot as a close-up snapshot casually taken by someone else nearby, such as a friend. Frame it tightly from the chest up, with the face and expression as the focal point. Push the upper lip forward just slightly, keeping the lower lip understated. Don't raise the corners of the mouth; give the eyes a relaxed, half-lidded, nonchalant gaze. Offset the shoulders and the head slightly from centered symmetry for a loose, unposed framing. Avoid a camera-aware smile or a deliberate pose — aim for the natural feel of someone who notices they're being photographed but doesn't particularly care. Set the scene in a café, on a street, or another everyday setting, with soft natural light and a candid snapshot texture. Avoid: selfie composition, an arm reaching toward the camera holding a phone, mirror-selfie framing, and wide full-body shots.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "上唇をわずかに前へ出すのがポイント。下唇は強調しすぎない。",
+      "目元は完全に伏し目にせず、力を抜いた半端な視線にする。",
+      "肩と顔の向きを意図的にずらし、左右対称の構えを避ける。",
+      "自撮り特有の腕の伸び・スマホ・鏡越し構図は入れない。第三者視点の近距離スナップにする。",
+      "衣装やキャラクターデザインは変更せず、表情と構図の変化だけでトレンド感を出す。"
+    ],
+    "notesEn": [
+      "The key detail is a slight forward push of the upper lip — don't overemphasize the lower lip.",
+      "Keep the eyes relaxed and half-focused rather than fully lowered.",
+      "Deliberately offset the shoulder and head angles to avoid a symmetrical pose.",
+      "Skip selfie-specific cues like an extended arm, visible phone, or mirror reflection — this is a third-person close-up snapshot.",
+      "Leave costume and character design untouched; the trend comes through in expression and framing alone."
+    ],
+    "sourceUrl": "[Vogue Japan](https://www.vogue.co.jp/article/2026-trends-gen-z-pout-wbg?utm_source=chatgpt.com) / [WIRED](https://es.wired.com/articulos/de-la-duck-face-al-gen-z-pout-como-cambio-nuestra-forma-de-posar-en-30-anos?utm_source=chatgpt.com) / [Washington Post](https://www.washingtonpost.com/style/trends/2026/03/20/gen-z-pout-photo-pose/?utm_source=chatgpt.com)"
   }
 ]
