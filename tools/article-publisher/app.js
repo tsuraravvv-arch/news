@@ -153,6 +153,9 @@
   // --- 状態 ---
   var inputMode = 'handoff'; // 'handoff' | 'original'（記事JSON生成後の処理はモードによらず共通）
   var currentCriManagementId = ''; // CRI検出時の管理ID（CRIxxxxx）。正式記事IDには使用しない
+  // 制作引き継ぎ管理ID（AIIxxxxx/CRIxxxxx）→ 正式記事IDの対応表。サーバー側（ローカルファイル）が正本で、
+  // ここにはページ読み込み時に取得したキャッシュを保持するのみ。
+  var handoffIdMap = {};
   var maxNumByPrefix = {};
   var existingIds = new Set();
   var dataLoadState = 'loading';
@@ -225,6 +228,24 @@
     var max = maxNumByPrefix[category] || 0;
     var next = max + 1;
     return category + String(next).padStart(5, '0');
+  }
+
+  // 制作引き継ぎ管理ID（AIIxxxxx/CRIxxxxx）が既に正式記事IDと対応付け済みなら、そのIDをfieldIdへ設定する。
+  // これにより、同じ管理IDを再度読み込んだ際にcomputeIdCandidate()による新規連番採番が発生しない
+  // （applyGeneratedArticle側の「fieldIdが空の場合だけ採番する」処理と組み合わせて機能する）。
+  function applyKnownIdIfMapped(managementId) {
+    if (!managementId) return false;
+    var mapped = handoffIdMap[managementId.toUpperCase()];
+    if (mapped) {
+      fieldId.value = mapped;
+      return true;
+    }
+    return false;
+  }
+
+  // 現在編集中の記事に紐づく制作引き継ぎ管理ID（AII優先、なければCRI）。オリジナル入力には管理IDが無いため空文字。
+  function getCurrentManagementId() {
+    return fieldAiiId.value.trim() || currentCriManagementId || '';
   }
 
   function flashButton(button, message) {
@@ -320,6 +341,19 @@
         dataLoadState = 'error';
         loadStatus.textContent = 'ローカルサーバーに接続できないか、既存データの読み込みに失敗しました。tools/article-publisher/server.ps1 を起動し、表示されたURLからこのページを開き直してください（詳細: ' + (error && error.message ? error.message : String(error)) + '）。';
         loadStatus.className = 'load-status is-error';
+      });
+  }
+
+  // 制作引き継ぎ管理ID→正式記事IDの対応表をサーバーから取得する。
+  // 取得に失敗した場合も、単に「まだ対応情報がない」として扱う（従来どおりの新規採番にフォールバック）。
+  function loadHandoffIdMap() {
+    fetch('/api/handoff-id-map')
+      .then(function (response) { return parseJsonResponseSafely(response); })
+      .then(function (payload) {
+        handoffIdMap = (payload && payload.ok && payload.map && typeof payload.map === 'object') ? payload.map : {};
+      })
+      .catch(function () {
+        handoffIdMap = {};
       });
   }
 
@@ -513,6 +547,7 @@
   function applyCriParsedFields(parsed, criId) {
     currentCriManagementId = criId || parsed.criId || '';
     criFieldsWrap.hidden = false;
+    applyKnownIdIfMapped(currentCriManagementId);
 
     if (parsed.ideaName) fieldCriIdeaName.value = parsed.ideaName;
     if (parsed.ideaSummary) fieldCriIdeaSummary.value = parsed.ideaSummary;
@@ -614,6 +649,7 @@
     var parsed = parseHandoffText(fieldHandoffPaste.value);
 
     if (parsed.aiiId) fieldAiiId.value = parsed.aiiId;
+    applyKnownIdIfMapped(fieldAiiId.value.trim());
     if (parsed.newsTitle) fieldNewsTitle.value = parsed.newsTitle;
     if (parsed.newsSummary) fieldNewsSummary.value = parsed.newsSummary;
     if (parsed.whatsNew) fieldWhatsNew.value = parsed.whatsNew;
@@ -1236,6 +1272,7 @@
     // これにより「Claudeで記事を作成」を再実行しなくても、フォームを直接編集してからの再登録が常に
     // 最新の編集内容を反映する（lastGeneratedJsonはコピー機能等の表示用にのみ残す）。
     var articleJson = JSON.stringify(buildArticle(), null, 2);
+    var managementId = getCurrentManagementId();
 
     registerButton.disabled = true;
     registerStatus.textContent = '登録処理を実行しています…';
@@ -1244,7 +1281,7 @@
     fetch('/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ articleJson: articleJson, imageDataUrl: finalImageDataUrl || null })
+      body: JSON.stringify({ articleJson: articleJson, imageDataUrl: finalImageDataUrl || null, managementId: managementId || null })
     })
       .then(function (response) {
         return parseJsonResponseSafely(response).then(function (payload) {
@@ -1423,5 +1460,6 @@
   });
 
   loadExistingData();
+  loadHandoffIdMap();
   renderAll();
 }());

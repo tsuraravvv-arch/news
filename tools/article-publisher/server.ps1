@@ -511,6 +511,34 @@ $ArticlesJsonPath = Join-Path $RepoRoot 'data\articles.json'
 $ArticlesImagesDir = Join-Path $RepoRoot 'images\articles'
 $BackupRoot = Join-Path $env:LOCALAPPDATA 'TsuraraArticlePublisher\backups'
 
+# 制作引き継ぎ管理ID（AIIxxxxx/CRIxxxxx）→ 正式記事IDの対応表。リポジトリ外（ローカル専用）に保存し、
+# data/articles.json のスキーマや履歴には一切影響しない。同じ管理IDを再度読み込んだ際に、
+# computeIdCandidate() による新規連番採番ではなく既存の正式記事IDを再利用するために使う。
+$HandoffIdMapPath = Join-Path $env:LOCALAPPDATA 'TsuraraArticlePublisher\handoff-id-map.json'
+
+function Read-HandoffIdMap {
+  if (-not (Test-Path -LiteralPath $HandoffIdMapPath)) { return @{} }
+  try {
+    $raw = Get-Content -LiteralPath $HandoffIdMapPath -Raw -Encoding UTF8
+    if ([string]::IsNullOrWhiteSpace($raw)) { return @{} }
+    $obj = $raw | ConvertFrom-Json -Depth 5
+    $map = @{}
+    if ($obj) {
+      foreach ($prop in $obj.PSObject.Properties) { $map[$prop.Name] = [string]$prop.Value }
+    }
+    return $map
+  } catch {
+    return @{}
+  }
+}
+
+function Save-HandoffIdMap {
+  param($Map)
+  $dir = Split-Path -Parent $HandoffIdMapPath
+  if (-not (Test-Path -LiteralPath $dir)) { New-Item -ItemType Directory -Path $dir -Force | Out-Null }
+  ($Map | ConvertTo-Json -Depth 5) | Set-Content -LiteralPath $HandoffIdMapPath -Encoding UTF8
+}
+
 function Get-GitStatusSummary {
   param([string[]]$Paths)
   Push-Location $RepoRoot
@@ -582,7 +610,7 @@ function Get-TopLevelObjectRanges {
 # 事前検証（JSON構文・必須項目・ID形式・カテゴリ・ID一致件数）に失敗した場合は何も書き込まない。
 # 書き込み後の検証・画像保存で失敗した場合は、バックアップから元の状態へロールバックする。
 function Register-Article {
-  param([string]$ArticleJsonText, [string]$ImageDataUrl)
+  param([string]$ArticleJsonText, [string]$ImageDataUrl, [string]$ManagementId)
 
   $validations = [ordered]@{
     jsonSyntaxBefore = $false
@@ -776,6 +804,18 @@ function Register-Article {
     }
 
     $gitDiffSummary = Get-GitStatusSummary -Paths @('data/articles.json', 'images/articles')
+
+    # 制作引き継ぎ管理IDが渡されている場合は、正式記事IDとの対応をローカルファイルへ保存する（ベストエフォート）。
+    # この保存に失敗しても記事登録自体は成功として扱う（対応表はあくまで次回のID再利用のための補助情報のため）。
+    if ($ManagementId) {
+      try {
+        $map = Read-HandoffIdMap
+        $map[$ManagementId.ToUpperInvariant()] = $id
+        Save-HandoffIdMap -Map $map
+      } catch {
+        Write-Host "管理ID対応表の保存に失敗しました（登録処理自体は継続します）: $($_.Exception.Message)"
+      }
+    }
 
     $addedCount = if ($operation -eq 'create') { 1 } else { 0 }
     $updatedCount = if ($operation -eq 'update') { 1 } else { 0 }
@@ -1006,7 +1046,15 @@ try {
     $response = $context.Response
 
     try {
-      if ($request.HttpMethod -eq 'GET') {
+      if ($request.HttpMethod -eq 'GET' -and $request.Url.AbsolutePath -eq '/api/handoff-id-map') {
+        # 制作引き継ぎ管理ID→正式記事IDの対応表を返す（ページ読み込み時にキャッシュするため）。
+        try {
+          Write-JsonResponse $response 200 @{ ok = $true; map = (Read-HandoffIdMap) }
+        } catch {
+          Write-JsonResponse $response 500 @{ ok = $false; error = $_.Exception.Message }
+        }
+      }
+      elseif ($request.HttpMethod -eq 'GET') {
         $urlPath = [System.Uri]::UnescapeDataString($request.Url.AbsolutePath)
         if ($urlPath -eq '/' -or $urlPath -eq '') {
           $urlPath = '/tools/article-publisher/index.html'
@@ -1088,7 +1136,8 @@ try {
 
         $body = $bodyText | ConvertFrom-Json
         try {
-          $result = Register-Article -ArticleJsonText ([string]$body.articleJson) -ImageDataUrl ([string]$body.imageDataUrl)
+          $managementId = if ($body.PSObject.Properties['managementId']) { [string]$body.managementId } else { '' }
+          $result = Register-Article -ArticleJsonText ([string]$body.articleJson) -ImageDataUrl ([string]$body.imageDataUrl) -ManagementId $managementId
           Write-JsonResponse $response 200 $result
         } catch {
           Write-Host "登録エラー: $($_.Exception.Message)"
