@@ -8279,5 +8279,64 @@
       "Skip actual selfie cues (outstretched arm, visible phone, mirror shot) to keep the candid, third-person snap feel"
     ],
     "sourceUrl": "[Vogue Japan](https://www.vogue.co.jp/article/2026-trends-gen-z-pout-wbg?utm_source=chatgpt.com) / [WIRED](https://es.wired.com/articulos/de-la-duck-face-al-gen-z-pout-como-cambio-nuestra-forma-de-posar-en-30-anos?utm_source=chatgpt.com) / [Washington Post](https://www.washingtonpost.com/style/trends/2026/03/20/gen-z-pout-photo-pose/?utm_source=chatgpt.com)"
+  },
+  {
+    "datetime": "2026-08-23 16:49",
+    "publishedAt": "2026-08-23 16:49",
+    "category": "PNF",
+    "categoryLabel": "ポーズ・表情",
+    "categoryLabelEn": "Pose & Expression",
+    "id": "PNF00002",
+    "title": "ソール・フォアグラウンド：靴底を主役にする強制遠近ポーズ",
+    "titleEn": "Sole Foreground: A Forced-Perspective Pose That Puts the Shoe Front and Center",
+    "summary": "片足の靴底をカメラ直前へ突き出し、顔よりも靴底を大きく見せる強制遠近ポーズ。通常は主役にならない身体の向きをレンズへ向けることで、一枚の画像に強い奥行きと躍動感を生み出し、靴のデザインそのものを主題にできる表現。",
+    "summaryEn": "A forced-perspective pose that thrusts one shoe sole toward the camera until it reads larger than the subject's face. By turning a body angle that's normally hidden from view directly into the lens, it builds intense depth in a single frame and lets the shoe's design itself become the subject.",
+    "trendElements": [
+      "強制遠近",
+      "靴底前景",
+      "ローアングル",
+      "エディトリアルポーズ",
+      "極端パース"
+    ],
+    "trendElementsEn": [
+      "Forced perspective",
+      "Sole foreground",
+      "Low angle",
+      "Editorial pose",
+      "Extreme perspective"
+    ],
+    "useCases": [
+      "ストリート",
+      "スポーツ",
+      "ダンス",
+      "アクション",
+      "靴デザイン紹介"
+    ],
+    "useCasesEn": [
+      "Street",
+      "Sports",
+      "Dance",
+      "Action",
+      "Shoe design showcase"
+    ],
+    "promptJa": "キャラクターの外見・衣装はそのまま維持する。カメラを低い位置に構え、片方の脚を大きくレンズ方向へ突き出し、靴底をカメラ直前の巨大な前景として正面から見せる。靴底から脚、胴体、顔へと向かうにつれて急激に縮小する強い遠近感（強制遠近）を作り、靴底・脚・胴体・顔の間に明確なサイズ差をつける。もう片方の脚は自然に曲げて体重を支え、バランスの取れた立ちポーズにする。蹴り上げるようなハイキックではなく、靴のデザインを見せるためのエディトリアルな一枚のポーズとして構成する。ローアングル、ストリート／エディトリアル系の写真的な雰囲気、シャープなピント。",
+    "promptEn": "Keep the character's appearance and outfit unchanged. Position the camera low and thrust one leg forward toward the lens so the sole of the shoe fills the extreme foreground, facing the camera head-on. Build a strong forced-perspective effect: the sole reads dramatically larger than the leg, which is larger than the torso, which is larger than the face, with a sharp size falloff toward the background. The other leg bends naturally to support the body weight, keeping the pose balanced rather than a high kick. Compose it as a deliberate editorial pose designed to showcase the shoe's design, not an action kick. Low camera angle, sharp focus, street/editorial photography mood.",
+    "noteTitle": "画像生成メモ",
+    "noteTitleEn": "Image Generation Notes",
+    "notes": [
+      "カメラは低い位置に置き、靴底が正面からレンズへ向くように配置する",
+      "靴底＞脚＞胴体＞顔の順で急激にサイズが縮小する強い遠近差をはっきり作る",
+      "蹴り上げるハイキックではなく、もう片方の脚で体重を支えた静止ポーズにする",
+      "キャラクター本人の外見・衣装・主要デザインは変更しない",
+      "ストリート、スポーツ、ダンス、アクション、靴デザイン紹介などの用途に向く"
+    ],
+    "notesEn": [
+      "Keep the camera low so the sole faces the lens head-on",
+      "Emphasize a sharp size falloff from sole to leg to torso to face for a strong forced-perspective effect",
+      "Use a balanced standing pose supported by the other leg, not a high kick",
+      "Preserve the character's appearance, outfit, and key design details",
+      "Works well for street, sports, dance, action, and shoe-design showcases"
+    ],
+    "sourceUrl": "PAP Magazine・2026年8月12日"
   }
 ]
