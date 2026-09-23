@@ -15,7 +15,9 @@ const categoryNames = {
 
 const uiText = {
   ja: {
-    lead: 'AI生成に使いやすいプロンプトと創作アイデアを、ファッション・職業・ビジュアル演出・ポーズ表情・季節のアイデアに整理したサイトです。気になる記事から日本語版 / 英語版プロンプトをすぐにコピーできます。',
+    skipLink: 'プロンプト一覧へ',
+    heroTitle: 'Tsurara Idea Lab',
+    lead: 'AI生成に使いやすいプロンプトと創作アイデアを\nまとめたサイトです。',
     communityTitle: '動画生成AI研究＆交流コミュニティ',
     communityDesc: 'AI生成の仲間が欲しい方におすすめ',
     tarotTitle: '氷洞つららの大アルカナ占い',
@@ -68,7 +70,9 @@ const uiText = {
     promptEn: 'English Prompt'
   },
   en: {
-    lead: 'A bilingual prompt library that organizes creative ideas for AI generation into fashion, jobs, visual direction, pose/expression, and seasonal ideas. Copy Japanese or English prompts directly from each item.',
+    skipLink: 'Skip to prompts',
+    heroTitle: 'Tsurara Idea Lab',
+    lead: 'A collection of practical prompts and creative ideas\nfor AI generation.',
     communityTitle: 'AI Video Generation Community',
     communityDesc: 'Recommended for creators who want AI-generation friends',
     tarotTitle: 'Tsurara Major Arcana Tarot',
@@ -167,6 +171,7 @@ function applyLanguage() {
   document.documentElement.lang = currentLang === 'en' ? 'en' : 'ja';
   languageSwitchButtons.forEach((button) => {
     button.classList.toggle('is-active', button.dataset.lang === currentLang);
+    button.setAttribute('aria-pressed', String(button.dataset.lang === currentLang));
   });
   document.querySelectorAll('[data-i18n]').forEach((node) => {
     const key = node.dataset.i18n;
@@ -174,6 +179,7 @@ function applyLanguage() {
     if (typeof value === 'string') node.textContent = value;
   });
   searchInput.placeholder = text('searchPlaceholder');
+  searchInput.setAttribute('aria-label', text('searchPlaceholder'));
   toast.textContent = text('copied');
   render();
   if (selectedArticle) renderDetail(selectedArticle);
@@ -325,10 +331,8 @@ function renderCard(article) {
           <span>${escapeHtml(article.datetime || '')}</span>
         </div>
         <h3 class="prompt-title">${escapeHtml(title)}</h3>
+        <div class="prompt-desc"><p>${escapeHtml(summary)}</p></div>
         <div class="tag-row">${tagHtml(article)}</div>
-      </div>
-      <div class="prompt-desc" data-open-detail="${escapeHtml(article.id)}">
-        <p>${escapeHtml(summary)}</p>
       </div>
       <div class="prompt-actions">
         <div class="copy-group">
@@ -345,6 +349,8 @@ function renderCard(article) {
 }
 
 function render() {
+  filterButtons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.filter === currentFilter)));
+  document.querySelector('.default-note').hidden = currentFilter !== 'DEFAULT';
   filteredArticles = articles
     .filter((article) => matchesFilter(article) && matchesQuery(article))
     .sort((a, b) => articleSortValue(b) - articleSortValue(a));
@@ -566,6 +572,13 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
+// Missing optional assets should not leave broken-image icons in the refreshed layout.
+document.addEventListener('error', (event) => {
+  if (event.target instanceof HTMLImageElement && event.target.classList.contains('optional-image')) {
+    event.target.hidden = true;
+  }
+}, true);
+
 fetch('data/articles.json')
   .then((response) => response.json())
   .then((data) => {
@@ -584,4 +597,3 @@ function displayLabel(label) {
   if (label === '100 Jobs' || label === 'Jobs') return currentLang === 'ja' ? '職業' : 'Jobs';
   return label;
 }
-

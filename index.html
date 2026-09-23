@@ -8,45 +8,41 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <svg class="hero-clip-defs" width="0" height="0" aria-hidden="true" focusable="false">
+    <defs>
+      <clipPath id="lab-hero-curve" clipPathUnits="objectBoundingBox">
+        <path d="M0 0 H1 V.88 C.82 .76 .72 .99 .52 .995 C.31 1 .18 .80 0 .84 Z" />
+      </clipPath>
+      <clipPath id="lab-hero-curve-mobile" clipPathUnits="objectBoundingBox">
+        <path d="M0 0 H1 V.94 C.82 .88 .72 .995 .52 .998 C.31 1 .18 .90 0 .92 Z" />
+      </clipPath>
+    </defs>
+  </svg>
+  <a class="skip-link" href="#library" data-i18n="skipLink">プロンプト一覧へ</a>
   <header class="site-header">
+    <div class="site-nav">
+      <a class="site-brand" href="./index.html" aria-label="Tsurara Idea Lab">
+        <span class="brand-star" aria-hidden="true">✳</span>
+        <span>Tsurara Idea Lab</span>
+      </a>
+      <div class="nav-actions">
+        <a class="studio-link" href="https://tsuraravvv-arch.github.io/Studio/">Tsurara Studio <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
     <div class="header-inner">
-      <div class="language-switch" id="languageSwitch" aria-label="Language switch">
-        <button class="language-switch-button" type="button" data-lang="ja">JP</button>
-        <button class="language-switch-button" type="button" data-lang="en">EN</button>
-      </div>
-
       <div class="header-copy">
-        <h1>Tsurara Idea Lab</h1>
-        <p class="lead" data-i18n="lead">AI生成に使いやすいプロンプトと創作アイデアを、ファッション・職業・ビジュアル演出・ポーズ表情・季節のアイデアに整理したサイトです。気になる記事から日本語版 / 英語版プロンプトをすぐにコピーできます。</p>
-
-        <div class="hero-links" aria-label="関連リンク">
-          <button class="hero-link-card hero-guide-card guide-card-link" id="guideButton" type="button">
-            <img class="hero-link-icon optional-image" src="images/banners/guide.png" alt="" loading="lazy">
-            <span class="hero-link-label">Guide</span>
-            <strong data-i18n="guideTitle">活用ガイド</strong>
-            <span data-i18n="guideDesc">プロンプトの使い方と楽しみ方</span>
-          </button>
-          <a class="hero-link-card community-card-link" id="community" href="https://discord.gg/sora2jp" target="_blank" rel="noopener">
-            <img class="hero-link-icon optional-image" src="images/banners/community.png" alt="" loading="lazy">
-            <span class="hero-link-label">Community</span>
-            <strong data-i18n="communityTitle">動画生成AI研究＆交流コミュニティ</strong>
-            <span data-i18n="communityDesc">AI生成の仲間が欲しい方におすすめ</span>
-          </a>
-          <a class="hero-link-card tarot-card-link" href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">
-            <img class="hero-link-icon optional-image" src="images/banners/tarot.png" alt="" loading="lazy">
-            <span class="hero-link-label">Tarot</span>
-            <strong data-i18n="tarotTitle">氷洞つららの大アルカナ占い</strong>
-            <span data-i18n="tarotDesc">わたしが作成したタロットカード占いです</span>
-          </a>
+        <div class="language-switch" id="languageSwitch" aria-label="Language switch">
+          <button class="language-switch-button" type="button" data-lang="ja">JP</button>
+          <button class="language-switch-button" type="button" data-lang="en">EN</button>
         </div>
+        <h1 data-i18n="heroTitle">Tsurara Idea Lab</h1>
+        <p class="lead" data-i18n="lead">AI生成に使いやすいプロンプトと創作アイデアを&#10;まとめたサイトです。</p>
       </div>
-
-      <img class="hero-image optional-image" src="images/banners/hero.png" alt="Tsurara Idea Lab メインビジュアル" />
+      <img class="hero-image optional-image" src="images/hero/hero-lab.png" alt="光が差し込む研究室で、青い試験管を手にする氷洞つらら" fetchpriority="high" width="1586" height="992" />
     </div>
   </header>
-
-  <main>
-    <section class="library-nav" aria-label="プロンプト分類">
+  <main id="main">
+    <section class="library-nav" id="library" tabindex="-1" aria-label="プロンプト分類">
       <button class="library-tile is-active" data-filter="DEFAULT" type="button">
         <span>✦</span><strong data-i18n="filterDefault">新着＋おすすめ</strong>
       </button>
@@ -80,7 +76,7 @@
       <p class="default-note" data-i18n="defaultNote">初期表示：新着＋おすすめを表示しています</p>
       <div class="toolbar-actions">
         <form class="search-box" id="searchBox" role="search" aria-label="記事検索">
-          <input id="searchInput" type="search" placeholder="タイトル・本文・タグを検索" autocomplete="off" />
+          <input id="searchInput" type="search" aria-label="タイトル・本文・タグを検索" placeholder="タイトル・本文・タグを検索" autocomplete="off" />
           <button class="search-button" type="submit" data-i18n="search">検索</button>
         </form>
       </div>
@@ -107,7 +103,26 @@
   </main>
 
   <footer class="site-footer">
-    <p>© Tsurara Idea Lab. Prototype for GitHub Pages.</p>
+    <div class="footer-inner">
+      <div>
+        <a class="footer-brand" href="./index.html">Tsurara Idea Lab</a>
+        <p class="footer-copyright">© Tsurara Idea Lab</p>
+        <nav class="footer-links" aria-label="関連サイト">
+          <a href="https://tsuraravvv-arch.github.io/Studio/">Tsurara Studio <span aria-hidden="true">↗</span></a>
+          <button id="guideButton" type="button" data-i18n="guideTitle">活用ガイド</button>
+          <a href="https://tsuraravvv-arch.github.io/tarot/" target="_blank" rel="noopener">Tarot <span aria-hidden="true">↗</span></a>
+        </nav>
+      </div>
+      <div class="footer-community">
+        <h2>Community</h2>
+        <a id="community" href="https://discord.gg/sora2jp" target="_blank" rel="noopener"><img src="images/banners/community.png" class="optional-image" width="42" height="42" alt="" loading="lazy"><span data-i18n="communityTitle">動画生成AI研究＆交流コミュニティ</span> <span aria-hidden="true">↗</span></a>
+      </div>
+      <nav class="footer-social" aria-label="SNS">
+        <h2>SNS</h2>
+        <a href="https://x.com/trr_vvv" target="_blank" rel="noopener">X <span aria-hidden="true">↗</span></a>
+        <a href="https://www.youtube.com/@氷洞つらら" target="_blank" rel="noopener">YouTube <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
   </footer>
 
   <div class="image-search-modal" id="imageSearchModal" aria-hidden="true" role="dialog" aria-modal="true" aria-label="画像から検索">
